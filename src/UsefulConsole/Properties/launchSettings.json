@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UsefulConsole": {
+      "commandName": "Project",
+      "commandLineArgs": "\"ROT13\""
+    }
+  }
+}
