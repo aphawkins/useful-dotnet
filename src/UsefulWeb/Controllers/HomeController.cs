@@ -12,7 +12,9 @@
 
         public IActionResult Cryptography(CipherViewModel model)
         {
-            return View();
+            model.Encrypt();
+
+            return View(model);
         }
 
         public IActionResult About()

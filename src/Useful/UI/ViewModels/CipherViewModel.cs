@@ -1,24 +1,25 @@
 ﻿namespace Useful.UI.ViewModels
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Input;
     using Security.Cryptography;
 
     public class CipherViewModel : ViewModelBase
     {
-        private List<ICipher> _ciphers;
         private ICipher _currentCipher;
         private CipherRepository _repository;
 
         private ICommand encryptCommand;
 
-        private string plaintext;
-
+        private string plaintext = string.Empty;
+        private string ciphertext = string.Empty;
 
         public CipherViewModel()
         {
-            _repository = new CipherRepository();
-            _ciphers = _repository.GetCiphers();
+            this._repository = new CipherRepository();
+            this.Ciphers = _repository.GetCiphers();
+            this._currentCipher = this.Ciphers[0];
 
             WireCommands();
         }
@@ -36,8 +37,19 @@
 
         public List<ICipher> Ciphers
         {
-            get { return _ciphers; }
-            set { _ciphers = value; }
+            get;
+            set;
+        }
+
+        public List<string> CipherNames
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                this.Ciphers.ForEach(x => names.Add(x.CipherName));
+
+                return names;
+            }
         }
 
         public ICipher CurrentCipher
@@ -53,7 +65,24 @@
                 {
                     _currentCipher = value;
                     OnPropertyChanged(nameof(CurrentCipher));
+                    OnPropertyChanged(nameof(CurrentCipherName));
                     EncryptCommand.IsEnabled = true;
+                }
+            }
+        }
+
+        public string CurrentCipherName
+        {
+            get
+            {
+                return this._currentCipher.CipherName;
+            }
+
+            set
+            {
+                if (this._currentCipher.CipherName != value)
+                {
+                    this.CurrentCipher = this.Ciphers.First(x => x.CipherName == value);
                 }
             }
         }
@@ -75,8 +104,6 @@
                 }
             }
         }
-
-        private string ciphertext;
 
         public string Ciphertext
         {

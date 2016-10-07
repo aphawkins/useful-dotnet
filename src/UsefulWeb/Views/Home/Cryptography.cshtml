@@ -1,29 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Cryptography";
-    ViewData["Message"] = "Select your cipher:";
-}
-<h2>@ViewData["Title"].</h2>
-<h3>@ViewData["Message"]</h3>
+﻿@model Useful.UI.ViewModels.CipherViewModel
 
-<select>
-    <option value="reverse">Reverse</option>
-    <option value="pad">Pad</option>
-</select>
+<h2>Cryptography</h2>
 
-<form method="post">
+<form method="post" class="form-group">
     <fieldset>
-        @*<legend>Add Customer</legend>*@
         <div>
-            <label for="Plaintext">Plaintext:</label>
-            <input type="text" name="Plaintext" value="" />
+            <label for="CurrentCipherName">Cipher</label>
+            @Html.DropDownList("CurrentCipherName", new SelectList(Model.CipherNames, Model.CurrentCipher.CipherName), new { @class = "form-control" })
         </div>
         <div>
-            <label for="cipherText">Ciphertext:</label>
-            <input type="text" name="Ciphertext" value="" />
+            <label for="Plaintext">Plaintext</label>
+            <input type="text" id="Plaintext" name="Plaintext" class="form-control" value="@Model.Plaintext" />
         </div>
         <div>
-            <label>&nbsp;</label>
-            <input type="submit" value="Encrypt" class="Encrypt" />
+            <label for="Ciphertext">Ciphertext</label>
+            <input type="text" id="Ciphertext" name="Ciphertext" class="form-control" value="@Model.Ciphertext" />
+        </div>
+        <div>
+            <input type="submit" id="EncryptCommand" name="EncryptCommand" class="btn btn-default" value="Encrypt" />
         </div>
     </fieldset>
 </form>
