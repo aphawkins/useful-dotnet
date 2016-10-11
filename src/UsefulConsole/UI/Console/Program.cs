@@ -1,8 +1,10 @@
 ﻿namespace Useful.UI.Console
 {
-    using System;
-    using Security.Cryptography;
     using Controllers;
+    using Security.Cryptography;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Views;
 
     class Program
@@ -13,21 +15,21 @@
 
             ICipher model;
 
+            CipherRepository repo = new CipherRepository();
+            IList<ICipher> ciphers = repo.GetCiphers();
+
             if (args.Length < 1)
             {
-                model = new ReverseCipher();
-            }
-            else if (string.Equals(args[0], "ROT13", StringComparison.OrdinalIgnoreCase))
-            {
-                model = new ROT13Cipher();
-            }
-            else if (string.Equals(args[0], "REVERSE", StringComparison.OrdinalIgnoreCase))
-            {
-                model = new ReverseCipher();
+                model = ciphers[0];
             }
             else
             {
-                model = new ReverseCipher();
+                model = ciphers.FirstOrDefault(x => string.Equals(args[0], x.CipherName, StringComparison.OrdinalIgnoreCase));
+
+                if (model == null)
+                {
+                    model = ciphers[0];
+                }
             }
 
             IView view = new ConsoleView();
