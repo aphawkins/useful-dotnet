@@ -23,7 +23,7 @@
                 }
                 else
                 {
-                    sb.Append(c);
+                    sb.Append((char)c);
                 }
             }
 

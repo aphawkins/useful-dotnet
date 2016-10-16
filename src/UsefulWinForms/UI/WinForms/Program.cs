@@ -40,7 +40,7 @@
                 model = new ReverseCipher();
             }
 
-            IView view = new WinFormsView();
+            ICipherView view = new WinFormsView();
 
             CipherController controller = new CipherController(model, view);
 

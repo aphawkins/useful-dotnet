@@ -2,7 +2,7 @@
 {
     using Useful.UI.Controllers;
 
-    public interface IView
+    public interface ICipherView
     {
         void SetController(CipherController controller);
 

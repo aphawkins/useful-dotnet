@@ -9,40 +9,45 @@
     /// </summary>
     public class RelayCommand : ICommand
     {
-        private readonly Action _handler;
-        private bool _isEnabled;
+        private readonly Action handler;
+        private bool isEnabled;
+
+        public event EventHandler CanExecuteChanged;
 
         public RelayCommand(Action handler)
         {
-            _handler = handler;
+            this.handler = handler;
         }
 
         public bool IsEnabled
         {
-            get { return _isEnabled; }
+            get
+            {
+                return isEnabled;
+            }
             set
             {
-                if (value != _isEnabled)
+                if (value == isEnabled)
                 {
-                    _isEnabled = value;
-                    if (CanExecuteChanged != null)
-                    {
-                        CanExecuteChanged(this, EventArgs.Empty);
-                    }
+                    return;
+                }
+
+                isEnabled = value;
+                if (CanExecuteChanged != null)
+                {
+                    CanExecuteChanged(this, EventArgs.Empty);
                 }
             }
         }
 
         public bool CanExecute(object parameter)
         {
-            return IsEnabled;
+            return this.IsEnabled;
         }
-
-        public event EventHandler CanExecuteChanged;
-
+        
         public void Execute(object parameter)
         {
-            _handler();
+            this.handler();
         }
     }
 }

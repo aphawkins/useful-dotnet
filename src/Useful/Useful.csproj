@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Artifacts\Useful.XML</DocumentationFile>
+    <DocumentationFile>..\..\Artifacts\Useful.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +41,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Security\Cryptography\ICipherRepository.cs" />
     <Compile Include="UI\Controllers\CipherController.cs" />
     <Compile Include="Security\Cryptography\CipherRepository.cs" />
     <Compile Include="Security\Cryptography\ICipher.cs" />

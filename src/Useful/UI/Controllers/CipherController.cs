@@ -5,28 +5,27 @@
 
     public class CipherController
     {
-        public CipherController(ICipher model, IView view)
+        private ICipher cipher;
+        private ICipherView cipherView;
+
+        public CipherController(ICipher cipher, ICipherView cipherView)
         {
-            TheModel = model;
-            TheView = view;
-            TheView.SetController(this);
+            this.cipher = cipher;
+            this.cipherView = cipherView;
+            this.cipherView.SetController(this);
         }
-
-        private ICipher TheModel { get; set; }
-
-        private IView TheView { get; set; }
 
         public void LoadView()
         {
-            this.TheView.ShowCiphername(this.TheModel.CipherName);
-            this.TheView.Initialize();
+            this.cipherView.ShowCiphername(this.cipher.CipherName);
+            this.cipherView.Initialize();
         }
 
-        public void Encrypt(string s)
+        public void Encrypt(string plaintext)
         {
-            string encrypted = this.TheModel.Encrypt(s);
-            this.TheView.ShowPlaintext(s);
-            this.TheView.ShowCiphertext(encrypted);
+            string encrypted = this.cipher.Encrypt(plaintext);
+            this.cipherView.ShowPlaintext(plaintext);
+            this.cipherView.ShowCiphertext(encrypted);
         }
     }
 }

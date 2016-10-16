@@ -32,7 +32,7 @@
                 }
             }
 
-            IView view = new ConsoleView();
+            ICipherView view = new ConsoleView();
 
             CipherController controller = new CipherController(model, view);
 

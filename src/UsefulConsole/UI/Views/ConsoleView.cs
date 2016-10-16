@@ -3,7 +3,7 @@
     using System;
     using Controllers;
 
-    class ConsoleView : IView
+    class ConsoleView : ICipherView
     {
         CipherController controller;
         string ciphername;

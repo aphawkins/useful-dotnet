@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class CipherRepository
+    public class CipherRepository : ICipherRepository
     {
         private List<ICipher> ciphers;
 
@@ -18,11 +18,6 @@
         public List<ICipher> GetCiphers()
         {
             return ciphers;
-        }
-
-        public string Encrypt(ICipher cipher, string plaintext)
-        {
-            return cipher.Encrypt(plaintext);
         }
     }
 }

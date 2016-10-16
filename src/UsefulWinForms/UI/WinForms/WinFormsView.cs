@@ -5,7 +5,7 @@
     using System.Windows.Forms;
     using Views;
 
-    public partial class WinFormsView : Form, IView
+    public partial class WinFormsView : Form, ICipherView
     {
         public WinFormsView()
         {
