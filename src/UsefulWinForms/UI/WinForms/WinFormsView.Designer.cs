@@ -1,4 +1,4 @@
-﻿namespace Useful.UI.Winforms
+﻿namespace Useful.UI.WinForms
 {
     partial class WinFormsView
     {

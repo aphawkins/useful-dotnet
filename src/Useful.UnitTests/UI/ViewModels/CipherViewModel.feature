@@ -13,6 +13,11 @@ Scenario: CipherViewModel - Plaintext property
 	And I set the Plaintext property
 	Then the Plaintext property has changed
 
+Scenario: CipherViewModel - Plaintext property no event subscription
+	Given I have a CipherViewModel
+	And I set the Plaintext property when the event is not subscribed
+	Then the Plaintext property has not changed
+
 Scenario: CipherViewModel - Ciphertext property
 	Given I have a CipherViewModel
 	And I set the Ciphertext property
@@ -35,3 +40,14 @@ Scenario: CipherViewModel - Encrypt
 	And my viewmodel plaintext is "MoqPlaintext"
 	When I use the viewmodel to encrypt
 	Then the viewmodel ciphertext should be "MoqCiphertext"
+
+Scenario: CipherViewModel - EncryptCommand Executable
+	Given I have a CipherViewModel
+	And my viewmodel plaintext is "MoqPlaintext"
+	Then the EncryptCommand should be Executable
+	And the viewmodel ciphertext should be "MoqCiphertext"
+
+Scenario: CipherViewModel - EncryptCommand not Executable
+	Given I have a CipherViewModel
+	And my viewmodel plaintext is ""
+	Then the EncryptCommand should not be Executable

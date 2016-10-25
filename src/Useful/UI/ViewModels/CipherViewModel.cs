@@ -5,40 +5,31 @@
     using System.Windows.Input;
     using Security.Cryptography;
 
+    /// <summary>
+    /// A viewmodel for ciphers.
+    /// </summary>
     public class CipherViewModel : ViewModelBase
     {
-        private ICipher currentCipher;
-        private ICipherRepository repository;
-        private ICommand encryptCommand;
-        private string plaintext = string.Empty;
         private string ciphertext = string.Empty;
+        private ICipher currentCipher;
+        private string plaintext = string.Empty;
+        private ICipherRepository repository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
+        /// </summary>
+        /// <param name="repository">The repository holding the ciphers.</param>
         public CipherViewModel(ICipherRepository repository)
         {
             this.repository = repository;
-            this.Ciphers = repository.GetCiphers();
+            this.Ciphers = this.repository.GetCiphers();
             this.currentCipher = this.Ciphers[0];
-
-            WireCommands();
+            this.WireCommands();
         }
 
-        private void WireCommands()
-        {
-            EncryptCommand = new RelayCommand(Encrypt);
-        }
-
-        public RelayCommand EncryptCommand
-        {
-            get;
-            private set;
-        }
-
-        public List<ICipher> Ciphers
-        {
-            get;
-            set;
-        }
-
+        /// <summary>
+        /// Gets a list of supported cipher names
+        /// </summary>
         public IList<string> CipherNames
         {
             get
@@ -50,27 +41,62 @@
             }
         }
 
-        public ICipher CurrentCipher
+        /// <summary>
+        /// Gets a list of supported ciphers.
+        /// </summary>
+        public List<ICipher> Ciphers
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets or sets the encrypted ciphertext.
+        /// </summary>
+        public string Ciphertext
         {
             get
             {
-                return currentCipher;
+                return this.ciphertext;
             }
 
             set
             {
-                if (currentCipher == value)
+                if (value == this.ciphertext)
                 {
                     return;
                 }
 
-                currentCipher = value;
-                OnPropertyChanged(nameof(CurrentCipher));
-                OnPropertyChanged(nameof(CurrentCipherName));
-                EncryptCommand.IsEnabled = true;
+                this.ciphertext = value;
+                this.OnPropertyChanged(nameof(this.Ciphertext));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the cipher currently in scope.
+        /// </summary>
+        public ICipher CurrentCipher
+        {
+            get
+            {
+                return this.currentCipher;
+            }
+
+            set
+            {
+                if (this.currentCipher == value)
+                {
+                    return;
+                }
+
+                this.currentCipher = value;
+                this.OnPropertyChanged(nameof(this.CurrentCipher));
+                this.OnPropertyChanged(nameof(this.CurrentCipherName));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the cipher currently in scope's name.
+        /// </summary>
         public string CurrentCipherName
         {
             get
@@ -85,6 +111,7 @@
                     this.CurrentCipher = null;
                     return;
                 }
+
                 if (this.currentCipher?.CipherName == value)
                 {
                     return;
@@ -95,45 +122,48 @@
             }
         }
 
-        public void Encrypt()
+        /// <summary>
+        /// Gets a property that can be used to link to a UI encrypt command.
+        /// </summary>
+        public ICommand EncryptCommand
         {
-            this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+            get;
+            private set;
         }
 
+        /// <summary>
+        /// Gets or sets the unencrypted plaintext.
+        /// </summary>
         public string Plaintext
         {
             get
             {
                 return this.plaintext;
             }
+
             set
             {
-                if (value == plaintext)
+                if (value == this.plaintext)
                 {
                     return;
                 }
 
                 this.plaintext = value;
-                OnPropertyChanged(nameof(Plaintext));
+                this.OnPropertyChanged(nameof(this.Plaintext));
             }
         }
 
-        public string Ciphertext
+        /// <summary>
+        /// Used to encrypt the <see cref="Plaintext"/> into <see cref="Ciphertext"/>.
+        /// </summary>
+        public void Encrypt()
         {
-            get
-            {
-                return ciphertext;
-            }
-            set
-            {
-                if (value == ciphertext)
-                {
-                    return;
-                }
+            this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+        }
 
-                ciphertext = value;
-                OnPropertyChanged(nameof(Ciphertext));
-            }
+        private void WireCommands()
+        {
+            this.EncryptCommand = new RelayCommand<object>(a => this.Encrypt(), p => !string.IsNullOrEmpty(this.plaintext));
         }
     }
 }

@@ -5,13 +5,13 @@
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "../../Artifacts/Useful.dll": {}
+        "../../artifacts/Useful.dll": {}
       },
       "runtime": {
-        "../../Artifacts/Useful.dll": {}
+        "../../artifacts/Useful.dll": {}
       },
       "contentFiles": {
-        "../../Artifacts/Useful.pdb": {
+        "../../artifacts/Useful.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

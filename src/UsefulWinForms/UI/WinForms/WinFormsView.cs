@@ -1,9 +1,10 @@
-﻿namespace Useful.UI.Winforms
+﻿namespace Useful.UI.WinForms
 {
     using Controllers;
     using System;
     using System.Windows.Forms;
     using Views;
+    using System.Drawing;
 
     public partial class WinFormsView : Form, ICipherView
     {

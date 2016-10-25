@@ -110,18 +110,36 @@ this.ScenarioSetup(scenarioInfo);
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - Ciphertext property")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - Plaintext property no event subscription")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
-        public virtual void CipherViewModel_CiphertextProperty()
+        public virtual void CipherViewModel_PlaintextPropertyNoEventSubscription()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - Ciphertext property", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - Plaintext property no event subscription", ((string[])(null)));
 #line 16
 this.ScenarioSetup(scenarioInfo);
 #line 17
  testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 18
- testRunner.And("I set the Ciphertext property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set the Plaintext property when the event is not subscribed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 19
+ testRunner.Then("the Plaintext property has not changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - Ciphertext property")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
+        public virtual void CipherViewModel_CiphertextProperty()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - Ciphertext property", ((string[])(null)));
+#line 21
+this.ScenarioSetup(scenarioInfo);
+#line 22
+ testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.And("I set the Ciphertext property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
  testRunner.Then("the Ciphertext property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -133,15 +151,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CipherViewModel_CurrentCipherProperty()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - CurrentCipher property", ((string[])(null)));
-#line 21
+#line 26
 this.ScenarioSetup(scenarioInfo);
-#line 22
+#line 27
  testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 23
+#line 28
  testRunner.And("I set the CurrentCipher property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 24
+#line 29
  testRunner.Then("the CurrentCipher property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 25
+#line 30
  testRunner.And("the CurrentCipherName property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -153,15 +171,15 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CipherViewModel_CurrentCipherNameProperty()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - CurrentCipherName property", ((string[])(null)));
-#line 27
+#line 32
 this.ScenarioSetup(scenarioInfo);
-#line 28
+#line 33
  testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 29
+#line 34
  testRunner.And("I set the CurrentCipherName property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 30
+#line 35
  testRunner.Then("the CurrentCipher property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 31
+#line 36
  testRunner.And("the CurrentCipherName property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -173,16 +191,54 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CipherViewModel_Encrypt()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - Encrypt", ((string[])(null)));
-#line 33
+#line 38
 this.ScenarioSetup(scenarioInfo);
-#line 34
+#line 39
  testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 35
+#line 40
  testRunner.And("my viewmodel plaintext is \"MoqPlaintext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 36
+#line 41
  testRunner.When("I use the viewmodel to encrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 37
+#line 42
  testRunner.Then("the viewmodel ciphertext should be \"MoqCiphertext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - EncryptCommand Executable")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
+        public virtual void CipherViewModel_EncryptCommandExecutable()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - EncryptCommand Executable", ((string[])(null)));
+#line 44
+this.ScenarioSetup(scenarioInfo);
+#line 45
+ testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 46
+ testRunner.And("my viewmodel plaintext is \"MoqPlaintext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 47
+ testRunner.Then("the EncryptCommand should be Executable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+ testRunner.And("the viewmodel ciphertext should be \"MoqCiphertext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - EncryptCommand not Executable")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
+        public virtual void CipherViewModel_EncryptCommandNotExecutable()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - EncryptCommand not Executable", ((string[])(null)));
+#line 50
+this.ScenarioSetup(scenarioInfo);
+#line 51
+ testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 52
+ testRunner.And("my viewmodel plaintext is \"\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 53
+ testRunner.Then("the EncryptCommand should not be Executable", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -5,7 +5,6 @@
     using Security.Cryptography;
     using Controllers;
     using Views;
-    using Winforms;
 
     static class Program
     {

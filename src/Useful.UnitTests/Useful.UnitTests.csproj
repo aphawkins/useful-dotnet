@@ -92,6 +92,12 @@
       <DependentUpon>CipherViewModel.feature</DependentUpon>
     </Compile>
     <Compile Include="UI\ViewModels\CipherViewModelSteps.cs" />
+    <Compile Include="UI\ViewModels\RelayCommand.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelayCommand.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewModels\RelayCommandSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -115,6 +121,10 @@
     <None Include="UI\ViewModels\CipherViewModel.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CipherViewModel.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UI\ViewModels\RelayCommand.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RelayCommand.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
