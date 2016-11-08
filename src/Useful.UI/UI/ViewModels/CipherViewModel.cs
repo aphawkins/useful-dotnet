@@ -13,16 +13,23 @@
         private string ciphertext = string.Empty;
         private ICipher currentCipher;
         private string plaintext = string.Empty;
-        private ICipherRepository repository;
+        private IRepository<ICipher> repository;
+
+        private CipherViewModel() :
+            this(CipherRepository.Create())
+        {
+            // HACK: Default constructor required for the web project.
+            // Construct the repository until dependency injection is working.
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
         /// </summary>
         /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherViewModel(ICipherRepository repository)
+        public CipherViewModel(IRepository<ICipher> repository)
         {
             this.repository = repository;
-            this.Ciphers = this.repository.GetCiphers();
+            this.Ciphers = this.repository.Read();
             this.currentCipher = this.Ciphers[0];
             this.WireCommands();
         }
@@ -158,7 +165,10 @@
         /// </summary>
         public void Encrypt()
         {
-            this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+            if (this.CurrentCipher != null)
+            {
+                this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+            }
         }
 
         private void WireCommands()

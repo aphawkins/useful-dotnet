@@ -5,11 +5,13 @@
     using Security.Cryptography;
     using TechTalk.SpecFlow;
     using Views;
+    using System.Collections.Generic;
 
     [Binding]
     public class CipherControllerSteps
     {
         private Mock<ICipher> moqCipher;
+        private Mock<IRepository<ICipher>> moqRepository;
         private Mock<ICipherView> moqView;
         private CipherController controller;
 
@@ -17,10 +19,14 @@
         public void GivenIHaveACipherController()
         {
             this.moqCipher = new Mock<ICipher>();
+            this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
+            this.moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
+            this.moqRepository = new Mock<IRepository<ICipher>>();
+            this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
+            this.moqRepository.Setup(x => x.CurrentItem).Returns(() => this.moqCipher.Object);
             this.moqView = new Mock<ICipherView>();
-            this.controller = new CipherController(this.moqCipher.Object, this.moqView.Object);
+            this.controller = new CipherController(this.moqRepository.Object, this.moqView.Object);
         }
-
 
         [When(@"I load the view")]
         public void WhenILoadTheView()
@@ -34,10 +40,22 @@
             this.controller.Encrypt(p0);
         }
 
-        [Then(@"the view's CipherName will be called")]
-        public void ThenTheViewsCipherNameWillBeCalled()
+        [When(@"I select a cipher")]
+        public void WhenISelectACipher()
         {
-            this.moqView.Verify(x => x.ShowCiphername(It.IsAny<string>()));
+            this.controller.SelectCipher("moqCipher");
+        }
+
+        [Then(@"the view's ShowCiphername will be called")]
+        public void ThenTheViewsShowCiphernameWillBeCalled()
+        {
+            this.moqView.Verify(x => x.ShowCiphername("MoqCipherName"));
+        }
+
+        [Then(@"the view's ShowCiphers will be called")]
+        public void ThenTheViewsShowCiphersWillBeCalled()
+        {
+            this.moqView.Verify(x => x.ShowCiphers(It.IsAny<List<string>>()));
         }
         
         [Then(@"the view will be initialized")]
@@ -47,13 +65,13 @@
         }
 
         [Then(@"the view's Plaintext will be called")]
-        public void ThenTheViewSPlaintextWillBeCalled()
+        public void ThenTheViewsPlaintextWillBeCalled()
         {
             this.moqView.Verify(x => x.ShowPlaintext(It.IsAny<string>()));
         }
 
         [Then(@"the view's Ciphertext will be called")]
-        public void ThenTheViewSCiphertextWillBeCalled()
+        public void ThenTheViewsCiphertextWillBeCalled()
         {
             this.moqView.Verify(x => x.ShowCiphertext(It.IsAny<string>()));
         }

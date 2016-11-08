@@ -2,18 +2,18 @@
 {
     using Controllers;
     using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
     using Views;
-    using System.Drawing;
 
     public partial class WinFormsView : Form, ICipherView
     {
+        CipherController controller;
+
         public WinFormsView()
         {
             InitializeComponent();
         }
-
-        CipherController controller;
 
         public void SetController(CipherController controller)
         {
@@ -27,12 +27,18 @@
 
         public void ShowCiphername(string s)
         {
-            this.labelCipherName.Text = s;
+            // Will have already been selected in the ciphers combobox 
         }
 
-        public void ShowCiphertext(string s)
+        public void ShowCiphers(List<string> cipherNames)
         {
-            this.textCiphertext.Text = s;
+            this.comboCiphers.Items.AddRange(cipherNames.ToArray());
+            this.comboCiphers.SelectedIndex = 0;
+        }
+
+        public void ShowCiphertext(string ciphertext)
+        {
+            this.textCiphertext.Text = ciphertext;
         }
 
         public void ShowPlaintext(string s)
@@ -42,7 +48,12 @@
 
         private void buttonEncrypt_Click(object sender, EventArgs e)
         {
-            controller.Encrypt(this.textPlaintext.Text);
+            this.controller.Encrypt(this.textPlaintext.Text);
+        }
+
+        private void comboCiphers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.controller.SelectCipher((string)this.comboCiphers.SelectedItem);
         }
     }
 }

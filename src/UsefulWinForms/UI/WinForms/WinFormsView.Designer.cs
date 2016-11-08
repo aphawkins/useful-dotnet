@@ -33,14 +33,14 @@
             this.buttonEncrypt = new System.Windows.Forms.Button();
             this.textPlaintext = new System.Windows.Forms.TextBox();
             this.textCiphertext = new System.Windows.Forms.TextBox();
-            this.labelCipher = new System.Windows.Forms.Label();
-            this.labelCipherName = new System.Windows.Forms.Label();
+            this.comboCiphers = new System.Windows.Forms.ComboBox();
+            this.labelCiphers = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelPlaintext
             // 
             this.labelPlaintext.AutoSize = true;
-            this.labelPlaintext.Location = new System.Drawing.Point(0, 15);
+            this.labelPlaintext.Location = new System.Drawing.Point(12, 43);
             this.labelPlaintext.Name = "labelPlaintext";
             this.labelPlaintext.Size = new System.Drawing.Size(47, 13);
             this.labelPlaintext.TabIndex = 0;
@@ -49,7 +49,7 @@
             // labelCiphertext
             // 
             this.labelCiphertext.AutoSize = true;
-            this.labelCiphertext.Location = new System.Drawing.Point(0, 49);
+            this.labelCiphertext.Location = new System.Drawing.Point(12, 77);
             this.labelCiphertext.Name = "labelCiphertext";
             this.labelCiphertext.Size = new System.Drawing.Size(54, 13);
             this.labelCiphertext.TabIndex = 1;
@@ -57,7 +57,7 @@
             // 
             // buttonEncrypt
             // 
-            this.buttonEncrypt.Location = new System.Drawing.Point(74, 103);
+            this.buttonEncrypt.Location = new System.Drawing.Point(86, 106);
             this.buttonEncrypt.Name = "buttonEncrypt";
             this.buttonEncrypt.Size = new System.Drawing.Size(75, 23);
             this.buttonEncrypt.TabIndex = 2;
@@ -67,42 +67,43 @@
             // 
             // textPlaintext
             // 
-            this.textPlaintext.Location = new System.Drawing.Point(74, 12);
+            this.textPlaintext.Location = new System.Drawing.Point(86, 40);
             this.textPlaintext.Name = "textPlaintext";
             this.textPlaintext.Size = new System.Drawing.Size(100, 20);
             this.textPlaintext.TabIndex = 3;
             // 
             // textCiphertext
             // 
-            this.textCiphertext.Location = new System.Drawing.Point(74, 46);
+            this.textCiphertext.Location = new System.Drawing.Point(86, 74);
             this.textCiphertext.Name = "textCiphertext";
             this.textCiphertext.Size = new System.Drawing.Size(100, 20);
             this.textCiphertext.TabIndex = 4;
             // 
-            // labelCipher
+            // comboCiphers
             // 
-            this.labelCipher.AutoSize = true;
-            this.labelCipher.Location = new System.Drawing.Point(0, 78);
-            this.labelCipher.Name = "labelCipher";
-            this.labelCipher.Size = new System.Drawing.Size(37, 13);
-            this.labelCipher.TabIndex = 5;
-            this.labelCipher.Text = "Cipher";
+            this.comboCiphers.FormattingEnabled = true;
+            this.comboCiphers.Location = new System.Drawing.Point(86, 12);
+            this.comboCiphers.Name = "comboCiphers";
+            this.comboCiphers.Size = new System.Drawing.Size(121, 21);
+            this.comboCiphers.TabIndex = 7;
+            this.comboCiphers.SelectedIndexChanged += new System.EventHandler(this.comboCiphers_SelectedIndexChanged);
             // 
-            // labelCipherName
+            // labelCiphers
             // 
-            this.labelCipherName.AutoSize = true;
-            this.labelCipherName.Location = new System.Drawing.Point(71, 78);
-            this.labelCipherName.Name = "labelCipherName";
-            this.labelCipherName.Size = new System.Drawing.Size(0, 13);
-            this.labelCipherName.TabIndex = 6;
+            this.labelCiphers.AutoSize = true;
+            this.labelCiphers.Location = new System.Drawing.Point(12, 15);
+            this.labelCiphers.Name = "labelCiphers";
+            this.labelCiphers.Size = new System.Drawing.Size(42, 13);
+            this.labelCiphers.TabIndex = 8;
+            this.labelCiphers.Text = "Ciphers";
             // 
             // WinFormsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(237, 180);
-            this.Controls.Add(this.labelCipherName);
-            this.Controls.Add(this.labelCipher);
+            this.ClientSize = new System.Drawing.Size(237, 138);
+            this.Controls.Add(this.labelCiphers);
+            this.Controls.Add(this.comboCiphers);
             this.Controls.Add(this.textCiphertext);
             this.Controls.Add(this.textPlaintext);
             this.Controls.Add(this.buttonEncrypt);
@@ -122,7 +123,7 @@
         private System.Windows.Forms.Button buttonEncrypt;
         private System.Windows.Forms.TextBox textPlaintext;
         private System.Windows.Forms.TextBox textCiphertext;
-        private System.Windows.Forms.Label labelCipher;
-        private System.Windows.Forms.Label labelCipherName;
+        private System.Windows.Forms.ComboBox comboCiphers;
+        private System.Windows.Forms.Label labelCiphers;
     }
 }

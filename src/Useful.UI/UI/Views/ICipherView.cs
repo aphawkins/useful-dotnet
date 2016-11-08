@@ -1,6 +1,7 @@
 ﻿namespace Useful.UI.Views
 {
     using Controllers;
+    using System.Collections.Generic;
 
     /// <summary>
     /// An interface that all cipher views should implement.
@@ -23,6 +24,11 @@
         /// </summary>
         /// <param name="ciphername">The cipher name.</param>
         void ShowCiphername(string ciphername);
+
+        /// <summary>
+        /// Displays all the ciphers.
+        /// </summary>
+        void ShowCiphers(List<string> cipherNames);
 
         /// <summary>
         /// Displays the cipher text.

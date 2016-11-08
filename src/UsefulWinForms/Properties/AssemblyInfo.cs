@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 // the line below to match the UICulture setting in the project file.
 
 [assembly: AssemblyTitle("UsefulWinForms")]
-[assembly: AssemblyDescription("UsefulWinForms")]
+[assembly: AssemblyDescription("Useful WinForms Application")]
+[assembly: AssemblyProduct("UsefulWinForms")]

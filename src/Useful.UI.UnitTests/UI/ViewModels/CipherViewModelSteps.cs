@@ -12,7 +12,7 @@
     public class CipherViewModelSteps
     {
         private CipherViewModel viewModel;
-        private Mock<ICipherRepository> moqRepository;
+        private Mock<IRepository<ICipher>> moqRepository;
         private Mock<ICipher> moqCipher;
         private string propertyChanged;
 
@@ -22,8 +22,8 @@
             this.moqCipher = new Mock<ICipher>();
             this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipher");
             this.moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
-            this.moqRepository = new Mock<ICipherRepository>();
-            this.moqRepository.Setup(x => x.GetCiphers()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
+            this.moqRepository = new Mock<IRepository<ICipher>>();
+            this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
             this.viewModel = new CipherViewModel(this.moqRepository.Object);
         }
 
