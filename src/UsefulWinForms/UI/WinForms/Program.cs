@@ -12,37 +12,14 @@
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // Application.Run(new Form1());
 
-            // args[0] = model
-
-            ICipher model;
-
-            if (args.Length < 1)
-            {
-                model = new ReverseCipher();
-            }
-            else if (args[0] == "pad")
-            {
-                model = new ROT13Cipher();
-            }
-            else if (args[0] == "reverse")
-            {
-                model = new ReverseCipher();
-            }
-            else
-            {
-                model = new ReverseCipher();
-            }
-
+            IRepository<ICipher> repository = CipherRepository.Create();
             ICipherView view = new WinFormsView();
-
-            CipherController controller = new CipherController(model, view);
-
+            CipherController controller = new CipherController(repository, view);
             controller.LoadView();
         }
     }

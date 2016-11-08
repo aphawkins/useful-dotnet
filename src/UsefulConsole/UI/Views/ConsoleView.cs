@@ -2,11 +2,11 @@
 {
     using System;
     using Controllers;
+    using System.Collections.Generic;
 
     class ConsoleView : ICipherView
     {
         CipherController controller;
-        string ciphername;
 
         public void SetController(CipherController controller)
         {
@@ -15,34 +15,68 @@
 
         public void Initialize()
         {
-            string s;
+            string text;
             DisplayEnterText();
 
-            while (!string.IsNullOrEmpty(s = Console.ReadLine()))
+            while (!string.IsNullOrEmpty(text = Console.ReadLine()))
             {
-                controller.Encrypt(s);
+                this.controller.Encrypt(text);
                 DisplayEnterText();
             }
         }
 
-        public void ShowCiphername(string s)
+        public void ShowCiphername(string ciphername)
         {
-            this.ciphername = s;
+            Console.WriteLine($"Cipher selected: {ciphername}");
         }
 
-        public void ShowCiphertext(string s)
+        public void ShowCiphers(List<string> cipherNames)
         {
-            Console.WriteLine($"Ciphertext = {s}");
+            int cipherSelected = -1;
+
+            do
+            {
+                Console.WriteLine("Select a cipher:");
+
+                for (int i = 0; i < cipherNames.Count; i++)
+                {
+                    Console.WriteLine($"{i}: {cipherNames[i]}");
+                }
+
+                ConsoleKeyInfo key = Console.ReadKey();
+                switch (key.Key)
+                {
+                    case (ConsoleKey.D0):
+                        {
+                            cipherSelected = 0;
+                            break;
+                        }
+                    case (ConsoleKey.D1):
+                        {
+                            cipherSelected = 1;
+                            break;
+                        }
+                }
+
+                Console.WriteLine();
+            } while (cipherSelected < 0);
+
+            controller.SelectCipher(cipherNames[cipherSelected]);
         }
 
-        public void ShowPlaintext(string s)
+        public void ShowCiphertext(string ciphertext)
         {
-            Console.WriteLine($"Plaintext = {s}");
+            Console.WriteLine($"Ciphertext = {ciphertext}");
+        }
+
+        public void ShowPlaintext(string plaintext)
+        {
+            Console.WriteLine($"Plaintext = {plaintext}");
         }
 
         private void DisplayEnterText()
         {
-            Console.Write($"Enter text to {this.ciphername}: ");
+            Console.Write($"Enter text to Encrypt: ");
         }
     }
 }

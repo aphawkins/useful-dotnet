@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A5524A40-9907-4E8D-A93E-5531397A9358}</ProjectGuid>
+    <ProjectGuid>{319E9BCD-15DF-47F3-95D5-655A4793E77A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Useful.UnitTests</RootNamespace>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,53 +63,53 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Security\Cryptography\CipherRepository.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CipherRepository.feature</DependentUpon>
-    </Compile>
-    <Compile Include="Security\Cryptography\CipherRepositorySteps.cs" />
-    <Compile Include="Security\Cryptography\ROT13Cipher.feature.cs">
-      <DependentUpon>ROT13Cipher.feature</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Security\Cryptography\ReverseCipher.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReverseCipher.feature</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\Cryptography\ICipherSteps.cs" />
+    <Compile Include="UI\Controllers\CipherController.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CipherController.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\CipherControllerSteps.cs" />
+    <Compile Include="UI\ViewModels\CipherViewModel.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CipherViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewModels\CipherViewModelSteps.cs" />
+    <Compile Include="UI\ViewModels\RelayCommand.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RelayCommand.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ViewModels\RelayCommandSteps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="Security\Cryptography\CipherRepository.feature">
+    <None Include="UI\Controllers\CipherController.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>CipherRepository.feature.cs</LastGenOutput>
+      <LastGenOutput>CipherController.feature.cs</LastGenOutput>
     </None>
-    <None Include="Security\Cryptography\ROT13Cipher.feature">
+    <None Include="UI\ViewModels\CipherViewModel.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ROT13Cipher.feature.cs</LastGenOutput>
+      <LastGenOutput>CipherViewModel.feature.cs</LastGenOutput>
     </None>
-    <None Include="Security\Cryptography\ReverseCipher.feature">
+    <None Include="UI\ViewModels\RelayCommand.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ReverseCipher.feature.cs</LastGenOutput>
+      <LastGenOutput>RelayCommand.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Useful.UI\Useful.UI.csproj">
+      <Project>{ee625821-3c17-4707-b695-7512e54f6069}</Project>
+      <Name>Useful.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Useful\Useful.csproj">
       <Project>{03c39f3c-6bae-4708-85c0-5d646f87ffe2}</Project>
       <Name>Useful</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -14,7 +14,7 @@
             base.OnStartup(e);
 
             CryptographyWindow app = new CryptographyWindow();
-            ICipherRepository repository = new CipherRepository();
+            IRepository<ICipher> repository = CipherRepository.Create();
             CipherViewModel context = new CipherViewModel(repository);
             app.DataContext = context;
             app.Show();

@@ -1,17 +1,34 @@
 {
   "version": 2,
   "exports": {
+    "Useful.UI/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6.2",
+      "compile": {
+        "bin/Debug/Useful.UI.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Useful.UI.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Useful.UI.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "Useful/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.3",
       "compile": {
-        "../../artifacts/Useful.dll": {}
+        "bin/Debug/Useful.dll": {}
       },
       "runtime": {
-        "../../artifacts/Useful.dll": {}
+        "bin/Debug/Useful.dll": {}
       },
       "contentFiles": {
-        "../../artifacts/Useful.pdb": {
+        "bin/Debug/Useful.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

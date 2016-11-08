@@ -21,38 +21,35 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\artifacts\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\artifacts\Useful.xml</DocumentationFile>
+    <DocumentationFile>bin\Useful.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\..\Useful.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\artifacts\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\artifacts\Useful.XML</DocumentationFile>
+    <DocumentationFile>bin\Useful.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>..\..\Useful.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <None Include="project.json" />
+    <None Include="README.md" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Security\Cryptography\ICipherRepository.cs" />
-    <Compile Include="UI\Controllers\CipherController.cs" />
     <Compile Include="Security\Cryptography\CipherRepository.cs" />
     <Compile Include="Security\Cryptography\ICipher.cs" />
-    <Compile Include="UI\Views\ICipherView.cs" />
     <Compile Include="Security\Cryptography\ROT13Cipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\ViewModels\RelayCommand.cs" />
     <Compile Include="Security\Cryptography\ReverseCipher.cs" />
-    <Compile Include="UI\ViewModels\CipherViewModel.cs" />
-    <Compile Include="UI\ViewModels\ViewModelBase.cs" />
+    <Compile Include="IRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

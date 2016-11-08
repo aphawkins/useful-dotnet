@@ -36,14 +36,12 @@
         {
             add
             {
-                // Not available in Portable libraries
-                // CommandManager.RequerySuggested += value;
+                CommandManager.RequerySuggested += value;
             }
 
             remove
             {
-                // Not available in Portable libraries
-                // CommandManager.RequerySuggested -= value;
+                CommandManager.RequerySuggested -= value;
             }
          }
 
