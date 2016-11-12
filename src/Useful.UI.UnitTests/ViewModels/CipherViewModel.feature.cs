@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Useful.UnitTests.UI.ViewModels
+namespace Useful.UI.UnitTests.ViewModels
 {
     using TechTalk.SpecFlow;
     
@@ -47,7 +47,7 @@ namespace Useful.UnitTests.UI.ViewModels
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "CipherViewModel")))
             {
-                Useful.UnitTests.UI.ViewModels.CipherViewModelFeature.FeatureSetup(null);
+                Useful.UI.UnitTests.ViewModels.CipherViewModelFeature.FeatureSetup(null);
             }
         }
         

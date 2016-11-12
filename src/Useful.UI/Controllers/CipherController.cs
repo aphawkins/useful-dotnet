@@ -10,13 +10,13 @@
     /// </summary>
     public class CipherController
     {
-        private ICipherView view;
         private IRepository<ICipher> repository;
+        private ICipherView view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherController"/> class.
         /// </summary>
-        /// <param name="cipher">The cipher to be used.</param>
+        /// <param name="repository">The repository to be used.</param>
         /// <param name="cipherView">The view that is controlled.</param>
         public CipherController(IRepository<ICipher> repository, ICipherView cipherView)
         {
@@ -26,18 +26,29 @@
         }
 
         /// <summary>
+        /// Enrpyts using the given cipher and updates the view.
+        /// </summary>
+        /// <param name="plaintext">The text to encrypt.</param>
+        public void Encrypt(string plaintext)
+        {
+            string encrypted = this.repository.CurrentItem.Encrypt(plaintext);
+            this.view.ShowPlaintext(plaintext);
+            this.view.ShowCiphertext(encrypted);
+        }
+
+        /// <summary>
         /// Loads the view.
         /// </summary>
         public void LoadView()
         {
-            this.view.ShowCiphers(GetCipherNames());
+            this.view.ShowCiphers(this.GetCipherNames());
             this.view.Initialize();
         }
 
         /// <summary>
         /// Selects the current cipher.
         /// </summary>
-        /// <param name="ciphername">The name of the cipher.</param>
+        /// <param name="cipherName">The name of the cipher.</param>
         public void SelectCipher(string cipherName)
         {
             this.repository.SetCurrentItem(x => x.CipherName == cipherName);
@@ -52,17 +63,6 @@
             ciphers.ForEach(cipher => names.Add(cipher.CipherName));
 
             return names;
-        }
-
-        /// <summary>
-        /// Enrpyts using the given cipher and updates the view.
-        /// </summary>
-        /// <param name="plaintext">The text to encrypt.</param>
-        public void Encrypt(string plaintext)
-        {
-            string encrypted = this.repository.CurrentItem.Encrypt(plaintext);
-            this.view.ShowPlaintext(plaintext);
-            this.view.ShowCiphertext(encrypted);
         }
     }
 }

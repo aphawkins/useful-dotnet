@@ -1,7 +1,7 @@
 ﻿namespace Useful.UI.Views
 {
-    using Controllers;
     using System.Collections.Generic;
+    using Controllers;
 
     /// <summary>
     /// An interface that all cipher views should implement.
@@ -9,15 +9,15 @@
     public interface ICipherView
     {
         /// <summary>
+        /// Initializes the view.
+        /// </summary>
+        void Initialize();
+
+        /// <summary>
         /// Sets the controller.
         /// </summary>
         /// <param name="controller">Teh cipher controller.</param>
         void SetController(CipherController controller);
-
-        /// <summary>
-        /// Initializes the view.
-        /// </summary>
-        void Initialize();
 
         /// <summary>
         /// Displays the cipher name.
@@ -28,6 +28,7 @@
         /// <summary>
         /// Displays all the ciphers.
         /// </summary>
+        /// <param name="cipherNames">All the names of the ciphers.</param>
         void ShowCiphers(List<string> cipherNames);
 
         /// <summary>

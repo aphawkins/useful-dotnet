@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Useful.UnitTests.UI.Controllers
+namespace Useful.UI.UnitTests.Controllers
 {
     using TechTalk.SpecFlow;
     
@@ -47,7 +47,7 @@ namespace Useful.UnitTests.UI.Controllers
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "CipherController")))
             {
-                Useful.UnitTests.UI.Controllers.CipherControllerFeature.FeatureSetup(null);
+                Useful.UI.UnitTests.Controllers.CipherControllerFeature.FeatureSetup(null);
             }
         }
         

@@ -13,6 +13,8 @@
         public WinFormsView()
         {
             InitializeComponent();
+
+            this.Icon = Useful.UI.Resources.Resources.GetAppIcon();
         }
 
         public void SetController(CipherController controller)

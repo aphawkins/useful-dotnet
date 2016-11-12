@@ -6,8 +6,8 @@
     <ProjectGuid>{319E9BCD-15DF-47F3-95D5-655A4793E77A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Useful.UnitTests</RootNamespace>
-    <AssemblyName>Useful.UnitTests</AssemblyName>
+    <RootNamespace>Useful.UI.UnitTests</RootNamespace>
+    <AssemblyName>Useful.UI.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,6 +45,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="TechTalk.SpecFlow, Version=2.1.0.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SpecFlow.2.1.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
       <Private>True</Private>
@@ -64,38 +65,48 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Controllers\CipherController.feature.cs">
+    <Compile Include="Controllers\CipherController.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CipherController.feature</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controllers\CipherControllerSteps.cs" />
-    <Compile Include="UI\ViewModels\CipherViewModel.feature.cs">
+    <Compile Include="Controllers\CipherControllerSteps.cs" />
+    <Compile Include="Resources\Resources.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ResourcesSteps.cs" />
+    <Compile Include="ViewModels\CipherViewModel.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CipherViewModel.feature</DependentUpon>
     </Compile>
-    <Compile Include="UI\ViewModels\CipherViewModelSteps.cs" />
-    <Compile Include="UI\ViewModels\RelayCommand.feature.cs">
+    <Compile Include="ViewModels\CipherViewModelSteps.cs" />
+    <Compile Include="ViewModels\RelayCommand.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RelayCommand.feature</DependentUpon>
     </Compile>
-    <Compile Include="UI\ViewModels\RelayCommandSteps.cs" />
+    <Compile Include="ViewModels\RelayCommandSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="UI\Controllers\CipherController.feature">
+    <None Include="Controllers\CipherController.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CipherController.feature.cs</LastGenOutput>
     </None>
-    <None Include="UI\ViewModels\CipherViewModel.feature">
+    <None Include="Resources\Resources.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Resources.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ViewModels\CipherViewModel.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CipherViewModel.feature.cs</LastGenOutput>
     </None>
-    <None Include="UI\ViewModels\RelayCommand.feature">
+    <None Include="ViewModels\RelayCommand.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RelayCommand.feature.cs</LastGenOutput>
     </None>
@@ -110,6 +121,7 @@
       <Name>Useful</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
