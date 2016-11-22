@@ -1,11 +1,11 @@
 ﻿namespace Useful.UI.Controllers
 {
-    using System;
     using Moq;
     using Security.Cryptography;
     using TechTalk.SpecFlow;
     using Views;
     using System.Collections.Generic;
+    using System;
 
     [Binding]
     public class CipherControllerSteps
@@ -40,28 +40,28 @@
             this.controller.Encrypt(p0);
         }
 
+        [When(@"I decrypt ""(.*)""")]
+        public void WhenIDecrypt(string p0)
+        {
+            this.controller.Decrypt(p0);
+        }
+
         [When(@"I select a cipher")]
         public void WhenISelectACipher()
         {
             this.controller.SelectCipher("moqCipher");
         }
 
-        [Then(@"the view's ShowCiphername will be called")]
-        public void ThenTheViewsShowCiphernameWillBeCalled()
+        [Then(@"the repository's Current Item will be set")]
+        public void ThenTheRepositorySCurrentItemWillBeSet()
         {
-            this.moqView.Verify(x => x.ShowCiphername("MoqCipherName"));
+            this.moqRepository.Verify(x => x.SetCurrentItem(It.IsAny<Func<ICipher, bool>>()));
         }
 
-        [Then(@"the view's ShowCiphers will be called")]
-        public void ThenTheViewsShowCiphersWillBeCalled()
-        {
-            this.moqView.Verify(x => x.ShowCiphers(It.IsAny<List<string>>()));
-        }
-        
         [Then(@"the view will be initialized")]
         public void ThenTheViewWillBeInitialized()
         {
-            this.moqView.Verify(x => x.Initialize());
+            this.moqView.Verify(x => x.Initialize(It.IsAny<List<string>>()));
         }
 
         [Then(@"the view's Plaintext will be called")]

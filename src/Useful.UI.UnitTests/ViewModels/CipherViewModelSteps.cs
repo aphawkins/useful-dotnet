@@ -22,6 +22,7 @@
             this.moqCipher = new Mock<ICipher>();
             this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipher");
             this.moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
+            this.moqCipher.Setup(x => x.Decrypt(It.IsAny<string>())).Returns("MoqPlaintext");
             this.moqRepository = new Mock<IRepository<ICipher>>();
             this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
             this.viewModel = new CipherViewModel(this.moqRepository.Object);
@@ -37,6 +38,13 @@
         {
             this.viewModel.Plaintext = p0;
         }
+
+        [Given(@"my viewmodel ciphertext is ""(.*)""")]
+        public void GivenMyViewmodelCiphertextIs(string p0)
+        {
+            this.viewModel.Ciphertext = p0;
+        }
+
 
         [Given(@"I set the CurrentCipher property")]
         public void GivenISetTheCurrentCipherProperty()
@@ -90,6 +98,12 @@
             this.viewModel.Encrypt();
         }
 
+        [When(@"I use the viewmodel to decrypt")]
+        public void WhenIUseTheViewmodelToDecrypt()
+        {
+            this.viewModel.Decrypt();
+        }
+
         [Then(@"the CurrentCipher is not null")]
         public void ThenTheCurrentCipherIsNotNull()
         {
@@ -112,6 +126,12 @@
         public void ThenTheViewmodelCiphertextShouldBe(string p0)
         {
             Assert.AreEqual(p0, this.viewModel.Ciphertext);
+        }
+
+        [Then(@"the viewmodel plaintext should be ""(.*)""")]
+        public void ThenTheViewmodelPlaintextShouldBe(string p0)
+        {
+            Assert.AreEqual(p0, this.viewModel.Plaintext);
         }
 
         [Then(@"the EncryptCommand is not null")]
@@ -159,10 +179,23 @@
             this.viewModel.EncryptCommand.Execute(null);
         }
 
+        [Then(@"the DecryptCommand should be Executable")]
+        public void ThenTheDecryptCommandShouldBeExecutable()
+        {
+            Assert.IsTrue(this.viewModel.DecryptCommand.CanExecute(null));
+            this.viewModel.DecryptCommand.Execute(null);
+        }
+
         [Then(@"the EncryptCommand should not be Executable")]
         public void ThenTheEncryptCommandShouldNotBeExecutable()
         {
             Assert.IsFalse(this.viewModel.EncryptCommand.CanExecute(null));
+        }
+
+        [Then(@"the DecryptCommand should not be Executable")]
+        public void ThenTheDecryptCommandShouldNotBeExecutable()
+        {
+            Assert.IsFalse(this.viewModel.DecryptCommand.CanExecute(null));
         }
     }
 }

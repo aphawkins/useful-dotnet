@@ -1,23 +1,38 @@
 ﻿@model Useful.UI.ViewModels.CipherViewModel
-
 <h2>Cryptography</h2>
-
 <form method="post" class="form-group">
     <fieldset>
-        <div>
-            <label for="CurrentCipherName">Cipher</label>
-            @Html.DropDownList("CurrentCipherName", new SelectList(Model.CipherNames, Model.CurrentCipher.CipherName), new { @class = "form-control" })
+        <div class="row">
+            <div class="col-md-4">
+                <label for="CurrentCipherName">Cipher</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("CurrentCipherName", new SelectList(Model.CipherNames, Model.CurrentCipher.CipherName), new { @class = "form-control" })
+            </div>
         </div>
-        <div>
-            <label for="Plaintext">Plaintext</label>
-            <input type="text" id="Plaintext" name="Plaintext" class="form-control" value="@Model.Plaintext" />
+        <div class="row">
+            <div class="col-md-4">
+                <label for="Plaintext">Plaintext</label>
+            </div>
+            <div class="col-md-4">
+                <label for="Ciphertext">Ciphertext</label>
+            </div>
         </div>
-        <div>
-            <label for="Ciphertext">Ciphertext</label>
-            <input type="text" id="Ciphertext" name="Ciphertext" class="form-control" value="@Model.Ciphertext" />
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" id="Plaintext" name="Plaintext" class="form-control" value="@Model.Plaintext" />
+            </div>
+            <div class="col-md-4">
+                <input type="text" id="Ciphertext" name="Ciphertext" class="form-control" value="@Model.Ciphertext" />
+            </div>
         </div>
-        <div>
-            <input type="submit" id="EncryptCommand" name="EncryptCommand" class="btn btn-default" value="Encrypt" />
+        <div class="row">
+            <div class="col-md-4">
+                <input type="submit" id="EncryptCommand" name="EncryptCommand" class="btn btn-default" value="Encrypt" />
+            </div>
+            <div class="col-md-4">
+                <input type="submit" id="DecryptCommand" name="DecryptCommand" class="btn btn-default" value="Decrypt" />
+            </div>
         </div>
     </fieldset>
 </form>

@@ -26,7 +26,7 @@
         }
 
         /// <summary>
-        /// Enrpyts using the given cipher and updates the view.
+        /// Encrypts using the given cipher and updates the view.
         /// </summary>
         /// <param name="plaintext">The text to encrypt.</param>
         public void Encrypt(string plaintext)
@@ -37,12 +37,22 @@
         }
 
         /// <summary>
+        /// Decrypts using the given cipher and updates the view.
+        /// </summary>
+        /// <param name="ciphertext">The text to decrypt.</param>
+        public void Decrypt(string ciphertext)
+        {
+            string decrypted = this.repository.CurrentItem.Decrypt(ciphertext);
+            this.view.ShowCiphertext(ciphertext);
+            this.view.ShowPlaintext(decrypted);
+        }
+
+        /// <summary>
         /// Loads the view.
         /// </summary>
         public void LoadView()
         {
-            this.view.ShowCiphers(this.GetCipherNames());
-            this.view.Initialize();
+            this.view.Initialize(this.CipherNames());
         }
 
         /// <summary>
@@ -52,10 +62,9 @@
         public void SelectCipher(string cipherName)
         {
             this.repository.SetCurrentItem(x => x.CipherName == cipherName);
-            this.view.ShowCiphername(this.repository.CurrentItem.CipherName);
         }
 
-        private List<string> GetCipherNames()
+        private List<string> CipherNames()
         {
             List<ICipher> ciphers = this.repository.Read();
             List<string> names = new List<string>(ciphers.Count);

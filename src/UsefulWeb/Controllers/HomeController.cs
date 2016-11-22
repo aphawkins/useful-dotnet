@@ -12,8 +12,17 @@
 
         public IActionResult Cryptography(CipherViewModel model)
         {
-            model.Encrypt();
-
+            if (Request.ContentLength.HasValue)
+            {
+                if (Request.Form.ContainsKey("EncryptCommand"))
+                {
+                    model.Encrypt();
+                }
+                else if (Request.Form.ContainsKey("DecryptCommand"))
+                {
+                    model.Decrypt();
+                }
+            }
             return View(model);
         }
 

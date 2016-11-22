@@ -139,6 +139,15 @@
         }
 
         /// <summary>
+        /// Gets a property that can be used to link to a UI decrypt command.
+        /// </summary>
+        public ICommand DecryptCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets or sets the unencrypted plaintext.
         /// </summary>
         public string Plaintext
@@ -171,9 +180,21 @@
             }
         }
 
+        /// <summary>
+        /// Used to decrypt the <see cref="Ciphertext"/> into <see cref="Plaintext"/>.
+        /// </summary>
+        public void Decrypt()
+        {
+            if (this.CurrentCipher != null)
+            {
+                this.Plaintext = this.CurrentCipher.Decrypt(this.Ciphertext);
+            }
+        }
+
         private void WireCommands()
         {
             this.EncryptCommand = new RelayCommand<object>(a => this.Encrypt(), p => !string.IsNullOrEmpty(this.plaintext));
+            this.DecryptCommand = new RelayCommand<object>(a => this.Decrypt(), p => !string.IsNullOrEmpty(this.ciphertext));
         }
     }
 }

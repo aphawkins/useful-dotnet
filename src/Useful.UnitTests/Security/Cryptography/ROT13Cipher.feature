@@ -14,3 +14,9 @@ Scenario: ROT13Cipher - Encrypt a string
 	And my plaintext is "Hello World"
 	When I encrypt
 	Then the ciphertext should be "Uryyb Jbeyq"
+
+Scenario: ROT13Cipher - Decrypt a string
+	Given I have a "ROT13" cipher
+	And my ciphertext is "Uryyb Jbeyq"
+	When I decrypt
+	Then the plaintext should be "Hello World"

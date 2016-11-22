@@ -51,3 +51,20 @@ Scenario: CipherViewModel - EncryptCommand not Executable
 	Given I have a CipherViewModel
 	And my viewmodel plaintext is ""
 	Then the EncryptCommand should not be Executable
+
+Scenario: CipherViewModel - Decrypt
+	Given I have a CipherViewModel
+	And my viewmodel ciphertext is "MoqCiphertext"
+	When I use the viewmodel to decrypt
+	Then the viewmodel plaintext should be "MoqPlaintext"
+
+Scenario: CipherViewModel - DecryptCommand Executable
+	Given I have a CipherViewModel
+	And my viewmodel ciphertext is "MoqCiphertext"
+	Then the DecryptCommand should be Executable
+	And the viewmodel plaintext should be "MoqPlaintext"
+
+Scenario: CipherViewModel - DecryptCommand not Executable
+	Given I have a CipherViewModel
+	And my viewmodel ciphertext is ""
+	Then the DecryptCommand should not be Executable

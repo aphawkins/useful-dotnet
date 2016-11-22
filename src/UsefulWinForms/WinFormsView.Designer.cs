@@ -35,12 +35,15 @@
             this.textCiphertext = new System.Windows.Forms.TextBox();
             this.comboCiphers = new System.Windows.Forms.ComboBox();
             this.labelCiphers = new System.Windows.Forms.Label();
+            this.buttonDecrypt = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelPlaintext
             // 
             this.labelPlaintext.AutoSize = true;
-            this.labelPlaintext.Location = new System.Drawing.Point(12, 43);
+            this.labelPlaintext.Location = new System.Drawing.Point(3, 0);
             this.labelPlaintext.Name = "labelPlaintext";
             this.labelPlaintext.Size = new System.Drawing.Size(47, 13);
             this.labelPlaintext.TabIndex = 0;
@@ -49,7 +52,7 @@
             // labelCiphertext
             // 
             this.labelCiphertext.AutoSize = true;
-            this.labelCiphertext.Location = new System.Drawing.Point(12, 77);
+            this.labelCiphertext.Location = new System.Drawing.Point(242, 0);
             this.labelCiphertext.Name = "labelCiphertext";
             this.labelCiphertext.Size = new System.Drawing.Size(54, 13);
             this.labelCiphertext.TabIndex = 1;
@@ -57,7 +60,8 @@
             // 
             // buttonEncrypt
             // 
-            this.buttonEncrypt.Location = new System.Drawing.Point(86, 106);
+            this.buttonEncrypt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonEncrypt.Location = new System.Drawing.Point(161, 279);
             this.buttonEncrypt.Name = "buttonEncrypt";
             this.buttonEncrypt.Size = new System.Drawing.Size(75, 23);
             this.buttonEncrypt.TabIndex = 2;
@@ -67,16 +71,20 @@
             // 
             // textPlaintext
             // 
-            this.textPlaintext.Location = new System.Drawing.Point(86, 40);
+            this.textPlaintext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textPlaintext.Location = new System.Drawing.Point(3, 23);
+            this.textPlaintext.Multiline = true;
             this.textPlaintext.Name = "textPlaintext";
-            this.textPlaintext.Size = new System.Drawing.Size(100, 20);
+            this.textPlaintext.Size = new System.Drawing.Size(233, 250);
             this.textPlaintext.TabIndex = 3;
             // 
             // textCiphertext
             // 
-            this.textCiphertext.Location = new System.Drawing.Point(86, 74);
+            this.textCiphertext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textCiphertext.Location = new System.Drawing.Point(242, 23);
+            this.textCiphertext.Multiline = true;
             this.textCiphertext.Name = "textCiphertext";
-            this.textCiphertext.Size = new System.Drawing.Size(100, 20);
+            this.textCiphertext.Size = new System.Drawing.Size(234, 250);
             this.textCiphertext.TabIndex = 4;
             // 
             // comboCiphers
@@ -97,20 +105,52 @@
             this.labelCiphers.TabIndex = 8;
             this.labelCiphers.Text = "Ciphers";
             // 
+            // buttonDecrypt
+            // 
+            this.buttonDecrypt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonDecrypt.Location = new System.Drawing.Point(242, 279);
+            this.buttonDecrypt.Name = "buttonDecrypt";
+            this.buttonDecrypt.Size = new System.Drawing.Size(75, 23);
+            this.buttonDecrypt.TabIndex = 9;
+            this.buttonDecrypt.Text = "Decrypt";
+            this.buttonDecrypt.UseVisualStyleBackColor = true;
+            this.buttonDecrypt.Click += new System.EventHandler(this.buttonDecrypt_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.textPlaintext, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.buttonEncrypt, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.labelCiphertext, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.textCiphertext, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.labelPlaintext, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.buttonDecrypt, 1, 2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 39);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.12426F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(479, 305);
+            this.tableLayoutPanel1.TabIndex = 10;
+            // 
             // WinFormsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(237, 138);
+            this.ClientSize = new System.Drawing.Size(503, 356);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.labelCiphers);
             this.Controls.Add(this.comboCiphers);
-            this.Controls.Add(this.textCiphertext);
-            this.Controls.Add(this.textPlaintext);
-            this.Controls.Add(this.buttonEncrypt);
-            this.Controls.Add(this.labelCiphertext);
-            this.Controls.Add(this.labelPlaintext);
             this.Name = "WinFormsView";
             this.Text = "WinFormsView";
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +165,7 @@
         private System.Windows.Forms.TextBox textCiphertext;
         private System.Windows.Forms.ComboBox comboCiphers;
         private System.Windows.Forms.Label labelCiphers;
+        private System.Windows.Forms.Button buttonDecrypt;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }

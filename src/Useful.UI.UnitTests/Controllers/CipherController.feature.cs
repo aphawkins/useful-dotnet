@@ -82,9 +82,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
  testRunner.When("I load the view", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.Then("the view\'s ShowCiphers will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 8
- testRunner.And("the view will be initialized", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("the view will be initialized", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -95,14 +93,14 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CipherController_SelectACipher()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherController - Select a cipher", ((string[])(null)));
-#line 10
+#line 9
 this.ScenarioSetup(scenarioInfo);
-#line 11
+#line 10
  testRunner.Given("I have a CipherController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
+#line 11
  testRunner.When("I select a cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
- testRunner.Then("the view\'s ShowCiphername will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 12
+ testRunner.Then("the repository\'s Current Item will be set", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -113,16 +111,36 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CipherController_Encrypt()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherController - Encrypt", ((string[])(null)));
-#line 15
+#line 14
 this.ScenarioSetup(scenarioInfo);
-#line 16
+#line 15
  testRunner.Given("I have a CipherController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
+#line 16
  testRunner.When("I encrypt \"Plaintext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 18
+#line 17
  testRunner.Then("the view\'s Plaintext will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 19
+#line 18
  testRunner.And("the view\'s Ciphertext will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherController - Decrypt")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherController")]
+        public virtual void CipherController_Decrypt()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherController - Decrypt", ((string[])(null)));
+#line 20
+this.ScenarioSetup(scenarioInfo);
+#line 21
+ testRunner.Given("I have a CipherController", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
+ testRunner.When("I decrypt \"Ciphertext\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("the view\'s Ciphertext will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 24
+ testRunner.And("the view\'s Plaintext will be called", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

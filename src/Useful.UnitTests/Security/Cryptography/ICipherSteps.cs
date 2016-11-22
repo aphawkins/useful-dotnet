@@ -39,17 +39,35 @@
         {
             this.plaintext = p0;
         }
-        
+
+        [Given(@"my ciphertext is ""(.*)""")]
+        public void GivenMyCiphertextIs(string p0)
+        {
+            this.ciphertext = p0;
+        }
+
+        [When(@"I decrypt")]
+        public void WhenIDecrypt()
+        {
+            this.plaintext = this.cipher.Decrypt(this.ciphertext);
+        }
+
         [When(@"I encrypt")]
         public void WhenIEncrypt()
         {
-            ciphertext = this.cipher.Encrypt(plaintext);
+            this.ciphertext = this.cipher.Encrypt(this.plaintext);
         }
         
         [Then(@"the ciphertext should be ""(.*)""")]
         public void ThenTheCiphertextShouldBe(string p0)
         {
             Assert.AreEqual(p0, this.ciphertext);
+        }
+
+        [Then(@"the plaintext should be ""(.*)""")]
+        public void ThenThePlaintextShouldBe(string p0)
+        {
+            Assert.AreEqual(p0, this.plaintext);
         }
     }
 }

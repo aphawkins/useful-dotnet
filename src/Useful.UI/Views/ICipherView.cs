@@ -11,25 +11,14 @@
         /// <summary>
         /// Initializes the view.
         /// </summary>
-        void Initialize();
+        /// <param name="cipherNames">The names of all the available ciphers.</param>
+        void Initialize(List<string> cipherNames);
 
         /// <summary>
         /// Sets the controller.
         /// </summary>
         /// <param name="controller">Teh cipher controller.</param>
         void SetController(CipherController controller);
-
-        /// <summary>
-        /// Displays the cipher name.
-        /// </summary>
-        /// <param name="ciphername">The cipher name.</param>
-        void ShowCiphername(string ciphername);
-
-        /// <summary>
-        /// Displays all the ciphers.
-        /// </summary>
-        /// <param name="cipherNames">All the names of the ciphers.</param>
-        void ShowCiphers(List<string> cipherNames);
 
         /// <summary>
         /// Displays the cipher text.

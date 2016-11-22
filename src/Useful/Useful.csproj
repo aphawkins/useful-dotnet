@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Security\Cryptography\CipherRepository.cs" />
+    <Compile Include="Security\Cryptography\CipherTransformMode.cs" />
     <Compile Include="Security\Cryptography\ICipher.cs" />
     <Compile Include="Security\Cryptography\ROT13Cipher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

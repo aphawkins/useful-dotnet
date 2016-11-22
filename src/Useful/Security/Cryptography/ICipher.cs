@@ -16,5 +16,12 @@
         /// <param name="plaintext">The text to encrypt.</param>
         /// <returns>The encrypted text.</returns>
         string Encrypt(string plaintext);
+
+        /// <summary>
+        /// Decrypts a ciphertext string.
+        /// </summary>
+        /// <param name="ciphertext">The text to decrypt.</param>
+        /// <returns>The decrypted text.</returns>
+        string Decrypt(string ciphertext);
     }
 }
