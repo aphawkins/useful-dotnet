@@ -22,7 +22,7 @@
         <TextBox Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Plaintext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Button Content="Encrypt" Grid.Row="3" Grid.Column="0" Command="{Binding Path=EncryptCommand}" Width="100" IsDefault="True" />
-                
+
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Cipherext" />
 
         <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Ciphertext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

@@ -43,7 +43,7 @@
             {
                 CommandManager.RequerySuggested -= value;
             }
-         }
+        }
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.

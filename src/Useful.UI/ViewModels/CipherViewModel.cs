@@ -42,7 +42,10 @@
             get
             {
                 List<string> names = new List<string>();
-                this.Ciphers.ForEach(x => names.Add(x.CipherName));
+                foreach (ICipher cipher in this.Ciphers)
+                {
+                    names.Add(cipher.CipherName);
+                }
 
                 return names;
             }
@@ -51,7 +54,7 @@
         /// <summary>
         /// Gets a list of supported ciphers.
         /// </summary>
-        public List<ICipher> Ciphers
+        public IList<ICipher> Ciphers
         {
             get;
         }

@@ -1,17 +1,17 @@
 ﻿namespace Useful.UI.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Security.Cryptography;
     using Views;
 
     /// <summary>
     /// An controller for ciphers.
     /// </summary>
-    public class CipherController
+    public class CipherController : IController
     {
         private IRepository<ICipher> repository;
         private ICipherView view;
+        private ISettingsController settingsController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherController"/> class.
@@ -52,26 +52,40 @@
         /// </summary>
         public void LoadView()
         {
-            this.view.Initialize(this.CipherNames());
+            this.view.Initialize();
         }
 
         /// <summary>
         /// Selects the current cipher.
         /// </summary>
-        /// <param name="cipherName">The name of the cipher.</param>
-        public void SelectCipher(string cipherName)
+        /// <param name="cipher">The cipher to select.</param>
+        /// <param name="settingsView">The view to select.</param>
+        public void SelectCipher(ICipher cipher, ICipherSettingsView settingsView)
         {
-            this.repository.SetCurrentItem(x => x.CipherName == cipherName);
+            this.repository.SetCurrentItem(x => x == cipher);
+
+            if (cipher is CaesarCipher)
+            {
+                this.settingsController = new CaesarSettingsController(settingsView);
+            }
+            else
+            {
+                this.settingsController = null;
+            }
+
+            this.settingsController?.LoadView();
+
+            this.repository.CurrentItem.Settings = this.settingsController?.Settings;
+            this.view.ShowSettings(settingsView);
         }
 
-        private List<string> CipherNames()
+        /// <summary>
+        /// All of the ciphers.
+        /// </summary>
+        /// <returns>The cipher names.</returns>
+        public IList<ICipher> GetCiphers()
         {
-            List<ICipher> ciphers = this.repository.Read();
-            List<string> names = new List<string>(ciphers.Count);
-
-            ciphers.ForEach(cipher => names.Add(cipher.CipherName));
-
-            return names;
+            return this.repository.Read();
         }
     }
 }

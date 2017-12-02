@@ -77,51 +77,117 @@ namespace Useful.UnitTests.Security.Cryptography
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 7
- testRunner.Given("I have a \"Reverse\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a \'Reverse\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.Then("the cipher name should be \"Reverse\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the cipher name should be \'Reverse\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Encrypt a string")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
-        public virtual void ReverseCipher_EncryptAString()
+        public virtual void ReverseCipher_EncryptAString(string plaintext, string ciphertext, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ReverseCipher - Encrypt a string", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ReverseCipher - Encrypt a string", exampleTags);
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 11
- testRunner.Given("I have a \"Reverse\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a \'Reverse\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
- testRunner.And("my plaintext is \"Hello World\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("my plaintext is {0}", plaintext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
  testRunner.When("I encrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 14
- testRunner.Then("the ciphertext should be \"dlroW olleH\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("the ciphertext should be {0}", ciphertext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Decrypt a string")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Encrypt a string: ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
-        public virtual void ReverseCipher_DecryptAString()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
+        public virtual void ReverseCipher_EncryptAString_ABCDEFGHIJKLMNOPQRSTUVWXYZ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ReverseCipher - Decrypt a string", ((string[])(null)));
-#line 16
+            this.ReverseCipher_EncryptAString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Encrypt a string: abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "zyxwvutsrqponmlkjihgfedcba")]
+        public virtual void ReverseCipher_EncryptAString_Abcdefghijklmnopqrstuvwxyz()
+        {
+            this.ReverseCipher_EncryptAString("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Encrypt a string: >?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "]\\[ @?>")]
+        public virtual void ReverseCipher_EncryptAString_()
+        {
+            this.ReverseCipher_EncryptAString(">?@ [\\]", "]\\[ @?>", ((string[])(null)));
+#line hidden
+        }
+        
+        public virtual void ReverseCipher_DecryptAString(string plaintext, string ciphertext, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ReverseCipher - Decrypt a string", exampleTags);
+#line 21
 this.ScenarioSetup(scenarioInfo);
-#line 17
- testRunner.Given("I have a \"Reverse\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
- testRunner.And("my ciphertext is \"dlroW olleH\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
+#line 22
+ testRunner.Given("I have a \'Reverse\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.And(string.Format("my ciphertext is {0}", ciphertext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
  testRunner.When("I decrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 20
- testRunner.Then("the plaintext should be \"Hello World\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+ testRunner.Then(string.Format("the plaintext should be {0}", plaintext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Decrypt a string: ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
+        public virtual void ReverseCipher_DecryptAString_ABCDEFGHIJKLMNOPQRSTUVWXYZ()
+        {
+            this.ReverseCipher_DecryptAString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Decrypt a string: abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "zyxwvutsrqponmlkjihgfedcba")]
+        public virtual void ReverseCipher_DecryptAString_Abcdefghijklmnopqrstuvwxyz()
+        {
+            this.ReverseCipher_DecryptAString("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ReverseCipher - Decrypt a string: >?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ReverseCipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "]\\[ @?>")]
+        public virtual void ReverseCipher_DecryptAString_()
+        {
+            this.ReverseCipher_DecryptAString(">?@ [\\]", "]\\[ @?>", ((string[])(null)));
+#line hidden
         }
     }
 }

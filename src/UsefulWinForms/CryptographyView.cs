@@ -1,48 +1,38 @@
 ﻿namespace Useful.UI.WinForms
 {
     using Controllers;
+    using Security.Cryptography;
     using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Views;
 
-    public partial class WinFormsView : Form, ICipherView
+    public partial class CryptographyView : Form, ICipherView
     {
-        CipherController controller;
+        private CipherController controller;
 
-        public WinFormsView()
+        public CryptographyView()
         {
             InitializeComponent();
 
-            this.Icon = Useful.UI.Resources.Resources.GetAppIcon();
+            this.Icon = Resources.Resources.GetAppIcon();
         }
 
-        public void SetController(CipherController controller)
+        public void SetController(IController controller)
         {
-            this.controller = controller;
+            this.controller = (CipherController)controller;
         }
 
         /// <summary>
         /// Initializes the view.
         /// </summary>
-        /// <param name="cipherNames">The names of all the available ciphers.</param>
-        public void Initialize(List<string> cipherNames)
+        public void Initialize()
         {
-            this.comboCiphers.Items.AddRange(cipherNames.ToArray());
+            List<ICipher> ciphers = new List<ICipher>(this.controller.GetCiphers());
+            this.comboCiphers.Items.AddRange(ciphers.ToArray());
             this.comboCiphers.SelectedIndex = 0;
 
             Application.Run(this);
-        }
-
-        public void ShowCiphername(string s)
-        {
-            // Will have already been selected in the ciphers combobox 
-        }
-
-        public void ShowCiphers(List<string> cipherNames)
-        {
-            //this.comboCiphers.Items.AddRange(cipherNames.ToArray());
-            //this.comboCiphers.SelectedIndex = 0;
         }
 
         public void ShowCiphertext(string ciphertext)
@@ -55,6 +45,12 @@
             this.textPlaintext.Text = plaintext;
         }
 
+        public void ShowSettings(ICipherSettingsView cipherSettingsView)
+        {
+            this.flowSettings.Controls.Clear();
+            this.flowSettings.Controls.Add((Control)cipherSettingsView);
+        }
+
         private void buttonEncrypt_Click(object sender, EventArgs e)
         {
             this.controller.Encrypt(this.textPlaintext.Text);
@@ -62,7 +58,16 @@
 
         private void comboCiphers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.controller.SelectCipher((string)this.comboCiphers.SelectedItem);
+            ICipher cipher = (ICipher)this.comboCiphers.SelectedItem;
+
+            if (cipher is CaesarCipher)
+            {
+                this.controller.SelectCipher(cipher, new CaesarSettingsView());
+            }
+            else
+            {
+                this.controller.SelectCipher(cipher, null);
+            }
         }
 
         private void buttonDecrypt_Click(object sender, EventArgs e)

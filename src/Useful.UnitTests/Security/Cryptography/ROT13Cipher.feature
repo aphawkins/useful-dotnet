@@ -3,20 +3,28 @@
 	As a cryptographer
 	I want to use the ROT13 Cipher
 
-@mytag
 Scenario: ROT13Cipher - Ciphername
-	Given I have a "ROT13" cipher
-	Then the cipher name should be "ROT13"
+	Given I have a 'ROT13' cipher
+	Then the cipher name should be 'ROT13'
 
-@mytag
-Scenario: ROT13Cipher - Encrypt a string
-	Given I have a "ROT13" cipher
-	And my plaintext is "Hello World"
+Scenario Outline: ROT13Cipher - Encrypt a string
+	Given I have a 'ROT13' cipher
+	And my plaintext is <plaintext>
 	When I encrypt
-	Then the ciphertext should be "Uryyb Jbeyq"
+	Then the ciphertext should be <ciphertext>
+	Examples:
+	| plaintext                  | ciphertext                 |
+	| ABCDEFGHIJKLMNOPQRSTUVWXYZ | NOPQRSTUVWXYZABCDEFGHIJKLM |
+	| abcdefghijklmnopqrstuvwxyz | nopqrstuvwxyzabcdefghijklm |
+	| >?@ [\]                    | >?@ [\]                    |
 
-Scenario: ROT13Cipher - Decrypt a string
-	Given I have a "ROT13" cipher
-	And my ciphertext is "Uryyb Jbeyq"
+Scenario Outline: ROT13Cipher - Decrypt a string
+	Given I have a 'ROT13' cipher
+	And my ciphertext is <ciphertext>
 	When I decrypt
-	Then the plaintext should be "Hello World"
+	Then the plaintext should be <plaintext>
+	Examples:
+	| plaintext                  | ciphertext                 |
+	| ABCDEFGHIJKLMNOPQRSTUVWXYZ | NOPQRSTUVWXYZABCDEFGHIJKLM |
+	| abcdefghijklmnopqrstuvwxyz | nopqrstuvwxyzabcdefghijklm |
+	| >?@ [\]                    | >?@ [\]                    |

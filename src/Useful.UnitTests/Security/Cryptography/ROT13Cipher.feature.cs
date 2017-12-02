@@ -71,61 +71,123 @@ namespace Useful.UnitTests.Security.Cryptography
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Ciphername")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("mytag")]
         public virtual void ROT13Cipher_Ciphername()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Ciphername", new string[] {
-                        "mytag"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Ciphername", ((string[])(null)));
+#line 6
+this.ScenarioSetup(scenarioInfo);
 #line 7
-this.ScenarioSetup(scenarioInfo);
+ testRunner.Given("I have a \'ROT13\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.Given("I have a \"ROT13\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
- testRunner.Then("the cipher name should be \"ROT13\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the cipher name should be \'ROT13\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Encrypt a string")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute("mytag")]
-        public virtual void ROT13Cipher_EncryptAString()
+        public virtual void ROT13Cipher_EncryptAString(string plaintext, string ciphertext, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Encrypt a string", new string[] {
-                        "mytag"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Encrypt a string", exampleTags);
+#line 10
+this.ScenarioSetup(scenarioInfo);
+#line 11
+ testRunner.Given("I have a \'ROT13\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
-this.ScenarioSetup(scenarioInfo);
+ testRunner.And(string.Format("my plaintext is {0}", plaintext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
- testRunner.Given("I have a \"ROT13\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
- testRunner.And("my plaintext is \"Hello World\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 15
  testRunner.When("I encrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
- testRunner.Then("the ciphertext should be \"Uryyb Jbeyq\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.Then(string.Format("the ciphertext should be {0}", ciphertext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Decrypt a string")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Encrypt a string: ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
-        public virtual void ROT13Cipher_DecryptAString()
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
+        public virtual void ROT13Cipher_EncryptAString_ABCDEFGHIJKLMNOPQRSTUVWXYZ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Decrypt a string", ((string[])(null)));
-#line 18
-this.ScenarioSetup(scenarioInfo);
-#line 19
- testRunner.Given("I have a \"ROT13\" cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 20
- testRunner.And("my ciphertext is \"Uryyb Jbeyq\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+            this.ROT13Cipher_EncryptAString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Encrypt a string: abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "nopqrstuvwxyzabcdefghijklm")]
+        public virtual void ROT13Cipher_EncryptAString_Abcdefghijklmnopqrstuvwxyz()
+        {
+            this.ROT13Cipher_EncryptAString("abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Encrypt a string: >?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", ">?@ [\\]")]
+        public virtual void ROT13Cipher_EncryptAString_()
+        {
+            this.ROT13Cipher_EncryptAString(">?@ [\\]", ">?@ [\\]", ((string[])(null)));
+#line hidden
+        }
+        
+        public virtual void ROT13Cipher_DecryptAString(string plaintext, string ciphertext, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("ROT13Cipher - Decrypt a string", exampleTags);
 #line 21
- testRunner.When("I decrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
 #line 22
- testRunner.Then("the plaintext should be \"Hello World\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("I have a \'ROT13\' cipher", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.And(string.Format("my ciphertext is {0}", ciphertext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
+ testRunner.When("I decrypt", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 25
+ testRunner.Then(string.Format("the plaintext should be {0}", plaintext), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Decrypt a string: ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
+        public virtual void ROT13Cipher_DecryptAString_ABCDEFGHIJKLMNOPQRSTUVWXYZ()
+        {
+            this.ROT13Cipher_DecryptAString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Decrypt a string: abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", "abcdefghijklmnopqrstuvwxyz")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", "nopqrstuvwxyzabcdefghijklm")]
+        public virtual void ROT13Cipher_DecryptAString_Abcdefghijklmnopqrstuvwxyz()
+        {
+            this.ROT13Cipher_DecryptAString("abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm", ((string[])(null)));
+#line hidden
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("ROT13Cipher - Decrypt a string: >?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "ROT13Cipher")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("VariantName", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:plaintext", ">?@ [\\]")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("Parameter:ciphertext", ">?@ [\\]")]
+        public virtual void ROT13Cipher_DecryptAString_()
+        {
+            this.ROT13Cipher_DecryptAString(">?@ [\\]", ">?@ [\\]", ((string[])(null)));
+#line hidden
         }
     }
 }

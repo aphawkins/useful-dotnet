@@ -1,16 +1,18 @@
-﻿namespace Useful.UI.Console
+﻿namespace UsefulConsole.UI.Console
 {
-    using Controllers;
-    using Security.Cryptography;
+    using Useful;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Controllers;
+    using Useful.UI.Views;
     using Views;
 
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             IRepository<ICipher> repository = CipherRepository.Create();
             ICipherView view = new ConsoleView();
-            CipherController controller = new CipherController(repository, view);
+            IController controller = new CipherController(repository, view);
             controller.LoadView();
         }
     }

@@ -11,7 +11,7 @@
         public void GivenIHaveResources()
         {
         }
-        
+
         [Then(@"I can get the Application Icon")]
         public void ThenICanGetTheApplicationIcon()
         {

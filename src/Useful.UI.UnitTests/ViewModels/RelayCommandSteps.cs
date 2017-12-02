@@ -1,8 +1,8 @@
 ﻿namespace Useful.UnitTests.UI.ViewModels
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Windows.Input;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using TechTalk.SpecFlow;
     using Useful.UI.ViewModels;
 

@@ -45,7 +45,6 @@
             this.viewModel.Ciphertext = p0;
         }
 
-
         [Given(@"I set the CurrentCipher property")]
         public void GivenISetTheCurrentCipherProperty()
         {

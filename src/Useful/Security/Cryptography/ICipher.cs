@@ -11,6 +11,15 @@
         string CipherName { get; }
 
         /// <summary>
+        /// Gets or sets the cipher's settings.
+        /// </summary>
+        ICipherSettings Settings
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Encrypts a plaintext string.
         /// </summary>
         /// <param name="plaintext">The text to encrypt.</param>

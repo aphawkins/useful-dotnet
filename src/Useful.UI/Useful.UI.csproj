@@ -49,12 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CaesarSettingsController.cs" />
+    <Compile Include="Controllers\ISettingsController.cs" />
+    <Compile Include="Controllers\IController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CipherController.cs" />
     <Compile Include="Resources\Resources.cs" />
     <Compile Include="ViewModels\CipherViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\ICipherSettingsView.cs" />
     <Compile Include="Views\ICipherView.cs" />
   </ItemGroup>
   <ItemGroup>

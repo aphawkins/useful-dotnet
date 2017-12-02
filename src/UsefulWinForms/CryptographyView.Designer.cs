@@ -1,6 +1,6 @@
 ﻿namespace Useful.UI.WinForms
 {
-    partial class WinFormsView
+    partial class CryptographyView
     {
         /// <summary>
         /// Required designer variable.
@@ -37,6 +37,7 @@
             this.labelCiphers = new System.Windows.Forms.Label();
             this.buttonDecrypt = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowSettings = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             // buttonEncrypt
             // 
             this.buttonEncrypt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEncrypt.Location = new System.Drawing.Point(161, 279);
+            this.buttonEncrypt.Location = new System.Drawing.Point(161, 233);
             this.buttonEncrypt.Name = "buttonEncrypt";
             this.buttonEncrypt.Size = new System.Drawing.Size(75, 23);
             this.buttonEncrypt.TabIndex = 2;
@@ -75,7 +76,7 @@
             this.textPlaintext.Location = new System.Drawing.Point(3, 23);
             this.textPlaintext.Multiline = true;
             this.textPlaintext.Name = "textPlaintext";
-            this.textPlaintext.Size = new System.Drawing.Size(233, 250);
+            this.textPlaintext.Size = new System.Drawing.Size(233, 204);
             this.textPlaintext.TabIndex = 3;
             // 
             // textCiphertext
@@ -84,7 +85,7 @@
             this.textCiphertext.Location = new System.Drawing.Point(242, 23);
             this.textCiphertext.Multiline = true;
             this.textCiphertext.Name = "textCiphertext";
-            this.textCiphertext.Size = new System.Drawing.Size(234, 250);
+            this.textCiphertext.Size = new System.Drawing.Size(234, 204);
             this.textCiphertext.TabIndex = 4;
             // 
             // comboCiphers
@@ -108,7 +109,7 @@
             // buttonDecrypt
             // 
             this.buttonDecrypt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonDecrypt.Location = new System.Drawing.Point(242, 279);
+            this.buttonDecrypt.Location = new System.Drawing.Point(242, 233);
             this.buttonDecrypt.Name = "buttonDecrypt";
             this.buttonDecrypt.Size = new System.Drawing.Size(75, 23);
             this.buttonDecrypt.TabIndex = 9;
@@ -130,25 +131,35 @@
             this.tableLayoutPanel1.Controls.Add(this.textCiphertext, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.labelPlaintext, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.buttonDecrypt, 1, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 39);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 75);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.12426F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(479, 305);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(479, 259);
             this.tableLayoutPanel1.TabIndex = 10;
             // 
-            // WinFormsView
+            // flowSettings
+            // 
+            this.flowSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowSettings.Location = new System.Drawing.Point(18, 40);
+            this.flowSettings.Name = "flowSettings";
+            this.flowSettings.Size = new System.Drawing.Size(473, 32);
+            this.flowSettings.TabIndex = 11;
+            // 
+            // CryptographyView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 356);
+            this.ClientSize = new System.Drawing.Size(503, 346);
+            this.Controls.Add(this.flowSettings);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.labelCiphers);
             this.Controls.Add(this.comboCiphers);
-            this.Name = "WinFormsView";
-            this.Text = "WinFormsView";
+            this.Name = "CryptographyView";
+            this.Text = "Cryptography";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -167,5 +178,6 @@
         private System.Windows.Forms.Label labelCiphers;
         private System.Windows.Forms.Button buttonDecrypt;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowSettings;
     }
 }

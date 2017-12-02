@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulWinForms", "..\src\UsefulWinForms\UsefulWinForms.csproj", "{CD485F7F-7FBB-40DA-9AC7-C43242F4F287}"
 EndProject
@@ -16,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.UI", "..\src\Useful.UI\Useful.UI.csproj", "{EE625821-3C17-4707-B695-7512E54F6069}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulConsole", "..\src\UsefulConsole\UsefulConsole.csproj", "{822A7AC1-D082-4FB3-8E72-F21B35B5F343}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "UsefulWeb", "..\src\UsefulWeb\UsefulWeb.xproj", "{A3E698ED-1672-4819-B380-023D4100BA06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +51,11 @@ Global
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3E698ED-1672-4819-B380-023D4100BA06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3E698ED-1672-4819-B380-023D4100BA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3E698ED-1672-4819-B380-023D4100BA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3E698ED-1672-4819-B380-023D4100BA06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA7BCA01-7498-4498-A087-A28416E6B00B}
 	EndGlobalSection
 EndGlobal

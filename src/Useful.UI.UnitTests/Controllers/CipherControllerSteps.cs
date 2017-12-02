@@ -2,10 +2,10 @@
 {
     using Moq;
     using Security.Cryptography;
+    using System;
+    using System.Collections.Generic;
     using TechTalk.SpecFlow;
     using Views;
-    using System.Collections.Generic;
-    using System;
 
     [Binding]
     public class CipherControllerSteps
@@ -13,6 +13,7 @@
         private Mock<ICipher> moqCipher;
         private Mock<IRepository<ICipher>> moqRepository;
         private Mock<ICipherView> moqView;
+        private Mock<ICipherSettingsView> moqSettingsView;
         private CipherController controller;
 
         [Given(@"I have a CipherController")]
@@ -25,6 +26,7 @@
             this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
             this.moqRepository.Setup(x => x.CurrentItem).Returns(() => this.moqCipher.Object);
             this.moqView = new Mock<ICipherView>();
+            this.moqSettingsView = new Mock<ICipherSettingsView>();
             this.controller = new CipherController(this.moqRepository.Object, this.moqView.Object);
         }
 
@@ -49,7 +51,7 @@
         [When(@"I select a cipher")]
         public void WhenISelectACipher()
         {
-            this.controller.SelectCipher("moqCipher");
+            this.controller.SelectCipher(moqCipher.Object, moqSettingsView.Object);
         }
 
         [Then(@"the repository's Current Item will be set")]
@@ -61,7 +63,7 @@
         [Then(@"the view will be initialized")]
         public void ThenTheViewWillBeInitialized()
         {
-            this.moqView.Verify(x => x.Initialize(It.IsAny<List<string>>()));
+            this.moqView.Verify(x => x.Initialize());
         }
 
         [Then(@"the view's Plaintext will be called")]

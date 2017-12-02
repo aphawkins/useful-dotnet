@@ -69,6 +69,11 @@
       <DependentUpon>CipherRepository.feature</DependentUpon>
     </Compile>
     <Compile Include="Security\Cryptography\CipherRepositorySteps.cs" />
+    <Compile Include="Security\Cryptography\CaesarShiftCipher.feature.cs">
+      <DependentUpon>CaesarShiftCipher.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Security\Cryptography\ROT13Cipher.feature.cs">
       <DependentUpon>ROT13Cipher.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -93,6 +98,10 @@
     <None Include="Security\Cryptography\CipherRepository.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CipherRepository.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Security\Cryptography\CaesarShiftCipher.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CaesarShiftCipher.feature.cs</LastGenOutput>
     </None>
     <None Include="Security\Cryptography\ROT13Cipher.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

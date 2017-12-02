@@ -33,7 +33,7 @@
         /// Retrieves all the items.
         /// </summary>
         /// <returns>All the items.</returns>
-        List<T> Read();
+        IList<T> Read();
 
         /// <summary>
         /// Updates an item in the repository.

@@ -1,29 +1,30 @@
-﻿namespace Useful.UI.Views
+﻿namespace UsefulConsole.UI.Views
 {
     using System;
-    using Controllers;
     using System.Collections.Generic;
-    using Security.Cryptography;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Controllers;
+    using Useful.UI.Views;
 
-    class ConsoleView : ICipherView
+    internal class ConsoleView : ICipherView
     {
-        CipherController controller;
-        CipherTransformMode modeSelected;
+        private CipherController controller;
+        private CipherTransformMode modeSelected;
 
-        public void SetController(CipherController controller)
+        public void SetController(IController controller)
         {
-            this.controller = controller;
+            this.controller = (CipherController)controller;
         }
 
         /// <summary>
         /// Initializes the view.
         /// </summary>
         /// <param name="cipherNames">The names of all the available ciphers.</param>
-        public void Initialize(List<string> cipherNames)
+        public void Initialize()
         {
             string text;
-
-            DisplayCipherSelect(cipherNames);
+            IList<ICipher> ciphers = this.controller.GetCiphers();
+            DisplayCipherSelect(ciphers);
             DisplayEncryptionMode();
             DisplayEnterText();
 
@@ -41,17 +42,18 @@
             }
         }
 
-        public void DisplayCipherSelect(List<string> cipherNames)
+        public void DisplayCipherSelect(IList<ICipher> ciphers)
         {
-            int cipherSelected = -1;
+            ICipher cipherSelected = null;
+            ICipherSettingsView settingsView = null;
 
-            while (cipherSelected < 0)
+            while (cipherSelected == null)
             {
                 Console.WriteLine("Select a cipher:");
 
-                for (int i = 0; i < cipherNames.Count; i++)
+                for (int i = 0; i < ciphers.Count; i++)
                 {
-                    Console.WriteLine($"{i}: {cipherNames[i]}");
+                    Console.WriteLine($"{i}: {ciphers[i].CipherName}");
                 }
 
                 ConsoleKeyInfo key = Console.ReadKey();
@@ -59,12 +61,21 @@
                 {
                     case (ConsoleKey.D0):
                         {
-                            cipherSelected = 0;
+                            // Caesar
+                            cipherSelected = ciphers[0];
+                            settingsView = new CaesarSettingsView();
                             break;
                         }
                     case (ConsoleKey.D1):
                         {
-                            cipherSelected = 1;
+                            // Reverse
+                            cipherSelected = ciphers[1];
+                            break;
+                        }
+                    case (ConsoleKey.D2):
+                        {
+                            // ROT13
+                            cipherSelected = ciphers[2];
                             break;
                         }
                 }
@@ -72,9 +83,9 @@
                 Console.WriteLine();
             }
 
-            controller.SelectCipher(cipherNames[cipherSelected]);
+            controller.SelectCipher(cipherSelected, settingsView);
 
-            Console.WriteLine($"Cipher selected: {cipherNames[cipherSelected]}");
+            Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
         }
 
         private void DisplayEncryptionMode()
@@ -125,6 +136,10 @@
         public void ShowPlaintext(string plaintext)
         {
             Console.WriteLine($"Plaintext = {plaintext}");
+        }
+
+        public void ShowSettings(ICipherSettingsView settingsView)
+        {
         }
     }
 }
