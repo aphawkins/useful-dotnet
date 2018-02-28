@@ -1,0 +1,36 @@
+﻿<Window x:Class="Useful.UI.WPF.CryptographyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cryptography" Height="350" Width="525">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ComboBox Height="23" Grid.Row="0" Grid.Column="0" Name="CiphersComboBox" DisplayMemberPath="CipherName" SelectedItem="{Binding Path=CurrentCipher, Mode=TwoWay}" ItemsSource="{Binding Path=Ciphers}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Plaintext" />
+
+        <TextBox Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Plaintext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button Content="Encrypt" Grid.Row="3" Grid.Column="0" Command="{Binding Path=EncryptCommand}" Width="100" IsDefault="True" />
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Cipherext" />
+
+        <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Ciphertext, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button Content="Decrypt" Grid.Row="3" Grid.Column="1" Command="{Binding Path=DecryptCommand}" Width="100" />
+    </Grid>
+
+    <!-- TODO Settings here
+        <ContentControl Margin="10" Content="{Binding Path=CurrentCipher}" />
+        -->
+</Window>

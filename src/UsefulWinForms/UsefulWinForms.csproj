@@ -7,7 +7,7 @@
     <ProjectGuid>{CD485F7F-7FBB-40DA-9AC7-C43242F4F287}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Useful</RootNamespace>
+    <RootNamespace>Useful.UI.WinForms</RootNamespace>
     <AssemblyName>UsefulWinForms</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,6 +40,9 @@
   <PropertyGroup>
     <StartupObject>Useful.UI.WinForms.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,14 +57,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UI\WinForms\Program.cs" />
+    <Compile Include="CaesarSettingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CaesarSettingsView.Designer.cs">
+      <DependentUpon>CaesarSettingsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\WinForms\WinFormsView.cs">
+    <Compile Include="CryptographyView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\WinForms\WinFormsView.Designer.cs">
-      <DependentUpon>WinFormsView.cs</DependentUpon>
+    <Compile Include="CryptographyView.Designer.cs">
+      <DependentUpon>CryptographyView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CaesarSettingsView.resx">
+      <DependentUpon>CaesarSettingsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -72,8 +84,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\WinForms\WinFormsView.resx">
-      <DependentUpon>WinFormsView.cs</DependentUpon>
+    <EmbeddedResource Include="CryptographyView.resx">
+      <DependentUpon>CryptographyView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -98,6 +110,9 @@
       <Project>{03c39f3c-6bae-4708-85c0-5d646f87ffe2}</Project>
       <Name>Useful</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

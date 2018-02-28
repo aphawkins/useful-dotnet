@@ -34,4 +34,4 @@ Scenario: CipherRepository - SetCurrentItem null
 Scenario: CipherRepository - Get Cipher Count
 	Given I have a CipherRepository
 	When I load the ciphers
-	Then there should be "2" ciphers
+	Then there should be "3" ciphers

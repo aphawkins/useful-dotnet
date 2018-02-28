@@ -177,7 +177,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 36
  testRunner.When("I load the ciphers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 37
- testRunner.Then("there should be \"2\" ciphers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("there should be \"3\" ciphers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

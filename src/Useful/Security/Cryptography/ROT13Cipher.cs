@@ -10,13 +10,12 @@
         /// <summary>
         /// Gets the name of this cipher.
         /// </summary>
-        public string CipherName
-        {
-            get
-            {
-                return "ROT13";
-            }
-        }
+        public string CipherName => "ROT13";
+
+        /// <summary>
+        /// Gets or sets the settings.
+        /// </summary>
+        public ICipherSettings Settings { get; set; }
 
         /// <summary>
         /// Encrypts a plaintext string.
@@ -50,5 +49,21 @@
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Decrypts a ciphertext string.
+        /// </summary>
+        /// <param name="ciphertext">The text to decrypt.</param>
+        /// <returns>The decrypted text.</returns>
+        public string Decrypt(string ciphertext)
+        {
+            return this.Encrypt(ciphertext);
+        }
+
+        /// <summary>
+        /// The name of the Cipher.
+        /// </summary>
+        /// <returns>Name of the Cipher.</returns>
+        public override string ToString() => this.CipherName;
     }
 }

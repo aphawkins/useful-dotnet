@@ -10,13 +10,12 @@
         /// <summary>
         /// Gets the name of this cipher.
         /// </summary>
-        public string CipherName
-        {
-            get
-            {
-                return "Reverse";
-            }
-        }
+        public string CipherName => "Reverse";
+
+        /// <summary>
+        /// Gets or sets the settings.
+        /// </summary>
+        public ICipherSettings Settings { get; set; }
 
         /// <summary>
         /// Encrypts a plaintext string.
@@ -27,5 +26,21 @@
         {
             return new string(plaintext.Reverse().ToArray());
         }
+
+        /// <summary>
+        /// Decrypts a ciphertext string.
+        /// </summary>
+        /// <param name="ciphertext">The text to decrypt.</param>
+        /// <returns>The decrypted text.</returns>
+        public string Decrypt(string ciphertext)
+        {
+            return this.Encrypt(ciphertext);
+        }
+
+        /// <summary>
+        /// The name of the Cipher.
+        /// </summary>
+        /// <returns>Name of the Cipher.</returns>
+        public override string ToString() => this.CipherName;
     }
 }

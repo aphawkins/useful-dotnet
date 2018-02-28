@@ -16,7 +16,7 @@ using System.Windows;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("APH Software")]
-[assembly: AssemblyCopyright("Copyright © 2016")]
+[assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.0.0")]
@@ -52,7 +52,7 @@ using System.Windows;
     ResourceDictionaryLocation.None,
     ResourceDictionaryLocation.SourceAssembly)]
 
-    // where theme specific resource dictionaries are located
-    // (used if a resource is not found in the page, or application resource dictionaries)
-    // where the generic resource dictionary is located
-    // (used if a resource is not found in the page, app, or any theme specific resource dictionaries)
+// where theme specific resource dictionaries are located
+// (used if a resource is not found in the page, or application resource dictionaries)
+// where the generic resource dictionary is located
+// (used if a resource is not found in the page, app, or any theme specific resource dictionaries)

@@ -7,28 +7,23 @@
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Cryptography");
         }
 
         public IActionResult Cryptography(CipherViewModel model)
         {
-            model.Encrypt();
-
+            if (Request.ContentLength.HasValue)
+            {
+                if (Request.Form.ContainsKey("EncryptCommand"))
+                {
+                    model.Encrypt();
+                }
+                else if (Request.Form.ContainsKey("DecryptCommand"))
+                {
+                    model.Decrypt();
+                }
+            }
             return View(model);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
         }
 
         public IActionResult Error()
