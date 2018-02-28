@@ -51,7 +51,7 @@
         [Then(@"the CurrentItem will be set")]
         public void ThenTheCurrentItemWillBeSet()
         {
-            Assert.AreEqual("MoqCipherName", this.repository.CurrentItem.CipherName); 
+            Assert.AreEqual("MoqCipherName", this.repository.CurrentItem.CipherName);
         }
 
         [Then(@"the CurrentItem will not be set")]

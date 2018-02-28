@@ -37,6 +37,7 @@
             CipherRepository repository = new CipherRepository();
             repository.ciphers = new List<ICipher>
             {
+                new CaesarCipher(),
                 new ReverseCipher(),
                 new ROT13Cipher()
             };
@@ -81,7 +82,7 @@
         /// Retrieves all the ciphers.
         /// </summary>
         /// <returns>All the ciphers.</returns>
-        public List<ICipher> Read()
+        public IList<ICipher> Read()
         {
             return this.ciphers;
         }
