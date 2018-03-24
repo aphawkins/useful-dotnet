@@ -1,5 +1,11 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="CipherViewModel.cs" company="APH Company">
+// Copyright (c) APH Company. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
@@ -21,10 +27,10 @@
         /// <param name="repository">The repository holding the ciphers.</param>
         public CipherViewModel(IRepository<ICipher> repository)
         {
-            this.repository = repository;
-            this.Ciphers = this.repository.Read();
-            this.currentCipher = this.Ciphers[0];
-            this.WireCommands();
+            this.repository = repository ?? throw new ArgumentNullException();
+            Ciphers = this.repository.Read();
+            currentCipher = Ciphers[0];
+            WireCommands();
         }
 
         private CipherViewModel()
@@ -42,7 +48,7 @@
             get
             {
                 List<string> names = new List<string>();
-                foreach (ICipher cipher in this.Ciphers)
+                foreach (ICipher cipher in Ciphers)
                 {
                     names.Add(cipher.CipherName);
                 }
@@ -66,18 +72,18 @@
         {
             get
             {
-                return this.ciphertext;
+                return ciphertext;
             }
 
             set
             {
-                if (value == this.ciphertext)
+                if (value == ciphertext)
                 {
                     return;
                 }
 
-                this.ciphertext = value;
-                this.OnPropertyChanged(nameof(this.Ciphertext));
+                ciphertext = value;
+                OnPropertyChanged(nameof(Ciphertext));
             }
         }
 
@@ -88,19 +94,19 @@
         {
             get
             {
-                return this.currentCipher;
+                return currentCipher;
             }
 
             set
             {
-                if (this.currentCipher == value)
+                if (currentCipher == value)
                 {
                     return;
                 }
 
-                this.currentCipher = value;
-                this.OnPropertyChanged(nameof(this.CurrentCipher));
-                this.OnPropertyChanged(nameof(this.CurrentCipherName));
+                currentCipher = value;
+                OnPropertyChanged(nameof(CurrentCipher));
+                OnPropertyChanged(nameof(CurrentCipherName));
             }
         }
 
@@ -111,24 +117,24 @@
         {
             get
             {
-                return this.currentCipher.CipherName;
+                return currentCipher.CipherName;
             }
 
             set
             {
                 if (value == null)
                 {
-                    this.CurrentCipher = null;
+                    CurrentCipher = null;
                     return;
                 }
 
-                if (this.currentCipher?.CipherName == value)
+                if (currentCipher?.CipherName == value)
                 {
                     return;
                 }
 
                 // PropertyChanged is raised by CurrentCipher
-                this.CurrentCipher = this.Ciphers.First(x => x.CipherName == value);
+                CurrentCipher = Ciphers.First(x => x.CipherName == value);
             }
         }
 
@@ -157,18 +163,18 @@
         {
             get
             {
-                return this.plaintext;
+                return plaintext;
             }
 
             set
             {
-                if (value == this.plaintext)
+                if (value == plaintext)
                 {
                     return;
                 }
 
-                this.plaintext = value;
-                this.OnPropertyChanged(nameof(this.Plaintext));
+                plaintext = value;
+                OnPropertyChanged(nameof(Plaintext));
             }
         }
 
@@ -177,9 +183,9 @@
         /// </summary>
         public void Encrypt()
         {
-            if (this.CurrentCipher != null)
+            if (CurrentCipher != null)
             {
-                this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+                Ciphertext = CurrentCipher.Encrypt(Plaintext);
             }
         }
 
@@ -188,16 +194,16 @@
         /// </summary>
         public void Decrypt()
         {
-            if (this.CurrentCipher != null)
+            if (CurrentCipher != null)
             {
-                this.Plaintext = this.CurrentCipher.Decrypt(this.Ciphertext);
+                Plaintext = CurrentCipher.Decrypt(Ciphertext);
             }
         }
 
         private void WireCommands()
         {
-            this.EncryptCommand = new RelayCommand<object>(a => this.Encrypt(), p => !string.IsNullOrEmpty(this.plaintext));
-            this.DecryptCommand = new RelayCommand<object>(a => this.Decrypt(), p => !string.IsNullOrEmpty(this.ciphertext));
+            EncryptCommand = new RelayCommand<object>(a => Encrypt(), p => !string.IsNullOrEmpty(plaintext));
+            DecryptCommand = new RelayCommand<object>(a => Decrypt(), p => !string.IsNullOrEmpty(ciphertext));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
+// <copyright file="AssemblyInfo.cs" company="APH Company">
+// Copyright (c) APH Company. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 // <summary>Assembly information that is common to all projects.</summary>
 //-----------------------------------------------------------------------
@@ -35,7 +36,6 @@ using System.Windows;
 // in your source files, set the <UICulture> to en-US.  Then uncomment
 // the NeutralResourceLanguage attribute below.  Update the "en-US" in
 // the line below to match the UICulture setting in the project file.
-
 [assembly: AssemblyTitle("UsefulWPF")]
 [assembly: AssemblyDescription("Useful WPF Application")]
 [assembly: AssemblyProduct("Useful.Wpf")]

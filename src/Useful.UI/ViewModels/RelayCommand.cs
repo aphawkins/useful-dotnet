@@ -1,4 +1,9 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="RelayCommand.cs" company="APH Company">
+// Copyright (c) APH Company. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
     using System;
     using System.Windows.Input;
@@ -54,7 +59,7 @@
         /// </returns>
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null ? true : this.canExecute((T)parameter);
+            return canExecute == null ? true : canExecute((T)parameter);
         }
 
         /// <summary>
@@ -63,12 +68,12 @@
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
         public void Execute(object parameter)
         {
-            if (!this.CanExecute(parameter))
+            if (!CanExecute(parameter))
             {
                 return;
             }
 
-            this.execute((T)parameter);
+            execute((T)parameter);
         }
     }
 }

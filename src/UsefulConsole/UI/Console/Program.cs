@@ -1,4 +1,8 @@
-﻿namespace UsefulConsole.UI.Console
+﻿// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace UsefulConsole.UI.Console
 {
     using Useful;
     using Useful.Security.Cryptography;

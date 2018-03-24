@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="CipherRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
@@ -39,7 +43,7 @@
             {
                 new CaesarCipher(),
                 new ReverseCipher(),
-                new ROT13Cipher()
+                new ROT13Cipher(),
             };
 
             repository.CurrentItem = repository.ciphers[0];
@@ -52,7 +56,7 @@
         /// <param name="cipher">The new cipher to add.</param>
         public void Create(ICipher cipher)
         {
-            this.ciphers.Add(cipher);
+            ciphers.Add(cipher);
         }
 
         /// <summary>
@@ -63,9 +67,9 @@
         {
             int removeAt = -1;
 
-            for (int i = 0; i < this.ciphers.Count; i++)
+            for (int i = 0; i < ciphers.Count; i++)
             {
-                if (this.ciphers[i].CipherName == cipher.CipherName)
+                if (ciphers[i].CipherName == cipher.CipherName)
                 {
                     removeAt = i;
                     break;
@@ -74,7 +78,7 @@
 
             if (removeAt > -1)
             {
-                this.ciphers.RemoveAt(removeAt);
+                ciphers.RemoveAt(removeAt);
             }
         }
 
@@ -84,7 +88,7 @@
         /// <returns>All the ciphers.</returns>
         public IList<ICipher> Read()
         {
-            return this.ciphers;
+            return ciphers;
         }
 
         /// <summary>
@@ -93,12 +97,12 @@
         /// <param name="match">The criteria to find the current cipher.</param>
         public void SetCurrentItem(Func<ICipher, bool> match)
         {
-            if (this.ciphers.Count == 0)
+            if (ciphers.Count == 0)
             {
                 return;
             }
 
-            this.CurrentItem = this.ciphers.First(match);
+            CurrentItem = ciphers.First(match);
         }
 
         /// <summary>
@@ -107,11 +111,11 @@
         /// <param name="cipher">The cipher to update.</param>
         public void Update(ICipher cipher)
         {
-            for (int i = 0; i < this.ciphers.Count; i++)
+            for (int i = 0; i < ciphers.Count; i++)
             {
-                if (this.ciphers[i].CipherName == cipher.CipherName)
+                if (ciphers[i].CipherName == cipher.CipherName)
                 {
-                    this.ciphers[i] = cipher;
+                    ciphers[i] = cipher;
                 }
             }
         }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulWinForms", "..\src\UsefulWinForms\UsefulWinForms.csproj", "{CD485F7F-7FBB-40DA-9AC7-C43242F4F287}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulWPF", "..\src\UsefulWPF\UsefulWPF.csproj", "{0D6370B0-B6A8-4C62-B726-8F8AE51B0880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful", "..\src\Useful\Useful.csproj", "{03C39F3C-6BAE-4708-85C0-5D646F87FFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful", "..\src\Useful\Useful.csproj", "{03C39F3C-6BAE-4708-85C0-5D646F87FFE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.UnitTests", "..\src\Useful.UnitTests\Useful.UnitTests.csproj", "{A5524A40-9907-4E8D-A93E-5531397A9358}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.UI", "..\src\Useful.UI\Useful.UI.csproj", "{EE625821-3C17-4707-B695-7512E54F6069}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulConsole", "..\src\UsefulConsole\UsefulConsole.csproj", "{822A7AC1-D082-4FB3-8E72-F21B35B5F343}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "..\src\UsefulWeb\UsefulWeb.csproj", "{E0FFAE1D-1398-4A54-A3E6-77FC25E9C93E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{822A7AC1-D082-4FB3-8E72-F21B35B5F343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0FFAE1D-1398-4A54-A3E6-77FC25E9C93E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0FFAE1D-1398-4A54-A3E6-77FC25E9C93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0FFAE1D-1398-4A54-A3E6-77FC25E9C93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0FFAE1D-1398-4A54-A3E6-77FC25E9C93E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

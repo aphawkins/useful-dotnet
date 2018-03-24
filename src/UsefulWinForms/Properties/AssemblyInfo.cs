@@ -1,9 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
+﻿// <copyright file="AssemblyInfo.cs" company="APH Company">
+// Copyright (c) APH Company. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
-// <summary>Assembly information that is common to all projects.</summary>
-//-----------------------------------------------------------------------
 
 using System;
 using System.Reflection;

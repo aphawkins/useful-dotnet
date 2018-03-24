@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="ReverseCipher.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using System.Linq;
 
@@ -34,13 +38,13 @@
         /// <returns>The decrypted text.</returns>
         public string Decrypt(string ciphertext)
         {
-            return this.Encrypt(ciphertext);
+            return Encrypt(ciphertext);
         }
 
         /// <summary>
         /// The name of the Cipher.
         /// </summary>
         /// <returns>Name of the Cipher.</returns>
-        public override string ToString() => this.CipherName;
+        public override string ToString() => CipherName;
     }
 }
