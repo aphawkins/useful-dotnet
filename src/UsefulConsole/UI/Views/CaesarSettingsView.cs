@@ -1,4 +1,8 @@
-﻿namespace UsefulConsole.UI.Views
+﻿// <copyright file="CaesarSettingsView.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace UsefulConsole.UI.Views
 {
     using System;
     using Useful.Security.Cryptography;
@@ -19,7 +23,7 @@
                 Console.WriteLine("Select right shift (0 to 25):");
 
                 string input = Console.ReadLine();
-                isGood = (int.TryParse(input, out result) && result >= 0 && result < 26);
+                isGood = int.TryParse(input, out result) && result >= 0 && result < 26;
 
                 Console.WriteLine();
             }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// <copyright file="AssemblyInfo.cs" company="APH Company">
+// Copyright (c) APH Company. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;

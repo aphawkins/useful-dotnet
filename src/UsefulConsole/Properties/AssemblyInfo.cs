@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="AssemblyInfo.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -28,7 +32,6 @@ assembly: NeutralResourcesLanguage("en-GB")]
 // in your source files, set the <UICulture> to en-US.  Then uncomment
 // the NeutralResourceLanguage attribute below.  Update the "en-US" in
 // the line below to match the UICulture setting in the project file.
-
 [assembly: AssemblyTitle("UsefulConsole")]
 [assembly: AssemblyDescription("Useful Console Application")]
 [assembly: AssemblyProduct("UsefulConsole")]
