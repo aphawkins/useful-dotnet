@@ -1,5 +1,5 @@
-﻿// <copyright file="ICipher.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ICipher.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.Security.Cryptography

@@ -1,6 +1,5 @@
-﻿// <copyright file="CipherViewModel.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="CipherViewModel.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.ViewModels

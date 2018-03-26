@@ -2,9 +2,14 @@
 
   <PropertyGroup>
     <Company>APH Software</Company>
-    <CodeAnalysisRuleSet>..\..\Useful.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\analysis\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -15,6 +20,7 @@
     <PackageReference Include="IDisposableAnalyzers" Version="0.1.4.5-dev" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0" />
+    <PackageReference Include="PublicApiAnalyzer" Version="1.0.0-beta001" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006" />
   </ItemGroup>
 

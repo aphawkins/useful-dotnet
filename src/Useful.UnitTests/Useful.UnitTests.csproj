@@ -3,16 +3,25 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Company>APH Software</Company>
-    <CodeAnalysisRuleSet>..\..\Useful.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\analysis\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="Moq" Version="4.8.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
-	<PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" />
+	  <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" />
     <PackageReference Include="IDisposableAnalyzers" Version="0.1.4.5-dev" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0" />
     <PackageReference Include="PublicApiAnalyzer" Version="1.0.0-beta001" />
@@ -20,7 +29,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\Useful\Useful.csproj" />
   </ItemGroup>

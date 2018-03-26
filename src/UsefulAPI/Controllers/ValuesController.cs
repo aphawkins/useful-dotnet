@@ -1,5 +1,5 @@
-﻿// <copyright file="ValuesController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ValuesController.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace APIDocker.Controllers
@@ -38,7 +38,7 @@ namespace APIDocker.Controllers
         [HttpPost]
         public void Post([FromBody]string value)
         {
-            this.values.Add(value);
+            values.Add(value);
         }
 
         // PUT api/values/5

@@ -1,7 +1,8 @@
-﻿// <copyright file="Resources.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="Resources.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
+
+#if DOTNETFRAMEWORK
 
 namespace Useful.UI.Resources
 {
@@ -33,3 +34,5 @@ namespace Useful.UI.Resources
         }
     }
 }
+
+#endif
