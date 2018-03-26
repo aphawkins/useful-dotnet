@@ -1,6 +1,5 @@
-﻿// <copyright file="RelayCommand.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="RelayCommand.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.ViewModels
@@ -25,12 +24,7 @@ namespace Useful.UI.ViewModels
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 
@@ -38,6 +32,8 @@ namespace Useful.UI.ViewModels
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
         public event EventHandler CanExecuteChanged
+
+#if DOTNETFRAMEWORK
         {
             add
             {
@@ -49,6 +45,9 @@ namespace Useful.UI.ViewModels
                 CommandManager.RequerySuggested -= value;
             }
         }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.

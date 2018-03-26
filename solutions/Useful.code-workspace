@@ -5,6 +5,15 @@
 		},
 		{
 			"path": "Y:\\Code\\github\\Useful\\src\\UsefulAPI"
+		},
+		{
+			"path": "Y:\\Code\\github\\Useful\\src\\Useful.UnitTests"
+		},
+		{
+			"path": "Y:\\Code\\github\\Useful\\src\\UsefulConsole"
+		},
+		{
+			"path": "Y:\\Code\\github\\Useful\\src\\Useful.UI"
 		}
 	],
 	"settings": {}

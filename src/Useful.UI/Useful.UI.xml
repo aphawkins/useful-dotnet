@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Useful.UI</name>
+    </assembly>
+    <members>
+        <member name="T:Useful.UI.Controllers.CaesarSettingsController">
+            <summary>
+            An controller for the Caesar cipher settings.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Controllers.CaesarSettingsController.#ctor(Useful.UI.Views.ICipherSettingsView)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Useful.UI.Controllers.CaesarSettingsController"/> class.
+            </summary>
+            <param name="cipherSettingsView">The view that is controlled.</param>
+        </member>
+        <member name="P:Useful.UI.Controllers.CaesarSettingsController.Settings">
+            <summary>
+            Gets the cipher's settings.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Controllers.CaesarSettingsController.LoadView">
+            <summary>
+            Loads the view.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.Controllers.CipherController">
+            <summary>
+            An controller for ciphers.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.#ctor(Useful.IRepository{Useful.Security.Cryptography.ICipher},Useful.UI.Views.ICipherView)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Useful.UI.Controllers.CipherController"/> class.
+            </summary>
+            <param name="repository">The repository to be used.</param>
+            <param name="cipherView">The view that is controlled.</param>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.Encrypt(System.String)">
+            <summary>
+            Encrypts using the given cipher and updates the view.
+            </summary>
+            <param name="plaintext">The text to encrypt.</param>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.Decrypt(System.String)">
+            <summary>
+            Decrypts using the given cipher and updates the view.
+            </summary>
+            <param name="ciphertext">The text to decrypt.</param>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.LoadView">
+            <summary>
+            Loads the view.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.SelectCipher(Useful.Security.Cryptography.ICipher,Useful.UI.Views.ICipherSettingsView)">
+            <summary>
+            Selects the current cipher.
+            </summary>
+            <param name="cipher">The cipher to select.</param>
+            <param name="settingsView">The view to select.</param>
+        </member>
+        <member name="M:Useful.UI.Controllers.CipherController.GetCiphers">
+            <summary>
+            All of the ciphers.
+            </summary>
+            <returns>The cipher names.</returns>
+        </member>
+        <member name="T:Useful.UI.Controllers.IController">
+            <summary>
+            A controller.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Controllers.IController.LoadView">
+            <summary>
+            Loads the view.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.Controllers.ISettingsController">
+            <summary>
+            The setting controller.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.Controllers.ISettingsController.Settings">
+            <summary>
+            Gets the cipher settings.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.ViewModels.CipherViewModel">
+            <summary>
+            A viewmodel for ciphers.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.ViewModels.CipherViewModel.#ctor(Useful.IRepository{Useful.Security.Cryptography.ICipher})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Useful.UI.ViewModels.CipherViewModel"/> class.
+            </summary>
+            <param name="repository">The repository holding the ciphers.</param>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.CipherNames">
+            <summary>
+            Gets a list of supported cipher names
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.Ciphers">
+            <summary>
+            Gets a list of supported ciphers.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.Ciphertext">
+            <summary>
+            Gets or sets the encrypted ciphertext.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.CurrentCipher">
+            <summary>
+            Gets or sets the cipher currently in scope.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.CurrentCipherName">
+            <summary>
+            Gets or sets the cipher currently in scope's name.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.EncryptCommand">
+            <summary>
+            Gets a property that can be used to link to a UI encrypt command.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.DecryptCommand">
+            <summary>
+            Gets a property that can be used to link to a UI decrypt command.
+            </summary>
+        </member>
+        <member name="P:Useful.UI.ViewModels.CipherViewModel.Plaintext">
+            <summary>
+            Gets or sets the unencrypted plaintext.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.ViewModels.CipherViewModel.Encrypt">
+            <summary>
+            Used to encrypt the <see cref="P:Useful.UI.ViewModels.CipherViewModel.Plaintext"/> into <see cref="P:Useful.UI.ViewModels.CipherViewModel.Ciphertext"/>.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.ViewModels.CipherViewModel.Decrypt">
+            <summary>
+            Used to decrypt the <see cref="P:Useful.UI.ViewModels.CipherViewModel.Ciphertext"/> into <see cref="P:Useful.UI.ViewModels.CipherViewModel.Plaintext"/>.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.ViewModels.RelayCommand`1">
+            <summary>
+            A command whose sole purpose is to relay its functionality to other
+            objects by invoking delegates. The default return value for the CanExecute method is 'true'.
+            </summary>
+            <typeparam name="T">A type.</typeparam>
+        </member>
+        <member name="M:Useful.UI.ViewModels.RelayCommand`1.#ctor(System.Action{`0},System.Predicate{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Useful.UI.ViewModels.RelayCommand`1"/> class.
+            </summary>
+            <param name="execute">The execution logic.Delegate to execute when Execute is called on the command.  This can be null to just hook up a CanExecute delegate.</param>
+            <param name="canExecute">The execution status logic.</param>
+        </member>
+        <member name="E:Useful.UI.ViewModels.RelayCommand`1.CanExecuteChanged">
+            <summary>
+            Occurs when changes occur that affect whether or not the command should execute.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.ViewModels.RelayCommand`1.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Useful.UI.ViewModels.RelayCommand`1.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
+        </member>
+        <member name="T:Useful.UI.ViewModels.ViewModelBase">
+            <summary>
+            A class from which all viewmodels should inherit from.
+            </summary>
+        </member>
+        <member name="E:Useful.UI.ViewModels.ViewModelBase.PropertyChanged">
+            <summary>
+            Raised when a property value is changed.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.ViewModels.ViewModelBase.OnPropertyChanged(System.String)">
+            <summary>
+            Used to raise the <see cref="E:Useful.UI.ViewModels.ViewModelBase.PropertyChanged" /> event.
+            </summary>
+            <param name="propName">The name of the property that has changed.</param>
+        </member>
+        <member name="T:Useful.UI.Views.ICipherSettingsView">
+            <summary>
+            An interface that all cipher settings views should implement.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.Views.ICipherView">
+            <summary>
+            An interface that all cipher views should implement.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Views.ICipherView.ShowCiphertext(System.String)">
+            <summary>
+            Displays the cipher text.
+            </summary>
+            <param name="ciphertext">The encrypted cipher text.</param>
+        </member>
+        <member name="M:Useful.UI.Views.ICipherView.ShowPlaintext(System.String)">
+            <summary>
+            Displays the plain text.
+            </summary>
+            <param name="plaintext">The decrypted plaintext.</param>
+        </member>
+        <member name="M:Useful.UI.Views.ICipherView.ShowSettings(Useful.UI.Views.ICipherSettingsView)">
+            <summary>
+            Displays the cipher's settings.
+            </summary>
+            <param name="settingsView">The cipher settings view.</param>
+        </member>
+        <member name="T:Useful.UI.Views.IDisposableCipherView">
+            <summary>
+            An interface that all disposable cipher views should implement.
+            </summary>
+        </member>
+        <member name="T:Useful.UI.Views.IView">
+            <summary>
+            An interface that all views should implement.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Views.IView.Initialize">
+            <summary>
+            Initializes the view.
+            </summary>
+        </member>
+        <member name="M:Useful.UI.Views.IView.SetController(Useful.UI.Controllers.IController)">
+            <summary>
+            Sets the controller.
+            </summary>
+            <param name="controller">Teh controller.</param>
+        </member>
+    </members>
+</doc>

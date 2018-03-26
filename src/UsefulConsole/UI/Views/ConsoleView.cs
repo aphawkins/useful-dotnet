@@ -1,5 +1,5 @@
-﻿// <copyright file="ConsoleView.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ConsoleView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace UsefulConsole.UI.Views
@@ -66,7 +66,6 @@ namespace UsefulConsole.UI.Views
         /// <summary>
         /// Initializes the view.
         /// </summary>
-        /// <param name="cipherNames">The names of all the available ciphers.</param>
         public void Initialize()
         {
             string text;

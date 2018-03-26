@@ -1,5 +1,5 @@
-﻿// <copyright file="CipherRepository.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="CipherRepository.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.Security.Cryptography
@@ -38,12 +38,14 @@ namespace Useful.Security.Cryptography
         /// <returns>A new instance of the class containing all the ciphers.</returns>
         public static CipherRepository Create()
         {
-            CipherRepository repository = new CipherRepository();
-            repository.ciphers = new List<ICipher>
+            CipherRepository repository = new CipherRepository
             {
-                new CaesarCipher(),
-                new ReverseCipher(),
-                new ROT13Cipher(),
+                ciphers = new List<ICipher>
+                {
+                    new CaesarCipher(),
+                    new ReverseCipher(),
+                    new ROT13Cipher(),
+                },
             };
 
             repository.CurrentItem = repository.ciphers[0];
