@@ -32,7 +32,7 @@ namespace Useful.UI.ViewModels
             WireCommands();
         }
 
-        private CipherViewModel()
+        public CipherViewModel()
                     : this(CipherRepository.Create())
         {
             // HACK: Default constructor required for the web project.
