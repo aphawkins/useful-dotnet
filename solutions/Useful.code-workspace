@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "Y:\\Code\\github\\Useful\\src\\Useful.UI"
+		},
+		{
+			"path": "Y:\\Code\\github\\Useful\\src\\Useful.UI.UnitTests"
 		}
 	],
 	"settings": {}

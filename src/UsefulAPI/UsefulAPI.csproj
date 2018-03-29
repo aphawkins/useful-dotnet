@@ -4,7 +4,7 @@
     <Company>APH Software</Company>
     <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\UsefulAPI.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
