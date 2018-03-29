@@ -1,4 +1,8 @@
-﻿namespace UsefulWeb.Controllers
+﻿// <copyright file="HomeController.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace UsefulWeb.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Useful.UI.ViewModels;
@@ -23,6 +27,7 @@
                     model.Decrypt();
                 }
             }
+
             return View(model);
         }
 

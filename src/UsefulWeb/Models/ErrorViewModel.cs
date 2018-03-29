@@ -1,4 +1,6 @@
-using System;
+// <copyright file="ErrorViewModel.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
 
 namespace UsefulWeb.Models
 {

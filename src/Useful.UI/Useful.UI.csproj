@@ -6,6 +6,14 @@
     <DocumentationFile>bin\Debug\netcoreapp2.0\Useful.UI.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="..\..\analysis\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
