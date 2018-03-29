@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\UsefulConsole.xml</DocumentationFile>
     <StartupObject>UsefulConsole.UI.Console.Program</StartupObject>
     <ApplicationIcon />
   </PropertyGroup>
