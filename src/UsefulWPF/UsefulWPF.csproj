@@ -108,6 +108,10 @@
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Useful.Interfaces\Useful.Interfaces.csproj">
+      <Project>{2439c763-6ed6-4093-8931-5797d74e29c7}</Project>
+      <Name>Useful.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Useful.UI\Useful.UI.csproj">
       <Project>{ee625821-3c17-4707-b695-7512e54f6069}</Project>
       <Name>Useful.UI</Name>

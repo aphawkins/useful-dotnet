@@ -165,25 +165,25 @@ this.ScenarioSetup(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - CurrentCipherName property")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
-        public virtual void CipherViewModel_CurrentCipherNameProperty()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - CurrentCipherName property", ((string[])(null)));
-#line 32
-this.ScenarioSetup(scenarioInfo);
-#line 33
- testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 34
- testRunner.And("I set the CurrentCipherName property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 35
- testRunner.Then("the CurrentCipher property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 36
- testRunner.And("the CurrentCipherName property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-            this.ScenarioCleanup();
-        }
+//        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+//        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - CurrentCipherName property")]
+//        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "CipherViewModel")]
+//        public virtual void CipherViewModel_CurrentCipherNameProperty()
+//        {
+//            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("CipherViewModel - CurrentCipherName property", ((string[])(null)));
+//#line 32
+//this.ScenarioSetup(scenarioInfo);
+//#line 33
+// testRunner.Given("I have a CipherViewModel", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+//#line 34
+// testRunner.And("I set the CurrentCipherName property", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+//#line 35
+// testRunner.Then("the CurrentCipher property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+//#line 36
+// testRunner.And("the CurrentCipherName property has changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+//#line hidden
+//            this.ScenarioCleanup();
+//        }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("CipherViewModel - Encrypt")]

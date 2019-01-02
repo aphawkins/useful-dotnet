@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Holds all the ciphers.
     /// </summary>
-    public class CipherRepository : IRepository<ICipher>
+    public class CipherRepository : ICipherRepository
     {
         private List<ICipher> ciphers = new List<ICipher>();
 
@@ -21,6 +21,14 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public CipherRepository()
         {
+            ciphers = new List<ICipher>
+                {
+                    new CaesarCipher(),
+                    new ReverseCipher(),
+                    new ROT13Cipher(),
+                };
+
+            CurrentItem = ciphers[0];
         }
 
         /// <summary>
@@ -32,25 +40,25 @@ namespace Useful.Security.Cryptography
             private set;
         }
 
-        /// <summary>
-        /// Loads all the ciphers into a new repository.
-        /// </summary>
-        /// <returns>A new instance of the class containing all the ciphers.</returns>
-        public static CipherRepository Create()
-        {
-            CipherRepository repository = new CipherRepository
-            {
-                ciphers = new List<ICipher>
-                {
-                    new CaesarCipher(),
-                    new ReverseCipher(),
-                    new ROT13Cipher(),
-                },
-            };
-
-            repository.CurrentItem = repository.ciphers[0];
-            return repository;
-        }
+        ///// <summary>
+        ///// Loads all the ciphers into a new repository.
+        ///// </summary>
+        ///// <returns>A new instance of the class containing all the ciphers.</returns>
+        // public static CipherRepository Create()
+        // {
+        //    CipherRepository repository = new CipherRepository
+        //    {
+        //        ciphers = new List<ICipher>
+        //        {
+        //            new CaesarCipher(),
+        //            new ReverseCipher(),
+        //            new ROT13Cipher(),
+        //        },
+        //    };
+        //
+        //    repository.CurrentItem = repository.ciphers[0];
+        //    return repository;
+        // }
 
         /// <summary>
         /// Adds a new cipher to the repository.

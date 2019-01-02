@@ -8,6 +8,9 @@ namespace UsefulWeb
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Useful;
+    using Useful.Security.Cryptography;
+    using Useful.UI.ViewModels;
 
     public class Startup
     {
@@ -21,8 +24,9 @@ namespace UsefulWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddTransient<viewmodelbase>((provider) => new MyModel());
             services.AddMvc();
+            services.AddTransient<ICipherRepository, CipherRepository>();
+            services.AddTransient<CipherService, CipherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

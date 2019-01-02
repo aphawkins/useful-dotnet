@@ -19,8 +19,9 @@ namespace Useful.UI.WPF
             base.OnStartup(e);
 
             CryptographyWindow app = new CryptographyWindow();
-            IRepository<ICipher> repository = CipherRepository.Create();
-            CipherViewModel context = new CipherViewModel(repository);
+            ICipherRepository repository = new CipherRepository();
+            CipherService service = new CipherService(repository);
+            CipherViewModel context = new CipherViewModel(service);
             app.DataContext = context;
             app.Show();
         }

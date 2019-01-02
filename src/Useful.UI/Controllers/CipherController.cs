@@ -69,15 +69,7 @@ namespace Useful.UI.Controllers
         {
             repository.SetCurrentItem(x => x == cipher);
 
-            if (cipher is CaesarCipher)
-            {
-                settingsController = new CaesarSettingsController(settingsView);
-            }
-            else
-            {
-                settingsController = null;
-            }
-
+            settingsController = new SettingsController(cipher.Settings, settingsView);
             settingsController?.LoadView();
 
             repository.CurrentItem.Settings = settingsController?.Settings;
