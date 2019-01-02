@@ -1,200 +1,204 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="CipherViewModelSteps.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Moq;
-    using Security.Cryptography;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Security.Cryptography;
     using TechTalk.SpecFlow;
 
     [Binding]
     public class CipherViewModelSteps
     {
         private CipherViewModel viewModel;
-        private Mock<IRepository<ICipher>> moqRepository;
+        private Mock<ICipherRepository> moqRepository;
         private Mock<ICipher> moqCipher;
         private string propertyChanged;
 
         [Given(@"I have a CipherViewModel")]
         public void GivenIHaveACipherViewModel()
         {
-            this.moqCipher = new Mock<ICipher>();
-            this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipher");
-            this.moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
-            this.moqCipher.Setup(x => x.Decrypt(It.IsAny<string>())).Returns("MoqPlaintext");
-            this.moqRepository = new Mock<IRepository<ICipher>>();
-            this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
-            this.viewModel = new CipherViewModel(this.moqRepository.Object);
-        }
-
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.propertyChanged += ";" + e.PropertyName;
+            moqCipher = new Mock<ICipher>();
+            moqCipher.Setup(x => x.CipherName).Returns("MoqCipher");
+            moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
+            moqCipher.Setup(x => x.Decrypt(It.IsAny<string>())).Returns("MoqPlaintext");
+            moqRepository = new Mock<ICipherRepository>();
+            moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { moqCipher.Object });
+            viewModel = new CipherViewModel();
         }
 
         [Given(@"my viewmodel plaintext is ""(.*)""")]
         public void GivenMyViewmodelPlaintextIs(string p0)
         {
-            this.viewModel.Plaintext = p0;
+            viewModel.Plaintext = p0;
         }
 
         [Given(@"my viewmodel ciphertext is ""(.*)""")]
         public void GivenMyViewmodelCiphertextIs(string p0)
         {
-            this.viewModel.Ciphertext = p0;
+            viewModel.Ciphertext = p0;
         }
 
         [Given(@"I set the CurrentCipher property")]
         public void GivenISetTheCurrentCipherProperty()
         {
-            this.viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            this.viewModel.CurrentCipher = this.moqCipher.Object;
-            this.viewModel.CurrentCipher = null;
-            this.propertyChanged = string.Empty;
-            this.viewModel.CurrentCipher = this.moqCipher.Object;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel.CurrentCipher = moqCipher.Object;
+            viewModel.CurrentCipher = null;
+            propertyChanged = string.Empty;
+            viewModel.CurrentCipher = moqCipher.Object;
         }
 
-        [Given(@"I set the CurrentCipherName property")]
-        public void GivenISetTheCurrentCipherNameProperty()
-        {
-            this.viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            this.viewModel.CurrentCipherName = this.moqCipher.Object.CipherName;
-            this.viewModel.CurrentCipherName = null;
-            this.propertyChanged = string.Empty;
-            this.viewModel.CurrentCipherName = this.moqCipher.Object.CipherName;
-        }
+        //[Given(@"I set the CurrentCipherName property")]
+        //public void GivenISetTheCurrentCipherNameProperty()
+        //{
+        //    viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        //    viewModel.CurrentCipher.CipherName = moqCipher.Object.CipherName;
+        //    viewModel.CurrentCipher.CipherName = null;
+        //    propertyChanged = string.Empty;
+        //    viewModel.CurrentCipher.CipherName = moqCipher.Object.CipherName;
+        //}
 
         [Given(@"I set the Plaintext property")]
         public void GivenISetThePlaintextProperty()
         {
-            this.viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            this.viewModel.Plaintext = string.Empty;
-            this.propertyChanged = string.Empty;
-            this.viewModel.Plaintext = "MoqPlaintext";
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel.Plaintext = string.Empty;
+            propertyChanged = string.Empty;
+            viewModel.Plaintext = "MoqPlaintext";
         }
 
         [Given(@"I set the Ciphertext property")]
         public void GivenISetTheCiphertextProperty()
         {
-            this.viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            this.viewModel.Ciphertext = string.Empty;
-            this.propertyChanged = string.Empty;
-            this.viewModel.Ciphertext = "MoqCiphertext";
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel.Ciphertext = string.Empty;
+            propertyChanged = string.Empty;
+            viewModel.Ciphertext = "MoqCiphertext";
         }
 
         [Given(@"I set the Plaintext property when the event is not subscribed")]
         public void GivenISetThePlaintextPropertyWhenTheEventIsNotSubscribed()
         {
-            this.viewModel.Plaintext = string.Empty;
-            this.propertyChanged = string.Empty;
-            this.viewModel.Plaintext = "MoqPlaintext";
+            viewModel.Plaintext = string.Empty;
+            propertyChanged = string.Empty;
+            viewModel.Plaintext = "MoqPlaintext";
         }
 
         [When(@"I use the viewmodel to encrypt")]
         public void WhenIUseTheViewmodelToEncrypt()
         {
-            this.viewModel.Encrypt();
+            viewModel.Encrypt();
         }
 
         [When(@"I use the viewmodel to decrypt")]
         public void WhenIUseTheViewmodelToDecrypt()
         {
-            this.viewModel.Decrypt();
+            viewModel.Decrypt();
         }
 
         [Then(@"the CurrentCipher is not null")]
         public void ThenTheCurrentCipherIsNotNull()
         {
-            Assert.IsNotNull(this.viewModel.CurrentCipher);
+            Assert.IsNotNull(viewModel.CurrentCipher);
         }
 
         [Then(@"the CurrentCipherName is ""(.*)""")]
         public void ThenTheCurrentCipherNameIs(string p0)
         {
-            Assert.AreEqual("MoqCipher", this.viewModel.CurrentCipherName);
+            Assert.AreEqual("MoqCipher", viewModel.CurrentCipher.CipherName);
         }
 
         [Then(@"the CipherNames are ""(.*)""")]
         public void ThenTheCipherNamesAre(string p0)
         {
-            CollectionAssert.AreEquivalent(new List<string>() { "MoqCipher" }, this.viewModel.CipherNames.ToList());
+            CollectionAssert.AreEquivalent(new List<string>() { "MoqCipher" }, viewModel.CurrentCipher.CipherName.ToList());
         }
 
         [Then(@"the viewmodel ciphertext should be ""(.*)""")]
         public void ThenTheViewmodelCiphertextShouldBe(string p0)
         {
-            Assert.AreEqual(p0, this.viewModel.Ciphertext);
+            Assert.AreEqual(p0, viewModel.Ciphertext);
         }
 
         [Then(@"the viewmodel plaintext should be ""(.*)""")]
         public void ThenTheViewmodelPlaintextShouldBe(string p0)
         {
-            Assert.AreEqual(p0, this.viewModel.Plaintext);
+            Assert.AreEqual(p0, viewModel.Plaintext);
         }
 
         [Then(@"the EncryptCommand is not null")]
         public void ThenTheEncryptCommandIsNotNull()
         {
-            Assert.IsNotNull(this.viewModel.EncryptCommand);
+            Assert.IsNotNull(viewModel.EncryptCommand);
 
-            this.viewModel.EncryptCommand.Execute(null);
+            viewModel.EncryptCommand.Execute(null);
         }
 
         [Then(@"the CurrentCipher property has changed")]
         public void ThenTheCurrentCipherPropertyHasChanged()
         {
-            Assert.AreEqual(";CurrentCipher;CurrentCipherName", this.propertyChanged);
+            Assert.AreEqual(";CurrentCipher;CurrentCipherName", propertyChanged);
         }
 
         [Then(@"the CurrentCipherName property has changed")]
         public void ThenTheCurrentCipherNamePropertyHasChanged()
         {
-            Assert.AreEqual(";CurrentCipher;CurrentCipherName", this.propertyChanged);
+            Assert.AreEqual(";CurrentCipher;CurrentCipherName", propertyChanged);
         }
 
         [Then(@"the Plaintext property has changed")]
         public void ThenThePlaintextPropertyHasChanged()
         {
-            Assert.AreEqual(";Plaintext", this.propertyChanged);
+            Assert.AreEqual(";Plaintext", propertyChanged);
         }
 
         [Then(@"the Plaintext property has not changed")]
         public void ThenThePlaintextPropertyHasNotChanged()
         {
-            Assert.AreEqual(string.Empty, this.propertyChanged);
+            Assert.AreEqual(string.Empty, propertyChanged);
         }
 
         [Then(@"the Ciphertext property has changed")]
         public void ThenTheCiphertextPropertyHasChanged()
         {
-            Assert.AreEqual(";Ciphertext", this.propertyChanged);
+            Assert.AreEqual(";Ciphertext", propertyChanged);
         }
 
         [Then(@"the EncryptCommand should be Executable")]
         public void ThenTheEncryptCommandShouldBeExecutable()
         {
-            Assert.IsTrue(this.viewModel.EncryptCommand.CanExecute(null));
-            this.viewModel.EncryptCommand.Execute(null);
+            Assert.IsTrue(viewModel.EncryptCommand.CanExecute(null));
+            viewModel.EncryptCommand.Execute(null);
         }
 
         [Then(@"the DecryptCommand should be Executable")]
         public void ThenTheDecryptCommandShouldBeExecutable()
         {
-            Assert.IsTrue(this.viewModel.DecryptCommand.CanExecute(null));
-            this.viewModel.DecryptCommand.Execute(null);
+            Assert.IsTrue(viewModel.DecryptCommand.CanExecute(null));
+            viewModel.DecryptCommand.Execute(null);
         }
 
         [Then(@"the EncryptCommand should not be Executable")]
         public void ThenTheEncryptCommandShouldNotBeExecutable()
         {
-            Assert.IsFalse(this.viewModel.EncryptCommand.CanExecute(null));
+            Assert.IsFalse(viewModel.EncryptCommand.CanExecute(null));
         }
 
         [Then(@"the DecryptCommand should not be Executable")]
         public void ThenTheDecryptCommandShouldNotBeExecutable()
         {
-            Assert.IsFalse(this.viewModel.DecryptCommand.CanExecute(null));
+            Assert.IsFalse(viewModel.DecryptCommand.CanExecute(null));
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            propertyChanged += ";" + e.PropertyName;
         }
     }
 }

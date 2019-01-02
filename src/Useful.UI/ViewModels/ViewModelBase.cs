@@ -1,4 +1,8 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="ViewModelBase.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
     using System.ComponentModel;
 
@@ -18,7 +22,7 @@
         /// <param name="propName">The name of the property that has changed.</param>
         protected virtual void OnPropertyChanged(string propName)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="CaesarCipher.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using System.Text;
 
@@ -12,7 +16,7 @@
         /// </summary>
         public CaesarCipher()
         {
-            this.Settings = new CaesarCipherSettings();
+            Settings = new CaesarCipherSettings();
         }
 
         /// <summary>
@@ -41,13 +45,13 @@
                 // Uppercase
                 if (c >= (int)'A' && c <= (int)'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + 26 - ((CaesarCipherSettings)this.Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - (int)'A' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
                 }
 
                 // Lowercase
                 else if (c >= (int)'a' && c <= (int)'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + 26 - ((CaesarCipherSettings)this.Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - (int)'a' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
                 }
                 else
                 {
@@ -74,13 +78,13 @@
                 // Uppercase
                 if (c >= (int)'A' && c <= (int)'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + ((CaesarCipherSettings)this.Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - (int)'A' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
                 }
 
                 // Lowercase
                 else if (c >= (int)'a' && c <= (int)'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + ((CaesarCipherSettings)this.Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - (int)'a' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
                 }
                 else
                 {
@@ -95,6 +99,6 @@
         /// The name of the Cipher.
         /// </summary>
         /// <returns>Name of the Cipher.</returns>
-        public override string ToString() => this.CipherName;
+        public override string ToString() => CipherName;
     }
 }

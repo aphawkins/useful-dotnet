@@ -1,4 +1,8 @@
-﻿namespace UsefulConsole.UI.Console
+﻿// <copyright file="Program.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace UsefulConsole.UI.Console
 {
     using Useful;
     using Useful.Security.Cryptography;
@@ -10,7 +14,7 @@
     {
         private static void Main()
         {
-            IRepository<ICipher> repository = CipherRepository.Create();
+            IRepository<ICipher> repository = new CipherRepository();
             ICipherView view = new ConsoleView();
             IController controller = new CipherController(repository, view);
             controller.LoadView();

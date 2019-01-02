@@ -29,11 +29,11 @@ Scenario: CipherViewModel - CurrentCipher property
 	Then the CurrentCipher property has changed
 	And the CurrentCipherName property has changed
 
-Scenario: CipherViewModel - CurrentCipherName property
-	Given I have a CipherViewModel
-	And I set the CurrentCipherName property
-	Then the CurrentCipher property has changed
-	And the CurrentCipherName property has changed
+#Scenario: CipherViewModel - CurrentCipherName property
+#	Given I have a CipherViewModel
+#	And I set the CurrentCipherName property
+#	Then the CurrentCipher property has changed
+#	And the CurrentCipherName property has changed
 	
 Scenario: CipherViewModel - Encrypt
 	Given I have a CipherViewModel

@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="CipherRepositorySteps.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -13,57 +17,57 @@
         [Given(@"I have a CipherRepository")]
         public void GivenIHaveACipherRepository()
         {
-            this.moqCipher = new Mock<ICipher>();
-            this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
-            this.repository = new CipherRepository();
+            moqCipher = new Mock<ICipher>();
+            moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
+            repository = new CipherRepository();
         }
 
         [When(@"I create a new cipher")]
         public void WhenICreateANewCipher()
         {
-            this.repository.Create(moqCipher.Object);
+            repository.Create(moqCipher.Object);
         }
 
         [When(@"I update a cipher")]
         public void WhenIUpdateACipher()
         {
-            this.repository.Update(moqCipher.Object);
+            repository.Update(moqCipher.Object);
         }
 
         [When(@"I delete a cipher")]
         public void WhenIDeleteACipher()
         {
-            this.repository.Delete(moqCipher.Object);
+            repository.Delete(moqCipher.Object);
         }
 
         [When(@"I load the ciphers")]
         public void WhenILoadTheCiphers()
         {
-            this.repository = CipherRepository.Create();
+            repository = new CipherRepository();
         }
 
         [When(@"I SetCurrentItem")]
         public void WhenISetCurrentItem()
         {
-            this.repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
+            repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
         }
 
         [Then(@"the CurrentItem will be set")]
         public void ThenTheCurrentItemWillBeSet()
         {
-            Assert.AreEqual("MoqCipherName", this.repository.CurrentItem.CipherName);
+            Assert.AreEqual("MoqCipherName", repository.CurrentItem.CipherName);
         }
 
         [Then(@"the CurrentItem will not be set")]
         public void ThenTheCurrentItemWillNotBeSet()
         {
-            Assert.IsNull(this.repository.CurrentItem);
+            Assert.IsNull(repository.CurrentItem);
         }
 
         [Then(@"there should be ""(.*)"" ciphers")]
         public void ThenThereShouldBeCiphers(int p0)
         {
-            Assert.AreEqual(p0, this.repository.Read().Count);
+            Assert.AreEqual(p0, repository.Read().Count);
         }
     }
 }
