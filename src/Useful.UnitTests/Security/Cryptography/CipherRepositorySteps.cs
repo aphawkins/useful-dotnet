@@ -43,7 +43,7 @@ namespace Useful.Security.Cryptography
         [When(@"I load the ciphers")]
         public void WhenILoadTheCiphers()
         {
-            repository = CipherRepository.Create();
+            repository = new CipherRepository();
         }
 
         [When(@"I SetCurrentItem")]

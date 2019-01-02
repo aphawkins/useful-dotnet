@@ -16,7 +16,7 @@ namespace Useful.UI.ViewModels
     public class CipherViewModelSteps
     {
         private CipherViewModel viewModel;
-        private Mock<IRepository<ICipher>> moqRepository;
+        private Mock<ICipherRepository> moqRepository;
         private Mock<ICipher> moqCipher;
         private string propertyChanged;
 
@@ -27,9 +27,9 @@ namespace Useful.UI.ViewModels
             moqCipher.Setup(x => x.CipherName).Returns("MoqCipher");
             moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
             moqCipher.Setup(x => x.Decrypt(It.IsAny<string>())).Returns("MoqPlaintext");
-            moqRepository = new Mock<IRepository<ICipher>>();
+            moqRepository = new Mock<ICipherRepository>();
             moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { moqCipher.Object });
-            viewModel = new CipherViewModel(moqRepository.Object);
+            viewModel = new CipherViewModel();
         }
 
         [Given(@"my viewmodel plaintext is ""(.*)""")]
@@ -54,15 +54,15 @@ namespace Useful.UI.ViewModels
             viewModel.CurrentCipher = moqCipher.Object;
         }
 
-        [Given(@"I set the CurrentCipherName property")]
-        public void GivenISetTheCurrentCipherNameProperty()
-        {
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            viewModel.CurrentCipherName = moqCipher.Object.CipherName;
-            viewModel.CurrentCipherName = null;
-            propertyChanged = string.Empty;
-            viewModel.CurrentCipherName = moqCipher.Object.CipherName;
-        }
+        //[Given(@"I set the CurrentCipherName property")]
+        //public void GivenISetTheCurrentCipherNameProperty()
+        //{
+        //    viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        //    viewModel.CurrentCipher.CipherName = moqCipher.Object.CipherName;
+        //    viewModel.CurrentCipher.CipherName = null;
+        //    propertyChanged = string.Empty;
+        //    viewModel.CurrentCipher.CipherName = moqCipher.Object.CipherName;
+        //}
 
         [Given(@"I set the Plaintext property")]
         public void GivenISetThePlaintextProperty()
@@ -111,13 +111,13 @@ namespace Useful.UI.ViewModels
         [Then(@"the CurrentCipherName is ""(.*)""")]
         public void ThenTheCurrentCipherNameIs(string p0)
         {
-            Assert.AreEqual("MoqCipher", viewModel.CurrentCipherName);
+            Assert.AreEqual("MoqCipher", viewModel.CurrentCipher.CipherName);
         }
 
         [Then(@"the CipherNames are ""(.*)""")]
         public void ThenTheCipherNamesAre(string p0)
         {
-            CollectionAssert.AreEquivalent(new List<string>() { "MoqCipher" }, viewModel.CipherNames.ToList());
+            CollectionAssert.AreEquivalent(new List<string>() { "MoqCipher" }, viewModel.CurrentCipher.CipherName.ToList());
         }
 
         [Then(@"the viewmodel ciphertext should be ""(.*)""")]

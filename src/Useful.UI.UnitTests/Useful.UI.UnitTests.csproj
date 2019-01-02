@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <Company>APH Software</Company>
     <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
@@ -41,7 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Useful.Interfaces\Useful.Interfaces.csproj" />
     <ProjectReference Include="..\Useful.UI\Useful.UI.csproj" />
+    <ProjectReference Include="..\Useful\Useful.csproj" />
   </ItemGroup>
 
 </Project>

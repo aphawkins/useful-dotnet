@@ -18,26 +18,45 @@ namespace Useful.UI.ViewModels
         private string ciphertext = string.Empty;
         private ICipher currentCipher;
         private string plaintext = string.Empty;
-        private IRepository<ICipher> repository;
+        //private ICipherRepository repository;
+        private readonly CipherService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
+        /// Initializes a new instance of the <see cref="CipherModel"/> class.
         /// </summary>
-        /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherViewModel(IRepository<ICipher> repository)
+        // /// <param name="repository">The repository holding the ciphers.</param>
+        public CipherViewModel(CipherService service)
         {
-            this.repository = repository ?? throw new ArgumentNullException();
-            Ciphers = this.repository.Read();
-            currentCipher = Ciphers[0];
+            this.service = service;
+
+            //this.repository = repository ?? throw new ArgumentNullException();
+            //Ciphers = this.repository.Read();
+            //currentCipher = Ciphers[0];
             WireCommands();
         }
 
-        public CipherViewModel()
-                    : this(CipherRepository.Create())
-        {
-            // HACK: Default constructor required for the web project.
-            // Construct the repository until dependency injection is working.
-        }
+        //public ICipherRepository Repository
+        //{
+        //    set
+        //    {
+        //        this.repository = repository ?? throw new ArgumentNullException();
+        //        Ciphers = this.repository.Read();
+        //        currentCipher = Ciphers[0];
+        //        WireCommands();
+        //    }
+        //}
+
+        ////public CipherViewModel()
+        ////            : this(CipherRepository.Create())
+        ////{
+        ////    // HACK: Default constructor required for the web project.
+
+        ////    Construct the repository until dependency injection is working.
+        ////}
+
+        //public CipherViewModel()
+        //{
+        //}
 
         /// <summary>
         /// Gets a list of supported cipher names
@@ -47,7 +66,7 @@ namespace Useful.UI.ViewModels
             get
             {
                 List<string> names = new List<string>();
-                foreach (ICipher cipher in Ciphers)
+                foreach (ICipher cipher in service.Repository.Read())
                 {
                     names.Add(cipher.CipherName);
                 }
@@ -59,10 +78,7 @@ namespace Useful.UI.ViewModels
         /// <summary>
         /// Gets a list of supported ciphers.
         /// </summary>
-        public IList<ICipher> Ciphers
-        {
-            get;
-        }
+        public IList<ICipher> Ciphers => service.Repository.Read();
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
@@ -105,37 +121,37 @@ namespace Useful.UI.ViewModels
 
                 currentCipher = value;
                 OnPropertyChanged(nameof(CurrentCipher));
-                OnPropertyChanged(nameof(CurrentCipherName));
+                //OnPropertyChanged(nameof(CurrentCipherName));
             }
         }
 
-        /// <summary>
-        /// Gets or sets the cipher currently in scope's name.
-        /// </summary>
-        public string CurrentCipherName
-        {
-            get
-            {
-                return currentCipher.CipherName;
-            }
+        ///// <summary>
+        ///// Gets or sets the cipher currently in scope's name.
+        ///// </summary>
+        //public string CurrentCipherName
+        //{
+        //    get
+        //    {
+        //        return currentCipher.CipherName;
+        //    }
 
-            set
-            {
-                if (value == null)
-                {
-                    CurrentCipher = null;
-                    return;
-                }
+        //    set
+        //    {
+        //        if (value == null)
+        //        {
+        //            CurrentCipher = null;
+        //            return;
+        //        }
 
-                if (currentCipher?.CipherName == value)
-                {
-                    return;
-                }
+        //        if (currentCipher?.CipherName == value)
+        //        {
+        //            return;
+        //        }
 
-                // PropertyChanged is raised by CurrentCipher
-                CurrentCipher = Ciphers.First(x => x.CipherName == value);
-            }
-        }
+        //        // PropertyChanged is raised by CurrentCipher
+        //        CurrentCipher = Ciphers.First(x => x.CipherName == value);
+        //    }
+        //}
 
         /// <summary>
         /// Gets a property that can be used to link to a UI encrypt command.
@@ -182,9 +198,9 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Encrypt()
         {
-            if (CurrentCipher != null)
+            //if (CurrentCipher != null)
             {
-                Ciphertext = CurrentCipher.Encrypt(Plaintext);
+                ciphertext = CurrentCipher.Encrypt(plaintext);
             }
         }
 
@@ -193,9 +209,9 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Decrypt()
         {
-            if (CurrentCipher != null)
+            //if (CurrentCipher != null)
             {
-                Plaintext = CurrentCipher.Decrypt(Ciphertext);
+                plaintext = CurrentCipher.Decrypt(ciphertext);
             }
         }
 

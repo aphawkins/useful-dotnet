@@ -14,7 +14,7 @@ namespace UsefulConsole.UI.Console
     {
         private static void Main()
         {
-            IRepository<ICipher> repository = CipherRepository.Create();
+            IRepository<ICipher> repository = new CipherRepository();
             ICipherView view = new ConsoleView();
             IController controller = new CipherController(repository, view);
             controller.LoadView();
