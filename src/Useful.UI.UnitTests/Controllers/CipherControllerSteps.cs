@@ -1,9 +1,13 @@
-﻿namespace Useful.UI.Controllers
+﻿// <copyright file="CipherControllerSteps.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.Controllers
 {
-    using Moq;
-    using Security.Cryptography;
     using System;
     using System.Collections.Generic;
+    using Moq;
+    using Security.Cryptography;
     using TechTalk.SpecFlow;
     using Views;
 
@@ -19,63 +23,63 @@
         [Given(@"I have a CipherController")]
         public void GivenIHaveACipherController()
         {
-            this.moqCipher = new Mock<ICipher>();
-            this.moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
-            this.moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
-            this.moqRepository = new Mock<IRepository<ICipher>>();
-            this.moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { this.moqCipher.Object });
-            this.moqRepository.Setup(x => x.CurrentItem).Returns(() => this.moqCipher.Object);
-            this.moqView = new Mock<ICipherView>();
-            this.moqSettingsView = new Mock<ICipherSettingsView>();
-            this.controller = new CipherController(this.moqRepository.Object, this.moqView.Object);
+            moqCipher = new Mock<ICipher>();
+            moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
+            moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
+            moqRepository = new Mock<IRepository<ICipher>>();
+            moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { moqCipher.Object });
+            moqRepository.Setup(x => x.CurrentItem).Returns(() => moqCipher.Object);
+            moqView = new Mock<ICipherView>();
+            moqSettingsView = new Mock<ICipherSettingsView>();
+            controller = new CipherController(moqRepository.Object, moqView.Object);
         }
 
         [When(@"I load the view")]
         public void WhenILoadTheView()
         {
-            this.controller.LoadView();
+            controller.LoadView();
         }
 
         [When(@"I encrypt ""(.*)""")]
         public void WhenIEncrypt(string p0)
         {
-            this.controller.Encrypt(p0);
+            controller.Encrypt(p0);
         }
 
         [When(@"I decrypt ""(.*)""")]
         public void WhenIDecrypt(string p0)
         {
-            this.controller.Decrypt(p0);
+            controller.Decrypt(p0);
         }
 
         [When(@"I select a cipher")]
         public void WhenISelectACipher()
         {
-            this.controller.SelectCipher(moqCipher.Object, moqSettingsView.Object);
+            controller.SelectCipher(moqCipher.Object, moqSettingsView.Object);
         }
 
         [Then(@"the repository's Current Item will be set")]
         public void ThenTheRepositorySCurrentItemWillBeSet()
         {
-            this.moqRepository.Verify(x => x.SetCurrentItem(It.IsAny<Func<ICipher, bool>>()));
+            moqRepository.Verify(x => x.SetCurrentItem(It.IsAny<Func<ICipher, bool>>()));
         }
 
         [Then(@"the view will be initialized")]
         public void ThenTheViewWillBeInitialized()
         {
-            this.moqView.Verify(x => x.Initialize());
+            moqView.Verify(x => x.Initialize());
         }
 
         [Then(@"the view's Plaintext will be called")]
         public void ThenTheViewsPlaintextWillBeCalled()
         {
-            this.moqView.Verify(x => x.ShowPlaintext(It.IsAny<string>()));
+            moqView.Verify(x => x.ShowPlaintext(It.IsAny<string>()));
         }
 
         [Then(@"the view's Ciphertext will be called")]
         public void ThenTheViewsCiphertextWillBeCalled()
         {
-            this.moqView.Verify(x => x.ShowCiphertext(It.IsAny<string>()));
+            moqView.Verify(x => x.ShowCiphertext(It.IsAny<string>()));
         }
     }
 }

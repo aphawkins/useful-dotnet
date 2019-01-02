@@ -1,4 +1,5 @@
-﻿@model Useful.UI.ViewModels.CipherViewModel
+﻿@model Useful.UI.ViewModels.CipherModel
+@inject Useful.UI.ViewModels.CipherService CipherService
 <h2>Cryptography</h2>
 <form method="post" class="form-group">
     <fieldset>
@@ -7,7 +8,7 @@
                 <label for="CurrentCipherName">Cipher</label>
             </div>
             <div class="col-md-4">
-                @Html.DropDownList("CurrentCipherName", new SelectList(Model.CipherNames, Model.CurrentCipher.CipherName), new { @class = "form-control" })
+                @Html.DropDownList("CurrentCipherName", new SelectList(@CipherService.Repository.Read(), @CipherService.Repository.CurrentItem.CipherName), new { @class = "form-control" })
             </div>
         </div>
         <div class="row">

@@ -68,7 +68,6 @@
             this.buttonEncrypt.TabIndex = 2;
             this.buttonEncrypt.Text = "Encrypt";
             this.buttonEncrypt.UseVisualStyleBackColor = true;
-            this.buttonEncrypt.Click += new System.EventHandler(this.buttonEncrypt_Click);
             // 
             // textPlaintext
             // 
@@ -95,7 +94,6 @@
             this.comboCiphers.Name = "comboCiphers";
             this.comboCiphers.Size = new System.Drawing.Size(121, 21);
             this.comboCiphers.TabIndex = 7;
-            this.comboCiphers.SelectedIndexChanged += new System.EventHandler(this.comboCiphers_SelectedIndexChanged);
             // 
             // labelCiphers
             // 
@@ -115,7 +113,6 @@
             this.buttonDecrypt.TabIndex = 9;
             this.buttonDecrypt.Text = "Decrypt";
             this.buttonDecrypt.UseVisualStyleBackColor = true;
-            this.buttonDecrypt.Click += new System.EventHandler(this.buttonDecrypt_Click);
             // 
             // tableLayoutPanel1
             // 

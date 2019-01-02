@@ -1,4 +1,10 @@
-﻿namespace Useful.UI.Resources
+﻿// <copyright file="Resources.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+#if DOTNETFRAMEWORK
+
+namespace Useful.UI.Resources
 {
     using System.Drawing;
     using System.Reflection;
@@ -28,3 +34,5 @@
         }
     }
 }
+
+#endif

@@ -1,5 +1,10 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="CipherViewModel.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
@@ -13,26 +18,45 @@
         private string ciphertext = string.Empty;
         private ICipher currentCipher;
         private string plaintext = string.Empty;
-        private IRepository<ICipher> repository;
+        //private ICipherRepository repository;
+        private readonly CipherService service;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
+        /// Initializes a new instance of the <see cref="CipherModel"/> class.
         /// </summary>
-        /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherViewModel(IRepository<ICipher> repository)
+        // /// <param name="repository">The repository holding the ciphers.</param>
+        public CipherViewModel(CipherService service)
         {
-            this.repository = repository;
-            this.Ciphers = this.repository.Read();
-            this.currentCipher = this.Ciphers[0];
-            this.WireCommands();
+            this.service = service;
+
+            //this.repository = repository ?? throw new ArgumentNullException();
+            //Ciphers = this.repository.Read();
+            //currentCipher = Ciphers[0];
+            WireCommands();
         }
 
-        private CipherViewModel()
-                    : this(CipherRepository.Create())
-        {
-            // HACK: Default constructor required for the web project.
-            // Construct the repository until dependency injection is working.
-        }
+        //public ICipherRepository Repository
+        //{
+        //    set
+        //    {
+        //        this.repository = repository ?? throw new ArgumentNullException();
+        //        Ciphers = this.repository.Read();
+        //        currentCipher = Ciphers[0];
+        //        WireCommands();
+        //    }
+        //}
+
+        ////public CipherViewModel()
+        ////            : this(CipherRepository.Create())
+        ////{
+        ////    // HACK: Default constructor required for the web project.
+
+        ////    Construct the repository until dependency injection is working.
+        ////}
+
+        //public CipherViewModel()
+        //{
+        //}
 
         /// <summary>
         /// Gets a list of supported cipher names
@@ -42,7 +66,7 @@
             get
             {
                 List<string> names = new List<string>();
-                foreach (ICipher cipher in this.Ciphers)
+                foreach (ICipher cipher in service.Repository.Read())
                 {
                     names.Add(cipher.CipherName);
                 }
@@ -54,10 +78,7 @@
         /// <summary>
         /// Gets a list of supported ciphers.
         /// </summary>
-        public IList<ICipher> Ciphers
-        {
-            get;
-        }
+        public IList<ICipher> Ciphers => service.Repository.Read();
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
@@ -66,18 +87,18 @@
         {
             get
             {
-                return this.ciphertext;
+                return ciphertext;
             }
 
             set
             {
-                if (value == this.ciphertext)
+                if (value == ciphertext)
                 {
                     return;
                 }
 
-                this.ciphertext = value;
-                this.OnPropertyChanged(nameof(this.Ciphertext));
+                ciphertext = value;
+                OnPropertyChanged(nameof(Ciphertext));
             }
         }
 
@@ -88,49 +109,49 @@
         {
             get
             {
-                return this.currentCipher;
+                return currentCipher;
             }
 
             set
             {
-                if (this.currentCipher == value)
+                if (currentCipher == value)
                 {
                     return;
                 }
 
-                this.currentCipher = value;
-                this.OnPropertyChanged(nameof(this.CurrentCipher));
-                this.OnPropertyChanged(nameof(this.CurrentCipherName));
+                currentCipher = value;
+                OnPropertyChanged(nameof(CurrentCipher));
+                //OnPropertyChanged(nameof(CurrentCipherName));
             }
         }
 
-        /// <summary>
-        /// Gets or sets the cipher currently in scope's name.
-        /// </summary>
-        public string CurrentCipherName
-        {
-            get
-            {
-                return this.currentCipher.CipherName;
-            }
+        ///// <summary>
+        ///// Gets or sets the cipher currently in scope's name.
+        ///// </summary>
+        //public string CurrentCipherName
+        //{
+        //    get
+        //    {
+        //        return currentCipher.CipherName;
+        //    }
 
-            set
-            {
-                if (value == null)
-                {
-                    this.CurrentCipher = null;
-                    return;
-                }
+        //    set
+        //    {
+        //        if (value == null)
+        //        {
+        //            CurrentCipher = null;
+        //            return;
+        //        }
 
-                if (this.currentCipher?.CipherName == value)
-                {
-                    return;
-                }
+        //        if (currentCipher?.CipherName == value)
+        //        {
+        //            return;
+        //        }
 
-                // PropertyChanged is raised by CurrentCipher
-                this.CurrentCipher = this.Ciphers.First(x => x.CipherName == value);
-            }
-        }
+        //        // PropertyChanged is raised by CurrentCipher
+        //        CurrentCipher = Ciphers.First(x => x.CipherName == value);
+        //    }
+        //}
 
         /// <summary>
         /// Gets a property that can be used to link to a UI encrypt command.
@@ -157,18 +178,18 @@
         {
             get
             {
-                return this.plaintext;
+                return plaintext;
             }
 
             set
             {
-                if (value == this.plaintext)
+                if (value == plaintext)
                 {
                     return;
                 }
 
-                this.plaintext = value;
-                this.OnPropertyChanged(nameof(this.Plaintext));
+                plaintext = value;
+                OnPropertyChanged(nameof(Plaintext));
             }
         }
 
@@ -177,9 +198,9 @@
         /// </summary>
         public void Encrypt()
         {
-            if (this.CurrentCipher != null)
+            //if (CurrentCipher != null)
             {
-                this.Ciphertext = this.CurrentCipher.Encrypt(this.Plaintext);
+                ciphertext = CurrentCipher.Encrypt(plaintext);
             }
         }
 
@@ -188,16 +209,16 @@
         /// </summary>
         public void Decrypt()
         {
-            if (this.CurrentCipher != null)
+            //if (CurrentCipher != null)
             {
-                this.Plaintext = this.CurrentCipher.Decrypt(this.Ciphertext);
+                plaintext = CurrentCipher.Decrypt(ciphertext);
             }
         }
 
         private void WireCommands()
         {
-            this.EncryptCommand = new RelayCommand<object>(a => this.Encrypt(), p => !string.IsNullOrEmpty(this.plaintext));
-            this.DecryptCommand = new RelayCommand<object>(a => this.Decrypt(), p => !string.IsNullOrEmpty(this.ciphertext));
+            EncryptCommand = new RelayCommand<object>(a => Encrypt(), p => !string.IsNullOrEmpty(plaintext));
+            DecryptCommand = new RelayCommand<object>(a => Decrypt(), p => !string.IsNullOrEmpty(ciphertext));
         }
     }
 }

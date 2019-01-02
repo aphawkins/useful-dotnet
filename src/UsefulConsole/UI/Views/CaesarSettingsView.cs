@@ -1,4 +1,8 @@
-﻿namespace UsefulConsole.UI.Views
+﻿// <copyright file="CaesarSettingsView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace UsefulConsole.UI.Views
 {
     using System;
     using Useful.Security.Cryptography;
@@ -7,7 +11,7 @@
 
     internal class CaesarSettingsView : ICipherSettingsView
     {
-        private CaesarSettingsController controller;
+        private SettingsController controller;
 
         public void Initialize()
         {
@@ -19,7 +23,7 @@
                 Console.WriteLine("Select right shift (0 to 25):");
 
                 string input = Console.ReadLine();
-                isGood = (int.TryParse(input, out result) && result >= 0 && result < 26);
+                isGood = int.TryParse(input, out result) && result >= 0 && result < 26;
 
                 Console.WriteLine();
             }
@@ -31,7 +35,7 @@
 
         public void SetController(IController controller)
         {
-            this.controller = (CaesarSettingsController)controller;
+            this.controller = (SettingsController)controller;
         }
     }
 }

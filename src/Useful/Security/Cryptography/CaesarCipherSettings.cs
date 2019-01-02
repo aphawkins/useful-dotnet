@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="CaesarCipherSettings.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     /// <summary>
     /// Settings for the Caesar cipher.
@@ -10,7 +14,7 @@
         /// </summary>
         public CaesarCipherSettings()
         {
-            this.RightShift = 0;
+            RightShift = 0;
         }
 
         /// <summary>

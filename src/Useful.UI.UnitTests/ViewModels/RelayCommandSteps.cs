@@ -1,8 +1,12 @@
-﻿namespace Useful.UnitTests.UI.ViewModels
+﻿// <copyright file="RelayCommandSteps.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UnitTests.UI.ViewModels
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Windows.Input;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using TechTalk.SpecFlow;
     using Useful.UI.ViewModels;
 
@@ -16,28 +20,28 @@
         [Given(@"I have a RelayCommand with a handler that I can execute")]
         public void GivenIHaveARelayCommandWithAHandlerThatICanExecute()
         {
-            this.hasHandlerBeenCalled = false;
-            this.command = new RelayCommand<object>(a => this.HandlerCalled(), null);
-            this.command.CanExecuteChanged += CanExecuteChangedCalled;
+            hasHandlerBeenCalled = false;
+            command = new RelayCommand<object>(a => HandlerCalled(), null);
+            command.CanExecuteChanged += CanExecuteChangedCalled;
         }
 
         [Given(@"I have a RelayCommand with a handler that I can't execute")]
         public void GivenIHaveARelayCommandWithAHandlerThatICantExecute()
         {
-            this.hasHandlerBeenCalled = false;
-            this.command = new RelayCommand<object>(a => this.HandlerCalled(), p => false);
+            hasHandlerBeenCalled = false;
+            command = new RelayCommand<object>(a => HandlerCalled(), p => false);
         }
 
         [Given(@"I can execute")]
         public void GivenICanExecute()
         {
-            Assert.IsTrue(this.command.CanExecute(null));
+            Assert.IsTrue(command.CanExecute(null));
         }
 
         [Given(@"I can't execute")]
         public void GivenICantExecute()
         {
-            Assert.IsFalse(this.command.CanExecute(null));
+            Assert.IsFalse(command.CanExecute(null));
         }
 
         [Given(@"I have a RelayCommand with a null handler")]
@@ -45,41 +49,41 @@
         {
             try
             {
-                this.command = new RelayCommand<object>(null, null);
+                command = new RelayCommand<object>(null, null);
             }
             catch (Exception ex)
             {
-                this.lastException = ex;
+                lastException = ex;
             }
         }
 
         [When(@"I execute")]
         public void WhenIExecute()
         {
-            this.command.Execute(null);
+            command.Execute(null);
         }
 
         [Then(@"the handler will get executed")]
         public void ThenTheHandlerWillGetExecuted()
         {
-            Assert.IsTrue(this.hasHandlerBeenCalled);
+            Assert.IsTrue(hasHandlerBeenCalled);
         }
 
         [Then(@"the handler will not get executed")]
         public void ThenTheHandlerWillNotGetExecuted()
         {
-            Assert.IsFalse(this.hasHandlerBeenCalled);
+            Assert.IsFalse(hasHandlerBeenCalled);
         }
 
         [Then(@"the RelayCommand constructor will exception")]
         public void ThenTheRelayCommandConstructorWillException()
         {
-            Assert.AreEqual(typeof(ArgumentNullException), this.lastException.GetType());
+            Assert.AreEqual(typeof(ArgumentNullException), lastException.GetType());
         }
 
         private void HandlerCalled()
         {
-            this.hasHandlerBeenCalled = true;
+            hasHandlerBeenCalled = true;
         }
 
         private void CanExecuteChangedCalled(object sender, EventArgs e)

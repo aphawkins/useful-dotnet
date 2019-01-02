@@ -1,4 +1,8 @@
-﻿namespace UsefulConsole.UI.Views
+﻿// <copyright file="ConsoleView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace UsefulConsole.UI.Views
 {
     using System;
     using System.Collections.Generic;
@@ -10,37 +14,6 @@
     {
         private CipherController controller;
         private CipherTransformMode modeSelected;
-
-        public void SetController(IController controller)
-        {
-            this.controller = (CipherController)controller;
-        }
-
-        /// <summary>
-        /// Initializes the view.
-        /// </summary>
-        /// <param name="cipherNames">The names of all the available ciphers.</param>
-        public void Initialize()
-        {
-            string text;
-            IList<ICipher> ciphers = this.controller.GetCiphers();
-            DisplayCipherSelect(ciphers);
-            DisplayEncryptionMode();
-            DisplayEnterText();
-
-            while (!string.IsNullOrEmpty(text = Console.ReadLine()))
-            {
-                if (this.modeSelected == CipherTransformMode.Encrypt)
-                {
-                    this.controller.Encrypt(text);
-                }
-                else
-                {
-                    this.controller.Decrypt(text);
-                }
-                DisplayEnterText();
-            }
-        }
 
         public void DisplayCipherSelect(IList<ICipher> ciphers)
         {
@@ -59,20 +32,22 @@
                 ConsoleKeyInfo key = Console.ReadKey();
                 switch (key.Key)
                 {
-                    case (ConsoleKey.D0):
+                    case ConsoleKey.D0:
                         {
                             // Caesar
                             cipherSelected = ciphers[0];
                             settingsView = new CaesarSettingsView();
                             break;
                         }
-                    case (ConsoleKey.D1):
+
+                    case ConsoleKey.D1:
                         {
                             // Reverse
                             cipherSelected = ciphers[1];
                             break;
                         }
-                    case (ConsoleKey.D2):
+
+                    case ConsoleKey.D2:
                         {
                             // ROT13
                             cipherSelected = ciphers[2];
@@ -88,44 +63,35 @@
             Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
         }
 
-        private void DisplayEncryptionMode()
+        /// <summary>
+        /// Initializes the view.
+        /// </summary>
+        public void Initialize()
         {
-            bool isGood = false;
-            this.modeSelected = CipherTransformMode.Encrypt;
+            string text;
+            IList<ICipher> ciphers = controller.GetCiphers();
+            DisplayCipherSelect(ciphers);
+            DisplayEncryptionMode();
+            DisplayEnterText();
 
-            while (!isGood)
+            while (!string.IsNullOrEmpty(text = Console.ReadLine()))
             {
-                Console.WriteLine("Select a mode:");
-
-                Console.WriteLine($"E: {CipherTransformMode.Encrypt}");
-                Console.WriteLine($"D: {CipherTransformMode.Decrypt}");
-
-                ConsoleKeyInfo key = Console.ReadKey();
-                switch (key.Key)
+                if (modeSelected == CipherTransformMode.Encrypt)
                 {
-                    case (ConsoleKey.D):
-                        {
-                            this.modeSelected = CipherTransformMode.Decrypt;
-                            isGood = true;
-                            break;
-                        }
-                    case (ConsoleKey.E):
-                        {
-                            this.modeSelected = CipherTransformMode.Encrypt;
-                            isGood = true;
-                            break;
-                        }
+                    controller.Encrypt(text);
+                }
+                else
+                {
+                    controller.Decrypt(text);
                 }
 
-                Console.WriteLine();
+                DisplayEnterText();
             }
-
-            Console.WriteLine($"Encryption mode selected: {this.modeSelected}");
         }
 
-        private void DisplayEnterText()
+        public void SetController(IController controller)
         {
-            Console.Write($"Enter text to {this.modeSelected}: ");
+            this.controller = (CipherController)controller;
         }
 
         public void ShowCiphertext(string ciphertext)
@@ -140,6 +106,47 @@
 
         public void ShowSettings(ICipherSettingsView settingsView)
         {
+        }
+
+        private void DisplayEncryptionMode()
+        {
+            bool isGood = false;
+            modeSelected = CipherTransformMode.Encrypt;
+
+            while (!isGood)
+            {
+                Console.WriteLine("Select a mode:");
+
+                Console.WriteLine($"E: {CipherTransformMode.Encrypt}");
+                Console.WriteLine($"D: {CipherTransformMode.Decrypt}");
+
+                ConsoleKeyInfo key = Console.ReadKey();
+                switch (key.Key)
+                {
+                    case ConsoleKey.D:
+                        {
+                            modeSelected = CipherTransformMode.Decrypt;
+                            isGood = true;
+                            break;
+                        }
+
+                    case ConsoleKey.E:
+                        {
+                            modeSelected = CipherTransformMode.Encrypt;
+                            isGood = true;
+                            break;
+                        }
+                }
+
+                Console.WriteLine();
+            }
+
+            Console.WriteLine($"Encryption mode selected: {modeSelected}");
+        }
+
+        private void DisplayEnterText()
+        {
+            Console.Write($"Enter text to {modeSelected}: ");
         }
     }
 }

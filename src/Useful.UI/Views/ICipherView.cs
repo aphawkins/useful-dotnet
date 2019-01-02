@@ -1,5 +1,11 @@
-﻿namespace Useful.UI.Views
+﻿// <copyright file="ICipherView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.Views
 {
+    using System;
+
     /// <summary>
     /// An interface that all cipher views should implement.
     /// </summary>

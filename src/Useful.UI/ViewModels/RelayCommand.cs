@@ -1,4 +1,8 @@
-﻿namespace Useful.UI.ViewModels
+﻿// <copyright file="RelayCommand.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.UI.ViewModels
 {
     using System;
     using System.Windows.Input;
@@ -20,12 +24,7 @@
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException(nameof(execute));
-            }
-
-            this.execute = execute;
+            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
             this.canExecute = canExecute;
         }
 
@@ -33,6 +32,8 @@
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
         public event EventHandler CanExecuteChanged
+
+#if DOTNETFRAMEWORK
         {
             add
             {
@@ -44,6 +45,9 @@
                 CommandManager.RequerySuggested -= value;
             }
         }
+#else
+        ;
+#endif
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
@@ -54,7 +58,7 @@
         /// </returns>
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null ? true : this.canExecute((T)parameter);
+            return canExecute == null ? true : canExecute((T)parameter);
         }
 
         /// <summary>
@@ -63,12 +67,12 @@
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
         public void Execute(object parameter)
         {
-            if (!this.CanExecute(parameter))
+            if (!CanExecute(parameter))
             {
                 return;
             }
 
-            this.execute((T)parameter);
+            execute((T)parameter);
         }
     }
 }
