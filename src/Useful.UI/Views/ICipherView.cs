@@ -4,8 +4,6 @@
 
 namespace Useful.UI.Views
 {
-    using System;
-
     /// <summary>
     /// An interface that all cipher views should implement.
     /// </summary>

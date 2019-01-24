@@ -20,8 +20,9 @@ namespace Useful.UnitTests
         [Fact]
         public void RepositoryCreate()
         {
+            int count = _repository.Read().Count;
             _repository.Create(_moqCipher.Object);
-            Assert.Equal(4, _repository.Read().Count);
+            Assert.Equal(count + 1, _repository.Read().Count);
         }
 
         [Fact]
@@ -33,15 +34,17 @@ namespace Useful.UnitTests
         [Fact]
         public void RepositoryUpdate()
         {
+            int count = _repository.Read().Count;
             _repository.Update(_moqCipher.Object);
-            Assert.Equal(3, _repository.Read().Count);
+            Assert.Equal(count, _repository.Read().Count);
         }
 
         [Fact]
         public void RepositoryDelete()
         {
+            int count = _repository.Read().Count;
             _repository.Delete(_repository.Read()[0]);
-            Assert.Equal(2, _repository.Read().Count);
+            Assert.Equal(count - 1, _repository.Read().Count);
         }
 
         [Fact]
