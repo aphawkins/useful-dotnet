@@ -11,7 +11,7 @@ namespace Useful.UI.UnitTests.ViewModels.xUnit
         private CipherViewModel _viewModel;
         private Mock<ICipherRepository> _moqRepository;
         private Mock<ICipher> _moqCipher;
-        private CipherService _cipherService;
+        private readonly CipherService _cipherService;
 
         public CipherViewModelTests()
         {
@@ -21,6 +21,7 @@ namespace Useful.UI.UnitTests.ViewModels.xUnit
             _moqCipher.Setup(x => x.Decrypt(It.IsAny<string>())).Returns("MoqPlaintext");
             _moqRepository = new Mock<ICipherRepository>();
             _moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { _moqCipher.Object });
+            _moqRepository.Setup(x => x.CurrentItem).Returns(() => _moqCipher.Object);
             _cipherService = new CipherService(_moqRepository.Object);
             _viewModel = new CipherViewModel(_cipherService);
         }
@@ -100,7 +101,7 @@ namespace Useful.UI.UnitTests.ViewModels.xUnit
         [Fact]
         public void CipherViewModelEncryptCommand()
         {
-            Assert.Equal("MoqPlaintext", _viewModel.Plaintext);
+            _viewModel.Plaintext = "MoqPlaintext";
             Assert.True(_viewModel.EncryptCommand.CanExecute(null));
             _viewModel.EncryptCommand.Execute(null);
             Assert.Equal("MoqCiphertext", _viewModel.Ciphertext);
