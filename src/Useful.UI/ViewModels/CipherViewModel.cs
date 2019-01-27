@@ -4,59 +4,28 @@
 
 namespace Useful.UI.ViewModels
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Input;
-    using Security.Cryptography;
+    using Useful.Security.Cryptography;
 
     /// <summary>
     /// A viewmodel for ciphers.
     /// </summary>
     public class CipherViewModel : ViewModelBase
     {
-        private string ciphertext = string.Empty;
-        private ICipher currentCipher;
-        private string plaintext = string.Empty;
-        //private ICipherRepository repository;
         private readonly CipherService service;
+        private string ciphertext = string.Empty;
+        private string plaintext = string.Empty;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CipherModel"/> class.
+        /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
         /// </summary>
-        // /// <param name="repository">The repository holding the ciphers.</param>
+        /// <param name="service">The cipher service.</param>
         public CipherViewModel(CipherService service)
         {
             this.service = service;
-
-            //this.repository = repository ?? throw new ArgumentNullException();
-            //Ciphers = this.repository.Read();
-            //currentCipher = Ciphers[0];
             WireCommands();
         }
-
-        //public ICipherRepository Repository
-        //{
-        //    set
-        //    {
-        //        this.repository = repository ?? throw new ArgumentNullException();
-        //        Ciphers = this.repository.Read();
-        //        currentCipher = Ciphers[0];
-        //        WireCommands();
-        //    }
-        //}
-
-        ////public CipherViewModel()
-        ////            : this(CipherRepository.Create())
-        ////{
-        ////    // HACK: Default constructor required for the web project.
-
-        ////    Construct the repository until dependency injection is working.
-        ////}
-
-        //public CipherViewModel()
-        //{
-        //}
 
         /// <summary>
         /// Gets a list of supported cipher names
@@ -109,49 +78,21 @@ namespace Useful.UI.ViewModels
         {
             get
             {
-                return currentCipher;
+                return service.Repository.CurrentItem;
             }
 
             set
             {
-                if (currentCipher == value)
+                if (service.Repository.CurrentItem == null)
                 {
                     return;
                 }
 
-                currentCipher = value;
+                service.Repository.SetCurrentItem(x => x == value);
+
                 OnPropertyChanged(nameof(CurrentCipher));
-                //OnPropertyChanged(nameof(CurrentCipherName));
             }
         }
-
-        ///// <summary>
-        ///// Gets or sets the cipher currently in scope's name.
-        ///// </summary>
-        //public string CurrentCipherName
-        //{
-        //    get
-        //    {
-        //        return currentCipher.CipherName;
-        //    }
-
-        //    set
-        //    {
-        //        if (value == null)
-        //        {
-        //            CurrentCipher = null;
-        //            return;
-        //        }
-
-        //        if (currentCipher?.CipherName == value)
-        //        {
-        //            return;
-        //        }
-
-        //        // PropertyChanged is raised by CurrentCipher
-        //        CurrentCipher = Ciphers.First(x => x.CipherName == value);
-        //    }
-        //}
 
         /// <summary>
         /// Gets a property that can be used to link to a UI encrypt command.
@@ -198,10 +139,7 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Encrypt()
         {
-            //if (CurrentCipher != null)
-            {
-                ciphertext = CurrentCipher.Encrypt(plaintext);
-            }
+            ciphertext = CurrentCipher.Encrypt(plaintext);
         }
 
         /// <summary>
@@ -209,10 +147,7 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Decrypt()
         {
-            //if (CurrentCipher != null)
-            {
-                plaintext = CurrentCipher.Decrypt(ciphertext);
-            }
+            plaintext = CurrentCipher.Decrypt(ciphertext);
         }
 
         private void WireCommands()
