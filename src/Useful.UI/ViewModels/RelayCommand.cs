@@ -29,6 +29,7 @@ namespace Useful.UI.ViewModels
         }
 
 #pragma warning disable CS0067
+
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
@@ -48,6 +49,7 @@ namespace Useful.UI.ViewModels
         }
 #else
         ;
+
 #endif
 #pragma warning restore CS0067
 
