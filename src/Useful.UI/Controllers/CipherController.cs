@@ -6,8 +6,8 @@ namespace Useful.UI.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Security.Cryptography;
-    using Views;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Views;
 
     /// <summary>
     /// An controller for ciphers.

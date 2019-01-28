@@ -5,8 +5,8 @@
 namespace Useful.UI.Controllers
 {
     using System;
-    using Security.Cryptography;
-    using Views;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Views;
 
     /// <summary>
     /// An controller for the cipher settings.
@@ -18,6 +18,7 @@ namespace Useful.UI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsController"/> class.
         /// </summary>
+        /// <param name="cipherSettings">The cipher's settings.</param>
         /// <param name="cipherSettingsView">The view that is controlled.</param>
         public SettingsController(ICipherSettings cipherSettings, ICipherSettingsView cipherSettingsView)
         {

@@ -11,12 +11,13 @@ namespace UsefulWeb
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+            CreateWebHostBuilder(args).Build().Run();
+#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
     }
 }

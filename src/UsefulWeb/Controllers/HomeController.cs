@@ -6,7 +6,8 @@ namespace UsefulWeb.Controllers
 {
     using System;
     using Microsoft.AspNetCore.Mvc;
-    using Useful.UI.ViewModels;
+    using Useful.UI.Models;
+    using Useful.UI.Services;
 
     public class HomeController : Controller
     {

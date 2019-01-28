@@ -2,9 +2,9 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels
+namespace Useful.UI.Services
 {
-    using Security.Cryptography;
+    using Useful.Security.Cryptography;
 
     /// <summary>
     /// A viewmodel for ciphers.

@@ -8,7 +8,7 @@ namespace UsefulConsole.UI.Console
     using Useful.Security.Cryptography;
     using Useful.UI.Controllers;
     using Useful.UI.Views;
-    using Views;
+    using UsefulConsole.UI.Views;
 
     internal class Program
     {

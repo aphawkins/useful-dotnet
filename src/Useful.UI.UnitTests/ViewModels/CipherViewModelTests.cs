@@ -1,6 +1,7 @@
 using Moq;
 using System.Collections.Generic;
 using Useful.Security.Cryptography;
+using Useful.UI.Services;
 using Useful.UI.ViewModels;
 using Xunit;
 
