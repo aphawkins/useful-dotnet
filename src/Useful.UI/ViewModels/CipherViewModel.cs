@@ -7,6 +7,7 @@ namespace Useful.UI.ViewModels
     using System.Collections.Generic;
     using System.Windows.Input;
     using Useful.Security.Cryptography;
+    using Useful.UI.Services;
 
     /// <summary>
     /// A viewmodel for ciphers.
@@ -28,7 +29,7 @@ namespace Useful.UI.ViewModels
         }
 
         /// <summary>
-        /// Gets a list of supported cipher names
+        /// Gets a list of supported cipher names.
         /// </summary>
         public IList<string> CipherNames
         {

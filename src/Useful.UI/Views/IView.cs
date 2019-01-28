@@ -4,7 +4,7 @@
 
 namespace Useful.UI.Views
 {
-    using Controllers;
+    using Useful.UI.Controllers;
 
     /// <summary>
     /// An interface that all views should implement.

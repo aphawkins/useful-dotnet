@@ -1,11 +1,9 @@
-﻿// <copyright file="CipherViewModel.cs" company="APH Software">
+﻿// <copyright file="CipherModel.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels
+namespace Useful.UI.Models
 {
-    using Security.Cryptography;
-
     /// <summary>
     /// A POCO viewmodel for ciphers.
     /// </summary>

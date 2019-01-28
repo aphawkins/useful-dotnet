@@ -8,9 +8,8 @@ namespace UsefulWeb
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Useful;
     using Useful.Security.Cryptography;
-    using Useful.UI.ViewModels;
+    using Useful.UI.Services;
 
     public class Startup
     {
