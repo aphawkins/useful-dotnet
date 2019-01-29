@@ -6,6 +6,7 @@ namespace UsefulConsole.UI.Views
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Useful.Security.Cryptography;
     using Useful.UI.Controllers;
     using Useful.UI.Views;
@@ -52,12 +53,15 @@ namespace UsefulConsole.UI.Views
                         {
                             // ROT13
                             cipherSelected = ciphers[2];
+                            settingsView = new Rot13SettingsView();
                             break;
                         }
                 }
 
                 Console.WriteLine();
             }
+
+            Debug.Assert(settingsView != null, "settingsView is null");
 
             _controller.SelectCipher(cipherSelected, settingsView);
 
