@@ -1,9 +1,13 @@
-using System;
-using Useful.Security.Cryptography;
-using Xunit;
+// <copyright file="CaesarCipherTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Useful.UnitTests
 {
+    using System;
+    using Useful.Security.Cryptography;
+    using Xunit;
+
     public class CaesarCipherTests : IDisposable
     {
         private ICipher _cipher;
@@ -43,7 +47,19 @@ namespace Useful.UnitTests
 
         public void Dispose()
         {
-            _cipher = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                _cipher = null;
+            }
+
+            // free native resources if there are any.
         }
     }
 }

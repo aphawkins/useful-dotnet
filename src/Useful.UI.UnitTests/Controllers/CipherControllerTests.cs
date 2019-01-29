@@ -1,13 +1,17 @@
-using Moq;
-using System;
-using System.Collections.Generic;
-using Useful.Security.Cryptography;
-using Useful.UI.Controllers;
-using Useful.UI.Views;
-using Xunit;
+// <copyright file="CipherControllerTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Useful.UI.UnitTests.Controllers.xUnit
+namespace Useful.UI.UnitTests.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using Moq;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Controllers;
+    using Useful.UI.Views;
+    using Xunit;
+
     public class CipherControllerTests
     {
         private Mock<ICipher> _moqCipher;

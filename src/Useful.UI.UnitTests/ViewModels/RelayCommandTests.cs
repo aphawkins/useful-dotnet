@@ -1,10 +1,14 @@
-using System;
-using System.Windows.Input;
-using Useful.UI.ViewModels;
-using Xunit;
+// <copyright file="RelayCommandTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Useful.UI.UnitTests.ViewModels.xUnit
+namespace Useful.UI.UnitTests.ViewModels
 {
+    using System;
+    using System.Windows.Input;
+    using Useful.UI.ViewModels;
+    using Xunit;
+
     public class RelayCommandTests
     {
         private ICommand _command;

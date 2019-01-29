@@ -1,9 +1,13 @@
-using System;
-using Useful.Security.Cryptography;
-using Xunit;
+// <copyright file="ROT13CipherTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Useful.UnitTests
 {
+    using System;
+    using Useful.Security.Cryptography;
+    using Xunit;
+
     public class ROT13CipherTests : IDisposable
     {
         private ICipher _cipher;
@@ -39,7 +43,19 @@ namespace Useful.UnitTests
 
         public void Dispose()
         {
-            _cipher = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                _cipher = null;
+            }
+
+            // free native resources if there are any.
         }
     }
 }
