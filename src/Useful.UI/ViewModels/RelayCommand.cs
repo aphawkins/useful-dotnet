@@ -14,8 +14,8 @@ namespace Useful.UI.ViewModels
     /// <typeparam name="T">A type.</typeparam>
     public class RelayCommand<T> : ICommand
     {
-        private readonly Predicate<T> canExecute = null;
-        private readonly Action<T> execute;
+        private readonly Predicate<T> _canExecute = null;
+        private readonly Action<T> _execute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
@@ -24,8 +24,8 @@ namespace Useful.UI.ViewModels
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this.canExecute = canExecute;
+            this._execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            this._canExecute = canExecute;
         }
 
 #pragma warning disable CS0067
@@ -62,7 +62,7 @@ namespace Useful.UI.ViewModels
         /// </returns>
         public bool CanExecute(object parameter)
         {
-            return canExecute == null ? true : canExecute((T)parameter);
+            return _canExecute == null ? true : _canExecute((T)parameter);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Useful.UI.ViewModels
                 return;
             }
 
-            execute((T)parameter);
+            _execute((T)parameter);
         }
     }
 }

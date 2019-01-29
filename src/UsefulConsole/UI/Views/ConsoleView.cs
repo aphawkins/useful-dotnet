@@ -12,8 +12,8 @@ namespace UsefulConsole.UI.Views
 
     internal class ConsoleView : ICipherView
     {
-        private CipherController controller;
-        private CipherTransformMode modeSelected;
+        private CipherController _controller;
+        private CipherTransformMode _modeSelected;
 
         public void DisplayCipherSelect(IList<ICipher> ciphers)
         {
@@ -44,6 +44,7 @@ namespace UsefulConsole.UI.Views
                         {
                             // Reverse
                             cipherSelected = ciphers[1];
+                            settingsView = new ReverseSettingsView();
                             break;
                         }
 
@@ -58,7 +59,7 @@ namespace UsefulConsole.UI.Views
                 Console.WriteLine();
             }
 
-            controller.SelectCipher(cipherSelected, settingsView);
+            _controller.SelectCipher(cipherSelected, settingsView);
 
             Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
         }
@@ -69,20 +70,20 @@ namespace UsefulConsole.UI.Views
         public void Initialize()
         {
             string text;
-            IList<ICipher> ciphers = controller.GetCiphers();
+            IList<ICipher> ciphers = _controller.GetCiphers();
             DisplayCipherSelect(ciphers);
             DisplayEncryptionMode();
             DisplayEnterText();
 
             while (!string.IsNullOrEmpty(text = Console.ReadLine()))
             {
-                if (modeSelected == CipherTransformMode.Encrypt)
+                if (_modeSelected == CipherTransformMode.Encrypt)
                 {
-                    controller.Encrypt(text);
+                    _controller.Encrypt(text);
                 }
                 else
                 {
-                    controller.Decrypt(text);
+                    _controller.Decrypt(text);
                 }
 
                 DisplayEnterText();
@@ -91,7 +92,7 @@ namespace UsefulConsole.UI.Views
 
         public void SetController(IController controller)
         {
-            this.controller = (CipherController)controller;
+            this._controller = (CipherController)controller;
         }
 
         public void ShowCiphertext(string ciphertext)
@@ -111,7 +112,7 @@ namespace UsefulConsole.UI.Views
         private void DisplayEncryptionMode()
         {
             bool isGood = false;
-            modeSelected = CipherTransformMode.Encrypt;
+            _modeSelected = CipherTransformMode.Encrypt;
 
             while (!isGood)
             {
@@ -125,14 +126,14 @@ namespace UsefulConsole.UI.Views
                 {
                     case ConsoleKey.D:
                         {
-                            modeSelected = CipherTransformMode.Decrypt;
+                            _modeSelected = CipherTransformMode.Decrypt;
                             isGood = true;
                             break;
                         }
 
                     case ConsoleKey.E:
                         {
-                            modeSelected = CipherTransformMode.Encrypt;
+                            _modeSelected = CipherTransformMode.Encrypt;
                             isGood = true;
                             break;
                         }
@@ -141,12 +142,12 @@ namespace UsefulConsole.UI.Views
                 Console.WriteLine();
             }
 
-            Console.WriteLine($"Encryption mode selected: {modeSelected}");
+            Console.WriteLine($"Encryption mode selected: {_modeSelected}");
         }
 
         private void DisplayEnterText()
         {
-            Console.Write($"Enter text to {modeSelected}: ");
+            Console.Write($"Enter text to {_modeSelected}: ");
         }
     }
 }

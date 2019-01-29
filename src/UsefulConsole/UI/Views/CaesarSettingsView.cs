@@ -11,7 +11,7 @@ namespace UsefulConsole.UI.Views
 
     internal class CaesarSettingsView : ICipherSettingsView
     {
-        private SettingsController controller;
+        private SettingsController _controller;
 
         public void Initialize()
         {
@@ -28,14 +28,14 @@ namespace UsefulConsole.UI.Views
                 Console.WriteLine();
             }
 
-            ((CaesarCipherSettings)controller.Settings).RightShift = result;
+            ((CaesarCipherSettings)_controller.Settings).RightShift = result;
 
             Console.WriteLine($"Right shift selected: {result}");
         }
 
         public void SetController(IController controller)
         {
-            this.controller = (SettingsController)controller;
+            this._controller = (SettingsController)controller;
         }
     }
 }

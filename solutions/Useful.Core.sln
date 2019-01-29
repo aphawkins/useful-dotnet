@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A9F1B7C-7FB4-4292-87EF-C5A0EB53C24B}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
-		..\Useful.ruleset = ..\Useful.ruleset
+		..\analysis\Useful.ruleset = ..\analysis\Useful.ruleset
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulConsole", "..\src\UsefulConsole\UsefulConsole.csproj", "{50095CCB-6B34-47A0-A729-884A34F385D9}"

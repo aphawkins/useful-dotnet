@@ -4,6 +4,14 @@
     "documentationRules": {
       "companyName": "APH Software",
       "copyrightText": "Copyright (c) Andrew Hawkins. All rights reserved."
+    },
+
+    "layoutRules": {
+      "newlineAtEndOfFile": "omit"
+    },
+
+    "orderingRules": {
+      "usingDirectivesPlacement": "insideNamespace"
     }
   }
 }

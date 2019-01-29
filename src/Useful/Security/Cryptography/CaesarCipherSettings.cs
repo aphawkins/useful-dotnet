@@ -4,17 +4,21 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System;
+
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
     public class CaesarCipherSettings : ICipherSettings
     {
+        private int _rightShift;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
         /// </summary>
         public CaesarCipherSettings()
         {
-            RightShift = 0;
+            _rightShift = 0;
         }
 
         /// <summary>
@@ -22,8 +26,20 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public int RightShift
         {
-            get;
-            set;
+            get
+            {
+                return _rightShift;
+            }
+
+            set
+            {
+                if (value < 0 || value > 26)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(RightShift), "Value must be between 0 and 26.");
+                }
+
+                _rightShift = value;
+            }
         }
     }
 }

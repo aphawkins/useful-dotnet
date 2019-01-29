@@ -14,9 +14,9 @@ namespace Useful.UI.ViewModels
     /// </summary>
     public class CipherViewModel : ViewModelBase
     {
-        private readonly CipherService service;
-        private string ciphertext = string.Empty;
-        private string plaintext = string.Empty;
+        private readonly CipherService _service;
+        private string _ciphertext = string.Empty;
+        private string _plaintext = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherViewModel"/> class.
@@ -24,7 +24,7 @@ namespace Useful.UI.ViewModels
         /// <param name="service">The cipher service.</param>
         public CipherViewModel(CipherService service)
         {
-            this.service = service;
+            this._service = service;
             WireCommands();
         }
 
@@ -36,7 +36,7 @@ namespace Useful.UI.ViewModels
             get
             {
                 List<string> names = new List<string>();
-                foreach (ICipher cipher in service.Repository.Read())
+                foreach (ICipher cipher in _service.Repository.Read())
                 {
                     names.Add(cipher.CipherName);
                 }
@@ -48,7 +48,7 @@ namespace Useful.UI.ViewModels
         /// <summary>
         /// Gets a list of supported ciphers.
         /// </summary>
-        public IList<ICipher> Ciphers => service.Repository.Read();
+        public IList<ICipher> Ciphers => _service.Repository.Read();
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
@@ -57,17 +57,17 @@ namespace Useful.UI.ViewModels
         {
             get
             {
-                return ciphertext;
+                return _ciphertext;
             }
 
             set
             {
-                if (value == ciphertext)
+                if (value == _ciphertext)
                 {
                     return;
                 }
 
-                ciphertext = value;
+                _ciphertext = value;
                 OnPropertyChanged(nameof(Ciphertext));
             }
         }
@@ -79,17 +79,17 @@ namespace Useful.UI.ViewModels
         {
             get
             {
-                return service.Repository.CurrentItem;
+                return _service.Repository.CurrentItem;
             }
 
             set
             {
-                if (service.Repository.CurrentItem == null)
+                if (_service.Repository.CurrentItem == null)
                 {
                     return;
                 }
 
-                service.Repository.SetCurrentItem(x => x == value);
+                _service.Repository.SetCurrentItem(x => x == value);
 
                 OnPropertyChanged(nameof(CurrentCipher));
             }
@@ -120,17 +120,17 @@ namespace Useful.UI.ViewModels
         {
             get
             {
-                return plaintext;
+                return _plaintext;
             }
 
             set
             {
-                if (value == plaintext)
+                if (value == _plaintext)
                 {
                     return;
                 }
 
-                plaintext = value;
+                _plaintext = value;
                 OnPropertyChanged(nameof(Plaintext));
             }
         }
@@ -140,7 +140,7 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Encrypt()
         {
-            ciphertext = CurrentCipher.Encrypt(plaintext);
+            _ciphertext = CurrentCipher.Encrypt(_plaintext);
         }
 
         /// <summary>
@@ -148,13 +148,13 @@ namespace Useful.UI.ViewModels
         /// </summary>
         public void Decrypt()
         {
-            plaintext = CurrentCipher.Decrypt(ciphertext);
+            _plaintext = CurrentCipher.Decrypt(_ciphertext);
         }
 
         private void WireCommands()
         {
-            EncryptCommand = new RelayCommand<object>(a => Encrypt(), p => !string.IsNullOrEmpty(plaintext));
-            DecryptCommand = new RelayCommand<object>(a => Decrypt(), p => !string.IsNullOrEmpty(ciphertext));
+            EncryptCommand = new RelayCommand<object>(a => Encrypt(), p => !string.IsNullOrEmpty(_plaintext));
+            DecryptCommand = new RelayCommand<object>(a => Decrypt(), p => !string.IsNullOrEmpty(_ciphertext));
         }
     }
 }

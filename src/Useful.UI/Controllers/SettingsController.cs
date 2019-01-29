@@ -13,7 +13,7 @@ namespace Useful.UI.Controllers
     /// </summary>
     public class SettingsController : ISettingsController
     {
-        private ICipherSettingsView view;
+        private ICipherSettingsView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsController"/> class.
@@ -22,9 +22,9 @@ namespace Useful.UI.Controllers
         /// <param name="cipherSettingsView">The view that is controlled.</param>
         public SettingsController(ICipherSettings cipherSettings, ICipherSettingsView cipherSettingsView)
         {
-            view = cipherSettingsView ?? throw new ArgumentNullException(nameof(cipherSettingsView));
+            _view = cipherSettingsView ?? throw new ArgumentNullException(nameof(cipherSettingsView));
             Settings = cipherSettings;
-            view.SetController(this);
+            _view.SetController(this);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Useful.UI.Controllers
         /// </summary>
         public void LoadView()
         {
-            view.Initialize();
+            _view.Initialize();
         }
     }
 }
