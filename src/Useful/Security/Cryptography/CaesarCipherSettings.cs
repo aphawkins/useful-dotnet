@@ -35,7 +35,7 @@ namespace Useful.Security.Cryptography
             {
                 if (value < 0 || value > 26)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(RightShift), "Value must be between 0 and 26.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 26.");
                 }
 
                 _rightShift = value;

@@ -1,18 +1,22 @@
-using Moq;
-using System.Collections.Generic;
-using Useful.Security.Cryptography;
-using Useful.UI.Services;
-using Useful.UI.ViewModels;
-using Xunit;
+// <copyright file="CipherViewModelTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Useful.UI.UnitTests.ViewModels.xUnit
+namespace Useful.UI.UnitTests.ViewModels
 {
+    using System.Collections.Generic;
+    using Moq;
+    using Useful.Security.Cryptography;
+    using Useful.UI.Services;
+    using Useful.UI.ViewModels;
+    using Xunit;
+
     public class CipherViewModelTests
     {
+        private readonly CipherService _cipherService;
         private CipherViewModel _viewModel;
         private Mock<ICipherRepository> _moqRepository;
         private Mock<ICipher> _moqCipher;
-        private readonly CipherService _cipherService;
 
         public CipherViewModelTests()
         {
@@ -31,9 +35,9 @@ namespace Useful.UI.UnitTests.ViewModels.xUnit
         public void Initialization()
         {
             // Assert.NotNull(viewModel.CurrentCipher);
-            //Assert.Equal("MoqCipher", viewModel.CurrentCipher.CipherName);
-            //Assert.NotNull(viewModel.EncryptCommand);
-            //viewModel.EncryptCommand.Execute(null);
+            // Assert.Equal("MoqCipher", viewModel.CurrentCipher.CipherName);
+            // Assert.NotNull(viewModel.EncryptCommand);
+            // viewModel.EncryptCommand.Execute(null);
         }
 
         [Fact]

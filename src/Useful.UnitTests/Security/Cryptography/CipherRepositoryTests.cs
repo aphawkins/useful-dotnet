@@ -1,10 +1,14 @@
-using Moq;
-using System;
-using Useful.Security.Cryptography;
-using Xunit;
+// <copyright file="CipherRepositoryTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Useful.UnitTests
 {
+    using System;
+    using Moq;
+    using Useful.Security.Cryptography;
+    using Xunit;
+
     public class CipherRepositoryTests : IDisposable
     {
         private CipherRepository _repository;
@@ -57,8 +61,20 @@ namespace Useful.UnitTests
 
         public void Dispose()
         {
-            _repository = null;
-            _moqCipher = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                _repository = null;
+                _moqCipher = null;
+            }
+
+            // free native resources if there are any.
         }
     }
 }
