@@ -11,11 +11,11 @@ namespace UsefulWeb.Controllers
 
     public class HomeController : Controller
     {
-        private readonly CipherService cipherService;
+        private readonly CipherService _cipherService;
 
         public HomeController(CipherService cipherService)
         {
-            this.cipherService = cipherService;
+            this._cipherService = cipherService;
         }
 
         public IActionResult Index()
@@ -32,15 +32,15 @@ namespace UsefulWeb.Controllers
 
             if (Request.ContentLength.HasValue)
             {
-                cipherService.Repository.SetCurrentItem(x => x.CipherName == cipherViewModel.CurrentCipherName);
+                _cipherService.Repository.SetCurrentItem(x => x.CipherName == cipherViewModel.CurrentCipherName);
 
                 if (Request.Form.ContainsKey("EncryptCommand"))
                 {
-                    cipherViewModel.Ciphertext = cipherService.Encrypt(cipherViewModel.Plaintext);
+                    cipherViewModel.Ciphertext = _cipherService.Encrypt(cipherViewModel.Plaintext);
                 }
                 else if (Request.Form.ContainsKey("DecryptCommand"))
                 {
-                    cipherViewModel.Plaintext = cipherService.Decrypt(cipherViewModel.Ciphertext);
+                    cipherViewModel.Plaintext = _cipherService.Decrypt(cipherViewModel.Ciphertext);
                 }
             }
 

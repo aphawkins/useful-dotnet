@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CipherRepository : ICipherRepository
     {
-        private List<ICipher> ciphers = new List<ICipher>();
+        private List<ICipher> _ciphers = new List<ICipher>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherRepository"/> class.
@@ -21,14 +21,14 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public CipherRepository()
         {
-            ciphers = new List<ICipher>
+            _ciphers = new List<ICipher>
                 {
                     new CaesarCipher(),
                     new ReverseCipher(),
                     new ROT13Cipher(),
                 };
 
-            CurrentItem = ciphers[0];
+            CurrentItem = _ciphers[0];
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography
         /// <param name="cipher">The new cipher to add.</param>
         public void Create(ICipher cipher)
         {
-            ciphers.Add(cipher);
+            _ciphers.Add(cipher);
         }
 
         /// <summary>
@@ -77,9 +77,9 @@ namespace Useful.Security.Cryptography
         {
             int removeAt = -1;
 
-            for (int i = 0; i < ciphers.Count; i++)
+            for (int i = 0; i < _ciphers.Count; i++)
             {
-                if (ciphers[i].CipherName == cipher.CipherName)
+                if (_ciphers[i].CipherName == cipher.CipherName)
                 {
                     removeAt = i;
                     break;
@@ -88,7 +88,7 @@ namespace Useful.Security.Cryptography
 
             if (removeAt > -1)
             {
-                ciphers.RemoveAt(removeAt);
+                _ciphers.RemoveAt(removeAt);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Useful.Security.Cryptography
         /// <returns>All the ciphers.</returns>
         public IList<ICipher> Read()
         {
-            return ciphers;
+            return _ciphers;
         }
 
         /// <summary>
@@ -107,12 +107,12 @@ namespace Useful.Security.Cryptography
         /// <param name="match">The criteria to find the current cipher.</param>
         public void SetCurrentItem(Func<ICipher, bool> match)
         {
-            if (ciphers.Count == 0)
+            if (_ciphers.Count == 0)
             {
                 return;
             }
 
-            CurrentItem = ciphers.First(match);
+            CurrentItem = _ciphers.First(match);
         }
 
         /// <summary>
@@ -121,11 +121,11 @@ namespace Useful.Security.Cryptography
         /// <param name="cipher">The cipher to update.</param>
         public void Update(ICipher cipher)
         {
-            for (int i = 0; i < ciphers.Count; i++)
+            for (int i = 0; i < _ciphers.Count; i++)
             {
-                if (ciphers[i].CipherName == cipher.CipherName)
+                if (_ciphers[i].CipherName == cipher.CipherName)
                 {
-                    ciphers[i] = cipher;
+                    _ciphers[i] = cipher;
                 }
             }
         }

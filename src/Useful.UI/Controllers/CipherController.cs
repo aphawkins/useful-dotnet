@@ -14,9 +14,9 @@ namespace Useful.UI.Controllers
     /// </summary>
     public class CipherController : IController
     {
-        private IRepository<ICipher> repository;
-        private ICipherView view;
-        private ISettingsController settingsController;
+        private IRepository<ICipher> _repository;
+        private ICipherView _view;
+        private ISettingsController _settingsController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherController"/> class.
@@ -25,9 +25,9 @@ namespace Useful.UI.Controllers
         /// <param name="cipherView">The view that is controlled.</param>
         public CipherController(IRepository<ICipher> repository, ICipherView cipherView)
         {
-            this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            view = cipherView ?? throw new ArgumentNullException(nameof(cipherView));
-            view.SetController(this);
+            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _view = cipherView ?? throw new ArgumentNullException(nameof(cipherView));
+            _view.SetController(this);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace Useful.UI.Controllers
         /// <param name="plaintext">The text to encrypt.</param>
         public void Encrypt(string plaintext)
         {
-            string encrypted = repository.CurrentItem.Encrypt(plaintext);
-            view.ShowPlaintext(plaintext);
-            view.ShowCiphertext(encrypted);
+            string encrypted = _repository.CurrentItem.Encrypt(plaintext);
+            _view.ShowPlaintext(plaintext);
+            _view.ShowCiphertext(encrypted);
         }
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace Useful.UI.Controllers
         /// <param name="ciphertext">The text to decrypt.</param>
         public void Decrypt(string ciphertext)
         {
-            string decrypted = repository.CurrentItem.Decrypt(ciphertext);
-            view.ShowCiphertext(ciphertext);
-            view.ShowPlaintext(decrypted);
+            string decrypted = _repository.CurrentItem.Decrypt(ciphertext);
+            _view.ShowCiphertext(ciphertext);
+            _view.ShowPlaintext(decrypted);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Useful.UI.Controllers
         /// </summary>
         public void LoadView()
         {
-            view.Initialize();
+            _view.Initialize();
         }
 
         /// <summary>
@@ -67,13 +67,18 @@ namespace Useful.UI.Controllers
         /// <param name="settingsView">The view to select.</param>
         public void SelectCipher(ICipher cipher, ICipherSettingsView settingsView)
         {
-            repository.SetCurrentItem(x => x == cipher);
+            if (settingsView == null)
+            {
+                throw new ArgumentNullException(nameof(settingsView));
+            }
 
-            settingsController = new SettingsController(cipher.Settings, settingsView);
-            settingsController?.LoadView();
+            _repository.SetCurrentItem(x => x == cipher);
 
-            repository.CurrentItem.Settings = settingsController?.Settings;
-            view.ShowSettings(settingsView);
+            _settingsController = new SettingsController(cipher.Settings, settingsView);
+            _settingsController?.LoadView();
+
+            _repository.CurrentItem.Settings = _settingsController?.Settings;
+            _view.ShowSettings(settingsView);
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace Useful.UI.Controllers
         /// <returns>The cipher names.</returns>
         public IList<ICipher> GetCiphers()
         {
-            return repository.Read();
+            return _repository.Read();
         }
     }
 }

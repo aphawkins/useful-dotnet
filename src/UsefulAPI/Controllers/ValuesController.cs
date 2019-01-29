@@ -10,7 +10,7 @@ namespace APIDocker.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private IList<string> values = new List<string>() { "qwerty", "asdfgh" };
+        private IList<string> _values = new List<string>() { "qwerty", "asdfgh" };
 
         public ValuesController()
         {
@@ -19,16 +19,16 @@ namespace APIDocker.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get() => values;
+        public IEnumerable<string> Get() => _values;
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            if (values.Count > id
+            if (_values.Count > id
                 && id >= 0)
             {
-                return $"value {id} = {values[id]}";
+                return $"value {id} = {_values[id]}";
             }
 
             return "No value";
@@ -38,7 +38,7 @@ namespace APIDocker.Controllers
         [HttpPost]
         public void Post([FromBody]string value)
         {
-            values.Add(value);
+            _values.Add(value);
         }
 
         // PUT api/values/5
