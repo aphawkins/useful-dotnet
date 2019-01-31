@@ -6,19 +6,19 @@
   </Localization>
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1020" Action="None" />
-    <Rule Id="CA1040" Action="None" />
-    <Rule Id="CA1303" Action="None" />
-    <Rule Id="CA1709" Action="None" />
-    <Rule Id="CA2210" Action="None" />
+    <Rule Id="CA1020" Action="None" /> <!-- Avoid namespaces with few types -->
+    <Rule Id="CA1040" Action="None" /> <!-- Avoid empty interfaces -->
+    <Rule Id="CA1303" Action="None" /> <!-- Do not pass literals as localized parameters -->
+    <Rule Id="CA1709" Action="None" /> <!-- Identifiers should be cased correctly -->
+    <Rule Id="CA2210" Action="None" /> <!-- Assemblies should have valid strong names -->
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA0001" Action="None" />
-    <Rule Id="SA1101" Action="None" />
-    <Rule Id="SA1309" Action="None" />
-    <Rule Id="SA1591" Action="None" />
-    <Rule Id="SA1600" Action="None" />
-    <Rule Id="SA1601" Action="None" />
-    <Rule Id="SX1309" Action="Error" />
+    <Rule Id="SA0001" Action="None" /> <!-- XmlCommentAnalysisDisabled -->
+    <Rule Id="SA1101" Action="None" /> <!-- PrefixLocalCallsWithThis -->
+    <Rule Id="SA1309" Action="None" /> <!-- FieldNamesMustNotBeginWithUnderscore -->
+    <Rule Id="SA1591" Action="None" /> <!-- OpeningBracesMustNotBePrecededByBlankLine -->
+    <Rule Id="SA1600" Action="None" /> <!-- ElementsMustBeDocumented -->
+    <Rule Id="SA1601" Action="None" /> <!-- PartialElementsMustBeDocumented -->
+    <Rule Id="SX1309" Action="Error" /> <!-- FieldNamesMustBeginWithUnderscore -->
   </Rules>
 </RuleSet>
