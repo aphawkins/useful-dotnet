@@ -19,7 +19,12 @@ namespace UsefulConsole.UI.Views
         public void DisplayCipherSelect(IList<ICipher> ciphers)
         {
             ICipher cipherSelected = null;
-            ICipherSettingsView settingsView = null;
+            IDictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>>()
+            {
+                { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new CaesarSettingsView()) },
+                { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new ReverseSettingsView()) },
+                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new Rot13SettingsView()) },
+            };
 
             while (cipherSelected == null)
             {
@@ -31,41 +36,16 @@ namespace UsefulConsole.UI.Views
                 }
 
                 ConsoleKeyInfo key = Console.ReadKey();
-                switch (key.Key)
-                {
-                    case ConsoleKey.D0:
-                        {
-                            // Caesar
-                            cipherSelected = ciphers[0];
-                            settingsView = new CaesarSettingsView();
-                            break;
-                        }
-
-                    case ConsoleKey.D1:
-                        {
-                            // Reverse
-                            cipherSelected = ciphers[1];
-                            settingsView = new ReverseSettingsView();
-                            break;
-                        }
-
-                    case ConsoleKey.D2:
-                        {
-                            // ROT13
-                            cipherSelected = ciphers[2];
-                            settingsView = new Rot13SettingsView();
-                            break;
-                        }
-                }
 
                 Console.WriteLine();
+
+                if (settingViews.ContainsKey(key.Key))
+                {
+                    cipherSelected = settingViews[key.Key].Item1;
+                    _controller.SelectCipher(cipherSelected, settingViews[key.Key].Item2);
+                    Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
+                }
             }
-
-            Debug.Assert(settingsView != null, "settingsView is null");
-
-            _controller.SelectCipher(cipherSelected, settingsView);
-
-            Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
         }
 
         /// <summary>
