@@ -1,5 +1,5 @@
-// <copyright file="RelayCommandTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="RelayCommandTests.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.UnitTests.ViewModels
