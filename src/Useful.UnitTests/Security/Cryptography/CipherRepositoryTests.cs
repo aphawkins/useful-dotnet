@@ -32,7 +32,7 @@ namespace Useful.UnitTests
         [Fact]
         public void RepositoryRead()
         {
-            Assert.Equal(3, _repository.Read().Count);
+            Assert.Equal(4, _repository.Read().Count);
         }
 
         [Fact]
