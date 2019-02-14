@@ -21,9 +21,10 @@ namespace UsefulConsole.UI.Views
             ICipher cipherSelected = null;
             IDictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>>()
             {
-                { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new CaesarSettingsView()) },
-                { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new ReverseSettingsView()) },
-                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new Rot13SettingsView()) },
+                { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new AtbashSettingsView()) },
+                { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new CaesarSettingsView()) },
+                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new ReverseSettingsView()) },
+                { ConsoleKey.D3, new Tuple<ICipher, ICipherSettingsView>(ciphers[3], new Rot13SettingsView()) },
             };
 
             while (cipherSelected == null)

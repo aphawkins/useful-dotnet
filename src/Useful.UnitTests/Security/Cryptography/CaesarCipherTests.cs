@@ -21,6 +21,7 @@ namespace Useful.UnitTests
         public void Name()
         {
             Assert.Equal("Caesar", _cipher.CipherName);
+            Assert.Equal(_cipher.CipherName, _cipher.ToString());
         }
 
         [Theory]

@@ -23,6 +23,7 @@ namespace Useful.Security.Cryptography
         {
             _ciphers = new List<ICipher>
                 {
+                    new AtbashCipher(),
                     new CaesarCipher(),
                     new ReverseCipher(),
                     new ROT13Cipher(),

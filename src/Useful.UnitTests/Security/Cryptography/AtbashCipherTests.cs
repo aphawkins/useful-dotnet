@@ -1,4 +1,4 @@
-// <copyright file="ReverseCipherTests.cs" company="APH Software">
+// <copyright file="AtbashCipherTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,26 +8,26 @@ namespace Useful.UnitTests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class ReverseCipherTests : IDisposable
+    public class AtbashCipherTests : IDisposable
     {
         private ICipher _cipher;
 
-        public ReverseCipherTests()
+        public AtbashCipherTests()
         {
-            _cipher = new ReverseCipher();
+            _cipher = new AtbashCipher();
         }
 
         [Fact]
         public void Name()
         {
-            Assert.Equal("Reverse", _cipher.CipherName);
+            Assert.Equal("Atbash", _cipher.CipherName);
             Assert.Equal(_cipher.CipherName, _cipher.ToString());
         }
 
         [Theory]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
+        [InlineData(">?@ [\\]", ">?@ [\\]")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             Assert.Equal(ciphertext, _cipher.Encrypt(plaintext));
@@ -36,7 +36,7 @@ namespace Useful.UnitTests
         [Theory]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
+        [InlineData(">?@ [\\]", ">?@ [\\]")]
         public void Decrypt(string plaintext, string ciphertext)
         {
             Assert.Equal(plaintext, _cipher.Decrypt(ciphertext));
