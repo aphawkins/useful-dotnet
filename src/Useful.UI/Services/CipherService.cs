@@ -17,7 +17,7 @@ namespace Useful.UI.Services
         /// <param name="repository">The repository holding the ciphers.</param>
         public CipherService(ICipherRepository repository)
         {
-            this.Repository = repository;
+            Repository = repository;
         }
 
         public ICipherRepository Repository { get; set; }

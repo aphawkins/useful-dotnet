@@ -25,7 +25,7 @@ namespace Useful.UI.Controllers
         /// <param name="cipherView">The view that is controlled.</param>
         public CipherController(IRepository<ICipher> repository, ICipherView cipherView)
         {
-            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _view = cipherView ?? throw new ArgumentNullException(nameof(cipherView));
             _view.SetController(this);
         }

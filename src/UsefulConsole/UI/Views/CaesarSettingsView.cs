@@ -33,7 +33,7 @@ namespace UsefulConsole.UI.Views
 
         public void SetController(IController controller)
         {
-            this._controller = (SettingsController)controller;
+            _controller = (SettingsController)controller;
         }
     }
 }

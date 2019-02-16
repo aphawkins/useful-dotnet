@@ -15,8 +15,17 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
         /// </summary>
         public CaesarCipher()
+            : this(new CaesarCipherSettings(0))
         {
-            Settings = new CaesarCipherSettings(0);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
+        /// </summary>
+        /// <param name="settings">The cipher's settings.</param>
+        public CaesarCipher(CaesarCipherSettings settings)
+        {
+            Settings = settings;
         }
 
         /// <summary>

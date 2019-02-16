@@ -77,7 +77,7 @@ namespace UsefulConsole.UI.Views
 
         public void SetController(IController controller)
         {
-            this._controller = (CipherController)controller;
+            _controller = (CipherController)controller;
         }
 
         public void ShowCiphertext(string ciphertext)
