@@ -24,8 +24,8 @@ namespace Useful.UI.ViewModels
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<T> execute, Predicate<T> canExecute)
         {
-            this._execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            this._canExecute = canExecute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
         }
 
 #pragma warning disable CS0067

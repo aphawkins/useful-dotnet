@@ -24,7 +24,7 @@ namespace Useful.UI.ViewModels
         /// <param name="service">The cipher service.</param>
         public CipherViewModel(CipherService service)
         {
-            this._service = service;
+            _service = service;
             WireCommands();
         }
 

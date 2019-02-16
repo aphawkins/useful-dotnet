@@ -15,7 +15,7 @@ namespace UsefulWeb.Controllers
 
         public HomeController(CipherService cipherService)
         {
-            this._cipherService = cipherService;
+            _cipherService = cipherService;
         }
 
         public IActionResult Index()
