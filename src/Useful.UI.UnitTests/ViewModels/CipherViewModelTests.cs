@@ -48,7 +48,7 @@ namespace Useful.UI.UnitTests.ViewModels
             _viewModel.Plaintext = string.Empty;
             propertyChanged = string.Empty;
             _viewModel.Plaintext = "MoqPlaintext";
-            Assert.Equal("Plaintext", propertyChanged);
+            Assert.Equal(nameof(_viewModel.Plaintext), propertyChanged);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Useful.UI.UnitTests.ViewModels
             _viewModel.Plaintext = string.Empty;
             propertyChanged = string.Empty;
             _viewModel.Plaintext = "MoqPlaintext";
-            Assert.Equal("Plaintext", propertyChanged);
+            Assert.Equal(nameof(_viewModel.Plaintext), propertyChanged);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace Useful.UI.UnitTests.ViewModels
             _viewModel.Ciphertext = string.Empty;
             propertyChanged = string.Empty;
             _viewModel.Ciphertext = "MoqCiphertext";
-            Assert.Equal("Ciphertext", propertyChanged);
+            Assert.Equal(nameof(_viewModel.Ciphertext), propertyChanged);
         }
 
         [Fact]
@@ -92,7 +92,7 @@ namespace Useful.UI.UnitTests.ViewModels
             _viewModel.CurrentCipher = null;
             propertyChanged = string.Empty;
             _viewModel.CurrentCipher = _moqCipher.Object;
-            Assert.Equal("CurrentCipher", propertyChanged);
+            Assert.Equal(nameof(_viewModel.CurrentCipher), propertyChanged);
         }
 
         [Fact]

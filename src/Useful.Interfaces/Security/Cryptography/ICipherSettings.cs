@@ -4,10 +4,12 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.ComponentModel;
+
     /// <summary>
     /// Interface that all cipher settings should implement.
     /// </summary>
-    public interface ICipherSettings
+    public interface ICipherSettings : INotifyPropertyChanged
     {
     }
 }

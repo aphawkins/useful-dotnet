@@ -68,7 +68,7 @@ namespace Useful.UI.ViewModels
                 }
 
                 _ciphertext = value;
-                OnPropertyChanged(nameof(Ciphertext));
+                NotifyPropertyChanged(nameof(Ciphertext));
             }
         }
 
@@ -91,7 +91,7 @@ namespace Useful.UI.ViewModels
 
                 _service.Repository.SetCurrentItem(x => x == value);
 
-                OnPropertyChanged(nameof(CurrentCipher));
+                NotifyPropertyChanged(nameof(CurrentCipher));
             }
         }
 
@@ -131,7 +131,7 @@ namespace Useful.UI.ViewModels
                 }
 
                 _plaintext = value;
-                OnPropertyChanged(nameof(Plaintext));
+                NotifyPropertyChanged(nameof(Plaintext));
             }
         }
 

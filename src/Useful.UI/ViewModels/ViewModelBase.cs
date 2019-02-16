@@ -5,6 +5,7 @@
 namespace Useful.UI.ViewModels
 {
     using System.ComponentModel;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// A class from which all viewmodels should inherit from.
@@ -19,10 +20,10 @@ namespace Useful.UI.ViewModels
         /// <summary>
         /// Used to raise the <see cref="PropertyChanged" /> event.
         /// </summary>
-        /// <param name="propName">The name of the property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propName)
+        /// <param name="propertyName">The name of the property that has changed.</param>
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

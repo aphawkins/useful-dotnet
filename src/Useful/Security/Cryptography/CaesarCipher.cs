@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public CaesarCipher()
         {
-            Settings = new CaesarCipherSettings();
+            Settings = new CaesarCipherSettings(0);
         }
 
         /// <summary>

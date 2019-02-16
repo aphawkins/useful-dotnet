@@ -1,6 +1,10 @@
 ﻿<Project>
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <Company>APH Software</Company>
     <CodeAnalysisRuleSet>..\..\analysis\Useful.ruleset</CodeAnalysisRuleSet>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
