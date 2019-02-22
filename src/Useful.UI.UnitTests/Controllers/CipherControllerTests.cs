@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.UnitTests.Controllers
+namespace Useful.UI.Controllers.Tests
 {
     using System;
     using System.Collections.Generic;

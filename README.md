@@ -9,8 +9,8 @@ Disclaimer!  The aim of this project is for learning.  As a result, the UIs aren
 
 * Useful.dll (.NET Standard)
 * Useful.UI.dll (.NET Standard)
-* Useful.UI.UnitTests.dll (.NET Core)
-* Useful.UnitTests.dll (.NET Core)
+* Useful.UI.Tests.dll (.NET Core)
+* Useful.Tests.dll (.NET Core)
 * UsefulConsole.exe (.NET Core)
 * UsefulWeb (.NET Core)
 * UsefulWinForms.dll (.NET Framework needs converting to .NET Core 3.0)

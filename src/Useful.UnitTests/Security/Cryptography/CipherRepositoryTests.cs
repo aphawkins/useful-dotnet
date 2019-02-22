@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UnitTests
+namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using Moq;
