@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.UnitTests.ViewModels
+namespace Useful.UI.ViewModels.Tests
 {
     using System.Collections.Generic;
     using Moq;

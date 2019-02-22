@@ -2,11 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UnitTests
+namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;

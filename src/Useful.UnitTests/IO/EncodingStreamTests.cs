@@ -1,8 +1,8 @@
-﻿// <copyright file="EncodingStreamUnitTests.cs" company="APH Software">
+﻿// <copyright file="EncodingStreamTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Security.Cryptography
+namespace Useful.IO.Tests
 {
     using System;
     using System.IO;
@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// This is a test class for EncodingStream and is intended to contain all the Unit Tests.
     /// </summary>
-    public class EncodingStreamUnitTests : IDisposable
+    public class EncodingStreamTests : IDisposable
     {
         /// <summary>
         /// Test dispose.

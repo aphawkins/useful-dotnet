@@ -22,9 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI", "..\src\UsefulA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "..\src\UsefulWeb\UsefulWeb.csproj", "{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UnitTests", "..\src\Useful.UnitTests\Useful.UnitTests.csproj", "{F1008A6D-CE71-40C1-9558-7B1333265492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Tests", "..\src\Useful.UnitTests\Useful.Tests.csproj", "{F1008A6D-CE71-40C1-9558-7B1333265492}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI.UnitTests", "..\src\Useful.UI.UnitTests\Useful.UI.UnitTests.csproj", "{864F1B77-D967-408E-8A4C-5192E6259F60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI.Tests", "..\src\Useful.UI.UnitTests\Useful.UI.Tests.csproj", "{864F1B77-D967-408E-8A4C-5192E6259F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
