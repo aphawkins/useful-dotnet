@@ -5,11 +5,8 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.ComponentModel;
-    using System.Globalization;
     using System.Security.Cryptography;
     using System.Text;
-    using Useful;
 
     /// <summary>
     /// Accesses the Caesar Shift algorithm.
