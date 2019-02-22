@@ -10,14 +10,8 @@ namespace Useful.IO.Tests
     using Useful.IO;
     using Xunit;
 
-    /// <summary>
-    /// This is a test class for EncodingStream and is intended to contain all the Unit Tests.
-    /// </summary>
     public class EncodingStreamTests : IDisposable
     {
-        /// <summary>
-        /// Test dispose.
-        /// </summary>
         [Fact]
         public void EncodingStreamDispose()
         {
@@ -29,9 +23,6 @@ namespace Useful.IO.Tests
             }
         }
 
-        /// <summary>
-        /// Test dispose after the object has been disposed.
-        /// </summary>
         [Fact]
         public void EncodingStreamDoubleDispose()
         {
@@ -44,20 +35,17 @@ namespace Useful.IO.Tests
             }
         }
 
-        /// <summary>
-        /// Test reading from the stream - same encoding.
-        /// </summary>
-        [Fact]
-        public void EncodingStreamReadSameEncoding()
+        [Theory]
+        [InlineData("Hello World")]
+        public void EncodingStreamReadSameEncoding(string text)
         {
             using (MemoryStream input = new MemoryStream())
             {
                 Encoding from = Encoding.Unicode;
                 Encoding to = Encoding.Unicode;
-                string test = "Hello World";
 
-                byte[] fromBytes = from.GetBytes(test);
-                byte[] toBytes = new byte[to.GetBytes(test).Length];
+                byte[] fromBytes = from.GetBytes(text);
+                byte[] toBytes = new byte[to.GetBytes(text).Length];
 
                 using (EncodingStream target = new EncodingStream(input, from, to))
                 {
@@ -67,25 +55,22 @@ namespace Useful.IO.Tests
 
                     Assert.Equal(target.Length, to.GetPreamble().Length + toBytes.Length);
                     Assert.Equal(toBytes.Length, target.Read(toBytes, 0, toBytes.Length));
-                    Assert.Equal(test, to.GetString(toBytes));
+                    Assert.Equal(text, to.GetString(toBytes));
                 }
             }
         }
 
-        /// <summary>
-        /// Test reading from the stream - changing the encoding.
-        /// </summary>
-        [Fact]
-        public void EncodingStreamReadChangeEncoding()
+        [Theory]
+        [InlineData("Hello World")]
+        public void EncodingStreamReadChangeEncoding(string text)
         {
             using (MemoryStream input = new MemoryStream())
             {
                 Encoding from = Encoding.Unicode;
                 Encoding to = Encoding.UTF8;
-                string test = "Hello World";
 
-                byte[] fromBytes = from.GetBytes(test);
-                byte[] toBytes = new byte[to.GetBytes(test).Length];
+                byte[] fromBytes = from.GetBytes(text);
+                byte[] toBytes = new byte[to.GetBytes(text).Length];
 
                 using (EncodingStream target = new EncodingStream(input, from, to))
                 {
@@ -94,30 +79,23 @@ namespace Useful.IO.Tests
 
                     Assert.Equal(target.Length, to.GetPreamble().Length + toBytes.Length);
                     Assert.Equal(toBytes.Length, target.Read(toBytes, 0, toBytes.Length));
-                    Assert.Equal(test, to.GetString(toBytes));
+                    Assert.Equal(text, to.GetString(toBytes));
                 }
             }
         }
 
-        ///// <summary>
-        ///// Test reading using a null buffer.
-        ///// </summary>
-        // [TestMethod]
-        // [ExpectedException(typeof(ArgumentNullException))]
-        // public void EncodingStreamReadNullBuffer()
-        // {
-        //    using (MemoryStream input = new MemoryStream())
-        //    {
-        //        using (EncodingStream target = new EncodingStream(input, Encoding.Unicode, Encoding.UTF8))
-        //        {
-        //            target.Read(null, 0, 1);
-        //        }
-        //    }
-        // }
+        [Fact]
+        public void EncodingStreamReadNullBuffer()
+        {
+            using (MemoryStream input = new MemoryStream())
+            {
+                using (EncodingStream target = new EncodingStream(input, Encoding.Unicode, Encoding.UTF8))
+                {
+                    Assert.Throws<ArgumentNullException>(() => target.Read(null, 0, 1));
+                }
+            }
+        }
 
-        /// <summary>
-        /// Test ability to read.
-        /// </summary>
         [Fact]
         public void EncodingStreamCanRead()
         {
@@ -130,9 +108,6 @@ namespace Useful.IO.Tests
             }
         }
 
-        /// <summary>
-        /// Test ability to write.
-        /// </summary>
         [Fact]
         public void EncodingStreamCanWrite()
         {
@@ -145,9 +120,6 @@ namespace Useful.IO.Tests
             }
         }
 
-        /// <summary>
-        /// Test ability to seek.
-        /// </summary>
         [Fact]
         public void EncodingStreamCanSeek()
         {
@@ -160,31 +132,27 @@ namespace Useful.IO.Tests
             }
         }
 
-        ///// <summary>
-        ///// Test writing using a null buffer.
-        ///// </summary>
-        // [TestMethod]
-        // [ExpectedException(typeof(ArgumentNullException))]
-        // public void EncodingStream_Write_Null_Buffer()
-        // {
-        //    using (MemoryStream input = new MemoryStream())
-        //    {
-        //        EncodingStream target = new EncodingStream(input, Encoding.Unicode, Encoding.UTF8);
-        //        target.Write(null, 0, 1);
-        //    }
-        // }
-
-        /// <summary>
-        /// Test reading from the stream - changing the encoding.
-        /// </summary>
         [Fact]
-        public void EncodingStreamSeek()
+        public void EncodingStreamWriteNullBuffer()
+        {
+            using (MemoryStream input = new MemoryStream())
+            {
+                using (EncodingStream target = new EncodingStream(input, Encoding.Unicode, Encoding.UTF8))
+                {
+                    Assert.Throws<ArgumentNullException>(() => target.Write(null, 0, 1));
+                }
+            }
+        }
+
+        [Theory]
+        [InlineData("Hello World")]
+        public void EncodingStreamSeek(string text)
         {
             using (MemoryStream input = new MemoryStream())
             {
                 Encoding from = Encoding.Unicode;
 
-                byte[] fromBytes = from.GetBytes("Hello World");
+                byte[] fromBytes = from.GetBytes(text);
 
                 using (EncodingStream target = new EncodingStream(input, from, Encoding.UTF8))
                 {
@@ -195,17 +163,15 @@ namespace Useful.IO.Tests
             }
         }
 
-        /// <summary>
-        /// Test reading from the stream - changing the encoding.
-        /// </summary>
-        [Fact]
-        public void EncodingStreamSetLength()
+        [Theory]
+        [InlineData("Hello World")]
+        public void EncodingStreamSetLength(string text)
         {
             using (MemoryStream input = new MemoryStream())
             {
                 Encoding from = Encoding.Unicode;
 
-                byte[] fromBytes = from.GetBytes("Hello World");
+                byte[] fromBytes = from.GetBytes(text);
 
                 using (EncodingStream target = new EncodingStream(input, from, Encoding.UTF8))
                 {
