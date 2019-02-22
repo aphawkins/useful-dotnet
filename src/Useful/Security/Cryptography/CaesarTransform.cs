@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Diagnostics;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -55,6 +54,12 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc/>
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
+            if (inputCount <= 0)
+            {
+                // Nothing to do
+                return 0;
+            }
+
             if (inputBuffer == null)
             {
                 throw new ArgumentNullException(nameof(inputBuffer));
@@ -70,42 +75,35 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Input buffer not long enough.", nameof(inputBuffer));
             }
 
-            try
+            byte[] inputBytes = new byte[_blockSize];
+            Array.Copy(inputBuffer, inputOffset, inputBytes, 0, _blockSize);
+            char[] inputChars = Encoding.Unicode.GetChars(inputBytes);
+            char cipheredChar;
+
+            switch (_transformMode)
             {
-                byte[] inputBytes = new byte[_blockSize];
-                Array.Copy(inputBuffer, inputOffset, inputBytes, 0, _blockSize);
-                char[] inputChars = Encoding.Unicode.GetChars(inputBytes);
-                char cipheredChar;
+                case CipherTransformMode.Encrypt:
+                    {
+                        cipheredChar = _cipher.Encrypt($"{inputChars[0]}")[0];
+                        break;
+                    }
 
-                switch (_transformMode)
-                {
-                    case CipherTransformMode.Encrypt:
-                        {
-                            cipheredChar = _cipher.Encrypt($"{inputChars[0]}")[0];
-                            break;
-                        }
+                case CipherTransformMode.Decrypt:
+                    {
+                        cipheredChar = _cipher.Decrypt($"{inputChars[0]}")[0];
+                        break;
+                    }
 
-                    case CipherTransformMode.Decrypt:
-                        {
-                            cipheredChar = _cipher.Decrypt($"{inputChars[0]}")[0];
-                            break;
-                        }
-
-                    default:
-                        {
-                            throw new CryptographicException($"Unsupported transform mode {_transformMode}.");
-                        }
-                }
-
-                byte[] cipheredBytes = Encoding.Unicode.GetBytes(new char[] { cipheredChar });
-                Array.Copy(cipheredBytes, 0, outputBuffer, 0, _blockSize);
-
-                return inputCount;
+                default:
+                    {
+                        throw new CryptographicException($"Unsupported transform mode {_transformMode}.");
+                    }
             }
-            catch
-            {
-                throw;
-            }
+
+            byte[] cipheredBytes = Encoding.Unicode.GetBytes(new char[] { cipheredChar });
+            Array.Copy(cipheredBytes, 0, outputBuffer, 0, _blockSize);
+
+            return inputCount;
         }
 
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
@@ -114,12 +112,15 @@ namespace Useful.Security.Cryptography
             {
                 return inputBuffer;
             }
-            else
+
+            byte[] outputBuffer = new byte[inputBuffer.Length];
+            int bytesWritten = TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0);
+            if (bytesWritten > 0)
             {
-                byte[] outputBuffer = Array.Empty<byte>();
-                TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0);
                 return outputBuffer;
             }
+
+            return Array.Empty<byte>();
         }
     }
 }
