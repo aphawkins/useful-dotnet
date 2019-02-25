@@ -85,7 +85,7 @@ namespace Useful.UI.Controllers
         /// All of the ciphers.
         /// </summary>
         /// <returns>The cipher names.</returns>
-        public IList<ICipher> GetCiphers()
+        public IEnumerable<ICipher> GetCiphers()
         {
             return _repository.Read();
         }

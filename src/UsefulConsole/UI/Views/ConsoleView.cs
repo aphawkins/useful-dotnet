@@ -6,7 +6,7 @@ namespace UsefulConsole.UI.Views
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using System.Linq;
     using Useful.Security.Cryptography;
     using Useful.UI.Controllers;
     using Useful.UI.Views;
@@ -55,7 +55,7 @@ namespace UsefulConsole.UI.Views
         public void Initialize()
         {
             string text;
-            IList<ICipher> ciphers = _controller.GetCiphers();
+            IList<ICipher> ciphers = _controller.GetCiphers().ToList();
             DisplayCipherSelect(ciphers);
             DisplayEncryptionMode();
             DisplayEnterText();

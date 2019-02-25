@@ -4,15 +4,17 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System;
     using System.Security.Cryptography;
     using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Accesses the Caesar Shift algorithm.
     /// </summary>
     public sealed class CaesarSymmetric : SymmetricAlgorithm
     {
+        private readonly ISymmetricKeyGenerator _keyGen = new CaesarKeyGenerator();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
         /// </summary>
@@ -37,7 +39,8 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IVValue = Array.Empty<byte>(); // CipherMethods.GetRandomBytes(1);
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
         }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public override void GenerateKey()
         {
-            KeyValue = Encoding.Unicode.GetBytes($"{1}"); // CipherMethods.GetRandomBytes(1);
+            KeyValue = _keyGen.RandomKey();
         }
 
         private void Reset()

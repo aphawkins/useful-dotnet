@@ -97,7 +97,7 @@ namespace Useful.Security.Cryptography
         /// Retrieves all the ciphers.
         /// </summary>
         /// <returns>All the ciphers.</returns>
-        public IList<ICipher> Read()
+        public IEnumerable<ICipher> Read()
         {
             return _ciphers;
         }

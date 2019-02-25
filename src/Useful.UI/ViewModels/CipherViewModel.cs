@@ -31,7 +31,7 @@ namespace Useful.UI.ViewModels
         /// <summary>
         /// Gets a list of supported cipher names.
         /// </summary>
-        public IList<string> CipherNames
+        public IEnumerable<string> CipherNames
         {
             get
             {
@@ -48,7 +48,7 @@ namespace Useful.UI.ViewModels
         /// <summary>
         /// Gets a list of supported ciphers.
         /// </summary>
-        public IList<ICipher> Ciphers => _service.Repository.Read();
+        public IEnumerable<ICipher> Ciphers => _service.Repository.Read();
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
