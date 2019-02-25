@@ -8,7 +8,6 @@ namespace Useful.Security.Cryptography
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
-    using Useful.IO;
 
     /// <summary>
     /// Methods to aid cryptography.
@@ -22,59 +21,34 @@ namespace Useful.Security.Cryptography
         /// <param name="transformMode">Defines the way in which the cipher will work.</param>
         /// <param name="input">The input stream.</param>
         /// <param name="output">The output stream.</param>
-        /// <param name="outputEncodingOverride">The encoding to use.</param>
-        public static void SymmetricTransform(SymmetricAlgorithm cipher, CipherTransformMode transformMode, Stream input, Stream output, Encoding outputEncodingOverride)
+        public static void SymmetricTransform(SymmetricAlgorithm cipher, CipherTransformMode transformMode, Stream input, Stream output)
         {
-            Encoding outputEncoding;
-
-            try
+            using (ICryptoTransform transformer = GetTransformer(cipher, transformMode))
             {
-                using (ICryptoTransform transformer = GetTransformer(cipher, transformMode))
+                using (StreamReader reader = new StreamReader(input, true))
                 {
-                    using (StreamReader reader = new StreamReader(input, true))
+                    reader.Peek();
+
+                    // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
+                    using (CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write))
                     {
-                        reader.Peek();
+                        byte[] bytes;
 
-                        outputEncoding = outputEncodingOverride ?? reader.CurrentEncoding;
-
-                        // Transform the stream's encoding
-                        // using (EncodingStream enc = new EncodingStream(output, reader.CurrentEncoding, outputEncoding))
-                        // {
-                        // Create a CryptoStream using the FileStream
-                        // and the passed key and initialization vector (IV).
-                        // using (CryptoStream crypto = new CryptoStream(enc, transformer, CryptoStreamMode.Write))
-                        using (CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write))
+                        // The cipher is expecting Unicode
+                        while (!reader.EndOfStream)
                         {
-                            byte[] bytes;
-
-                            // The cipher is expecting Unicode
-                            while (!reader.EndOfStream)
-                            {
-                                bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
-                                crypto.Write(bytes, 0, bytes.Length);
-                            }
+                            bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
+                            crypto.Write(bytes, 0, bytes.Length);
                         }
-
-                        // }
                     }
-
-                    // IUsefulCryptoTransform usefulCryptoTransform = transformer as IUsefulCryptoTransform;
-                    // if (usefulCryptoTransform != null)
-                    // {
-                    //    usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
-                    //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
-                    // }
                 }
-            }
-            catch (CryptographicException ex)
-            {
-                Console.WriteLine($"A Cryptographic error occurred: {ex.Message}");
-                throw;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Console.WriteLine($"A file error occurred: {ex.Message}");
-                throw;
+
+                // IUsefulCryptoTransform usefulCryptoTransform = transformer as IUsefulCryptoTransform;
+                // if (usefulCryptoTransform != null)
+                // {
+                //    usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
+                //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
+                // }
             }
         }
 
@@ -94,6 +68,8 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(cipher));
             }
 
+            Encoding encoding = new UnicodeEncoding();
+
             using (ICryptoTransform cryptoTransform = GetTransformer(cipher, transformMode))
             {
                 // if (cryptoTransform is IUsefulCryptoTransform usefulCryptoTransform)
@@ -110,18 +86,24 @@ namespace Useful.Security.Cryptography
                 //    throw new NotImplementedException();
 
                 // Encrypt the data.
-                using (MemoryStream inputStream = new MemoryStream(Encoding.Unicode.GetBytes(input)))
+                using (MemoryStream inputStream = new MemoryStream(encoding.GetBytes(input)))
                 {
                     using (MemoryStream outputStream = new MemoryStream())
                     {
-                        CipherMethods.SymmetricTransform(cipher, transformMode, inputStream, outputStream, Encoding.Unicode);
+                        CipherMethods.SymmetricTransform(cipher, transformMode, inputStream, outputStream);
 
-                        outputStream.Flush();
+                        // Remove padding on odd length bytes
+                        byte[] encrypted;
+                        if (cryptoTransform.OutputBlockSize % 2 == 1)
+                        {
+                            encrypted = TrimArray(outputStream.ToArray());
+                        }
+                        else
+                        {
+                            encrypted = outputStream.ToArray();
+                        }
 
-                        // Get encrypted array of bytes.
-                        byte[] encrypted = outputStream.ToArray();
-
-                        char[] encryptedChars = Encoding.Unicode.GetChars(encrypted);
+                        char[] encryptedChars = encoding.GetChars(encrypted);
 
                         return new string(encryptedChars);
                     }
@@ -130,41 +112,6 @@ namespace Useful.Security.Cryptography
                 // }
             }
         }
-
-        /////// <summary>
-        /////// Enciphers or deciphers a file.
-        /////// </summary>
-        /////// <param name="cipher">The cipher to use.</param>
-        /////// <param name="transformMode">Defines the way in which the cipher will work.</param>
-        /////// <param name="inputFilePath">The input file.</param>
-        /////// <param name="outputFilePath">The output file.</param>
-        /////// <param name="outputEncodingOverride">The encoding of the output file, else the encoding detected from the preamble is used.</param>
-        /////// <returns>An indication of the success of the call.</returns>
-        ////internal static ErrorCode DoCipher(SymmetricAlgorithm cipher, CipherTransformMode transformMode, string inputFilePath, string outputFilePath, Encoding outputEncodingOverride)
-        ////{
-        ////    ErrorCode error = FileManager.CheckFiles(inputFilePath, outputFilePath);
-        ////    if (error != ErrorCode.None)
-        ////    {
-        ////        return error;
-        ////    }
-
-        ////    try
-        ////    {
-        ////        using (FileStream outputStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write))
-        ////        {
-        ////            using (FileStream inputStream = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
-        ////            {
-        ////                CipherMethods.DoCipher(cipher, transformMode, inputStream, outputStream, outputEncodingOverride);
-        ////            }
-        ////        }
-        ////    }
-        ////    catch (UnauthorizedAccessException)
-        ////    {
-        ////        return ErrorCode.FileSecurity;
-        ////    }
-
-        ////    return ErrorCode.None;
-        ////}
 
         /// <summary>
         /// Gets a SymmetricAlgorithm's transformer.
@@ -179,11 +126,30 @@ namespace Useful.Security.Cryptography
                 // Get an encryptor.
                 return cipher.CreateEncryptor();
             }
-            else
+
+            // Get an decryptor.
+            return cipher.CreateDecryptor();
+        }
+
+        // Resize the dimensions of the array to a size that contains only valid bytes.
+        private static byte[] TrimArray(byte[] targetArray)
+        {
+            int i = 0;
+
+            foreach (byte b in targetArray)
             {
-                // Get an decryptor.
-                return cipher.CreateDecryptor();
+                if ($"{b}".Equals("0", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    break;
+                }
+
+                i++;
             }
+
+            // Create a new array with the number of valid bytes.
+            byte[] returnedArray = new byte[i];
+            Array.Copy(targetArray, returnedArray, i);
+            return returnedArray;
         }
     }
 }

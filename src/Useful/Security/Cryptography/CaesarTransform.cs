@@ -10,10 +10,11 @@ namespace Useful.Security.Cryptography
 
     internal sealed class CaesarTransform : ICryptoTransform
     {
-        private const int _blockSize = 2;
+        private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
         private readonly CaesarCipher _cipher;
         private readonly CaesarCipherSymmetricSettings _settings;
+        private Encoding _encoding = new UnicodeEncoding();
 
         internal CaesarTransform(byte[] rgbKey, CipherTransformMode transformMode)
         {
@@ -75,22 +76,20 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Input buffer not long enough.", nameof(inputBuffer));
             }
 
-            byte[] inputBytes = new byte[_blockSize];
-            Array.Copy(inputBuffer, inputOffset, inputBytes, 0, _blockSize);
-            char[] inputChars = Encoding.Unicode.GetChars(inputBytes);
-            char cipheredChar;
+            string inputString = new string(_encoding.GetChars(inputBuffer));
+            string outputString;
 
             switch (_transformMode)
             {
                 case CipherTransformMode.Encrypt:
                     {
-                        cipheredChar = _cipher.Encrypt($"{inputChars[0]}")[0];
+                        outputString = _cipher.Encrypt(inputString);
                         break;
                     }
 
                 case CipherTransformMode.Decrypt:
                     {
-                        cipheredChar = _cipher.Decrypt($"{inputChars[0]}")[0];
+                        outputString = _cipher.Decrypt(inputString);
                         break;
                     }
 
@@ -100,9 +99,8 @@ namespace Useful.Security.Cryptography
                     }
             }
 
-            byte[] cipheredBytes = Encoding.Unicode.GetBytes(new char[] { cipheredChar });
-            Array.Copy(cipheredBytes, 0, outputBuffer, 0, _blockSize);
-
+            byte[] outputBytes = _encoding.GetBytes(outputString);
+            Array.Copy(outputBytes, 0, outputBuffer, 0, OutputBlockSize);
             return inputCount;
         }
 
@@ -114,8 +112,7 @@ namespace Useful.Security.Cryptography
             }
 
             byte[] outputBuffer = new byte[inputBuffer.Length];
-            int bytesWritten = TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0);
-            if (bytesWritten > 0)
+            if (TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0) > 0)
             {
                 return outputBuffer;
             }
