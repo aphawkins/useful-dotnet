@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Linq;
     using Moq;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -24,31 +25,31 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryCreate()
         {
-            int count = _repository.Read().Count;
+            int count = _repository.Read().Count();
             _repository.Create(_moqCipher.Object);
-            Assert.Equal(count + 1, _repository.Read().Count);
+            Assert.Equal(count + 1, _repository.Read().Count());
         }
 
         [Fact]
         public void RepositoryRead()
         {
-            Assert.Equal(4, _repository.Read().Count);
+            Assert.Equal(4, _repository.Read().Count());
         }
 
         [Fact]
         public void RepositoryUpdate()
         {
-            int count = _repository.Read().Count;
+            int count = _repository.Read().Count();
             _repository.Update(_moqCipher.Object);
-            Assert.Equal(count, _repository.Read().Count);
+            Assert.Equal(count, _repository.Read().Count());
         }
 
         [Fact]
         public void RepositoryDelete()
         {
-            int count = _repository.Read().Count;
-            _repository.Delete(_repository.Read()[0]);
-            Assert.Equal(count - 1, _repository.Read().Count);
+            int count = _repository.Read().Count();
+            _repository.Delete(_repository.Read().ToList()[0]);
+            Assert.Equal(count - 1, _repository.Read().Count());
         }
 
         [Fact]

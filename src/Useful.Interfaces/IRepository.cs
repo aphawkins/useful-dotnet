@@ -37,7 +37,7 @@ namespace Useful
         /// Retrieves all the items.
         /// </summary>
         /// <returns>All the items.</returns>
-        IList<T> Read();
+        IEnumerable<T> Read();
 
         /// <summary>
         /// Updates an item in the repository.

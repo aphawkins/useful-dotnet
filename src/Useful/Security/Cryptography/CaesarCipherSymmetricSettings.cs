@@ -5,14 +5,18 @@
 namespace Useful.Security.Cryptography
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Accesses the Caesar Shift algorithm settings.
     /// </summary>
     public class CaesarCipherSymmetricSettings : CaesarCipherSettings, ISymmetricCipherSettings
     {
+        private readonly ISymmetricKeyGenerator _keyGen = new CaesarKeyGenerator();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipherSymmetricSettings"/> class.
         /// </summary>
@@ -27,11 +31,11 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets the Initialization Vector.
         /// </summary>
-        public ICollection<byte> IV
+        public IEnumerable<byte> IV
         {
             get
             {
-                return new List<byte>();
+                return _keyGen.DefaultIv;
             }
 
             private set
@@ -43,11 +47,11 @@ namespace Useful.Security.Cryptography
         /// Gets the encryption Key.
         /// </summary>
         /// <returns>The encryption key.</returns>
-        public ICollection<byte> Key
+        public IEnumerable<byte> Key
         {
             get
             {
-                return new List<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
+                return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
             }
 
             private set

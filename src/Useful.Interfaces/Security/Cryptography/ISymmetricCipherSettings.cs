@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <value>The encryption Key.</value>
         /// <returns>Encryption Key.</returns>
-        ICollection<byte> Key
+        IEnumerable<byte> Key
         {
             get;
         }
@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <value>The Initialization Vector.</value>
         /// <returns>Initialization Vector.</returns>
-        ICollection<byte> IV
+        IEnumerable<byte> IV
         {
             get;
         }

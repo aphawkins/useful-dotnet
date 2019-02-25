@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -68,40 +69,6 @@ namespace Useful.Security.Cryptography.Tests
         {
             _settings = new CaesarCipherSymmetricSettings(Encoding.Unicode.GetBytes($"{0}"), null);
             Assert.Throws<ArgumentOutOfRangeException>(() => _settings.RightShift = rightShift);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(25)]
-        public void SetKey(int rightShift)
-        {
-            Assert.True(rightShift == int.MaxValue);
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(26)]
-        public void SetKeyOutOfRange(int rightShift)
-        {
-            Assert.True(rightShift == int.MaxValue);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(25)]
-        public void SetIv(int value)
-        {
-            Assert.True(value == int.MaxValue);
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(26)]
-        public void SetIvOutOfRange(int value)
-        {
-            Assert.True(value == int.MaxValue);
         }
 
         public void Dispose()
