@@ -19,6 +19,12 @@ namespace Useful.Security.Cryptography.Tests
             _cipher = new CaesarSymmetric();
         }
 
+        [Fact]
+        public void Name()
+        {
+            Assert.Equal("Caesar", _cipher.ToString());
+        }
+
         [Theory]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0)]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3)]
