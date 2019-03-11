@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarSymmetric.cs" company="APH Software">
+﻿// <copyright file="ClassicalSymmetricAlgorithm.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,16 +8,20 @@ namespace Useful.Security.Cryptography
     using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
-    /// Accesses the Caesar Shift algorithm.
+    /// Classical symmetric algorithm.
     /// </summary>
-    public sealed class CaesarSymmetric : SymmetricAlgorithm
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TU"></typeparam>
+    public sealed class ClassicalSymmetricAlgorithm<T, TU> : SymmetricAlgorithm
+        where T : ICipher
+        where TU : ISymmetricCipherSettings
     {
-        private readonly ISymmetricKeyGenerator _keyGen = new CaesarKeyGenerator();
+        private readonly ISymmetricKeyGenerator _keyGen = new SymmetricKeyGenerator();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
+        /// Initializes a new instance of the <see cref="ClassicalSymmetricAlgorithm{T}"/> class.
         /// </summary>
-        public CaesarSymmetric()
+        public ClassicalSymmetricAlgorithm()
             : base()
         {
             Reset();
@@ -26,13 +30,13 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            return new CaesarTransform(rgbKey, CipherTransformMode.Decrypt);
+            return new SymmetricTransform<T, TU>(rgbKey, rgbIV, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            return new CaesarTransform(rgbKey, CipherTransformMode.Encrypt);
+            return new SymmetricTransform<T, TU>(rgbKey, rgbIV, CipherTransformMode.Encrypt);
         }
 
         /// <inheritdoc />
@@ -42,16 +46,12 @@ namespace Useful.Security.Cryptography
             IVValue = _keyGen.RandomIv();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Generates a random key to be used for the algorithm.
+        /// </summary>
         public override void GenerateKey()
         {
             KeyValue = _keyGen.RandomKey();
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return "Caesar";
         }
 
         private void Reset()

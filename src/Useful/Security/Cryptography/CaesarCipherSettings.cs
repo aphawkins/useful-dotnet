@@ -5,13 +5,11 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public class CaesarCipherSettings : ICipherSettings
+    public class CaesarCipherSettings : CipherSettings
     {
         /// <summary>
         /// The right shift.
@@ -28,9 +26,6 @@ namespace Useful.Security.Cryptography
 
             _rightShift = rightShift;
         }
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the right shift of the cipher.
@@ -50,15 +45,6 @@ namespace Useful.Security.Cryptography
 
                 NotifyPropertyChanged();
             }
-        }
-
-        /// <summary>
-        /// Used to raise the <see cref="PropertyChanged" /> event.
-        /// </summary>
-        /// <param name="propertyName">The name of the property that has changed.</param>
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private static void ValidateRightShift(int value)
