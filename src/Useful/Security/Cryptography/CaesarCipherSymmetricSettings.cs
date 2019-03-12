@@ -15,8 +15,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CaesarCipherSymmetricSettings : CaesarCipherSettings, ISymmetricCipherSettings
     {
-        private readonly ISymmetricKeyGenerator _keyGen = new CaesarKeyGenerator();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipherSymmetricSettings"/> class.
         /// </summary>
@@ -35,7 +33,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return _keyGen.DefaultIv;
+                return KeyGenerator.DefaultIv;
             }
 
             private set
@@ -61,6 +59,9 @@ namespace Useful.Security.Cryptography
                 NotifyPropertyChanged();
             }
         }
+
+        /// <inheritdoc />
+        public ISymmetricKeyGenerator KeyGenerator { get; } = new CaesarKeyGenerator();
 
         private static int GetRightShift(byte[] key)
         {
