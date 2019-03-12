@@ -4,39 +4,41 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Security.Cryptography;
     using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Classical symmetric algorithm.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TU"></typeparam>
-    public sealed class ClassicalSymmetricAlgorithm<T, TU> : SymmetricAlgorithm
-        where T : ICipher
-        where TU : ISymmetricCipherSettings
+    public sealed class ClassicalSymmetricAlgorithm : SymmetricAlgorithm
     {
-        private readonly ISymmetricKeyGenerator _keyGen = new SymmetricKeyGenerator();
+        private readonly ICipher _cipher;
+        private readonly ISymmetricKeyGenerator _keyGen;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClassicalSymmetricAlgorithm{T}"/> class.
+        /// Initializes a new instance of the <see cref="ClassicalSymmetricAlgorithm"/> class.
         /// </summary>
-        public ClassicalSymmetricAlgorithm()
+        /// <param name="cipher">The classical cipher to use.</param>
+        /// <param name="keyGen">The classical cipher's key generator.</param>
+        public ClassicalSymmetricAlgorithm(ICipher cipher, ISymmetricKeyGenerator keyGen)
             : base()
         {
+            _cipher = cipher ?? throw new ArgumentNullException(nameof(cipher));
+            _keyGen = keyGen ?? throw new ArgumentNullException(nameof(keyGen));
             Reset();
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            return new SymmetricTransform<T, TU>(rgbKey, rgbIV, CipherTransformMode.Decrypt);
+            return new ClassicalSymmetricTransform(_cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            return new SymmetricTransform<T, TU>(rgbKey, rgbIV, CipherTransformMode.Encrypt);
+            return new ClassicalSymmetricTransform(_cipher, CipherTransformMode.Encrypt);
         }
 
         /// <inheritdoc />

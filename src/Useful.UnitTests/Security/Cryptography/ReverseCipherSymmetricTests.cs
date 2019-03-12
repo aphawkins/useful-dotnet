@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.Tests
 
         public ReverseCipherSymmetricTests()
         {
-            _cipher = new ReverseSymmetric();
+            _cipher = new ClassicalSymmetricAlgorithm(new ReverseCipher(), new SymmetricKeyGenerator());
         }
 
         [Fact]

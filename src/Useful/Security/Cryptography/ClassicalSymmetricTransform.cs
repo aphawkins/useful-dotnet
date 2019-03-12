@@ -1,4 +1,4 @@
-﻿// <copyright file="SymmetricTransform{T,TU}.cs" company="APH Software">
+﻿// <copyright file="ClassicalSymmetricTransform.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,21 +8,17 @@ namespace Useful.Security.Cryptography
     using System.Security.Cryptography;
     using System.Text;
 
-    internal sealed class SymmetricTransform<T, TU> : ICryptoTransform
-        where T : ICipher, new()
-        where TU : ISymmetricCipherSettings, new()
+    internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
         private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
         private readonly ICipher _cipher;
-        private readonly ISymmetricCipherSettings _settings;
         private Encoding _encoding = new UnicodeEncoding();
 
-        internal SymmetricTransform(byte[] rgbKey, byte[] iv, CipherTransformMode transformMode)
+        internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
         {
-            _settings = new TU(rgbKey, iv);
             _transformMode = transformMode;
-            _cipher = new T();
+            _cipher = cipher;
         }
 
         public bool CanReuseTransform => true;
