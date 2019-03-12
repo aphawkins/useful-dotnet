@@ -8,14 +8,21 @@ namespace Useful.Security.Cryptography
     using System.Collections.Generic;
     using Useful.Interfaces.Security.Cryptography;
 
-    internal class SymmetricKeyGenerator : ISymmetricKeyGenerator
+    /// <summary>
+    /// Empty key generator.
+    /// </summary>
+    public class SymmetricKeyGenerator : ISymmetricKeyGenerator
     {
+        /// <inheritdoc />
         public IEnumerable<byte> DefaultIv => Array.Empty<byte>();
 
+        /// <inheritdoc />
         public IEnumerable<byte> DefaultKey => Array.Empty<byte>();
 
+        /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();
 
+        /// <inheritdoc />
         public byte[] RandomKey() => Array.Empty<byte>();
     }
 }
