@@ -12,8 +12,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class SymmetricCipherSettings : CipherSettings, ISymmetricCipherSettings
     {
-        private readonly ISymmetricKeyGenerator _keyGen = new SymmetricKeyGenerator();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SymmetricCipherSettings"/> class.
         /// </summary>
@@ -41,7 +39,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return _keyGen.DefaultIv;
+                return KeyGenerator.DefaultIv;
             }
 
             private set
@@ -57,12 +55,15 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return _keyGen.DefaultKey;
+                return KeyGenerator.DefaultKey;
             }
 
             private set
             {
             }
         }
+
+        /// <inheritdoc />
+        public ISymmetricKeyGenerator KeyGenerator { get; } = new SymmetricKeyGenerator();
     }
 }

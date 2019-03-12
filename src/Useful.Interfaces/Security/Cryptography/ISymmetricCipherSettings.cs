@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System.Collections.Generic;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Settings required to perform a symmetric cipher algorithm.
@@ -27,6 +28,14 @@ namespace Useful.Security.Cryptography
         /// <value>The Initialization Vector.</value>
         /// <returns>Initialization Vector.</returns>
         IEnumerable<byte> IV
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets a key generator used to get default and random settings.
+        /// </summary>
+        ISymmetricKeyGenerator KeyGenerator
         {
             get;
         }

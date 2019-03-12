@@ -7,7 +7,7 @@ namespace Useful.Interfaces.Security.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// Symmetric key generator.
+    /// Key generator used to get default and random settings.
     /// </summary>
     public interface ISymmetricKeyGenerator
     {
