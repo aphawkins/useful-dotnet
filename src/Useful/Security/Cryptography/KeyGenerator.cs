@@ -1,4 +1,4 @@
-﻿// <copyright file="SymmetricKeyGenerator.cs" company="APH Software">
+﻿// <copyright file="KeyGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Empty key generator.
     /// </summary>
-    public class SymmetricKeyGenerator : ISymmetricKeyGenerator
+    public class KeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
         public IEnumerable<byte> DefaultIv => Array.Empty<byte>();

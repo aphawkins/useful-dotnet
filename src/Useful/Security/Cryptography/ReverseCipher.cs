@@ -12,6 +12,23 @@ namespace Useful.Security.Cryptography
     public class ReverseCipher : ICipher
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
+        /// </summary>
+        public ReverseCipher()
+            : this(new CipherSettings())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
+        /// </summary>
+        /// <param name="settings">The cipher's settings.</param>
+        public ReverseCipher(CipherSettings settings)
+        {
+            Settings = settings;
+        }
+
+        /// <summary>
         /// Gets the name of this cipher.
         /// </summary>
         public string CipherName => "Reverse";

@@ -1,4 +1,4 @@
-// <copyright file="ReverseCipherSymmetricTests.cs" company="APH Software">
+// <copyright file="ROT13CipherSymmetricTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,37 +9,37 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class ReverseCipherSymmetricTests : IDisposable
+    public class ROT13CipherSymmetricTests : IDisposable
     {
         private SymmetricAlgorithm _cipher;
 
-        public ReverseCipherSymmetricTests()
+        public ROT13CipherSymmetricTests()
         {
-            _cipher = new ReverseSymmetric();
+            _cipher = new ROT13Symmetric();
         }
 
         [Fact]
         public void Name()
         {
-            Assert.Equal("Reverse", _cipher.ToString());
+            Assert.Equal("ROT13", _cipher.ToString());
         }
 
         [Theory]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")]
+        [InlineData(">?@ [\\]", ">?@ [\\]")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
         [Theory]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")]
+        [InlineData(">?@ [\\]", ">?@ [\\]")]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(_cipher, CipherTransformMode.Decrypt, ciphertext));
+            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_cipher, CipherTransformMode.Decrypt, plaintext));
         }
 
         public void Dispose()

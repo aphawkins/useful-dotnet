@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class CaesarCipherSymmetricSettingsTests : IDisposable
     {
-        private CaesarCipherSymmetricSettings _settings;
+        private CaesarCipherSettings _settings;
 
         public CaesarCipherSymmetricSettingsTests()
         {
@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            _settings = new CaesarCipherSymmetricSettings(key, null);
+            _settings = new CaesarCipherSettings(key, null);
             _settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
 
             Assert.Equal(new List<byte>(key), _settings.Key);
@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructOutOfRange(int rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            Assert.Throws<ArgumentOutOfRangeException>(() => _settings = new CaesarCipherSymmetricSettings(key, null));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _settings = new CaesarCipherSettings(key, null));
         }
 
         [Theory]
@@ -51,7 +51,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetRightShift(int rightShift)
         {
             string propertyChanged = string.Empty;
-            _settings = new CaesarCipherSymmetricSettings(Encoding.Unicode.GetBytes($"{0}"), null);
+            _settings = new CaesarCipherSettings(Encoding.Unicode.GetBytes($"{0}"), null);
             _settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             _settings.RightShift = rightShift;
 
@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(26)]
         public void SetRightShiftOutOfRange(int rightShift)
         {
-            _settings = new CaesarCipherSymmetricSettings(Encoding.Unicode.GetBytes($"{0}"), null);
+            _settings = new CaesarCipherSettings(Encoding.Unicode.GetBytes($"{0}"), null);
             Assert.Throws<ArgumentOutOfRangeException>(() => _settings.RightShift = rightShift);
         }
 
