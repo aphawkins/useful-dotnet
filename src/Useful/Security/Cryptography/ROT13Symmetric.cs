@@ -14,14 +14,6 @@ namespace Useful.Security.Cryptography
     {
         private readonly IKeyGenerator _keyGen = new KeyGenerator();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ROT13Symmetric"/> class.
-        /// </summary>
-        public ROT13Symmetric()
-            : base()
-        {
-        }
-
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {

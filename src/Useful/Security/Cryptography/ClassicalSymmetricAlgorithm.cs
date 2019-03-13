@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System;
     using System.Security.Cryptography;
 
     /// <summary>
