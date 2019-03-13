@@ -14,14 +14,6 @@ namespace Useful.Security.Cryptography
     {
         private readonly IKeyGenerator _keyGen = new CaesarKeyGenerator();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
-        /// </summary>
-        public CaesarSymmetric()
-            : base()
-        {
-        }
-
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
