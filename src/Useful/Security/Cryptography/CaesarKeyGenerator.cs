@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Caesar key generator.
     /// </summary>
-    public class CaesarKeyGenerator : ISymmetricKeyGenerator
+    public class CaesarKeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
         public IEnumerable<byte> DefaultIv => Array.Empty<byte>();

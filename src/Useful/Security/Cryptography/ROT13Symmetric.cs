@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarSymmetric.cs" company="APH Software">
+﻿// <copyright file="ROT13Symmetric.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,16 +8,16 @@ namespace Useful.Security.Cryptography
     using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
-    /// Accesses the Caesar Shift algorithm.
+    /// Accesses the Reverse algorithm.
     /// </summary>
-    public sealed class CaesarSymmetric : ClassicalSymmetricAlgorithm
+    public sealed class ROT13Symmetric : ClassicalSymmetricAlgorithm
     {
-        private readonly IKeyGenerator _keyGen = new CaesarKeyGenerator();
+        private readonly IKeyGenerator _keyGen = new KeyGenerator();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
+        /// Initializes a new instance of the <see cref="ROT13Symmetric"/> class.
         /// </summary>
-        public CaesarSymmetric()
+        public ROT13Symmetric()
             : base()
         {
         }
@@ -25,14 +25,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new CaesarCipher(new CaesarCipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new CaesarCipher(new CaesarCipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
@@ -52,7 +52,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString()
         {
-            return "Caesar";
+            return "ROT13";
         }
     }
 }

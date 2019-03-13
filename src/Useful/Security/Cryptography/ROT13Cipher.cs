@@ -12,6 +12,23 @@ namespace Useful.Security.Cryptography
     public class ROT13Cipher : ICipher
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
+        /// </summary>
+        public ROT13Cipher()
+            : this(new CipherSettings())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
+        /// </summary>
+        /// <param name="settings">The cipher's settings.</param>
+        public ROT13Cipher(CipherSettings settings)
+        {
+            Settings = settings;
+        }
+
+        /// <summary>
         /// Gets the name of this cipher.
         /// </summary>
         public string CipherName => "ROT13";
