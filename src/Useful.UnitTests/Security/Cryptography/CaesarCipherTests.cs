@@ -57,6 +57,7 @@ namespace Useful.Security.Cryptography.Tests
             if (disposing)
             {
                 // free managed resources
+                (_cipher as IDisposable)?.Dispose();
                 _cipher = null;
             }
 

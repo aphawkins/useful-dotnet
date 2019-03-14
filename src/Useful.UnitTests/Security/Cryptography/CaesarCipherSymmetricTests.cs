@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.Tests
 
         public CaesarCipherSymmetricTests()
         {
-            _cipher = new CaesarSymmetric();
+            _cipher = new CaesarCipher();
         }
 
         [Fact]
