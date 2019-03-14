@@ -5,47 +5,67 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 
     public class ReverseCipherTests : IDisposable
     {
         private ICipher _cipher;
+        private SymmetricAlgorithm _symmetric;
 
         public ReverseCipherTests()
         {
             _cipher = new ReverseCipher();
+            _symmetric = new ReverseCipher();
         }
 
-        [Fact]
-        public void Name()
+        public static TheoryData<string, string> Data => new TheoryData<string, string>
         {
-            Assert.Equal("Reverse", _cipher.CipherName);
-            Assert.Equal(_cipher.CipherName, _cipher.ToString());
-        }
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
+            { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
+            { ">?@ [\\]", "]\\[ @?>" },
+        };
 
         [Theory]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
-        public void Encrypt(string plaintext, string ciphertext)
-        {
-            Assert.Equal(ciphertext, _cipher.Encrypt(plaintext));
-        }
-
-        [Theory]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")]
-        [InlineData(">?@ [\\]", "]\\[ @?>")]
-        public void Decrypt(string plaintext, string ciphertext)
+        [MemberData(nameof(Data))]
+        public void DecryptCipher(string plaintext, string ciphertext)
         {
             Assert.Equal(plaintext, _cipher.Decrypt(ciphertext));
+        }
+
+        [Theory(Skip = "Symmetric reverse is performed on individual blocks (a single char).")]
+        [MemberData(nameof(Data))]
+        public void DecryptSymmetric(string plaintext, string ciphertext)
+        {
+            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Decrypt, ciphertext));
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void EncryptCipher(string plaintext, string ciphertext)
+        {
+            Assert.Equal(ciphertext, _cipher.Encrypt(plaintext));
+        }
+
+        [Theory(Skip = "Symmetric reverse is performed on individual blocks (a single char).")]
+        [MemberData(nameof(Data))]
+        public void EncryptSymmetric(string plaintext, string ciphertext)
+        {
+            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Encrypt, plaintext));
+        }
+
+        [Fact]
+        public void Name()
+        {
+            Assert.Equal("Reverse", _cipher.CipherName);
+            Assert.Equal("Reverse", _symmetric.ToString());
         }
 
         protected virtual void Dispose(bool disposing)
@@ -55,6 +75,9 @@ namespace Useful.Security.Cryptography.Tests
                 // free managed resources
                 (_cipher as IDisposable)?.Dispose();
                 _cipher = null;
+
+                _symmetric?.Dispose();
+                _symmetric = null;
             }
 
             // free native resources if there are any.
