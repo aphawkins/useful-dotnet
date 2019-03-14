@@ -4,13 +4,17 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Security.Cryptography;
     using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public class ROT13Cipher : ICipher
+    public class ROT13Cipher : ClassicalSymmetricAlgorithm, ICipher
     {
+        private readonly IKeyGenerator _keyGen = new KeyGenerator();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
         /// </summary>
@@ -38,6 +42,30 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public ICipherSettings Settings { get; set; }
 
+        /// <inheritdoc />
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
+        }
+
+        /// <inheritdoc />
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
+        }
+
+        /// <summary>
+        /// Decrypts a ciphertext string.
+        /// </summary>
+        /// <param name="ciphertext">The text to decrypt.</param>
+        /// <returns>The decrypted text.</returns>
+        public string Decrypt(string ciphertext)
+        {
+            return Encrypt(ciphertext);
+        }
+
         /// <summary>
         /// Encrypts a plaintext string.
         /// </summary>
@@ -49,18 +77,18 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int c = (int)plaintext[i];
+                int c = plaintext[i];
 
                 // Uppercase
-                if (c >= (int)'A' && c <= (int)'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + 13) % 26) + (int)'A'));
+                    sb.Append((char)(((c - 'A' + 13) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= (int)'a' && c <= (int)'z')
+                else if (c >= 'a' && c <= 'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + 13) % 26) + (int)'a'));
+                    sb.Append((char)(((c - 'a' + 13) % 26) + 'a'));
                 }
                 else
                 {
@@ -71,14 +99,17 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Decrypts a ciphertext string.
-        /// </summary>
-        /// <param name="ciphertext">The text to decrypt.</param>
-        /// <returns>The decrypted text.</returns>
-        public string Decrypt(string ciphertext)
+        /// <inheritdoc />
+        public override void GenerateIV()
         {
-            return Encrypt(ciphertext);
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateKey()
+        {
+            KeyValue = _keyGen.RandomKey();
         }
 
         /// <summary>

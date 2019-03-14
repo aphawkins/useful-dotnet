@@ -67,18 +67,18 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                int c = (int)ciphertext[i];
+                int c = ciphertext[i];
 
                 // Uppercase
-                if (c >= (int)'A' && c <= (int)'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - 'A' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= (int)'a' && c <= (int)'z')
+                else if (c >= 'a' && c <= 'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - 'a' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + 'a'));
                 }
                 else
                 {
@@ -100,18 +100,18 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int c = (int)plaintext[i];
+                int c = plaintext[i];
 
                 // Uppercase
-                if (c >= (int)'A' && c <= (int)'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - 'A' + ((CaesarCipherSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= (int)'a' && c <= (int)'z')
+                else if (c >= 'a' && c <= 'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - 'a' + ((CaesarCipherSettings)Settings).RightShift) % 26) + 'a'));
                 }
                 else
                 {
