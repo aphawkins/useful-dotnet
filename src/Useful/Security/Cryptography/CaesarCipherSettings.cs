@@ -5,18 +5,32 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public class CaesarCipherSettings : ICipherSettings
+    public class CaesarCipherSettings : CipherSettings
     {
         /// <summary>
         /// The right shift.
         /// </summary>
         private int _rightShift;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
+        /// </summary>
+        /// <param name="key">The encryption Key.</param>
+        /// <param name="iv">The Initialization Vector.</param>
+        public CaesarCipherSettings(byte[] key, byte[] iv)
+            : this(GetRightShift(key))
+        {
+            IV = iv;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
@@ -29,8 +43,38 @@ namespace Useful.Security.Cryptography
             _rightShift = rightShift;
         }
 
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Gets the Initialization Vector.
+        /// </summary>
+        public override IEnumerable<byte> IV
+        {
+            get
+            {
+                return KeyGenerator.DefaultIv;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the encryption Key.
+        /// </summary>
+        /// <returns>The encryption key.</returns>
+        public override IEnumerable<byte> Key
+        {
+            get
+            {
+                return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
+            }
+
+            set
+            {
+                RightShift = int.Parse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), CultureInfo.InvariantCulture);
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <inheritdoc />
+        public override IKeyGenerator KeyGenerator { get; } = new CaesarKeyGenerator();
 
         /// <summary>
         /// Gets or sets the right shift of the cipher.
@@ -52,13 +96,9 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Used to raise the <see cref="PropertyChanged" /> event.
-        /// </summary>
-        /// <param name="propertyName">The name of the property that has changed.</param>
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        private static int GetRightShift(byte[] key)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return int.Parse(Encoding.Unicode.GetString(key), CultureInfo.InvariantCulture);
         }
 
         private static void ValidateRightShift(int value)

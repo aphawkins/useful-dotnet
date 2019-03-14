@@ -5,13 +5,34 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Security.Cryptography;
     using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// The Atbash cipher.
     /// </summary>
-    public class AtbashCipher : ICipher
+    public class AtbashCipher : ClassicalSymmetricAlgorithm, ICipher
     {
+        private readonly IKeyGenerator _keyGen = new KeyGenerator();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
+        /// </summary>
+        public AtbashCipher()
+            : this(new CipherSettings())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
+        /// </summary>
+        /// <param name="settings">The cipher's settings.</param>
+        public AtbashCipher(CipherSettings settings)
+        {
+            Settings = settings;
+        }
+
         /// <summary>
         /// Gets the name of this cipher.
         /// </summary>
@@ -21,6 +42,20 @@ namespace Useful.Security.Cryptography
         /// Gets or sets the settings.
         /// </summary>
         public ICipherSettings Settings { get; set; }
+
+        /// <inheritdoc />
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new AtbashCipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
+        }
+
+        /// <inheritdoc />
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new AtbashCipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
+        }
 
         /// <summary>
         /// Decrypts a ciphertext string.
@@ -53,6 +88,19 @@ namespace Useful.Security.Cryptography
             }
 
             return ciphertext.ToString();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateIV()
+        {
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateKey()
+        {
+            KeyValue = _keyGen.RandomKey();
         }
 
         /// <summary>
