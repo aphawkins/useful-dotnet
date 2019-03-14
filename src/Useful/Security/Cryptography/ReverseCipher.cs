@@ -5,12 +5,16 @@
 namespace Useful.Security.Cryptography
 {
     using System.Linq;
+    using System.Security.Cryptography;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// The Reverse cipher.
     /// </summary>
-    public class ReverseCipher : ICipher
+    public class ReverseCipher : ClassicalSymmetricAlgorithm, ICipher
     {
+        private readonly IKeyGenerator _keyGen = new KeyGenerator();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
         /// </summary>
@@ -38,14 +42,18 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public ICipherSettings Settings { get; set; }
 
-        /// <summary>
-        /// Encrypts a plaintext string.
-        /// </summary>
-        /// <param name="plaintext">The text to encrypt.</param>
-        /// <returns>The encrypted text.</returns>
-        public string Encrypt(string plaintext)
+        /// <inheritdoc />
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            return new string(plaintext.Reverse().ToArray());
+            ICipher cipher = new ReverseCipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
+        }
+
+        /// <inheritdoc />
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new ReverseCipher(new CipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
         /// <summary>
@@ -56,6 +64,29 @@ namespace Useful.Security.Cryptography
         public string Decrypt(string ciphertext)
         {
             return Encrypt(ciphertext);
+        }
+
+        /// <summary>
+        /// Encrypts a plaintext string.
+        /// </summary>
+        /// <param name="plaintext">The text to encrypt.</param>
+        /// <returns>The encrypted text.</returns>
+        public string Encrypt(string plaintext)
+        {
+            return new string(plaintext.Reverse().ToArray());
+        }
+
+        /// <inheritdoc />
+        public override void GenerateIV()
+        {
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateKey()
+        {
+            KeyValue = _keyGen.RandomKey();
         }
 
         /// <summary>
