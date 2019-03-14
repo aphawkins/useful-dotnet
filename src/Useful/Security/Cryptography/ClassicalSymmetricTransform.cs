@@ -1,4 +1,4 @@
-// <copyright file="CaesarTransform.cs" company="APH Software">
+﻿// <copyright file="ClassicalSymmetricTransform.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,19 +8,17 @@ namespace Useful.Security.Cryptography
     using System.Security.Cryptography;
     using System.Text;
 
-    internal sealed class CaesarTransform : ICryptoTransform
+    internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
         private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
-        private readonly CaesarCipher _cipher;
-        private readonly CaesarCipherSymmetricSettings _settings;
+        private readonly ICipher _cipher;
         private Encoding _encoding = new UnicodeEncoding();
 
-        internal CaesarTransform(byte[] rgbKey, CipherTransformMode transformMode)
+        internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
         {
-            _settings = new CaesarCipherSymmetricSettings(rgbKey, null);
             _transformMode = transformMode;
-            _cipher = new CaesarCipher(_settings);
+            _cipher = cipher;
         }
 
         public bool CanReuseTransform => true;

@@ -4,13 +4,17 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Security.Cryptography;
     using System.Text;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public class CaesarCipher : ICipher
+    public class CaesarCipher : ClassicalSymmetricAlgorithm, ICipher
     {
+        private readonly IKeyGenerator _keyGen = new CaesarKeyGenerator();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
         /// </summary>
@@ -38,6 +42,20 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public ICipherSettings Settings { get; set; }
 
+        /// <inheritdoc />
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new CaesarCipher(new CaesarCipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
+        }
+
+        /// <inheritdoc />
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
+        {
+            ICipher cipher = new CaesarCipher(new CaesarCipherSettings(rgbKey, rgbIV));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
+        }
+
         /// <summary>
         /// Decrypts a ciphertext string.
         /// </summary>
@@ -49,18 +67,18 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                int c = (int)ciphertext[i];
+                int c = ciphertext[i];
 
                 // Uppercase
-                if (c >= (int)'A' && c <= (int)'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - 'A' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= (int)'a' && c <= (int)'z')
+                else if (c >= 'a' && c <= 'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - 'a' + 26 - ((CaesarCipherSettings)Settings).RightShift) % 26) + 'a'));
                 }
                 else
                 {
@@ -82,18 +100,18 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int c = (int)plaintext[i];
+                int c = plaintext[i];
 
                 // Uppercase
-                if (c >= (int)'A' && c <= (int)'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
-                    sb.Append((char)(((c - (int)'A' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'A'));
+                    sb.Append((char)(((c - 'A' + ((CaesarCipherSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= (int)'a' && c <= (int)'z')
+                else if (c >= 'a' && c <= 'z')
                 {
-                    sb.Append((char)(((c - (int)'a' + ((CaesarCipherSettings)Settings).RightShift) % 26) + (int)'a'));
+                    sb.Append((char)(((c - 'a' + ((CaesarCipherSettings)Settings).RightShift) % 26) + 'a'));
                 }
                 else
                 {
@@ -102,6 +120,19 @@ namespace Useful.Security.Cryptography
             }
 
             return sb.ToString();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateIV()
+        {
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateKey()
+        {
+            KeyValue = _keyGen.RandomKey();
         }
 
         /// <summary>

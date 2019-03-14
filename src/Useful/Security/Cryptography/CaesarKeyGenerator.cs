@@ -9,14 +9,21 @@ namespace Useful.Security.Cryptography
     using System.Security.Cryptography;
     using Useful.Interfaces.Security.Cryptography;
 
-    internal class CaesarKeyGenerator : ISymmetricKeyGenerator
+    /// <summary>
+    /// Caesar key generator.
+    /// </summary>
+    public class CaesarKeyGenerator : IKeyGenerator
     {
+        /// <inheritdoc />
         public IEnumerable<byte> DefaultIv => Array.Empty<byte>();
 
+        /// <inheritdoc />
         public IEnumerable<byte> DefaultKey => new List<byte>() { 1 };
 
+        /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();
 
+        /// <inheritdoc />
         public byte[] RandomKey()
         {
             byte[] randomNumber = new byte[1];

@@ -1,16 +1,15 @@
-﻿// <copyright file="ISymmetricKeyGenerator.cs" company="APH Software">
+﻿// <copyright file="IKeyGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.Interfaces.Security.Cryptography
 {
-    using System.Collections;
     using System.Collections.Generic;
 
     /// <summary>
-    /// Symmetric key generator.
+    /// Key generator used to get default and random settings.
     /// </summary>
-    public interface ISymmetricKeyGenerator
+    public interface IKeyGenerator
     {
         /// <summary>
         /// Gets the default Initialization Vector.
