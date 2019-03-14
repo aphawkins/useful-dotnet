@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.Tests
 
         public ROT13CipherSymmetricTests()
         {
-            _cipher = new ROT13Symmetric();
+            _cipher = new ROT13Cipher();
         }
 
         [Fact]
