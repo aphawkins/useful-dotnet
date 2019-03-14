@@ -10,7 +10,7 @@
     <Rule Id="CA1040" Action="None" /> <!-- Avoid empty interfaces -->
     <Rule Id="CA1303" Action="None" /> <!-- Do not pass literals as localized parameters -->
     <Rule Id="CA1709" Action="None" /> <!-- Identifiers should be cased correctly -->
-	<Rule Id="CA1710" Action="None" /> <!-- Identifiers should have correct suffix -->
+    <Rule Id="CA1710" Action="None" /> <!-- Identifiers should have correct suffix -->
     <Rule Id="CA2210" Action="None" /> <!-- Assemblies should have valid strong names -->
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">

@@ -1,4 +1,4 @@
-// <copyright file="CaesarCipherSymmetricSettingsTests.cs" company="APH Software">
+// <copyright file="CaesarCipherSettingsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,11 +10,11 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class CaesarCipherSymmetricSettingsTests : IDisposable
+    public class CaesarCipherSettingsTests : IDisposable
     {
         private CaesarCipherSettings _settings;
 
-        public CaesarCipherSymmetricSettingsTests()
+        public CaesarCipherSettingsTests()
         {
         }
 
