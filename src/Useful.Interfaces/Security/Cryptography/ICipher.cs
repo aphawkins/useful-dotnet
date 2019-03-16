@@ -4,6 +4,8 @@
 
 namespace Useful.Security.Cryptography
 {
+    using Useful.Interfaces.Security.Cryptography;
+
     /// <summary>
     /// Interface that all ciphers should implement.
     /// </summary>
@@ -13,6 +15,14 @@ namespace Useful.Security.Cryptography
         /// Gets the name of this cipher.
         /// </summary>
         string CipherName { get; }
+
+        /// <summary>
+        /// Gets a key generator used to get default and random settings.
+        /// </summary>
+        IKeyGenerator KeyGenerator
+        {
+            get;
+        }
 
         /// <summary>
         /// Gets or sets the cipher's settings.

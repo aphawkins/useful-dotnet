@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -14,11 +15,24 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CipherSettings : ICipherSettings
     {
+        private IEnumerable<byte> _key;
+        private IEnumerable<byte> _iv;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherSettings"/> class.
         /// </summary>
         public CipherSettings()
+            : this(new KeyGenerator())
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CipherSettings"/> class.
+        /// </summary>
+        /// <param name="keyGenerator">The cipher's key generator.</param>
+        public CipherSettings(IKeyGenerator keyGenerator)
+        {
+            KeyGenerator = keyGenerator;
         }
 
         /// <summary>
@@ -27,48 +41,60 @@ namespace Useful.Security.Cryptography
         /// <param name="key">The encryption Key.</param>
         /// <param name="iv">The Initialization Vector.</param>
         public CipherSettings(byte[] key, byte[] iv)
-            : base()
         {
-            Key = key;
-            IV = iv;
+            Key = key ?? throw new ArgumentNullException(nameof(key));
+            IV = iv ?? throw new ArgumentNullException(nameof(iv));
+
+            KeyGenerator = new KeyGenerator();
         }
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets or sets the Initialization Vector.
-        /// </summary>
+        /// <inheritdoc />
         public virtual IEnumerable<byte> IV
         {
             get
             {
-                return KeyGenerator.DefaultIv;
+                if (_iv == null)
+                {
+                    _iv = KeyGenerator.DefaultKey;
+                }
+
+                return _iv;
             }
 
-            set
+            internal set
             {
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the encryption Key.
-        /// </summary>
-        /// <returns>The encryption key.</returns>
-        public virtual IEnumerable<byte> Key
-        {
-            get
-            {
-                return KeyGenerator.DefaultKey;
-            }
-
-            set
-            {
+                _iv = value;
             }
         }
 
         /// <inheritdoc />
-        public virtual IKeyGenerator KeyGenerator { get; } = new KeyGenerator();
+        public virtual IEnumerable<byte> Key
+        {
+            get
+            {
+                if (_key == null)
+                {
+                    _key = KeyGenerator.DefaultKey;
+                }
+
+                return _key;
+            }
+
+            internal set
+            {
+                _key = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public IKeyGenerator KeyGenerator
+        {
+            get;
+            internal set;
+        }
 
         /// <summary>
         /// Used to raise the <see cref="PropertyChanged" /> event.

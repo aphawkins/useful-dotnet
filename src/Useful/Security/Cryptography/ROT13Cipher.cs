@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public class ROT13Cipher : ClassicalSymmetricAlgorithm, ICipher
+    public class ROT13Cipher : ClassicalSymmetricAlgorithm
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
@@ -26,19 +26,10 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public ROT13Cipher(CipherSettings settings)
+            : base("ROT13", settings, new KeyGenerator())
         {
             Settings = settings;
         }
-
-        /// <summary>
-        /// Gets the name of this cipher.
-        /// </summary>
-        public string CipherName => "ROT13";
-
-        /// <summary>
-        /// Gets or sets the settings.
-        /// </summary>
-        public ICipherSettings Settings { get; set; }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
@@ -54,22 +45,14 @@ namespace Useful.Security.Cryptography
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
-        /// <summary>
-        /// Decrypts a ciphertext string.
-        /// </summary>
-        /// <param name="ciphertext">The text to decrypt.</param>
-        /// <returns>The decrypted text.</returns>
-        public string Decrypt(string ciphertext)
+        /// <inheritdoc />
+        public override string Decrypt(string ciphertext)
         {
             return Encrypt(ciphertext);
         }
 
-        /// <summary>
-        /// Encrypts a plaintext string.
-        /// </summary>
-        /// <param name="plaintext">The text to encrypt.</param>
-        /// <returns>The encrypted string.</returns>
-        public string Encrypt(string plaintext)
+        /// <inheritdoc />
+        public override string Encrypt(string plaintext)
         {
             StringBuilder sb = new StringBuilder(plaintext.Length);
 
@@ -96,24 +79,5 @@ namespace Useful.Security.Cryptography
 
             return sb.ToString();
         }
-
-        /// <inheritdoc />
-        public override void GenerateIV()
-        {
-            // IV is always empty.
-            IVValue = Settings.KeyGenerator.RandomIv();
-        }
-
-        /// <inheritdoc />
-        public override void GenerateKey()
-        {
-            KeyValue = Settings.KeyGenerator.RandomKey();
-        }
-
-        /// <summary>
-        /// The name of the Cipher.
-        /// </summary>
-        /// <returns>Name of the Cipher.</returns>
-        public override string ToString() => CipherName;
     }
 }
