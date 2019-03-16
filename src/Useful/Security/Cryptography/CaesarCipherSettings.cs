@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public class CaesarCipherSettings : CipherSettings
+    public sealed class CaesarCipherSettings : CipherSettings
     {
         /// <summary>
         /// The right shift.
@@ -78,7 +78,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the right shift of the cipher.
         /// </summary>
-        public virtual int RightShift
+        public int RightShift
         {
             get
             {

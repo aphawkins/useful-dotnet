@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
         /// </summary>
         public ReverseCipher()
-            : this(new CipherSettings())
+            : this(new CipherSettings(new KeyGenerator()))
         {
         }
 
@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public ReverseCipher(CipherSettings settings)
-            : base("Reverse", settings, new KeyGenerator())
+            : base("Reverse", settings)
         {
         }
 

@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
         /// </summary>
         public ROT13Cipher()
-            : this(new CipherSettings())
+            : this(new CipherSettings(new KeyGenerator()))
         {
         }
 
@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public ROT13Cipher(CipherSettings settings)
-            : base("ROT13", settings, new KeyGenerator())
+            : base("ROT13", settings)
         {
             Settings = settings;
         }

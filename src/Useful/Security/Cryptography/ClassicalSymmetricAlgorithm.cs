@@ -17,21 +17,12 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="cipherName">The cipher name.</param>
         /// <param name="settings">The cipher settings.</param>
-        /// <param name="keyGenerator">For creating default and random keys.</param>
-        public ClassicalSymmetricAlgorithm(string cipherName, ICipherSettings settings, IKeyGenerator keyGenerator)
+        public ClassicalSymmetricAlgorithm(string cipherName, ICipherSettings settings)
             : base()
         {
             CipherName = cipherName;
             Settings = settings;
-            KeyGenerator = keyGenerator;
             Reset();
-        }
-
-        /// <inheritdoc />
-        public virtual IKeyGenerator KeyGenerator
-        {
-            get;
-            internal set;
         }
 
         /// <inheritdoc />
@@ -64,13 +55,13 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             // IV is always empty.
-            IVValue = KeyGenerator.RandomIv();
+            IVValue = Settings.KeyGenerator.RandomIv();
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = KeyGenerator.RandomKey();
+            KeyValue = Settings.KeyGenerator.RandomKey();
         }
 
         private void Reset()
