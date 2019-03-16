@@ -42,8 +42,8 @@ namespace Useful.Security.Cryptography
         /// <param name="iv">The Initialization Vector.</param>
         public CipherSettings(byte[] key, byte[] iv)
         {
-            Key = key ?? throw new ArgumentNullException(nameof(key));
-            IV = iv ?? throw new ArgumentNullException(nameof(iv));
+            _key = key ?? throw new ArgumentNullException(nameof(key));
+            _iv = iv ?? throw new ArgumentNullException(nameof(iv));
 
             KeyGenerator = new KeyGenerator();
         }
@@ -64,7 +64,7 @@ namespace Useful.Security.Cryptography
                 return _iv;
             }
 
-            internal set
+            protected set
             {
                 _iv = value;
             }
@@ -83,7 +83,7 @@ namespace Useful.Security.Cryptography
                 return _key;
             }
 
-            internal set
+            protected set
             {
                 _key = value;
             }
@@ -93,7 +93,7 @@ namespace Useful.Security.Cryptography
         public IKeyGenerator KeyGenerator
         {
             get;
-            internal set;
+            protected set;
         }
 
         /// <summary>

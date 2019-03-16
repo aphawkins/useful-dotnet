@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography
         public override IEnumerable<byte> IV
         {
             get;
-            internal set;
+            protected set;
         }
 
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace Useful.Security.Cryptography
                 return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
             }
 
-            internal set
+            protected set
             {
                 RightShift = int.Parse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), CultureInfo.InvariantCulture);
 
