@@ -14,8 +14,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class AtbashCipher : ClassicalSymmetricAlgorithm, ICipher
     {
-        private readonly IKeyGenerator _keyGen = new KeyGenerator();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
         /// </summary>
@@ -94,13 +92,13 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             // IV is always empty.
-            IVValue = _keyGen.RandomIv();
+            IVValue = Settings.KeyGenerator.RandomIv();
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = _keyGen.RandomKey();
+            KeyValue = Settings.KeyGenerator.RandomKey();
         }
 
         /// <summary>
