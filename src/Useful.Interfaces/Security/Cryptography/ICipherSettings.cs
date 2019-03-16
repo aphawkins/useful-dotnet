@@ -14,25 +14,23 @@ namespace Useful.Security.Cryptography
     public interface ICipherSettings : INotifyPropertyChanged
     {
         /// <summary>
-        /// Gets or sets the encryption Key.
+        /// Gets the encryption Key.
         /// </summary>
         /// <value>The encryption Key.</value>
         /// <returns>Encryption Key.</returns>
         IEnumerable<byte> Key
         {
             get;
-            set;
         }
 
         /// <summary>
-        /// Gets or sets the Initialization Vector.
+        /// Gets the Initialization Vector.
         /// </summary>
         /// <value>The Initialization Vector.</value>
         /// <returns>Initialization Vector.</returns>
         IEnumerable<byte> IV
         {
             get;
-            set;
         }
 
         /// <summary>

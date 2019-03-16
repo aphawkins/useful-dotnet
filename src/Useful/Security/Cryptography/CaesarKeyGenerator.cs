@@ -7,6 +7,7 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Security.Cryptography;
+    using System.Text;
     using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
@@ -18,7 +19,7 @@ namespace Useful.Security.Cryptography
         public IEnumerable<byte> DefaultIv => Array.Empty<byte>();
 
         /// <inheritdoc />
-        public IEnumerable<byte> DefaultKey => new List<byte>() { 1 };
+        public IEnumerable<byte> DefaultKey => new List<byte>(Encoding.Unicode.GetBytes("1"));
 
         /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();

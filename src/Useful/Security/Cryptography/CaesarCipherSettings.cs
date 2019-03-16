@@ -9,7 +9,6 @@ namespace Useful.Security.Cryptography
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Text;
-    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Settings for the Caesar cipher.
@@ -24,12 +23,20 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
         /// </summary>
+        public CaesarCipherSettings()
+        {
+            KeyGenerator = new CaesarKeyGenerator();
+            Key = KeyGenerator.DefaultKey;
+            IV = KeyGenerator.DefaultIv;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
+        /// </summary>
         /// <param name="key">The encryption Key.</param>
-        /// <param name="iv">The Initialization Vector.</param>
-        public CaesarCipherSettings(byte[] key, byte[] iv)
+        public CaesarCipherSettings(byte[] key)
             : this(GetRightShift(key))
         {
-            IV = iv;
         }
 
         /// <summary>
@@ -37,27 +44,22 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="rightShift">The right shift.</param>
         public CaesarCipherSettings(int rightShift)
+            : this()
         {
             ValidateRightShift(rightShift);
 
+            KeyGenerator = new CaesarKeyGenerator();
             _rightShift = rightShift;
         }
 
-        /// <summary>
-        /// Gets the Initialization Vector.
-        /// </summary>
+        /// <inheritdoc />
         public override IEnumerable<byte> IV
         {
-            get
-            {
-                return KeyGenerator.DefaultIv;
-            }
+            get;
+            internal set;
         }
 
-        /// <summary>
-        /// Gets or sets the encryption Key.
-        /// </summary>
-        /// <returns>The encryption key.</returns>
+        /// <inheritdoc />
         public override IEnumerable<byte> Key
         {
             get
@@ -65,16 +67,13 @@ namespace Useful.Security.Cryptography
                 return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
             }
 
-            set
+            internal set
             {
                 RightShift = int.Parse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), CultureInfo.InvariantCulture);
 
                 NotifyPropertyChanged();
             }
         }
-
-        /// <inheritdoc />
-        public override IKeyGenerator KeyGenerator { get; } = new CaesarKeyGenerator();
 
         /// <summary>
         /// Gets or sets the right shift of the cipher.
