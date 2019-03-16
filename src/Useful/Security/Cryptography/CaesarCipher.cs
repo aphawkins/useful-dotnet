@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public CaesarCipher(CaesarCipherSettings settings)
-            : base("Caesar", settings, new CaesarKeyGenerator())
+            : base("Caesar", settings)
         {
         }
 

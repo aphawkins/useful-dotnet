@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
         /// </summary>
         public AtbashCipher()
-            : this(new CipherSettings())
+            : this(new CipherSettings(new KeyGenerator()))
         {
         }
 
@@ -27,7 +27,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public AtbashCipher(CipherSettings settings)
-            : base("Atbash", settings, new KeyGenerator())
+            : base("Atbash", settings)
         {
         }
 
