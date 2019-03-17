@@ -14,12 +14,6 @@ namespace Useful.Security.Cryptography
     public class KeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
-        public IEnumerable<byte> DefaultIv => Array.Empty<byte>();
-
-        /// <inheritdoc />
-        public IEnumerable<byte> DefaultKey => Array.Empty<byte>();
-
-        /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();
 
         /// <inheritdoc />

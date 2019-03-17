@@ -12,16 +12,6 @@ namespace Useful.Interfaces.Security.Cryptography
     public interface IKeyGenerator
     {
         /// <summary>
-        /// Gets the default Initialization Vector.
-        /// </summary>
-        IEnumerable<byte> DefaultIv { get; }
-
-        /// <summary>
-        /// Gets the default Key.
-        /// </summary>
-        IEnumerable<byte> DefaultKey { get; }
-
-        /// <summary>
         /// Gets a random Key.
         /// </summary>
         /// <returns>A random Key.</returns>

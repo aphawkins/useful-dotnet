@@ -15,24 +15,12 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CipherSettings : ICipherSettings
     {
-        private IEnumerable<byte> _key;
-        private IEnumerable<byte> _iv;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherSettings"/> class.
         /// </summary>
         public CipherSettings()
-            : this(new KeyGenerator())
+            : this(Array.Empty<byte>(), Array.Empty<byte>())
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CipherSettings"/> class.
-        /// </summary>
-        /// <param name="keyGenerator">The cipher's key generator.</param>
-        public CipherSettings(IKeyGenerator keyGenerator)
-        {
-            KeyGenerator = keyGenerator;
         }
 
         /// <summary>
@@ -42,10 +30,8 @@ namespace Useful.Security.Cryptography
         /// <param name="iv">The Initialization Vector.</param>
         public CipherSettings(byte[] key, byte[] iv)
         {
-            _key = key ?? throw new ArgumentNullException(nameof(key));
-            _iv = iv ?? throw new ArgumentNullException(nameof(iv));
-
-            KeyGenerator = new KeyGenerator();
+            Key = key ?? throw new ArgumentNullException(nameof(key));
+            IV = iv ?? throw new ArgumentNullException(nameof(iv));
         }
 
         /// <inheritdoc/>
@@ -54,43 +40,12 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public virtual IEnumerable<byte> IV
         {
-            get
-            {
-                if (_iv == null)
-                {
-                    _iv = KeyGenerator.DefaultKey;
-                }
-
-                return _iv;
-            }
-
-            protected set
-            {
-                _iv = value;
-            }
+            get;
+            protected set;
         }
 
         /// <inheritdoc />
         public virtual IEnumerable<byte> Key
-        {
-            get
-            {
-                if (_key == null)
-                {
-                    _key = KeyGenerator.DefaultKey;
-                }
-
-                return _key;
-            }
-
-            protected set
-            {
-                _key = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public IKeyGenerator KeyGenerator
         {
             get;
             protected set;

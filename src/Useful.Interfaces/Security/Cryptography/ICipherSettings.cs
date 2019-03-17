@@ -32,13 +32,5 @@ namespace Useful.Security.Cryptography
         {
             get;
         }
-
-        /// <summary>
-        /// Gets a key generator used to get default and random settings.
-        /// </summary>
-        IKeyGenerator KeyGenerator
-        {
-            get;
-        }
     }
 }
