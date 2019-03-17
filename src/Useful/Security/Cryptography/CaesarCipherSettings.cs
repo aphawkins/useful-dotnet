@@ -15,6 +15,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class CaesarCipherSettings : CipherSettings
     {
+        private const int DefaultShift = 1;
+
         /// <summary>
         /// The right shift.
         /// </summary>
@@ -24,10 +26,8 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
         /// </summary>
         public CaesarCipherSettings()
+            : this(DefaultShift)
         {
-            KeyGenerator = new CaesarKeyGenerator();
-            Key = KeyGenerator.DefaultKey;
-            IV = KeyGenerator.DefaultIv;
         }
 
         /// <summary>
@@ -44,11 +44,9 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="rightShift">The right shift.</param>
         public CaesarCipherSettings(int rightShift)
-            : this()
+            : base()
         {
             ValidateRightShift(rightShift);
-
-            KeyGenerator = new CaesarKeyGenerator();
             _rightShift = rightShift;
         }
 
@@ -69,8 +67,8 @@ namespace Useful.Security.Cryptography
 
             protected set
             {
-                RightShift = int.Parse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), CultureInfo.InvariantCulture);
-
+                int shift;
+                RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out shift) ? shift : DefaultShift;
                 NotifyPropertyChanged();
             }
         }

@@ -12,6 +12,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public abstract class ClassicalSymmetricAlgorithm : SymmetricAlgorithm, ICipher
     {
+        private IKeyGenerator _keyGen;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassicalSymmetricAlgorithm"/> class.
         /// </summary>
@@ -22,6 +24,7 @@ namespace Useful.Security.Cryptography
         {
             CipherName = cipherName;
             Settings = settings;
+            _keyGen = new KeyGenerator();
             Reset();
         }
 
@@ -55,13 +58,13 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             // IV is always empty.
-            IVValue = Settings.KeyGenerator.RandomIv();
+            IVValue = _keyGen.RandomIv();
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = Settings.KeyGenerator.RandomKey();
+            KeyValue = _keyGen.RandomKey();
         }
 
         private void Reset()

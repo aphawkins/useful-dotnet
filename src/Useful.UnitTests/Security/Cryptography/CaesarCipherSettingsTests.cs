@@ -61,12 +61,21 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData(-1)]
-        [InlineData(26)]
-        public void ConstructSymmetricOutOfRange(int rightShift)
+        [InlineData("-1")]
+        [InlineData("26")]
+        public void ConstructSymmetricOutOfRange(string rightShift)
         {
-            byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
+            byte[] key = Encoding.Unicode.GetBytes(rightShift);
             Assert.Throws<ArgumentOutOfRangeException>(() => _settings = new CaesarCipherSettings(key));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("Hello World")]
+        public void ConstructSymmetricIncorrectFormat(string rightShift)
+        {
+            byte[] key = Encoding.Unicode.GetBytes(rightShift);
+            Assert.Throws<FormatException>(() => _settings = new CaesarCipherSettings(key));
         }
 
         [Theory]

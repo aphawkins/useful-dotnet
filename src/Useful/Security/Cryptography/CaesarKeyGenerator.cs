@@ -16,12 +16,6 @@ namespace Useful.Security.Cryptography
     public class CaesarKeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
-        public IEnumerable<byte> DefaultIv => Array.Empty<byte>();
-
-        /// <inheritdoc />
-        public IEnumerable<byte> DefaultKey => new List<byte>(Encoding.Unicode.GetBytes("1"));
-
-        /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();
 
         /// <inheritdoc />
