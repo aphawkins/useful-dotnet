@@ -13,19 +13,13 @@ namespace UsefulQA
     [TestClass()]
     public class MonoAlphabeticTest
     {
-        #region Fields
-        #endregion
 
-        #region Properties
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContextInstance { get; set; }
-        #endregion
 
-        #region Methods
-        #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:
         //
@@ -53,7 +47,6 @@ namespace UsefulQA
         //{
         //}
         //
-        #endregion
 
         /// <summary>
         ///A test for MonoAlphabetic Constructor
@@ -144,11 +137,8 @@ namespace UsefulQA
         //    // target.
         //}
 
-            #region Test Clear
-            // TODO:
-            // target.Clear();
-            #endregion
+        // TODO:
+        // target.Clear();
 
-        #endregion
     }
 }

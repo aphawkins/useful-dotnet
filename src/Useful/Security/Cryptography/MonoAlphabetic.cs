@@ -1,11 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MonoAlphabetic.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
-// <summary>Simulates the monoalphabetic substitution cipher.</summary>
-//-----------------------------------------------------------------------
-
-namespace Useful.Security.Cryptography
+﻿namespace Useful.Security.Cryptography
 {
     using System;
     using System.Diagnostics;
@@ -15,8 +8,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Simulates the monoalphabetic substitution cipher.
     /// </summary>
-    [DebuggerDisplay("Key-IV={System.Text.Encoding.Unicode.GetString(this.KeyValue)}-{System.Text.Encoding.Unicode.GetString(this.IVValue)}}")]
-    public sealed class MonoAlphabetic : SymmetricAlgorithm
+    public sealed class MonoAlphabetic : ClassicalSymmetricAlgorithm
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
