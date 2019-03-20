@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System.Security.Cryptography;
     using System.Text;
-    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// The ROT13 cipher.
