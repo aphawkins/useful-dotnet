@@ -67,8 +67,7 @@ namespace Useful.Security.Cryptography
 
             protected set
             {
-                int shift;
-                RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out shift) ? shift : DefaultShift;
+                RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out int shift) ? shift : DefaultShift;
             }
         }
 
