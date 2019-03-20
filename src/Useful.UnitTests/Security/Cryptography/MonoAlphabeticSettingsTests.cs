@@ -13,12 +13,13 @@ namespace Useful.Security.Cryptography.Tests
     {
         [Theory]
         [InlineData("ABC||false", 3, 0)]
+        [InlineData("VWXYZ|VW XY|False", 5, 2)]
         public void ContructSymmetric(string keyString, int letterCount, int substitutionCount)
         {
             byte[] key = Encoding.Unicode.GetBytes(keyString);
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(key);
-            Assert.True(settings.AllowedLetters.Count == letterCount);
-            Assert.True(settings.SubstitutionCount == substitutionCount);
+            Assert.Equal(letterCount, settings.AllowedLetters.Count);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
 
         [Fact]
@@ -27,24 +28,10 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Throws<ArgumentNullException>(() => new MonoAlphabeticSettings(null));
         }
 
-        // [TestMethod]
-        // public void MonoAlphabeticSettings_ctor_IV_Null()
-        // {
-        //    try
-        //    {
-        //        target = new MonoAlphabeticSettings(mono.Key, null);
-        //        Assert.Fail();
-        //    }
-        //    catch (ArgumentNullException)
-        //    {
-        //        // Success
-        //    }
-        // }
-
         // [Fact]
         // public void MonoAlphabeticSettings_SetKey_Alphabet_NonEnglish()
         // {
-        //    string tempKey = @"VWXYZ|VW XY|False";
+        //    string tempKey = @;
         //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
 
         // target = new MonoAlphabeticSettings(mono.Key, mono.IV);
