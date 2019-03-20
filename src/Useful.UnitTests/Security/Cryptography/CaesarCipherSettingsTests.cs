@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructSymmetricOutOfRange(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            Assert.Throws<ArgumentOutOfRangeException>(() => new CaesarCipherSettings(key));
+            Assert.Throws<ArgumentOutOfRangeException>("key", () => new CaesarCipherSettings(key));
         }
 
         [Theory]
@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructSymmetricIncorrectFormat(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            Assert.Throws<FormatException>(() => new CaesarCipherSettings(key));
+            Assert.Throws<ArgumentException>("key", () => new CaesarCipherSettings(key));
         }
 
         [Theory]
@@ -101,7 +101,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetRightShiftOutOfRange(int rightShift)
         {
             CaesarCipherSettings settings = new CaesarCipherSettings(Encoding.Unicode.GetBytes($"{0}"));
-            Assert.Throws<ArgumentOutOfRangeException>(() => settings.RightShift = rightShift);
+            Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.RightShift = rightShift);
         }
     }
 }
