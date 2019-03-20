@@ -13,6 +13,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CaesarCipher : ClassicalSymmetricAlgorithm
     {
+        private IKeyGenerator _keyGen;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
         /// </summary>
@@ -28,6 +30,7 @@ namespace Useful.Security.Cryptography
         public CaesarCipher(CaesarCipherSettings settings)
             : base("Caesar", settings)
         {
+            _keyGen = new CaesarKeyGenerator();
         }
 
         /// <inheritdoc />
@@ -100,6 +103,19 @@ namespace Useful.Security.Cryptography
             }
 
             return sb.ToString();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateIV()
+        {
+            // IV is always empty.
+            IVValue = _keyGen.RandomIv();
+        }
+
+        /// <inheritdoc />
+        public override void GenerateKey()
+        {
+            KeyValue = _keyGen.RandomKey();
         }
     }
 }

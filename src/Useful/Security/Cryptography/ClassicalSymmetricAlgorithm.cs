@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Security.Cryptography;
     using Useful.Interfaces.Security.Cryptography;
 
@@ -12,8 +13,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public abstract class ClassicalSymmetricAlgorithm : SymmetricAlgorithm, ICipher
     {
-        private IKeyGenerator _keyGen;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassicalSymmetricAlgorithm"/> class.
         /// </summary>
@@ -24,7 +23,6 @@ namespace Useful.Security.Cryptography
         {
             CipherName = cipherName;
             Settings = settings;
-            _keyGen = new KeyGenerator();
             Reset();
         }
 
@@ -58,13 +56,13 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             // IV is always empty.
-            IVValue = _keyGen.RandomIv();
+            IVValue = Array.Empty<byte>();
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = _keyGen.RandomKey();
+            KeyValue = Array.Empty<byte>();
         }
 
         private void Reset()
@@ -79,8 +77,8 @@ namespace Useful.Security.Cryptography
             LegalKeySizesValue = new KeySizes[1];
             LegalKeySizesValue[0] = new KeySizes(16, 16, 16);
 
-            GenerateKey();
-            GenerateIV();
+            KeyValue = Array.Empty<byte>();
+            IVValue = Array.Empty<byte>();
         }
     }
 }

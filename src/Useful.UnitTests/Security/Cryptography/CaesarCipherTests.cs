@@ -70,8 +70,6 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            Assert.Equal("Caesar", _symmetric.ToString());
-
             Assert.Equal("Caesar", _cipher.CipherName);
             Assert.Equal("Caesar", _symmetric.ToString());
         }

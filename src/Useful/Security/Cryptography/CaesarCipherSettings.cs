@@ -69,7 +69,6 @@ namespace Useful.Security.Cryptography
             {
                 int shift;
                 RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out shift) ? shift : DefaultShift;
-                NotifyPropertyChanged();
             }
         }
 
@@ -90,6 +89,7 @@ namespace Useful.Security.Cryptography
                 _rightShift = value;
 
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(Key));
             }
         }
 
