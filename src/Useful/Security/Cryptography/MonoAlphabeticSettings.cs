@@ -18,6 +18,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class MonoAlphabeticSettings : CipherSettings, IEnumerable<KeyValuePair<char, char>>
     {
+        private const string DefaultLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         /// <summary>
         /// States how many parts there are in the key.
         /// </summary>
@@ -32,8 +34,6 @@ namespace Useful.Security.Cryptography
         /// The char that separates the substitutions.
         /// </summary>
         private const char SubstitutionDelimiter = ' ';
-
-        private const string DefaultLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
         /// The encoding used by this cipher.
@@ -76,12 +76,7 @@ namespace Useful.Security.Cryptography
         public MonoAlphabeticSettings(byte[] key)
             : base()
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            Key = key;
+            Key = key ?? throw new ArgumentNullException(nameof(key));
             _substitutions.CollectionChanged += CollectionChanged;
         }
 
@@ -437,26 +432,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Clears all of the substitutions. The allowed letters and symmetry remain unchanged.
-        /// </summary>
-        public void Reset()
-        {
-            _substitutions.Clear();
-            for (int i = 0; i < _allowedLetters.Count; i++)
-            {
-                _substitutions.Add(_allowedLetters[i]);
-            }
-
-            SubstitutionCount = 0;
-
-            _key = (IList<byte>)BuildKey(AllowedLetters, AllowedLetters, _isSymmetric);
-
-            NotifyPropertyChanged("Item");
-            NotifyPropertyChanged(nameof(Key));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        /// <summary>
         /// Gets the reverse substitution for a letter.
         /// </summary>
         /// <param name="letter">The letter to match.</param>
@@ -720,6 +695,26 @@ namespace Useful.Security.Cryptography
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             CollectionChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Clears all of the substitutions. The allowed letters and symmetry remain unchanged.
+        /// </summary>
+        private void Reset()
+        {
+            _substitutions.Clear();
+            for (int i = 0; i < _allowedLetters.Count; i++)
+            {
+                _substitutions.Add(_allowedLetters[i]);
+            }
+
+            SubstitutionCount = 0;
+
+            _key = (IList<byte>)BuildKey(AllowedLetters, AllowedLetters, _isSymmetric);
+
+            NotifyPropertyChanged("Item");
+            NotifyPropertyChanged(nameof(Key));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
 }
