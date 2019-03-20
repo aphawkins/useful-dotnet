@@ -4,8 +4,6 @@
 
 namespace Useful.Interfaces.Security.Cryptography
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Key generator used to get default and random settings.
     /// </summary>

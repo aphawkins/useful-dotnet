@@ -60,6 +60,12 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(string.Empty, propertyChanged);
         }
 
+        [Fact]
+        public void ConstructSymmetricNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => _settings = new CaesarCipherSettings(null));
+        }
+
         [Theory]
         [InlineData("-1")]
         [InlineData("26")]

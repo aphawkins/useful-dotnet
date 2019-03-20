@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System.Collections.Generic;
     using System.ComponentModel;
-    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Interface that all cipher settings should implement.

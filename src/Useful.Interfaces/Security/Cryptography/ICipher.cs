@@ -4,8 +4,6 @@
 
 namespace Useful.Security.Cryptography
 {
-    using Useful.Interfaces.Security.Cryptography;
-
     /// <summary>
     /// Interface that all ciphers should implement.
     /// </summary>

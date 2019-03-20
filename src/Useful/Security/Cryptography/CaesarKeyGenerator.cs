@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Collections.Generic;
     using System.Security.Cryptography;
     using System.Text;
     using Useful.Interfaces.Security.Cryptography;

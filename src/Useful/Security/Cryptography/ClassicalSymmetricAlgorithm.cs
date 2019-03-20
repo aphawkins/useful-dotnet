@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Security.Cryptography;
-    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Classical symmetric algorithm.
