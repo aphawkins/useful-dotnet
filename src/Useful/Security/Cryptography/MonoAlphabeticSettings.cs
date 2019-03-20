@@ -9,7 +9,6 @@ namespace Useful.Security.Cryptography
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
@@ -42,40 +41,35 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The letters allowed to be used in this cipher.
         /// </summary>
-        private readonly Collection<char> allowedLetters = new Collection<char>();
+        private readonly IList<char> _allowedLetters = new List<char>();
 
         /// <summary>
         /// The current substitutions.
         /// </summary>
-        private readonly ObservableCollection<char> substitutions = new ObservableCollection<char>();
+        private readonly ObservableCollection<char> _substitutions = new ObservableCollection<char>();
 
         /// <summary>
         /// States if this cipher is symmetric i.e. if two letters substitute to each other.
         /// </summary>
-        private bool isSymmetric;
+        private bool _isSymmetric;
 
         /// <summary>
         /// The key used by this cipher.
         /// </summary>
-        private List<byte> key;
+        private IEnumerable<byte> _key;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSettingsObservableCollection"/> class.
+        /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
         /// </summary>
         public MonoAlphabeticSettings()
         {
-            this.substitutions.CollectionChanged += this.CollectionChanged;
+            _substitutions.CollectionChanged += CollectionChanged;
         }
 
         /// <summary>
         /// Occurs when the collection changes.
         /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged; // CA1003: Implemented from Interface
-
-        /// <summary>
-        /// Raised when the settings are changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;   // CA1003: Implemented from Interface
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
         /// Gets the allowable letters.
@@ -85,7 +79,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return this.allowedLetters;
+                return _allowedLetters;
             }
 
             private set
@@ -98,61 +92,33 @@ namespace Useful.Security.Cryptography
                     }
                 }
 
-                this.allowedLetters.Clear();
+                _allowedLetters.Clear();
 
                 foreach (char allowedLetter in value)
                 {
-                    if (this.allowedLetters.Contains(allowedLetter))
+                    if (_allowedLetters.Contains(allowedLetter))
                     {
                         throw new ArgumentException("Allowed Letters must not be duplicated.");
                     }
 
-                    this.allowedLetters.Add(allowedLetter);
+                    _allowedLetters.Add(allowedLetter);
                 }
 
-                this.Reset();
+                Reset();
 
                 // this.key = (List<byte>)MonoAlphabeticSettingsObservableCollection.BuildKey(this.AllowedLetters, this.substitutions, this.isSymmetric);
             }
         }
 
-        /// <summary>
-        /// Gets the name of this cipher.
-        /// </summary>
-        /// <value>Name of the cipher.</value>
-        public string CipherName
+        /// <inheritdoc />
+        public override IEnumerable<byte> Key
         {
             get
             {
-                return "MonoAlphabetic";
-            }
-        }
-
-        /// <summary>
-        /// Gets the Initialization Vector.
-        /// </summary>
-        /// <value>The Initialization Vector.</value>
-        public ICollection<byte> IV
-        {
-            get
-            {
-                return new List<byte>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the encryption Key.
-        /// </summary>
-        /// <value>Encryption Key.</value>
-        /// <returns>The encryption Key.</returns>
-        public ICollection<byte> Key
-        {
-            get
-            {
-                return this.key;
+                return _key;
             }
 
-            private set
+            protected set
             {
                 // Example:
                 // allowed_chars|substitutions|isSymmetric
@@ -170,11 +136,11 @@ namespace Useful.Security.Cryptography
                 if (parts[0] != null)
                 {
                     Collection<char> letters = new Collection<char>(parts[0].ToCharArray());
-                    this.AllowedLetters = letters;
-                    this.substitutions.Clear();
+                    AllowedLetters = letters;
+                    _substitutions.Clear();
                     foreach (char letter in letters)
                     {
-                        this.substitutions.Add(letter);
+                        _substitutions.Add(letter);
                     }
                 }
 
@@ -188,7 +154,7 @@ namespace Useful.Security.Cryptography
 
                 if (!string.IsNullOrEmpty(symmetricPart))
                 {
-                    if (!bool.TryParse(symmetricPart, out this.isSymmetric))
+                    if (!bool.TryParse(symmetricPart, out _isSymmetric))
                     {
                         throw new ArgumentException("Invalid symmetric part.");
                     }
@@ -197,16 +163,16 @@ namespace Useful.Security.Cryptography
                 // Substitutions
                 string substitutionPart = parts[1];
 
-                Dictionary<char, char> pairs = GetPairs(substitutionPart, SubstitutionDelimiter, this.AllowedLetters, this.isSymmetric);
+                IDictionary<char, char> pairs = GetPairs(substitutionPart, SubstitutionDelimiter, AllowedLetters, _isSymmetric);
 
                 foreach (KeyValuePair<char, char> pair in pairs)
                 {
                     this[pair.Key] = pair.Value;
                 }
 
-                this.key = (List<byte>)MonoAlphabeticSettings.BuildKey(this.AllowedLetters, this.substitutions, this.isSymmetric);
+                _key = (IList<byte>)BuildKey(AllowedLetters, _substitutions, _isSymmetric);
 
-                this.OnPropertyChanged(nameof(this.Key));
+                NotifyPropertyChanged(nameof(Key));
             }
         }
 
@@ -229,13 +195,13 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                int subsIndex = this.allowedLetters.IndexOf(substitution);
+                int subsIndex = _allowedLetters.IndexOf(substitution);
                 if (subsIndex < 0)
                 {
                     return substitution;
                 }
 
-                return this.substitutions[subsIndex];
+                return _substitutions[subsIndex];
             }
 
             set
@@ -243,7 +209,7 @@ namespace Useful.Security.Cryptography
                 Debug.Print("[{0},{1}]", substitution, value);
 
                 char from = substitution;
-                int fromIndex = this.AllowedLetters.IndexOf(from);
+                int fromIndex = AllowedLetters.IndexOf(from);
 
                 if (fromIndex < 0)
                 {
@@ -251,7 +217,7 @@ namespace Useful.Security.Cryptography
                 }
 
                 char to = value;
-                int toIndex = this.AllowedLetters.IndexOf(to);
+                int toIndex = AllowedLetters.IndexOf(to);
 
                 if (toIndex < 0)
                 {
@@ -261,109 +227,109 @@ namespace Useful.Security.Cryptography
                 if (substitution == value)
                 {
                     // Substitution count must be >= 0
-                    if (this.SubstitutionCount > 0)
+                    if (SubstitutionCount > 0)
                     {
-                        this.SubstitutionCount--;
+                        SubstitutionCount--;
                     }
                 }
                 else
                 {
-                    this.SubstitutionCount++;
+                    SubstitutionCount++;
                 }
 
-                char fromSubs = this.substitutions[fromIndex];
-                int fromSubsIndex = this.AllowedLetters.IndexOf(fromSubs);
+                char fromSubs = _substitutions[fromIndex];
+                int fromSubsIndex = AllowedLetters.IndexOf(fromSubs);
 
-                char toSubs = this.substitutions[toIndex];
-                int toSubsIndex = this.AllowedLetters.IndexOf(toSubs);
+                char toSubs = _substitutions[toIndex];
+                int toSubsIndex = AllowedLetters.IndexOf(toSubs);
 
-                int toInvIndex = this.substitutions.IndexOf(to);
-                char toInv = this.AllowedLetters[toInvIndex];
+                int toInvIndex = _substitutions.IndexOf(to);
+                char toInv = AllowedLetters[toInvIndex];
 
-                if (this.isSymmetric)
+                if (_isSymmetric)
                 {
-                    this.substitutions[fromIndex] = to;
-                    this.substitutions[toIndex] = from;
+                    _substitutions[fromIndex] = to;
+                    _substitutions[toIndex] = from;
 
                     if (fromSubs != from)
                     {
-                        this.substitutions[fromSubsIndex] = fromSubs;
+                        _substitutions[fromSubsIndex] = fromSubs;
                     }
 
                     if (toSubs != to)
                     {
-                        this.substitutions[toSubsIndex] = toSubs;
+                        _substitutions[toSubsIndex] = toSubs;
                     }
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
                             new KeyValuePair<char, char>(from, fromSubs),
-                            this.allowedLetters.IndexOf(from)));
+                            _allowedLetters.IndexOf(from)));
 
                     if (from != to)
                     {
-                        this.OnCollectionChanged(
+                        OnCollectionChanged(
                             new NotifyCollectionChangedEventArgs(
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(to, from),
                                 new KeyValuePair<char, char>(to, toSubs),
-                                this.allowedLetters.IndexOf(to)));
+                                _allowedLetters.IndexOf(to)));
 
                         if (fromSubs != from)
                         {
-                            this.OnCollectionChanged(
+                            OnCollectionChanged(
                                 new NotifyCollectionChangedEventArgs(
                                     NotifyCollectionChangedAction.Replace,
                                     new KeyValuePair<char, char>(fromSubs, fromSubs),
                                     new KeyValuePair<char, char>(fromSubs, from),
-                                    this.allowedLetters.IndexOf(fromSubs)));
+                                    _allowedLetters.IndexOf(fromSubs)));
                         }
                     }
 
                     if (toSubs != to)
                     {
-                        this.OnCollectionChanged(
+                        OnCollectionChanged(
                             new NotifyCollectionChangedEventArgs(
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(toSubs, toSubs),
                                 new KeyValuePair<char, char>(toSubs, to),
-                                this.allowedLetters.IndexOf(toSubs)));
+                                _allowedLetters.IndexOf(toSubs)));
                     }
                 }
                 else
                 {
-                    if (this.substitutions[fromIndex] == to)
+                    if (_substitutions[fromIndex] == to)
                     {
                         return;
                     }
 
-                    this.substitutions[fromIndex] = to;
+                    _substitutions[fromIndex] = to;
 
-                    this.substitutions[toInvIndex] = fromSubs;
+                    _substitutions[toInvIndex] = fromSubs;
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
                             new KeyValuePair<char, char>(from, fromSubs),
-                            this.allowedLetters.IndexOf(from)));
+                            _allowedLetters.IndexOf(from)));
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(toInv, fromSubs),
                             new KeyValuePair<char, char>(toInv, to),
-                            this.allowedLetters.IndexOf(toInv)));
+                            _allowedLetters.IndexOf(toInv)));
                 }
 
-                this.key = (List<byte>)MonoAlphabeticSettings.BuildKey(this.AllowedLetters, this.substitutions, this.isSymmetric);
+                _key = (List<byte>)BuildKey(AllowedLetters, _substitutions, _isSymmetric);
 
-                Debug.Print("{0}", string.Join(string.Empty, this.substitutions));
+                Debug.Print("{0}", string.Join(string.Empty, _substitutions));
 
-                this.OnPropertyChanged("Item");
-                this.OnPropertyChanged(nameof(Key));
+                NotifyPropertyChanged("Item");
+                NotifyPropertyChanged(nameof(Key));
             }
         }
 
@@ -371,13 +337,13 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the MonoAlphabeticSettings class.
         /// </summary>
         /// <param name="key">The encryption Key.</param>
-        /// <param name="iv">The Initialization Vector.</param>
         /// <returns>The settings created from the specified Key and IV.</returns>
-        public static MonoAlphabeticSettings Create(byte[] key, byte[] iv)
+        public static MonoAlphabeticSettings Create(byte[] key)
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-
-            settings.Key = new List<byte>(key);
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings
+            {
+                Key = new List<byte>(key),
+            };
             return settings;
         }
 
@@ -385,12 +351,13 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the MonoAlphabeticSettings class.
         /// </summary>
         /// <param name="key">The encryption Key.</param>
-        /// <param name="iv">The Initialization Vector.</param>
         /// <returns>A new settings class generated from the specified Key and IV.</returns>
-        public static MonoAlphabeticSettings Create(ICollection<byte> key, ICollection<byte> iv)
+        public static MonoAlphabeticSettings Create(ICollection<byte> key)
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            settings.Key = key;
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings
+            {
+                Key = key,
+            };
             return settings;
         }
 
@@ -400,7 +367,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The default settings.</returns>
         public static MonoAlphabeticSettings GetDefault()
         {
-            return GetDefault(Letters.BasicLatinAlphabetUppercase);
+            return GetDefault(new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()));
         }
 
         /// <summary>
@@ -409,9 +376,8 @@ namespace Useful.Security.Cryptography
         /// <returns>Some randomly generated settings.</returns>
         public static MonoAlphabeticSettings GetRandom()
         {
-            ICollection<byte> key = MonoAlphabeticSettings.GetRandomKey(Letters.BasicLatinAlphabetUppercase, true);
-            List<byte> iv = MonoAlphabeticSettings.GetRandomIV();
-            MonoAlphabeticSettings settings = MonoAlphabeticSettings.Create(key, iv);
+            IEnumerable<byte> key = GetRandomKey(new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()), true);
+            MonoAlphabeticSettings settings = Create(key.ToArray());
             return settings;
         }
 
@@ -421,11 +387,10 @@ namespace Useful.Security.Cryptography
         /// <param name="allowedLetters">The letters that can be used for the cipher.</param>
         /// <param name="isSymmetric">The symmetry of the cipher i.e. whether a ciphertext has to substitute back to the same plaintext.</param>
         /// <returns>Some randomly generated settings.</returns>
-        public static MonoAlphabeticSettings GetRandom(Collection<char> allowedLetters, bool isSymmetric)
+        public static MonoAlphabeticSettings GetRandom(IEnumerable<char> allowedLetters, bool isSymmetric)
         {
-            ICollection<byte> key = MonoAlphabeticSettings.GetRandomKey(allowedLetters, isSymmetric);
-            ICollection<byte> iv = MonoAlphabeticSettings.GetRandomIV();
-            MonoAlphabeticSettings settings = MonoAlphabeticSettings.Create(key, iv);
+            IEnumerable<byte> key = GetRandomKey(allowedLetters, isSymmetric);
+            MonoAlphabeticSettings settings = Create(key.ToArray());
             return settings;
         }
 
@@ -435,19 +400,16 @@ namespace Useful.Security.Cryptography
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<KeyValuePair<char, char>> GetEnumerator()
         {
-            foreach (char allowedLetter in this.allowedLetters)
+            foreach (char allowedLetter in _allowedLetters)
             {
-                yield return new KeyValuePair<char, char>(allowedLetter, this.substitutions[this.allowedLetters.IndexOf(allowedLetter)]);
+                yield return new KeyValuePair<char, char>(allowedLetter, _substitutions[_allowedLetters.IndexOf(allowedLetter)]);
             }
         }
 
-        /// <summary>
-        /// The non-generic enumerator for IEnumerable.
-        /// </summary>
-        /// <returns>Enumerable tuple containing the plaintext and ciphertext letters.</returns>
+        /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -455,18 +417,18 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void Reset()
         {
-            for (int i = 0; i < this.substitutions.Count; i++)
+            for (int i = 0; i < _substitutions.Count; i++)
             {
-                this.substitutions[i] = this.allowedLetters[i];
+                _substitutions[i] = _allowedLetters[i];
             }
 
-            this.SubstitutionCount = 0;
+            SubstitutionCount = 0;
 
-            this.key = (List<byte>)MonoAlphabeticSettings.BuildKey(this.AllowedLetters, this.AllowedLetters, this.isSymmetric);
+            _key = (IList<byte>)BuildKey(AllowedLetters, AllowedLetters, _isSymmetric);
 
-            this.OnPropertyChanged("Item");
-            this.OnPropertyChanged(nameof(Key));
-            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            NotifyPropertyChanged("Item");
+            NotifyPropertyChanged(nameof(Key));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         /// <summary>
@@ -476,12 +438,12 @@ namespace Useful.Security.Cryptography
         /// <returns>The letter that substiutes to this letter.</returns>
         public char Reverse(char letter)
         {
-            if (this.allowedLetters.IndexOf(letter) < 0)
+            if (_allowedLetters.IndexOf(letter) < 0)
             {
                 return letter;
             }
 
-            return this.substitutions.First(x => this[x] == letter);
+            return _substitutions.First(x => this[x] == letter);
         }
 
         /// <summary>
@@ -495,16 +457,7 @@ namespace Useful.Security.Cryptography
             ////    return string.Empty;
             ////}
 
-            return GetSubstitutionsString(this.allowedLetters, this.substitutions);
-        }
-
-        /// <summary>
-        /// Builds the Initialization Vector.
-        /// </summary>
-        /// <returns>The Initialization Vector.</returns>
-        private static ICollection<byte> BuildIV()
-        {
-            return new List<byte>();
+            return GetSubstitutionsString(_allowedLetters, _substitutions);
         }
 
         /// <summary>
@@ -514,18 +467,14 @@ namespace Useful.Security.Cryptography
         /// <param name="substitutions">The letters that have been swapped.</param>
         /// <param name="isSymmetric">Indicates if a substitution has to map back to itself. Symmetric=AB BA CC, Asymmetric=AB BC CA.</param>
         /// <returns>The key (unicode).</returns>
-        private static ICollection<byte> BuildKey(IList<char> allowedLetters, IList<char> substitutions, bool isSymmetric)
+        private static IEnumerable<byte> BuildKey(IEnumerable<char> allowedLetters, IEnumerable<char> substitutions, bool isSymmetric)
         {
             // allowedLetters|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
             StringBuilder key = new StringBuilder(new string(allowedLetters.ToArray()));
             key.Append(KeySeperator);
-
-            key.Append(GetSubstitutionsString(allowedLetters, substitutions));
-
+            key.Append(GetSubstitutionsString(allowedLetters.ToList(), substitutions.ToList()));
             key.Append(KeySeperator);
-
-            key.Append(isSymmetric.ToString());
-
+            key.Append(isSymmetric);
             return new List<byte>(encoding.GetBytes(key.ToString()));
         }
 
@@ -535,7 +484,7 @@ namespace Useful.Security.Cryptography
         /// <param name="pairs">The pairs to check.</param>
         /// <param name="allowedLetters">The letters that the pairs are allowed to be formed from.</param>
         /// <param name="checkUniqueness">Whether the letters in the pairs have to be unique.</param>
-        private static void CheckPairs(Dictionary<char, char> pairs, ICollection<char> allowedLetters, bool checkUniqueness)
+        private static void CheckPairs(IDictionary<char, char> pairs, IEnumerable<char> allowedLetters, bool checkUniqueness)
         {
             ////if (pairs.Count > allowedLetters.Count)
             ////{
@@ -581,21 +530,11 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="allowedLetters">The allowed letters to the used in the substitutions.</param>
         /// <returns>A collection of substitutions.</returns>
-        private static MonoAlphabeticSettings GetDefault(Collection<char> allowedLetters)
+        private static MonoAlphabeticSettings GetDefault(IEnumerable<char> allowedLetters)
         {
-            List<byte> key = MonoAlphabeticSettings.GetDefaultKey(allowedLetters);
-            List<byte> iv = MonoAlphabeticSettings.GetDefaultIV();
-            MonoAlphabeticSettings settings = MonoAlphabeticSettings.Create(key, iv);
+            IEnumerable<byte> key = GetDefaultKey(allowedLetters);
+            MonoAlphabeticSettings settings = Create(key.ToList());
             return settings;
-        }
-
-        /// <summary>
-        /// Gets the default Initialization Vector.
-        /// </summary>
-        /// <returns>The default Initialization Vector.</returns>
-        private static List<byte> GetDefaultIV()
-        {
-            return new List<byte>();
         }
 
         /// <summary>
@@ -603,9 +542,9 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="allowedLetters">The letters that the Key is to be created from.</param>
         /// <returns>The default key.</returns>
-        private static List<byte> GetDefaultKey(IList<char> allowedLetters)
+        private static IEnumerable<byte> GetDefaultKey(IEnumerable<char> allowedLetters)
         {
-            List<byte> key = (List<byte>)MonoAlphabeticSettings.BuildKey(allowedLetters, allowedLetters, true);
+            IEnumerable<byte> key = BuildKey(allowedLetters, allowedLetters, true);
             return key;
         }
 
@@ -617,9 +556,9 @@ namespace Useful.Security.Cryptography
         /// <param name="allowedLetters">The letters that the pairs are derived from.</param>
         /// <param name="checkUniqueness">Whether letters in the pairs should be unique e.g. AB CD versus AB BC.</param>
         /// <returns>The string value parsed as pairs.</returns>
-        private static Dictionary<char, char> GetPairs(string key, char delimiter, ICollection<char> allowedLetters, bool checkUniqueness)
+        private static IDictionary<char, char> GetPairs(string key, char delimiter, IEnumerable<char> allowedLetters, bool checkUniqueness)
         {
-            Dictionary<char, char> pairs = new Dictionary<char, char>();
+            IDictionary<char, char> pairs = new Dictionary<char, char>();
             string[] rawPairs = key.Split(new char[] { delimiter });
 
             // No plugs specified
@@ -650,29 +589,19 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Gets a random Initialization Vector.
-        /// </summary>
-        /// <returns>A random Initialization Vector.</returns>
-        private static List<byte> GetRandomIV()
-        {
-            return new List<byte>();
-        }
-
-        /// <summary>
         /// Gets some random substitutions.
         /// </summary>
         /// <param name="allowedLetters">The allowed letters to the used in the substitutions.</param>
         /// <param name="isSymmetric">If the substitutions are symmetric.</param>
         /// <returns>A random collection of substitutions.</returns>
-        private static ICollection<byte> GetRandomKey(Collection<char> allowedLetters, bool isSymmetric)
+        private static IEnumerable<byte> GetRandomKey(IEnumerable<char> allowedLetters, bool isSymmetric)
         {
             List<char> allowedLettersCloneFrom = new List<char>(allowedLetters);
             List<char> allowedLettersCloneTo = new List<char>(allowedLetters);
 
-            List<byte> key = (List<byte>)MonoAlphabeticSettings.BuildKey(allowedLetters, allowedLetters, isSymmetric);
-            List<byte> iv = (List<byte>)MonoAlphabeticSettings.BuildIV();
+            List<byte> key = (List<byte>)BuildKey(allowedLetters, allowedLetters, isSymmetric);
 
-            MonoAlphabeticSettings mono = MonoAlphabeticSettings.Create(key, iv);
+            MonoAlphabeticSettings mono = Create(key);
 
             Random rnd = new Random();
             int indexFrom;
@@ -725,7 +654,7 @@ namespace Useful.Security.Cryptography
         private static string GetSubstitutionsString(IList<char> allowedLetters, IList<char> substitutions)
         {
             StringBuilder key = new StringBuilder();
-            Dictionary<char, char> pairsToAdd = new Dictionary<char, char>();
+            IDictionary<char, char> pairsToAdd = new Dictionary<char, char>();
 
             for (int i = 0; i < allowedLetters.Count; i++)
             {
@@ -765,16 +694,7 @@ namespace Useful.Security.Cryptography
         /// <param name="e">Arguments of the event being raised.</param>
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            this.CollectionChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// This method is called by the Set accessor of each property.
-        /// </summary>
-        /// <param name="propertyName">The property that has changed.</param>
-        private void OnPropertyChanged(string propertyName)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            CollectionChanged?.Invoke(this, e);
         }
     }
 }

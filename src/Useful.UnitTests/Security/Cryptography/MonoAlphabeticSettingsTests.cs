@@ -12,13 +12,9 @@ namespace UsefulQA
 
     public class MonoAlphabeticSettingsTests
     {
-        MonoAlphabetic mono = new MonoAlphabetic();
-        
-        int settingsChangedCount;
-
         [Theory]
-        [InlineData("AA")]
-        public void ContructSymmetric()
+        [InlineData("ABC", "")]
+        public void ContructSymmetric(string key, string iv)
         {
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(mono.Key, mono.IV);
             Assert.IsTrue(target.AllowedLetters.Count == 26);
