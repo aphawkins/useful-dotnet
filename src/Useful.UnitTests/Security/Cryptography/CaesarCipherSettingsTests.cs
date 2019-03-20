@@ -92,7 +92,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(new List<byte>(Encoding.Unicode.GetBytes($"{rightShift}")), _settings.Key);
             Assert.Equal(new List<byte>(), _settings.IV);
             Assert.Equal(rightShift, _settings.RightShift);
-            Assert.Equal(nameof(_settings.RightShift), propertyChanged);
+            Assert.Equal(nameof(_settings.RightShift) + nameof(_settings.Key), propertyChanged);
         }
 
         [Theory]

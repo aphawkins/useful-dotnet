@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography
             using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
             {
                 rngCsp.GetBytes(randomNumber);
-                return new byte[1] { (byte)((randomNumber[0] % 26) + 1) };
+                return Encoding.Unicode.GetBytes($"{randomNumber[0] % 26}");
             }
         }
     }
