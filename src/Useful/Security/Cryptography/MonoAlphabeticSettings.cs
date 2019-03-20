@@ -1,11 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MonoAlphabeticSettingsObservableCollection.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
-// <summary>The monoalphabetic algorithm settings.</summary>
-//-----------------------------------------------------------------------
-
-namespace Useful.Security.Cryptography
+﻿namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections;
@@ -22,8 +15,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    [DebuggerDisplay("Key-IV={this.SettingKey()}-0}")]
-    public sealed class MonoAlphabeticSettings : ISymmetricCipherSettings, IEnumerable<KeyValuePair<char, char>>
+    public sealed class MonoAlphabeticSettings : CipherSettings, IEnumerable<KeyValuePair<char, char>>
     {
         /// <summary>
         /// States how many parts there are in the key.
@@ -369,7 +361,7 @@ namespace Useful.Security.Cryptography
                 Debug.Print("{0}", string.Join(string.Empty, this.substitutions));
 
                 this.OnPropertyChanged("Item");
-                this.OnPropertyChanged("Key");
+                this.OnPropertyChanged(nameof(Key));
             }
         }
 

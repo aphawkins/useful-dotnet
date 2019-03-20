@@ -1,68 +1,21 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Collections.ObjectModel;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Useful.Security.Cryptography;
-
-using System.Diagnostics.Contracts;
-
-namespace UsefulQA
+﻿namespace UsefulQA
 {
-    /// <summary>
-    /// Summary description for MonoAlphabeticTest
-    /// </summary>
-    [TestClass]
-    public class MonoAlphabeticSettingsTest
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Text;
+    using Useful.Security.Cryptography;
+    using Xunit;
+
+    public class MonoAlphabeticSettingsTests
     {
-        #region ctor
-        public MonoAlphabeticSettingsTest()
+        public MonoAlphabeticSettingsTests()
         {
         }
-        #endregion
 
-        #region Fields
         MonoAlphabetic mono = new MonoAlphabetic();
         MonoAlphabeticSettings target;
         int settingsChangedCount;
-        bool contractFailed = false;
-        #endregion
 
-        #region Properties
-        /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContextInstance { get; set; }
-        #endregion
-
-        #region Methods
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
-        [TestMethod]
         public void MonoAlphabeticSettings_ctor()
         {
             target = new MonoAlphabeticSettings(mono.Key, mono.IV);
@@ -72,18 +25,13 @@ namespace UsefulQA
             //Contract.ContractFailed += new EventHandler<ContractFailedEventArgs>(Contract_ContractFailed);
         }
 
-        //void Contract_ContractFailed(object sender, ContractFailedEventArgs e)
-        //{
-        //    contractFailed = true;
-        //}
-
         //[TestMethod]
         //public void MonoAlphabeticSettings_ctor_Key_Null()
         //{
         //    this.contractFailed = false;
 
         //    target = new MonoAlphabeticSettings(null, mono.IV);
-            
+
         //    if (!this.contractFailed)
         //        Assert.Fail();
         //}
@@ -376,7 +324,7 @@ namespace UsefulQA
                 // Expected
             }
         }
-        
+
         [TestMethod()]
         public void MonoAlphabeticSettings_SetSubstitutions_Duplicate_Pair_Asymmetric()
         {
@@ -400,7 +348,7 @@ namespace UsefulQA
             target = new MonoAlphabeticSettings(mono.Key, mono.IV);
             target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
             target.SetKey(key);
-            
+
             this.settingsChangedCount = 0;
 
             target.SetSubstitution(new SubstitutionPair('E', 'F'));
@@ -450,6 +398,5 @@ namespace UsefulQA
         {
             this.settingsChangedCount++;
         }
-        #endregion
     }
 }
