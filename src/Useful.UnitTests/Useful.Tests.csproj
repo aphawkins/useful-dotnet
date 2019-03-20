@@ -14,6 +14,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\Cryptography\MonoAlphabeticSpecFlow.feature.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticSpecFlowSteps.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticTest.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticTransformUnitTests.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticUnitTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Security\Cryptography\MonoAlphabeticSpecFlow.feature" />
+    <None Remove="Security\Cryptography\Mono_Ciphertext.txt" />
+    <None Remove="Security\Cryptography\Mono_Plaintext_Unicode.txt" />
+    <None Remove="Security\Cryptography\Mono_Plaintext_Unicode_BOM.txt" />
+    <None Remove="Security\Cryptography\Mono_Plaintext_UTF8.txt" />
+    <None Remove="Security\Cryptography\Mono_Plaintext_UTF8_BOM.txt" />
+    <None Remove="Security\Cryptography\Mono_Plaintext_UTF8_BOM_1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
