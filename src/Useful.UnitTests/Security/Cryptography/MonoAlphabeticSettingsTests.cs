@@ -25,45 +25,18 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void ConstructSymmetricNullKey()
         {
-            Assert.Throws<ArgumentNullException>(() => new MonoAlphabeticSettings(null));
+            Assert.Throws<ArgumentNullException>("key", () => new MonoAlphabeticSettings(null));
         }
 
-        // [Fact]
-        // public void MonoAlphabeticSettings_SetKey_Alphabet_NonEnglish()
-        // {
-        //    string tempKey = @;
-        //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
+        [Theory]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ |AB CD|False")]
+        public void ConstructSymmetricInvalidKey(string keyString)
+        {
+            byte[] key = Encoding.Unicode.GetBytes(keyString);
 
-        // target = new MonoAlphabeticSettings(mono.Key, mono.IV);
-        //    target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
-        //    this.settingsChangedCount = 0;
-
-        // target.SetKey(key);
-
-        // Assert.IsTrue(target.AllowedLetters.Count == 5);
-        //    Assert.IsTrue(target.SubstitutionCount == 4);
-        //    Assert.IsTrue(this.settingsChangedCount == 1);
-        //    Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
-        // }
-
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetKey_Alphabet_Padded()
-        // {
-        //    string tempKey = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ |AB CD|False";
-        //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
-
-        // target = new MonoAlphabeticSettings(mono.Key, mono.IV);
-
-        // try
-        //    {
-        //        target.SetKey(key);
-        //        Assert.Fail();
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        // Expected
-        //    }
-        // }
+            // TODO: include the argument name
+            Assert.Throws<ArgumentException>(() => new MonoAlphabeticSettings(key));
+        }
 
         // [TestMethod()]
         // public void MonoAlphabeticSettings_SetKey_Substitutions_Padded()

@@ -46,7 +46,11 @@ namespace Useful.Security.Cryptography
         public CaesarCipherSettings(int rightShift)
             : base()
         {
-            ValidateRightShift(rightShift);
+            if (rightShift < 0 || rightShift > 25)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rightShift), "Value must be between 0 and 25.");
+            }
+
             _rightShift = rightShift;
         }
 
@@ -83,7 +87,10 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                ValidateRightShift(value);
+                if (value < 0 || value > 25)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 25.");
+                }
 
                 _rightShift = value;
 
@@ -99,15 +106,17 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(key));
             }
 
-            return int.Parse(Encoding.Unicode.GetString(key), CultureInfo.InvariantCulture);
-        }
+            if (!int.TryParse(Encoding.Unicode.GetString(key), out int rightShift))
+            {
+                throw new ArgumentException("Value must be a number.", nameof(key));
+            }
 
-        private static void ValidateRightShift(int rightShift)
-        {
             if (rightShift < 0 || rightShift > 25)
             {
-                throw new ArgumentOutOfRangeException(nameof(rightShift), "Value must be between 0 and 25.");
+                throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.");
             }
+
+            return rightShift;
         }
     }
 }
