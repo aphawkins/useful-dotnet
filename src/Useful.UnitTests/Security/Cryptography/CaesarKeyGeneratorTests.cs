@@ -21,12 +21,11 @@ namespace Useful.Security.Cryptography.Tests
         public void RandomKeyCorrectness()
         {
             IKeyGenerator keyGen = new CaesarKeyGenerator();
-            int key;
             string keyString;
             for (int i = 0; i < 100; i++)
             {
                 keyString = Encoding.Unicode.GetString(keyGen.RandomKey());
-                Assert.True(int.TryParse(keyString, out key));
+                Assert.True(int.TryParse(keyString, out int key));
                 Assert.True(key >= 0 && key < 26);
             }
         }

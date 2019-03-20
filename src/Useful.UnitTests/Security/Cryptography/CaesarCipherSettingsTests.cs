@@ -34,7 +34,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(26)]
         public void ConstructOutOfRange(int rightShift)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new CaesarCipherSettings(rightShift));
+            Assert.Throws<ArgumentOutOfRangeException>(nameof(rightShift), () => new CaesarCipherSettings(rightShift));
         }
 
         [Theory]
@@ -55,9 +55,9 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void ConstructSymmetricNull()
+        public void ConstructSymmetricNullKey()
         {
-            Assert.Throws<ArgumentNullException>(() => new CaesarCipherSettings(null));
+            Assert.Throws<ArgumentNullException>("key", () => new CaesarCipherSettings(null));
         }
 
         [Theory]

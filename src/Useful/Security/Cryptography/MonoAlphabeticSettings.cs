@@ -33,6 +33,8 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private const char SubstitutionDelimiter = ' ';
 
+        private const string DefaultLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         /// <summary>
         /// The encoding used by this cipher.
         /// </summary>
@@ -62,7 +64,24 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
         /// </summary>
         public MonoAlphabeticSettings()
+            : base()
         {
+            _substitutions.CollectionChanged += CollectionChanged;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
+        /// </summary>
+        /// <param name="key">The encryption Key.</param>
+        public MonoAlphabeticSettings(byte[] key)
+            : base()
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            Key = key;
             _substitutions.CollectionChanged += CollectionChanged;
         }
 
@@ -122,6 +141,11 @@ namespace Useful.Security.Cryptography
             {
                 // Example:
                 // allowed_chars|substitutions|isSymmetric
+                if (value == Array.Empty<byte>())
+                {
+                    value = GetDefaultKey(new Collection<char>(DefaultLetters.ToCharArray()));
+                }
+
                 char[] tempKey = encoding.GetChars(value.ToArray());
                 string keyString = new string(tempKey);
 
@@ -367,7 +391,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The default settings.</returns>
         public static MonoAlphabeticSettings GetDefault()
         {
-            return GetDefault(new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()));
+            return GetDefault();
         }
 
         /// <summary>
@@ -376,7 +400,7 @@ namespace Useful.Security.Cryptography
         /// <returns>Some randomly generated settings.</returns>
         public static MonoAlphabeticSettings GetRandom()
         {
-            IEnumerable<byte> key = GetRandomKey(new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()), true);
+            IEnumerable<byte> key = GetRandomKey(new Collection<char>(DefaultLetters.ToCharArray()), true);
             MonoAlphabeticSettings settings = Create(key.ToArray());
             return settings;
         }
@@ -417,9 +441,10 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void Reset()
         {
-            for (int i = 0; i < _substitutions.Count; i++)
+            _substitutions.Clear();
+            for (int i = 0; i < _allowedLetters.Count; i++)
             {
-                _substitutions[i] = _allowedLetters[i];
+                _substitutions.Add(_allowedLetters[i]);
             }
 
             SubstitutionCount = 0;

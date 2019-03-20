@@ -94,14 +94,19 @@ namespace Useful.Security.Cryptography
 
         private static int GetRightShift(byte[] key)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
             return int.Parse(Encoding.Unicode.GetString(key), CultureInfo.InvariantCulture);
         }
 
-        private static void ValidateRightShift(int value)
+        private static void ValidateRightShift(int rightShift)
         {
-            if (value < 0 || value > 25)
+            if (rightShift < 0 || rightShift > 25)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 25.");
+                throw new ArgumentOutOfRangeException(nameof(rightShift), "Value must be between 0 and 25.");
             }
         }
     }
