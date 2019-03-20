@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="MonoAlphabeticSettingsObservableCollection.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections;
@@ -7,15 +11,13 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    public sealed class MonoAlphabeticSettingsObservableCollection : ISymmetricCipherSettings, INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable<KeyValuePair<char, char>>
+    public sealed class MonoAlphabeticSettingsObservableCollection : CipherSettings, INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable<KeyValuePair<char, char>>
     {
         /// <summary>
         /// States how many parts there are in the key.
@@ -361,7 +363,7 @@
                 Debug.Print("{0}", string.Join(string.Empty, this.substitutions));
 
                 this.OnPropertyChanged("Item");
-                this.OnPropertyChanged("Key");
+                this.OnPropertyChanged(nameof(Key));
             }
         }
 
@@ -463,7 +465,7 @@
             this.key = (List<byte>)MonoAlphabeticSettingsObservableCollection.BuildKey(this.AllowedLetters, this.AllowedLetters, this.isSymmetric);
 
             this.OnPropertyChanged("Item");
-            this.OnPropertyChanged("Key");
+            this.OnPropertyChanged(nameof(Key));
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 

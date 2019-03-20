@@ -1,15 +1,15 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="MonoAlphabeticSettingsObservableCollectionSpecFlowSteps.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Linq;
     using System.Text;
-    using TechTalk.SpecFlow;
 
-    [Binding]
-    [CLSCompliant(false)]
     public class MonoAlphabeticSettingsObservableCollectionSpecFlowSteps
     {
         /// <summary>

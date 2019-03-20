@@ -1,4 +1,8 @@
-﻿namespace UsefulQA
+﻿// <copyright file="MonoAlphabeticSettingsTests.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace UsefulQA
 {
     using System;
     using System.Collections.ObjectModel;
@@ -8,17 +12,15 @@
 
     public class MonoAlphabeticSettingsTests
     {
-        public MonoAlphabeticSettingsTests()
-        {
-        }
-
         MonoAlphabetic mono = new MonoAlphabetic();
-        MonoAlphabeticSettings target;
+        
         int settingsChangedCount;
 
-        public void MonoAlphabeticSettings_ctor()
+        [Theory]
+        [InlineData("AA")]
+        public void ContructSymmetric()
         {
-            target = new MonoAlphabeticSettings(mono.Key, mono.IV);
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(mono.Key, mono.IV);
             Assert.IsTrue(target.AllowedLetters.Count == 26);
             Assert.IsTrue(string.Compare(target.CipherName, "MonoAlphabetic") == 0);
             //Assert.IsTrue(target.SubstitutionCount == 0);

@@ -1,4 +1,8 @@
-﻿namespace Useful.Security.Cryptography
+﻿// <copyright file="MonoAlphabeticSettings.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections;
@@ -7,9 +11,7 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
@@ -463,7 +465,7 @@
             this.key = (List<byte>)MonoAlphabeticSettings.BuildKey(this.AllowedLetters, this.AllowedLetters, this.isSymmetric);
 
             this.OnPropertyChanged("Item");
-            this.OnPropertyChanged("Key");
+            this.OnPropertyChanged(nameof(Key));
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
