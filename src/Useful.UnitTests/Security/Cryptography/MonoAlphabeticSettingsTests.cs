@@ -23,6 +23,15 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, "AB CD", true, 2 },
         };
 
+        [Fact]
+        public void Construct()
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.AllowedLetters);
+            Assert.Equal(0, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ||False"), settings.Key.ToArray());
+        }
+
         [Theory]
         [MemberData(nameof(ValidData))]
         public void Contruct(string allowedLetters, IDictionary<char, char> substitutions, string subs, bool isSymmetric, int substitutionCount)
@@ -43,6 +52,18 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(allowedLetters, settings.AllowedLetters);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(key, settings.Key.ToArray());
+        }
+
+        [Fact]
+        public void ConstructNullAllowedLetters()
+        {
+            Assert.Throws<ArgumentNullException>("allowedLetters", () => new MonoAlphabeticSettings(null, new Dictionary<char, char>(), false));
+        }
+
+        [Fact]
+        public void ConstructNullSubstitutions()
+        {
+            Assert.Throws<ArgumentNullException>("substitutions", () => new MonoAlphabeticSettings(new List<char>("ABC"), null, false));
         }
 
         [Fact]
