@@ -179,11 +179,6 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Substitution must be an allowed character.", nameof(value));
                 }
 
-                if (value == substitution && IsSymmetric)
-                {
-                    throw new ArgumentException("Substitution cannot be the same character.", nameof(value));
-                }
-
                 if (substitution == value)
                 {
                     // Substitution count must be >= 0
