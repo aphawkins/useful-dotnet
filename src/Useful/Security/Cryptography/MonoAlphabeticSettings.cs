@@ -71,7 +71,13 @@ namespace Useful.Security.Cryptography
         public MonoAlphabeticSettings(IList<char> allowedLetters, IDictionary<char, char> substitutions, bool isSymmetric)
             : base()
         {
-            AllowedLetters = allowedLetters;
+            AllowedLetters = allowedLetters ?? throw new ArgumentNullException(nameof(allowedLetters));
+
+            if (substitutions == null)
+            {
+                throw new ArgumentNullException(nameof(substitutions));
+            }
+
             _substitutions.Clear();
             foreach (char letter in allowedLetters)
             {
