@@ -176,7 +176,12 @@ namespace Useful.Security.Cryptography
 
                 if (toIndex < 0)
                 {
-                    throw new ArgumentException("Substitution must be an allowed character.", nameof(substitution));
+                    throw new ArgumentException("Substitution must be an allowed character.", nameof(value));
+                }
+
+                if (value == substitution && IsSymmetric)
+                {
+                    throw new ArgumentException("Substitution cannot be the same character.", nameof(value));
                 }
 
                 if (substitution == value)
