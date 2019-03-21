@@ -7,7 +7,6 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -55,23 +54,11 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override IEnumerable<byte> IV
-        {
-            get;
-            protected set;
-        }
-
-        /// <inheritdoc />
         public override IEnumerable<byte> Key
         {
             get
             {
-                return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
-            }
-
-            protected set
-            {
-                RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out int shift) ? shift : DefaultShift;
+                return new List<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
             }
         }
 
