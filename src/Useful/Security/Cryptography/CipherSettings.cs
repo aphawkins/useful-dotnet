@@ -40,14 +40,14 @@ namespace Useful.Security.Cryptography
         public virtual IEnumerable<byte> IV
         {
             get;
-            protected set;
+            private set;
         }
 
         /// <inheritdoc />
         public virtual IEnumerable<byte> Key
         {
             get;
-            protected set;
+            private set;
         }
 
         /// <summary>
