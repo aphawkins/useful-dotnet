@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
@@ -21,6 +20,8 @@ namespace Useful.Security.Cryptography.Tests
             { "VWXYZ", new Dictionary<char, char>() { { 'V', 'W' }, { 'X', 'Y' } }, "VW XY", false, 2 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, "AB CD", false, 2 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, "AB CD", true, 2 },
+
+            // { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'B', 'C' } }, "AB BC", false, 2 },
         };
 
         [Fact]
@@ -74,8 +75,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [InlineData("")]
-
-        // TODO: [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC|False")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC|True")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ |AB CD|False")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ| AB CD |False")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|ØB CD|False")]
@@ -90,109 +90,36 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC||false", 'A', 'B', "ABC|AB|False")]
-        public void SetSubstitutionsValid(string keyInitial, char from, char to, string keyResult)
+        [InlineData("ABC||False", 'A', 'B', "ABC|AB|False", 1)]
+        [InlineData("ABC|AB BC|False", 'A', 'A', "ABC|BC|False", 1)]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|False", 'E', 'F', "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF|False", 3)]
+        public void SetSubstitutionsValid(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings[from] = to;
 
-            Assert.Equal(3, settings.AllowedLetters.Count);
-            Assert.Equal(1, settings.SubstitutionCount);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
             Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
-
-            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key);
         }
 
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetSubstitutions_Duplicate_Pair_Symmetric()
-        // {
-        //    string tempKey = @"ABC|AB|True";
-        //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
+        [Theory]
+        [InlineData("ABC|AB|True", 'A', 'A', 1)]
+        [InlineData("ABC||True", 'A', 'Ø', 0)]
+        [InlineData("ABC||True", 'Ø', 'A', 0)]
+        public void SetSubstitutionsInValid(string keyInitial, char from, char to, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
 
-        // target = new MonoAlphabeticSettings(key, mono.IV);
-
-        // Collection<SubstitutionPair> pairs = new Collection<SubstitutionPair>();
-        //    pairs.Add(new SubstitutionPair('A', 'A'));
-
-        // try
-        //    {
-        //        target.SetSubstitutions(pairs);
-        //        Assert.Fail();
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        // Expected
-        //    }
-        // }
-
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetSubstitutions_Duplicate_Pair_Asymmetric()
-        // {
-        //    string tempKey = @"ABC|AB BC|False";
-        //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
-
-        // target = new MonoAlphabeticSettings(key, mono.IV);
-
-        // Collection<SubstitutionPair> pairs = new Collection<SubstitutionPair>();
-        //    pairs.Add(new SubstitutionPair('A', 'A'));
-
-        // target.SetSubstitutions(pairs);
-        // }
-
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetSubstitution_Valid()
-        // {
-        //    string tempKey = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|False";
-        //    byte[] key = Encoding.Unicode.GetBytes(tempKey);
-
-        // target = new MonoAlphabeticSettings(mono.Key, mono.IV);
-        //    target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
-        //    target.SetKey(key);
-
-        // this.settingsChangedCount = 0;
-
-        // target.SetSubstitution(new SubstitutionPair('E', 'F'));
-
-        // tempKey = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF|False";
-
-        // Assert.IsTrue(target.AllowedLetters.Count == 26);
-        //    Assert.IsTrue(target.SubstitutionCount == 6);
-        //    Assert.IsTrue(this.settingsChangedCount == 1);
-        //    Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
-        // }
-
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetSubstitution_NotAllowed()
-        // {
-        //    target = new MonoAlphabeticSettings(mono.Key, mono.IV);
-
-        // try
-        //    {
-        //        target.SetSubstitution(new SubstitutionPair('Ø', 'F'));
-        //        Assert.Fail();
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        // Expected
-        //    }
-        // }
-
-        // [TestMethod()]
-        // public void MonoAlphabeticSettings_SetSubstitution_WrongCase()
-        // {
-        //    target = new MonoAlphabeticSettings(mono.Key, mono.IV);
-
-        // try
-        //    {
-        //        target.SetSubstitution(new SubstitutionPair('a', 'F'));
-        //        Assert.Fail();
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        // Expected
-        //    }
-        // }
+            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyInitial), settings.Key);
+            Assert.Equal(string.Empty, propertyChanged);
+        }
     }
 }
