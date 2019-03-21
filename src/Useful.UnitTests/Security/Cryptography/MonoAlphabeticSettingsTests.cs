@@ -5,7 +5,9 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Text;
     using Useful.Security.Cryptography;
@@ -13,18 +15,34 @@ namespace Useful.Security.Cryptography.Tests
 
     public class MonoAlphabeticSettingsTests
     {
-        [Theory]
-        [InlineData("ABC||False", 3, 0)]
-        [InlineData("VWXYZ|VW XY|False", 5, 2)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|False", 26, 2)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|True", 26, 2)]
-        public void ContructSymmetric(string keyString, int letterCount, int substitutionCount)
+        public static TheoryData<string, IDictionary<char, char>, string, bool, int> ValidData => new TheoryData<string, IDictionary<char, char>, string, bool, int>
         {
-            byte[] key = Encoding.Unicode.GetBytes(keyString);
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(key);
-            Assert.Equal(letterCount, settings.AllowedLetters.Count);
+            { "ABC", new Dictionary<char, char>(), string.Empty, false, 0 },
+            { "VWXYZ", new Dictionary<char, char>() { { 'V', 'W' }, { 'X', 'Y' } }, "VW XY", false, 2 },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, "AB CD", false, 2 },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, "AB CD", true, 2 },
+        };
+
+        [Theory]
+        [MemberData(nameof(ValidData))]
+        public void Contruct(string allowedLetters, IDictionary<char, char> substitutions, string subs, bool isSymmetric, int substitutionCount)
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(new List<char>(allowedLetters), substitutions, isSymmetric);
+            Assert.Equal(allowedLetters, settings.AllowedLetters);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
-            Assert.Equal(key, settings.Key);
+            Assert.Equal(Encoding.Unicode.GetBytes($"{allowedLetters}|{subs}|{isSymmetric}"), settings.Key.ToArray());
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidData))]
+        public void ContructSymmetric(string allowedLetters, IDictionary<char, char> substitutions, string subs, bool isSymmetric, int substitutionCount)
+        {
+            Debug.Assert(substitutions != null, "just to use the param");
+            byte[] key = Encoding.Unicode.GetBytes($"{allowedLetters}|{subs}|{isSymmetric}");
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(key);
+            Assert.Equal(allowedLetters, settings.AllowedLetters);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(key, settings.Key.ToArray());
         }
 
         [Fact]
@@ -35,7 +53,8 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [InlineData("")]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC|False")]
+
+        // TODO: [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC|False")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ |AB CD|False")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ| AB CD |False")]
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|ØB CD|False")]
@@ -46,9 +65,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructSymmetricInvalidKey(string keyString)
         {
             byte[] key = Encoding.Unicode.GetBytes(keyString);
-
-            // TODO: include the argument name
-            Assert.Throws<ArgumentException>(() => new MonoAlphabeticSettings(key));
+            Assert.Throws<ArgumentException>("key", () => new MonoAlphabeticSettings(key));
         }
 
         [Theory]
