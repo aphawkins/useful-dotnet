@@ -124,7 +124,7 @@ namespace Useful.Security.Cryptography
                 // allowedLetters|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
                 StringBuilder key = new StringBuilder(new string(AllowedLetters.ToArray()));
                 key.Append(KeySeperator);
-                key.Append(GetSubstitutions());
+                key.Append(GetSubstitutionString());
                 key.Append(KeySeperator);
                 key.Append(IsSymmetric);
                 return new List<byte>(encoding.GetBytes(key.ToString()));
@@ -138,8 +138,10 @@ namespace Useful.Security.Cryptography
         /// <returns>The number of distinct substitutions made.</returns>
         public int SubstitutionCount
         {
-            get;
-            private set;
+            get
+            {
+                return GetSubstitutions().Count;
+            }
         }
 
         /// <summary>
@@ -183,19 +185,6 @@ namespace Useful.Security.Cryptography
                 {
                     // Trying to set the same as already set
                     return;
-                }
-
-                if (substitution == value)
-                {
-                    // Substitution count must be >= 0
-                    if (SubstitutionCount > 0)
-                    {
-                        SubstitutionCount--;
-                    }
-                }
-                else
-                {
-                    SubstitutionCount++;
                 }
 
                 char fromSubs = _substitutions[fromIndex];
@@ -419,9 +408,8 @@ namespace Useful.Security.Cryptography
             return new Tuple<IList<char>, IDictionary<char, char>, bool>(allowedLetters, substitutions, isSymmetric);
         }
 
-        private string GetSubstitutions()
+        private IDictionary<char, char> GetSubstitutions()
         {
-            StringBuilder key = new StringBuilder();
             IDictionary<char, char> pairsToAdd = new Dictionary<char, char>();
 
             for (int i = 0; i < AllowedLetters.Count; i++)
@@ -440,14 +428,22 @@ namespace Useful.Security.Cryptography
                 pairsToAdd.Add(AllowedLetters[i], _substitutions[i]);
             }
 
-            foreach (KeyValuePair<char, char> pair in pairsToAdd)
+            return pairsToAdd;
+        }
+
+        private string GetSubstitutionString()
+        {
+            StringBuilder key = new StringBuilder();
+            IDictionary<char, char> substitutions = GetSubstitutions();
+
+            foreach (KeyValuePair<char, char> pair in substitutions)
             {
                 key.Append(pair.Key);
                 key.Append(pair.Value);
                 key.Append(SubstitutionDelimiter);
             }
 
-            if (pairsToAdd.Count > 0
+            if (substitutions.Count > 0
                 && key.Length > 0)
             {
                 key.Remove(key.Length - 1, 1);
