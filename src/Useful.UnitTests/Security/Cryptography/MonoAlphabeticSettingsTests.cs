@@ -132,137 +132,47 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
+        [InlineData("ABC||True", 'A', 'B', "ABC|AB|True", 1)]
+        [InlineData("ABC|AB|True", 'C', 'A', "ABC|AC|True", 1)]
+        [InlineData("ABC|AC|True", 'A', 'B', "ABC|AB|True", 1)]
         [InlineData("ABC|AB|True", 'A', 'A', "ABC||True", 0)]
         [InlineData("ABC||False", 'A', 'B', "ABC|AB|False", 1)]
-        [InlineData("ABC|AB BC|False", 'A', 'A', "ABC|BC|False", 1)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|False", 'E', 'F', "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF|False", 3)]
-
-
-        public void SetSubstitutionsValid(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        [InlineData("ABC|AB|False", 'B', 'C', "ABC|AB BC CA|False", 3)]
+        [InlineData("ABC|AB BC CA|False", 'B', 'B', "ABC|AC|False", 1)]
+        [InlineData("ABC|AC|False", 'A', 'A', "ABC||False", 0)]
+        public void SetSubstitutionValid(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings[from] = to;
 
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(to, settings[from]);
             Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
         }
 
-        [Fact]
-        public void SetSubstitutionSymmetricTypeA()
+        [Theory]
+        [InlineData("ABC|AC|True", 'A', 'C', "ABC|AC|True", 1)]
+        [InlineData("ABC|AB BC|False", 'C', 'A', "ABC|AB BC CA|False", 3)]
+        public void SetSubstitutionExisting(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC||True"));
-            settings['A'] = 'B';
-            Assert.Equal('B', settings['A']);
-            Assert.Equal('A', settings['B']);
-            Assert.Equal('C', settings['C']);
-            Assert.Equal("ABC|AB|True", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
+            string propertyChanged = string.Empty;
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings[from] = to;
 
-        [Fact]
-        public void SetSubstitutionSymmetricTypeB()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB|True"));
-            settings['C'] = 'A';
-            Assert.Equal('C', settings['A']);
-            Assert.Equal('B', settings['B']);
-            Assert.Equal('A', settings['C']);
-            Assert.Equal("ABC|AC|True", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        [Fact]
-        public void SetSubstitutionSymmetricTypeC()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AC|True"));
-            settings['A'] = 'B';
-            Assert.Equal('B', settings['A']);
-            Assert.Equal('A', settings['B']);
-            Assert.Equal('C', settings['C']);
-            Assert.Equal("ABC|AB|True", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        [Fact]
-        public void SetSubstitutionSymmetricTypeD()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB|True"));
-            settings['A'] = 'A';
-            Assert.Equal('A', settings['A']);
-            Assert.Equal('B', settings['B']);
-            Assert.Equal('C', settings['C']);
-            Assert.Equal("ABC||True", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        /// <summary>
-        /// Test an asymmetric substitution of Type A.
-        /// </summary>
-        [Fact]
-        public void SetSubstitutionAsymmetricTypeA()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC||False"));
-            settings['A'] = 'B';
-            Assert.Equal('B', settings['A']);
-            Assert.Equal('A', settings['B']);
-            Assert.Equal('C', settings['C']);
-            Assert.Equal("ABC|AB|False", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        /// <summary>
-        /// Test an asymmetric substitution of Type B.
-        /// </summary>
-        [Fact]
-        public void SetSubstitutionAsymmetricTypeB()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB|False"));
-            settings['B'] = 'C';
-            Assert.Equal('B', settings['A']);
-            Assert.Equal('C', settings['B']);
-            Assert.Equal('A', settings['C']);
-            Assert.Equal("ABC|AB BC CA|False", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        [Fact]
-        public void SetSubstitutionAsymmetricTypeC()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB BC|False"));
-            settings['C'] = 'A';
-            Assert.Equal('B', settings['A']);
-            Assert.Equal('C', settings['B']);
-            Assert.Equal('A', settings['C']);
-            Assert.Equal("ABC|AB BC CA|False", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        /// <summary>
-        /// Test an asymmetric substitution of Type D.
-        /// </summary>
-        [Fact]
-        public void SetSubstitutionAsymmetricTypeD()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB BC CA|False"));
-            settings['B'] = 'B';
-            Assert.Equal('C', settings['A']);
-            Assert.Equal('B', settings['B']);
-            Assert.Equal('A', settings['C']);
-            Assert.Equal("ABC|AC|False", Encoding.Unicode.GetString(settings.Key.ToArray()));
-        }
-
-        [Fact]
-        public void SetSubstitutionAsymmetricTypeE()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AC|False"));
-            settings['A'] = 'A';
-            Assert.Equal('A', settings['A']);
-            Assert.Equal('B', settings['B']);
-            Assert.Equal('C', settings['C']);
-            Assert.Equal("ABC||False", Encoding.Unicode.GetString(settings.Key.ToArray()));
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(string.Empty, propertyChanged);
         }
 
         [Theory]
         [InlineData("ABC||True", 'A', 'Ø', 0)]
         [InlineData("ABC||True", 'Ø', 'A', 0)]
-        public void SetSubstitutionsInvalid(string keyInitial, char from, char to, int substitutionCount)
+        public void SetSubstitutionInvalid(string keyInitial, char from, char to, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));

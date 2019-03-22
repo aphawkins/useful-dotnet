@@ -179,6 +179,12 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Substitution must be an allowed character.", nameof(value));
                 }
 
+                if (_substitutions[fromIndex] == to)
+                {
+                    // Trying to set the same as already set
+                    return;
+                }
+
                 if (substitution == value)
                 {
                     // Substitution count must be >= 0
