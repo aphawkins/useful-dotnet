@@ -124,7 +124,7 @@ namespace Useful.Security.Cryptography
                 // allowedLetters|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
                 StringBuilder key = new StringBuilder(new string(AllowedLetters.ToArray()));
                 key.Append(KeySeperator);
-                key.Append(GetSubstitutionsString(AllowedLetters.ToList(), _substitutions.ToList()));
+                key.Append(GetSubstitutions());
                 key.Append(KeySeperator);
                 key.Append(IsSymmetric);
                 return new List<byte>(encoding.GetBytes(key.ToString()));
@@ -264,11 +264,6 @@ namespace Useful.Security.Cryptography
         /// <param name="checkUniqueness">Whether the letters in the pairs have to be unique.</param>
         private static void CheckPairs(IDictionary<char, char> pairs, IEnumerable<char> allowedLetters, bool checkUniqueness)
         {
-            ////if (pairs.Count > allowedLetters.Count)
-            ////{
-            ////    throw new ArgumentException("Too many pair settings specified.");
-            ////}
-
             List<char> uniqueLetters = new List<char>();
 
             foreach (KeyValuePair<char, char> pair in pairs)
@@ -325,11 +320,6 @@ namespace Useful.Security.Cryptography
             // Check for plugs made up of pairs
             foreach (string rawPair in rawPairs)
             {
-                ////if (rawPair == null)
-                ////{
-                ////    continue;
-                ////}
-
                 if (rawPair.Length != 2)
                 {
                     throw new ArgumentException("Plug setting must be a pair.", nameof(key));
@@ -429,31 +419,25 @@ namespace Useful.Security.Cryptography
             return new Tuple<IList<char>, IDictionary<char, char>, bool>(allowedLetters, substitutions, isSymmetric);
         }
 
-        /// <summary>
-        /// Retrieves the pairs as a formatted string.
-        /// </summary>
-        /// <param name="allowedLetters">The letters that the pairs are allowed to be formed from.</param>
-        /// <param name="substitutions">The substitutions to form the string from.</param>
-        /// <returns>The substitutions as a formatted string.</returns>
-        private static string GetSubstitutionsString(IList<char> allowedLetters, IList<char> substitutions)
+        private string GetSubstitutions()
         {
             StringBuilder key = new StringBuilder();
             IDictionary<char, char> pairsToAdd = new Dictionary<char, char>();
 
-            for (int i = 0; i < allowedLetters.Count; i++)
+            for (int i = 0; i < AllowedLetters.Count; i++)
             {
-                if (allowedLetters[i] == substitutions[i])
+                if (AllowedLetters[i] == _substitutions[i])
                 {
                     continue;
                 }
 
-                if (pairsToAdd.ContainsKey(substitutions[i])
-                    && pairsToAdd[substitutions[i]] == allowedLetters[i])
+                if (pairsToAdd.ContainsKey(_substitutions[i])
+                    && pairsToAdd[_substitutions[i]] == AllowedLetters[i])
                 {
                     continue;
                 }
 
-                pairsToAdd.Add(allowedLetters[i], substitutions[i]);
+                pairsToAdd.Add(AllowedLetters[i], _substitutions[i]);
             }
 
             foreach (KeyValuePair<char, char> pair in pairsToAdd)
@@ -470,28 +454,6 @@ namespace Useful.Security.Cryptography
             }
 
             return key.ToString();
-        }
-
-        private IList<char> GetSubstitutionList(IDictionary<char, char> substitutions)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Clears all of the substitutions. The allowed letters and symmetry remain unchanged.
-        /// </summary>
-        private void Reset()
-        {
-            _substitutions.Clear();
-            for (int i = 0; i < AllowedLetters.Count; i++)
-            {
-                _substitutions.Add(AllowedLetters[i]);
-            }
-
-            SubstitutionCount = 0;
-
-            NotifyPropertyChanged("Item");
-            NotifyPropertyChanged(nameof(Key));
         }
     }
 }
