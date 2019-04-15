@@ -5,9 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Linq;
@@ -16,7 +14,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    public sealed class MonoAlphabeticSettings : CipherSettings
+    public sealed class MonoAlphabeticSettings : CipherSettings, INotifyCollectionChanged
     {
         private const string DefaultLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -96,6 +94,9 @@ namespace Useful.Security.Cryptography
             : this(settings.Item1, settings.Item2, settings.Item3)
         {
         }
+
+        /// <inheritdoc />
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
         /// Gets the allowable letters.
@@ -210,6 +211,43 @@ namespace Useful.Security.Cryptography
                     {
                         _substitutions[toSubsIndex] = toSubs;
                     }
+
+                    this.OnCollectionChanged(
+                        new NotifyCollectionChangedEventArgs(
+                            NotifyCollectionChangedAction.Replace,
+                            new KeyValuePair<char, char>(from, to),
+                            new KeyValuePair<char, char>(from, fromSubs),
+                            AllowedLetters.IndexOf(from)));
+
+                    if (from != to)
+                    {
+                        this.OnCollectionChanged(
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Replace,
+                                new KeyValuePair<char, char>(to, from),
+                                new KeyValuePair<char, char>(to, toSubs),
+                                AllowedLetters.IndexOf(to)));
+
+                        if (fromSubs != from)
+                        {
+                            this.OnCollectionChanged(
+                                new NotifyCollectionChangedEventArgs(
+                                    NotifyCollectionChangedAction.Replace,
+                                    new KeyValuePair<char, char>(fromSubs, fromSubs),
+                                    new KeyValuePair<char, char>(fromSubs, from),
+                                    AllowedLetters.IndexOf(fromSubs)));
+                        }
+                    }
+
+                    if (toSubs != to)
+                    {
+                        this.OnCollectionChanged(
+                            new NotifyCollectionChangedEventArgs(
+                                NotifyCollectionChangedAction.Replace,
+                                new KeyValuePair<char, char>(toSubs, toSubs),
+                                new KeyValuePair<char, char>(toSubs, to),
+                                AllowedLetters.IndexOf(toSubs)));
+                    }
                 }
                 else
                 {
@@ -221,6 +259,20 @@ namespace Useful.Security.Cryptography
                     _substitutions[fromIndex] = to;
 
                     _substitutions[toInvIndex] = fromSubs;
+
+                    this.OnCollectionChanged(
+                        new NotifyCollectionChangedEventArgs(
+                            NotifyCollectionChangedAction.Replace,
+                            new KeyValuePair<char, char>(from, to),
+                            new KeyValuePair<char, char>(from, fromSubs),
+                            AllowedLetters.IndexOf(from)));
+
+                    this.OnCollectionChanged(
+                        new NotifyCollectionChangedEventArgs(
+                            NotifyCollectionChangedAction.Replace,
+                            new KeyValuePair<char, char>(toInv, fromSubs),
+                            new KeyValuePair<char, char>(toInv, to),
+                            AllowedLetters.IndexOf(toInv)));
                 }
 
                 Debug.Print($"{string.Join(string.Empty, _substitutions)}");
@@ -406,6 +458,15 @@ namespace Useful.Security.Cryptography
             substitutions = GetPairs(substitutionPart, SubstitutionDelimiter, allowedLetters, isSymmetric);
 
             return new Tuple<IList<char>, IDictionary<char, char>, bool>(allowedLetters, substitutions, isSymmetric);
+        }
+
+        /// <summary>
+        /// Used to raise the <see cref="CollectionChanged" /> event.
+        /// </summary>
+        /// <param name="e">Arguments of the event being raised.</param>
+        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            this.CollectionChanged?.Invoke(this, e);
         }
 
         private IDictionary<char, char> GetSubstitutions()
