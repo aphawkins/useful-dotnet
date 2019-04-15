@@ -373,7 +373,7 @@ namespace Useful.Security.Cryptography
             {
                 CheckPairs(pairs, allowedLetters, checkUniqueness);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 throw new ArgumentException("Error checking pairs.", nameof(key), ex);
             }
