@@ -199,9 +199,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal('a', settings.Reverse('a'));
         }
 
-        /// <summary>
-        /// Test a symmetric substitution of Type A NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsSymmetricTypeA()
         {
@@ -235,9 +232,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test a symmetric substitution of Type B NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsSymmetricTypeB()
         {
@@ -282,9 +276,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test a symmetric substitution of Type C NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsSymmetricTypeC()
         {
@@ -329,9 +320,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(2, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test a symmetric substitution of Type D NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsSymmetricTypeD()
         {
@@ -365,9 +353,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test an asymmetric substitution of Type A NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsAsymmetricTypeA()
         {
@@ -400,9 +385,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test an asymmetric substitution of Type B NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsAsymmetricTypeB()
         {
@@ -436,9 +418,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(2, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test an asymmetric substitution of Type C NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsAsymmetricTypeC()
         {
@@ -450,9 +429,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(0, collectionChanged.Count);
         }
 
-        /// <summary>
-        /// Test an asymmetric substitution of Type D NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsAsymmetricTypeD()
         {
@@ -486,9 +462,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(0, changedArgs.OldStartingIndex);
         }
 
-        /// <summary>
-        /// Test an asymmetric substitution of Type E NotifyCollectionChanged.
-        /// </summary>
         [Fact]
         public void NotifyCollectionChangedSubstitutionsAsymmetricTypeE()
         {
