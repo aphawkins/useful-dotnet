@@ -186,14 +186,21 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(2, changedArgs.OldStartingIndex);
         }
 
-        [Fact]
-        public void SetSubstitutionChangeAsymmetricTypeD()
+        [Theory]
+        [InlineData("ABC|AB BC CA|False", 'B', 'B', "ABC|AC|False", 1)]
+        public void SetSubstitutionChangeAsymmetricTypeD(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
+            string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB BC CA|False"));
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
-            settings['B'] = 'B';
+            settings[from] = to;
 
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
             Assert.Equal(2, collectionChanged.Count);
 
             NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
@@ -270,14 +277,21 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
-        [Fact]
-        public void SetSubstitutionChangeSymmetricTypeB()
+        [Theory]
+        [InlineData("ABC|AB|True", 'C', 'A', "ABC|AC|True", 1)]
+        public void SetSubstitutionChangeSymmetricTypeB(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
+            string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABC|AB|True"));
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
-            settings['C'] = 'A';
+            settings[from] = to;
 
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
             Assert.Equal(3, collectionChanged.Count);
 
             NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
@@ -523,22 +537,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
             Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
             Assert.Equal(1, changedArgs.OldStartingIndex);
-        }
-
-        [Theory]
-        [InlineData("ABC|AB|True", 'C', 'A', "ABC|AC|True", 1)]
-        [InlineData("ABC|AB BC CA|False", 'B', 'B', "ABC|AC|False", 1)]
-        public void SetSubstitutionValid(string keyInitial, char from, char to, string keyResult, int substitutionCount)
-        {
-            string propertyChanged = string.Empty;
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
-            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
         }
     }
 }
