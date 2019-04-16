@@ -357,18 +357,39 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC||True", 'A', 'Ø', 0)]
-        [InlineData("ABC||True", 'Ø', 'A', 0)]
-        public void SetSubstitutionInvalid(string keyInitial, char from, char to, int substitutionCount)
+        [InlineData("ABC||False", 'A', 'Ø', 0)]
+        [InlineData("ABC||False", 'Ø', 'A', 0)]
+        public void SetSubstitutionInvalidAsymmetric(string keyInitial, char from, char to, int substitutionCount)
         {
             string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
 
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(Encoding.Unicode.GetBytes(keyInitial), settings.Key);
             Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
+        }
+
+        [Theory]
+        [InlineData("ABC||True", 'A', 'Ø', 0)]
+        [InlineData("ABC||True", 'Ø', 'A', 0)]
+        public void SetSubstitutionInvalidSymmetric(string keyInitial, char from, char to, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+
+            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyInitial), settings.Key);
+            Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
         }
 
         [Theory]
