@@ -147,8 +147,9 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC|AB|False", 'A', 'C', "ABC|AC BA CB|False", 3)]
-        public void SetSubstitutionChangeAsymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        [InlineData("ABC|AB|False", 'A', 'C', 'B', 'C', "ABC|AC BA CB|False", 3)]
+        [InlineData("ABC|AB BC CA|False", 'B', 'B', 'C', 'A', "ABC|AC|False", 1)]
+        public void SetSubstitutionChangeAsymmetric(string keyInitial, char from, char to, char old, char old1, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
@@ -166,64 +167,25 @@ namespace Useful.Security.Cryptography.Tests
             NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
             Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
             Assert.Equal(1, changedArgs.NewItems.Count);
-            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(0, changedArgs.NewStartingIndex);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
             Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(0, changedArgs.OldStartingIndex);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
 
             changedArgs = collectionChanged[1];
             Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
             Assert.Equal(1, changedArgs.NewItems.Count);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(2, changedArgs.NewStartingIndex);
+
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
             Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(2, changedArgs.OldStartingIndex);
-        }
-
-        [Theory]
-        [InlineData("ABC|AB BC CA|False", 'B', 'B', "ABC|AC|False", 1)]
-        public void SetSubstitutionChangeAsymmetricTypeD(string keyInitial, char from, char to, string keyResult, int substitutionCount)
-        {
-            string propertyChanged = string.Empty;
-            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
-            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
-            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
-            Assert.Equal(2, collectionChanged.Count);
-
-            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
-            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
-            Assert.Equal(1, changedArgs.NewItems.Count);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(1, changedArgs.NewStartingIndex);
-            Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(1, changedArgs.OldStartingIndex);
-
-            changedArgs = collectionChanged[1];
-            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
-            Assert.Equal(1, changedArgs.NewItems.Count);
-            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(0, changedArgs.NewStartingIndex);
-            Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(0, changedArgs.OldStartingIndex);
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
         }
 
         [Theory]
