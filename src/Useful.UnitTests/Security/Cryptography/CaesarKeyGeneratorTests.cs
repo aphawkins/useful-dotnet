@@ -11,22 +11,17 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class CaesarKeyGeneratorTests : IDisposable
+    public class CaesarKeyGeneratorTests
     {
-        public CaesarKeyGeneratorTests()
-        {
-        }
-
         [Fact]
         public void RandomKeyCorrectness()
         {
             IKeyGenerator keyGen = new CaesarKeyGenerator();
-            int key;
             string keyString;
             for (int i = 0; i < 100; i++)
             {
                 keyString = Encoding.Unicode.GetString(keyGen.RandomKey());
-                Assert.True(int.TryParse(keyString, out key));
+                Assert.True(int.TryParse(keyString, out int key));
                 Assert.True(key >= 0 && key < 26);
             }
         }
@@ -62,22 +57,6 @@ namespace Useful.Security.Cryptography.Tests
             }
 
             Assert.True(diff);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
         }
     }
 }

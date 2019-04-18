@@ -90,7 +90,7 @@ namespace Useful.Security.Cryptography
                 {
                     using (MemoryStream outputStream = new MemoryStream())
                     {
-                        CipherMethods.SymmetricTransform(cipher, transformMode, inputStream, outputStream);
+                        SymmetricTransform(cipher, transformMode, inputStream, outputStream);
 
                         // Remove padding on odd length bytes
                         byte[] encrypted;

@@ -6,8 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -46,15 +44,12 @@ namespace Useful.Security.Cryptography
         public CaesarCipherSettings(int rightShift)
             : base()
         {
-            ValidateRightShift(rightShift);
-            _rightShift = rightShift;
-        }
+            if (rightShift < 0 || rightShift > 25)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rightShift), "Value must be between 0 and 25.");
+            }
 
-        /// <inheritdoc />
-        public override IEnumerable<byte> IV
-        {
-            get;
-            protected set;
+            _rightShift = rightShift;
         }
 
         /// <inheritdoc />
@@ -62,13 +57,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return new Collection<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
-            }
-
-            protected set
-            {
-                int shift;
-                RightShift = int.TryParse(Encoding.Unicode.GetString(new List<byte>(value).ToArray()), out shift) ? shift : DefaultShift;
+                return new List<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
             }
         }
 
@@ -84,7 +73,10 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                ValidateRightShift(value);
+                if (value < 0 || value > 25)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 25.");
+                }
 
                 _rightShift = value;
 
@@ -95,15 +87,22 @@ namespace Useful.Security.Cryptography
 
         private static int GetRightShift(byte[] key)
         {
-            return int.Parse(Encoding.Unicode.GetString(key), CultureInfo.InvariantCulture);
-        }
-
-        private static void ValidateRightShift(int value)
-        {
-            if (value < 0 || value > 25)
+            if (key == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 25.");
+                throw new ArgumentNullException(nameof(key));
             }
+
+            if (!int.TryParse(Encoding.Unicode.GetString(key), out int rightShift))
+            {
+                throw new ArgumentException("Value must be a number.", nameof(key));
+            }
+
+            if (rightShift < 0 || rightShift > 25)
+            {
+                throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.");
+            }
+
+            return rightShift;
         }
     }
 }

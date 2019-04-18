@@ -8,6 +8,7 @@
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1020" Action="None" /> <!-- Avoid namespaces with few types -->
     <Rule Id="CA1040" Action="None" /> <!-- Avoid empty interfaces -->
+	<Rule Id="CA1043" Action="None" /> <!-- Use integral or string argument for indexers -->
     <Rule Id="CA1303" Action="None" /> <!-- Do not pass literals as localized parameters -->
     <Rule Id="CA1709" Action="None" /> <!-- Identifiers should be cased correctly -->
     <Rule Id="CA1710" Action="None" /> <!-- Identifiers should have correct suffix -->

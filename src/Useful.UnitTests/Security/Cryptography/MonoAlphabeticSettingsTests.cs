@@ -1,0 +1,475 @@
+﻿// <copyright file="MonoAlphabeticSettingsTests.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography.Tests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Text;
+    using Useful.Security.Cryptography;
+    using Xunit;
+
+    public class MonoAlphabeticSettingsTests
+    {
+        public static TheoryData<string, IDictionary<char, char>, bool, string, int> ValidData => new TheoryData<string, IDictionary<char, char>, bool, string, int>
+        {
+            { "ABC", new Dictionary<char, char>(), false, string.Empty, 0 },
+            { "VWXYZ", new Dictionary<char, char>() { { 'V', 'W' }, { 'X', 'Y' } }, false, "VW XY", 2 },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, false, "AB CD", 2 },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, true, "AB CD", 2 },
+            { "ØABC", new Dictionary<char, char>() { { 'Ø', 'B' } }, true, "ØB", 1 },
+            { "ABCD", new Dictionary<char, char>(), true, string.Empty, 0 },
+
+            // { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", new Dictionary<char, char>() { { 'A', 'B' }, { 'B', 'C' } }, "AB BC", false, 2 },
+        };
+
+        [Fact]
+        public void ConstructEmpty()
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.CharacterSet);
+            Assert.Equal(0, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ||False"), settings.Key.ToArray());
+        }
+
+        [Fact]
+        public void ConstructNullCharacterSet()
+        {
+            Assert.Throws<ArgumentNullException>("characterSet", () => new MonoAlphabeticSettings(null, new Dictionary<char, char>(), false));
+        }
+
+        [Fact]
+        public void ConstructNullSubstitutions()
+        {
+            Assert.Throws<ArgumentNullException>("substitutions", () => new MonoAlphabeticSettings(new List<char>("ABC"), null, false));
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC|True")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ |AB CD|False")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ| AB CD |False")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|ØB CD|False")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ | aB CD | False")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC CA|null")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC CA|True")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB BC CA| True")]
+        [InlineData("ABCD|AB")]
+        [InlineData("ABCD ||False")]
+        [InlineData("ABCD| AB CD |False")]
+        [InlineData("ABCD|DE|False")]
+        [InlineData("ABCD|aB CD|False")]
+        [InlineData("ABCD|AA|True")]
+        [InlineData("ABCD|AB BA|True")]
+        [InlineData("ABCC||True")]
+        [InlineData("ABCD||")]
+        [InlineData("ABCD||null")]
+        [InlineData("ABCD|| True")]
+        [InlineData("ABCD||True ")]
+        public void ConstructSymmetricInvalidKey(string keyString)
+        {
+            byte[] key = Encoding.Unicode.GetBytes(keyString);
+            Assert.Throws<ArgumentException>("key", () => new MonoAlphabeticSettings(key));
+        }
+
+        [Fact]
+        public void ConstructSymmetricNullKey()
+        {
+            Assert.Throws<ArgumentNullException>("key", () => new MonoAlphabeticSettings(null));
+        }
+
+        [Theory]
+        [InlineData("ABC||False", 0)]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|False", 2)]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD|True", 2)]
+        [InlineData("VWXYZ|VW XY|False", 2)]
+        [InlineData("ØABC|ØB|True", 1)]
+        [InlineData("ABCD||True", 0)]
+        public void ContructSymmetricValid(string keyString, int substitutionCount)
+        {
+            byte[] key = Encoding.Unicode.GetBytes(keyString);
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(key);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(key, settings.Key.ToArray());
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidData))]
+        public void ContructValid(string characterSet, IDictionary<char, char> substitutions, bool isSymmetric, string subs, int substitutionCount)
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(new List<char>(characterSet), substitutions, isSymmetric);
+            Assert.Equal(characterSet, settings.CharacterSet);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes($"{characterSet}|{subs}|{isSymmetric}"), settings.Key.ToArray());
+        }
+
+        [Theory]
+        [InlineData("ABC||False", 'Ø', 'A')]
+        public void GetSubstitutionsInvalid(string keyInitial, char from, char to)
+        {
+            string propertyChanged = string.Empty;
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+
+            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Equal(string.Empty, propertyChanged);
+        }
+
+        [Theory]
+        [InlineData("ABC||False", 'A', 'A')]
+        public void GetSubstitutionsValid(string keyInitial, char from, char to)
+        {
+            string propertyChanged = string.Empty;
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(string.Empty, propertyChanged);
+        }
+
+        [Fact]
+        public void Reverse()
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            settings['A'] = 'B';
+            Assert.Equal('A', settings.Reverse('B'));
+        }
+
+        [Fact]
+        public void ReverseInvalid()
+        {
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            Assert.Equal('a', settings.Reverse('a'));
+        }
+
+        [Theory]
+        [InlineData("ABC|AB|False", 'A', 'C', 'B', 'C', "ABC|AC BA CB|False", 3)]
+        [InlineData("ABC|AB BC CA|False", 'B', 'B', 'C', 'A', "ABC|AC|False", 1)]
+        public void SetSubstitutionChangeAsymmetric(string keyInitial, char from, char to, char old, char old1, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(2, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+        }
+
+        [Theory]
+        [InlineData("ABC|AB|True", 'A', 'C', 'B', 'C', "ABC|AC|True", 1)]
+        [InlineData("ABC|AB|True", 'C', 'A', 'C', 'B', "ABC|AC|True", 1)]
+        public void SetSubstitutionChangeSymmetric(string keyInitial, char from, char to, char old, char old1, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(3, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(from, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(to, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(to, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[2];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
+        }
+
+        [Theory]
+        [InlineData("ABC|AB|False", 'A', 'A', "ABC||False", 0)]
+        public void SetSubstitutionClearAsymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(2, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(0, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(0, changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
+        }
+
+        [Theory]
+        [InlineData("ABC|AB|True", 'A', 'A', "ABC||True", 0)]
+        public void SetSubstitutionClearSymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(2, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(0, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(0, changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
+        }
+
+        [Theory]
+        [InlineData("ABC|AB BC|False", 'C', 'A', "ABC|AB BC CA|False", 3)]
+        public void SetSubstitutionExistingAsymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
+        }
+
+        [Theory]
+        [InlineData("ABC|AC|True", 'A', 'C', "ABC|AC|True", 1)]
+        public void SetSubstitutionExistingSymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
+        }
+
+        [Theory]
+        [InlineData("ABC||False", 'A', 'Ø', 0)]
+        [InlineData("ABC||False", 'Ø', 'A', 0)]
+        public void SetSubstitutionInvalidAsymmetric(string keyInitial, char from, char to, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+
+            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyInitial), settings.Key);
+            Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
+        }
+
+        [Theory]
+        [InlineData("ABC||True", 'A', 'Ø', 0)]
+        [InlineData("ABC||True", 'Ø', 'A', 0)]
+        public void SetSubstitutionInvalidSymmetric(string keyInitial, char from, char to, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+
+            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyInitial), settings.Key);
+            Assert.Equal(string.Empty, propertyChanged);
+            Assert.Equal(0, collectionChanged.Count);
+        }
+
+        [Theory]
+        [InlineData("ABC||False", 'A', 'B', "ABC|AB|False", 1)]
+        public void SetSubstitutionSetAsymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(2, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(0, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(0, changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
+        }
+
+        [Theory]
+        [InlineData("ABC||True", 'A', 'B', "ABC|AB|True", 1)]
+        public void SetSubstitutionSetSymmetric(string keyInitial, char from, char to, string keyResult, int substitutionCount)
+        {
+            string propertyChanged = string.Empty;
+            IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
+            settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
+            settings[from] = to;
+
+            Assert.Equal(to, settings[from]);
+            Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
+            Assert.Equal(substitutionCount, settings.SubstitutionCount);
+            Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
+            Assert.Equal(2, collectionChanged.Count);
+
+            NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(0, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(0, changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[1];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
+        }
+    }
+}
