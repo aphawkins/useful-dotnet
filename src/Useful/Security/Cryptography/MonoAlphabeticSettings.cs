@@ -63,13 +63,13 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
         /// </summary>
-        /// <param name="allowedLetters">The allowed letters.</param>
-        /// <param name="substitutions">A substitution for each allowed letter.</param>
+        /// <param name="characterSet">The valid character set.</param>
+        /// <param name="substitutions">A substitution for each character.</param>
         /// <param name="isSymmetric">Indicates whether states if this cipher is symmetric i.e. if two letters substitute to each other.</param>
-        public MonoAlphabeticSettings(IList<char> allowedLetters, IDictionary<char, char> substitutions, bool isSymmetric)
+        public MonoAlphabeticSettings(IList<char> characterSet, IDictionary<char, char> substitutions, bool isSymmetric)
             : base()
         {
-            AllowedLetters = allowedLetters ?? throw new ArgumentNullException(nameof(allowedLetters));
+            CharacterSet = characterSet ?? throw new ArgumentNullException(nameof(characterSet));
 
             if (substitutions == null)
             {
@@ -77,7 +77,7 @@ namespace Useful.Security.Cryptography
             }
 
             _substitutions.Clear();
-            foreach (char letter in allowedLetters)
+            foreach (char letter in characterSet)
             {
                 _substitutions.Add(letter);
             }
@@ -99,10 +99,10 @@ namespace Useful.Security.Cryptography
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        /// Gets the allowable letters.
+        /// Gets the character set.
         /// </summary>
-        /// <value>The letters allowed.</value>
-        public IList<char> AllowedLetters
+        /// <value>The character set.</value>
+        public IList<char> CharacterSet
         {
             get;
             private set;
@@ -122,8 +122,8 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                // allowedLetters|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
-                StringBuilder key = new StringBuilder(new string(AllowedLetters.ToArray()));
+                // characterSet|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
+                StringBuilder key = new StringBuilder(new string(CharacterSet.ToArray()));
                 key.Append(KeySeperator);
                 key.Append(GetSubstitutionString());
                 key.Append(KeySeperator);
@@ -153,7 +153,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                int subsIndex = AllowedLetters.IndexOf(substitution);
+                int subsIndex = CharacterSet.IndexOf(substitution);
                 if (subsIndex < 0)
                 {
                     return substitution;
@@ -167,19 +167,19 @@ namespace Useful.Security.Cryptography
                 Debug.Print($"[{substitution},{value}]");
 
                 char from = substitution;
-                int fromIndex = AllowedLetters.IndexOf(from);
+                int fromIndex = CharacterSet.IndexOf(from);
 
                 if (fromIndex < 0)
                 {
-                    throw new ArgumentException("Substitution must be an allowed character.", nameof(value));
+                    throw new ArgumentException("Substitution must be an valid character.", nameof(value));
                 }
 
                 char to = value;
-                int toIndex = AllowedLetters.IndexOf(to);
+                int toIndex = CharacterSet.IndexOf(to);
 
                 if (toIndex < 0)
                 {
-                    throw new ArgumentException("Substitution must be an allowed character.", nameof(value));
+                    throw new ArgumentException("Substitution must be an valid character.", nameof(value));
                 }
 
                 if (_substitutions[fromIndex] == to)
@@ -189,13 +189,13 @@ namespace Useful.Security.Cryptography
                 }
 
                 char fromSubs = _substitutions[fromIndex];
-                int fromSubsIndex = AllowedLetters.IndexOf(fromSubs);
+                int fromSubsIndex = CharacterSet.IndexOf(fromSubs);
 
                 char toSubs = _substitutions[toIndex];
-                int toSubsIndex = AllowedLetters.IndexOf(toSubs);
+                int toSubsIndex = CharacterSet.IndexOf(toSubs);
 
                 int toInvIndex = _substitutions.IndexOf(to);
-                char toInv = AllowedLetters[toInvIndex];
+                char toInv = CharacterSet[toInvIndex];
 
                 if (IsSymmetric)
                 {
@@ -217,7 +217,7 @@ namespace Useful.Security.Cryptography
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
                             new KeyValuePair<char, char>(from, fromSubs),
-                            AllowedLetters.IndexOf(from)));
+                            CharacterSet.IndexOf(from)));
 
                     if (from != to)
                     {
@@ -226,7 +226,7 @@ namespace Useful.Security.Cryptography
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(to, from),
                                 new KeyValuePair<char, char>(to, toSubs),
-                                AllowedLetters.IndexOf(to)));
+                                CharacterSet.IndexOf(to)));
 
                         if (fromSubs != from)
                         {
@@ -235,7 +235,7 @@ namespace Useful.Security.Cryptography
                                     NotifyCollectionChangedAction.Replace,
                                     new KeyValuePair<char, char>(fromSubs, fromSubs),
                                     new KeyValuePair<char, char>(fromSubs, from),
-                                    AllowedLetters.IndexOf(fromSubs)));
+                                    CharacterSet.IndexOf(fromSubs)));
                         }
                     }
 
@@ -246,7 +246,7 @@ namespace Useful.Security.Cryptography
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(toSubs, toSubs),
                                 new KeyValuePair<char, char>(toSubs, to),
-                                AllowedLetters.IndexOf(toSubs)));
+                                CharacterSet.IndexOf(toSubs)));
                     }
                 }
                 else
@@ -265,14 +265,14 @@ namespace Useful.Security.Cryptography
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
                             new KeyValuePair<char, char>(from, fromSubs),
-                            AllowedLetters.IndexOf(from)));
+                            CharacterSet.IndexOf(from)));
 
                     this.OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(toInv, fromSubs),
                             new KeyValuePair<char, char>(toInv, to),
-                            AllowedLetters.IndexOf(toInv)));
+                            CharacterSet.IndexOf(toInv)));
                 }
 
                 Debug.Print($"{string.Join(string.Empty, _substitutions)}");
@@ -289,7 +289,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The letter that substiutes to this letter.</returns>
         public char Reverse(char letter)
         {
-            if (AllowedLetters.IndexOf(letter) < 0)
+            if (CharacterSet.IndexOf(letter) < 0)
             {
                 return letter;
             }
@@ -298,25 +298,25 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Ensures that the specified pairs are valid against the allowed letters and the uniqueness.
+        /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
         /// <param name="pairs">The pairs to check.</param>
-        /// <param name="allowedLetters">The letters that the pairs are allowed to be formed from.</param>
+        /// <param name="characterSet">The letters that the pairs can be formed from.</param>
         /// <param name="checkUniqueness">Whether the letters in the pairs have to be unique.</param>
-        private static void CheckPairs(IDictionary<char, char> pairs, IEnumerable<char> allowedLetters, bool checkUniqueness)
+        private static void CheckPairs(IDictionary<char, char> pairs, IEnumerable<char> characterSet, bool checkUniqueness)
         {
             List<char> uniqueLetters = new List<char>();
 
             foreach (KeyValuePair<char, char> pair in pairs)
             {
-                if (!allowedLetters.Contains(pair.Key))
+                if (!characterSet.Contains(pair.Key))
                 {
-                    throw new ArgumentException("Not allowed to substitute these letters.");
+                    throw new ArgumentException("Not valid to substitute these letters.");
                 }
 
-                if (!allowedLetters.Contains(pair.Value))
+                if (!characterSet.Contains(pair.Value))
                 {
-                    throw new ArgumentException("Not allowed to substitute these letters.");
+                    throw new ArgumentException("Not valid to substitute these letters.");
                 }
 
                 if (checkUniqueness)
@@ -344,10 +344,10 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="key">The string to parse for pairs.</param>
         /// <param name="delimiter">What separates the pairs in the string.</param>
-        /// <param name="allowedLetters">The letters that the pairs are derived from.</param>
+        /// <param name="charaterSet">The letters that the pairs are derived from.</param>
         /// <param name="checkUniqueness">Whether letters in the pairs should be unique e.g. AB CD versus AB BC.</param>
         /// <returns>The string value parsed as pairs.</returns>
-        private static IDictionary<char, char> GetPairs(string key, char delimiter, IEnumerable<char> allowedLetters, bool checkUniqueness)
+        private static IDictionary<char, char> GetPairs(string key, char delimiter, IEnumerable<char> charaterSet, bool checkUniqueness)
         {
             IDictionary<char, char> pairs = new Dictionary<char, char>();
             string[] rawPairs = key.Split(new char[] { delimiter });
@@ -371,7 +371,7 @@ namespace Useful.Security.Cryptography
 
             try
             {
-                CheckPairs(pairs, allowedLetters, checkUniqueness);
+                CheckPairs(pairs, charaterSet, checkUniqueness);
             }
             catch (ArgumentException ex)
             {
@@ -384,7 +384,7 @@ namespace Useful.Security.Cryptography
         private static Tuple<IList<char>, IDictionary<char, char>, bool> GetSettings(byte[] key)
         {
             // Example:
-            // allowed_chars|substitutions|isSymmetric
+            // characterSet|substitutions|isSymmetric
             if (key == null)
             {
                 throw new ArgumentNullException(nameof(key));
@@ -395,7 +395,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Invalid format.", nameof(key));
             }
 
-            IList<char> allowedLetters = new List<char>();
+            IList<char> characterSet = new List<char>();
             IDictionary<char, char> substitutions = new Dictionary<char, char>();
             bool isSymmetric = false;
 
@@ -408,30 +408,30 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect number of key parts.", nameof(key));
             }
 
-            // Allowed Letters
+            // Character set
             if (parts[0] == null)
             {
-                throw new ArgumentException("Allowed letters cannot be empty.", nameof(key));
+                throw new ArgumentException("Characters cannot be empty.", nameof(key));
             }
 
-            foreach (char allowedLetter in parts[0])
+            foreach (char character in parts[0])
             {
-                if (!char.IsLetter(allowedLetter))
+                if (!char.IsLetter(character))
                 {
-                    throw new ArgumentException("All Allowed Letters must be letters.", nameof(key));
+                    throw new ArgumentException("All characters must be letters.", nameof(key));
                 }
 
-                if (allowedLetters.Contains(allowedLetter))
+                if (characterSet.Contains(character))
                 {
-                    throw new ArgumentException("Allowed Letters must not be duplicated.", nameof(key));
+                    throw new ArgumentException("Characters must not be duplicated.", nameof(key));
                 }
 
-                allowedLetters.Add(allowedLetter);
+                characterSet.Add(character);
             }
 
-            allowedLetters = new List<char>(parts[0].ToCharArray());
+            characterSet = new List<char>(parts[0].ToCharArray());
 
-            foreach (char letter in allowedLetters)
+            foreach (char letter in characterSet)
             {
                 substitutions.Add(letter, letter);
             }
@@ -455,9 +455,9 @@ namespace Useful.Security.Cryptography
             // Substitutions
             string substitutionPart = parts[1];
 
-            substitutions = GetPairs(substitutionPart, SubstitutionDelimiter, allowedLetters, isSymmetric);
+            substitutions = GetPairs(substitutionPart, SubstitutionDelimiter, characterSet, isSymmetric);
 
-            return new Tuple<IList<char>, IDictionary<char, char>, bool>(allowedLetters, substitutions, isSymmetric);
+            return new Tuple<IList<char>, IDictionary<char, char>, bool>(characterSet, substitutions, isSymmetric);
         }
 
         /// <summary>
@@ -473,20 +473,20 @@ namespace Useful.Security.Cryptography
         {
             IDictionary<char, char> pairsToAdd = new Dictionary<char, char>();
 
-            for (int i = 0; i < AllowedLetters.Count; i++)
+            for (int i = 0; i < CharacterSet.Count; i++)
             {
-                if (AllowedLetters[i] == _substitutions[i])
+                if (CharacterSet[i] == _substitutions[i])
                 {
                     continue;
                 }
 
                 if (pairsToAdd.ContainsKey(_substitutions[i])
-                    && pairsToAdd[_substitutions[i]] == AllowedLetters[i])
+                    && pairsToAdd[_substitutions[i]] == CharacterSet[i])
                 {
                     continue;
                 }
 
-                pairsToAdd.Add(AllowedLetters[i], _substitutions[i]);
+                pairsToAdd.Add(CharacterSet[i], _substitutions[i]);
             }
 
             return pairsToAdd;
