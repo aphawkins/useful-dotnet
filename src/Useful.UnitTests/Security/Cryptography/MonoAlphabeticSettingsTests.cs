@@ -30,15 +30,15 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructEmpty()
         {
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.AllowedLetters);
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.CharacterSet);
             Assert.Equal(0, settings.SubstitutionCount);
             Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ||False"), settings.Key.ToArray());
         }
 
         [Fact]
-        public void ConstructNullAllowedLetters()
+        public void ConstructNullCharacterSet()
         {
-            Assert.Throws<ArgumentNullException>("allowedLetters", () => new MonoAlphabeticSettings(null, new Dictionary<char, char>(), false));
+            Assert.Throws<ArgumentNullException>("characterSet", () => new MonoAlphabeticSettings(null, new Dictionary<char, char>(), false));
         }
 
         [Fact]
@@ -98,12 +98,12 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(ValidData))]
-        public void ContructValid(string allowedLetters, IDictionary<char, char> substitutions, bool isSymmetric, string subs, int substitutionCount)
+        public void ContructValid(string characterSet, IDictionary<char, char> substitutions, bool isSymmetric, string subs, int substitutionCount)
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(new List<char>(allowedLetters), substitutions, isSymmetric);
-            Assert.Equal(allowedLetters, settings.AllowedLetters);
+            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(new List<char>(characterSet), substitutions, isSymmetric);
+            Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
-            Assert.Equal(Encoding.Unicode.GetBytes($"{allowedLetters}|{subs}|{isSymmetric}"), settings.Key.ToArray());
+            Assert.Equal(Encoding.Unicode.GetBytes($"{characterSet}|{subs}|{isSymmetric}"), settings.Key.ToArray());
         }
 
         [Theory]
@@ -140,7 +140,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void ReverseUnallowed()
+        public void ReverseInvalid()
         {
             MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
             Assert.Equal('a', settings.Reverse('a'));
