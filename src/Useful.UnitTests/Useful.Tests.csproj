@@ -19,7 +19,6 @@
     <Compile Remove="Security\Cryptography\MonoAlphabeticSettingsObservableCollectionUnitTests.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticSpecFlow.feature.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticSpecFlowSteps.cs" />
-    <Compile Remove="Security\Cryptography\MonoAlphabeticTest.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransformUnitTests.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticUnitTests.cs" />
   </ItemGroup>

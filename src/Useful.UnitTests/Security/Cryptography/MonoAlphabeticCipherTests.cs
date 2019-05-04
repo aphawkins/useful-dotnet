@@ -1,4 +1,4 @@
-// <copyright file="CaesarCipherTests.cs" company="APH Software">
+﻿// <copyright file="MonoAlphabeticCipherTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -6,61 +6,68 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class CaesarCipherTests
+    public class MonoAlphabeticCipherTests
     {
-        public static TheoryData<string, string, int> Data => new TheoryData<string, string, int>
+        public static TheoryData<string, string, string> Data => new TheoryData<string, string, string>
         {
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3 },
-            { "abcdefghijklmnopqrstuvwxyz", "defghijklmnopqrstuvwxyzabc", 3 },
-            { ">?@ [\\]", ">?@ [\\]", 3 },
+            { "ABC|AB|True", "ABC", "BAC" },
+            { "ABCD|AB CD|True", "ABCD", "BADC" },
+            { "ABC|AB BC CA|False", "ABC", "BCA" },
+            { "ABC||True", "ABC", "ABC" },
+            { "ABCD||True", "ABÅCD", "ABÅCD" },
+            { "ABCD|AB CD|True", "ABCD", "BADC" },
+            { "ABC|AB BC CA|False", "ABC", "BCA" },
+            { "ABCD|AB CD|True", "AB CD", "BA DC" },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF GH|True", "HeLlOwOrLd", "GeLlOwOrLd" },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF GH|True", "HeLlOwOrLd", "GeLlOwOrLd" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void DecryptCipher(string plaintext, string ciphertext, int rightShift)
+        public void DecryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
-                ((CaesarSettings)cipher.Settings).RightShift = rightShift;
+                cipher.Key = Encoding.Unicode.GetBytes(key);
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void DecryptSymmetric(string plaintext, string ciphertext, int rightShift)
+        public void DecryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (SymmetricAlgorithm cipher = new MonoAlphabeticCipher())
             {
-                cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
+                cipher.Key = Encoding.Unicode.GetBytes(key);
                 Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
             }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void EncryptCipher(string plaintext, string ciphertext, int rightShift)
+        public void EncryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
-                ((CaesarSettings)cipher.Settings).RightShift = rightShift;
-                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
+                cipher.Key = Encoding.Unicode.GetBytes(key);
+                Assert.Equal(plaintext, cipher.Encrypt(ciphertext));
             }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void EncryptSymmetric(string plaintext, string ciphertext, int rightShift)
+        public void EncryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (SymmetricAlgorithm cipher = new MonoAlphabeticCipher())
             {
-                cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
-                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
+                cipher.Key = Encoding.Unicode.GetBytes(key);
+                Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, ciphertext));
             }
         }
 
@@ -124,10 +131,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
-                Assert.Equal("Caesar", cipher.CipherName);
-                Assert.Equal("Caesar", cipher.ToString());
+                Assert.Equal("MonoAlphabetic", cipher.CipherName);
+                Assert.Equal("MonoAlphabetic", cipher.ToString());
             }
         }
     }
