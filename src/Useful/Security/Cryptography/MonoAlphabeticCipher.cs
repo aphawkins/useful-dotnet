@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System.Security.Cryptography;
+    using System.Text;
 
     /// <summary>
     /// The MonoAlphabetic cipher.
@@ -14,9 +15,17 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabeticCipher"/> class.
         /// </summary>
+        public MonoAlphabeticCipher()
+            : this(new MonoAlphabeticSettings())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonoAlphabeticCipher"/> class.
+        /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public MonoAlphabeticCipher(MonoAlphabeticSettings settings)
-            : base("Caesar", settings)
+            : base("MonoAlphabetic", settings)
         {
             KeyGenerator = new MonoAlphabeticKeyGenerator();
         }
@@ -24,25 +33,39 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            throw new System.NotImplementedException();
+            ICipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(rgbKey));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            throw new System.NotImplementedException();
+            ICipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(rgbKey));
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
         /// <inheritdoc />
         public override string Decrypt(string ciphertext)
         {
-            throw new System.NotImplementedException();
+            StringBuilder sb = new StringBuilder(ciphertext.Length);
+
+            for (int i = 0; i < ciphertext.Length; i++)
+            {
+            }
+
+            return sb.ToString();
         }
 
         /// <inheritdoc />
         public override string Encrypt(string plaintext)
         {
-            throw new System.NotImplementedException();
+            StringBuilder sb = new StringBuilder(plaintext.Length);
+
+            for (int i = 0; i < plaintext.Length; i++)
+            {
+            }
+
+            return sb.ToString();
         }
     }
 }

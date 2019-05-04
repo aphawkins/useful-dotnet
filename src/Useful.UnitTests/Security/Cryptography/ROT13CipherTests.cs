@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             }
@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, plaintext));
             }
@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             }
@@ -51,7 +51,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
             }
@@ -70,7 +70,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyCorrectness()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 cipher.GenerateKey();
                 Assert.Equal(Array.Empty<byte>(), cipher.Key);
@@ -80,7 +80,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
                 Assert.Equal("ROT13", cipher.CipherName);
                 Assert.Equal("ROT13", cipher.ToString());
