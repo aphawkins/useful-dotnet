@@ -62,6 +62,26 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void IvCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
+        }
+
+        [Fact]
         public void Name()
         {
             Assert.Equal("ROT13", _cipher.CipherName);

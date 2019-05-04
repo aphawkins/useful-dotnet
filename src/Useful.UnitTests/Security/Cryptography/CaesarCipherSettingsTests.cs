@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            CaesarCipherSettings settings = new CaesarCipherSettings(rightShift);
+            CaesarSettings settings = new CaesarSettings(rightShift);
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
 
             Assert.Equal(new List<byte>(key), settings.Key);
@@ -34,7 +34,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(26)]
         public void ConstructOutOfRange(int rightShift)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(rightShift), () => new CaesarCipherSettings(rightShift));
+            Assert.Throws<ArgumentOutOfRangeException>(nameof(rightShift), () => new CaesarSettings(rightShift));
         }
 
         [Theory]
@@ -45,7 +45,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            CaesarCipherSettings settings = new CaesarCipherSettings(key);
+            CaesarSettings settings = new CaesarSettings(key);
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
 
             Assert.Equal(new List<byte>(key), settings.Key);
@@ -57,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void ConstructSymmetricNullKey()
         {
-            Assert.Throws<ArgumentNullException>("key", () => new CaesarCipherSettings(null));
+            Assert.Throws<ArgumentNullException>("key", () => new CaesarSettings(null));
         }
 
         [Theory]
@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructSymmetricOutOfRange(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            Assert.Throws<ArgumentOutOfRangeException>("key", () => new CaesarCipherSettings(key));
+            Assert.Throws<ArgumentOutOfRangeException>("key", () => new CaesarSettings(key));
         }
 
         [Theory]
@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography.Tests
         public void ConstructSymmetricIncorrectFormat(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            Assert.Throws<ArgumentException>("key", () => new CaesarCipherSettings(key));
+            Assert.Throws<ArgumentException>("key", () => new CaesarSettings(key));
         }
 
         [Theory]
@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetRightShift(int rightShift)
         {
             string propertyChanged = string.Empty;
-            CaesarCipherSettings settings = new CaesarCipherSettings(Encoding.Unicode.GetBytes($"{0}"));
+            CaesarSettings settings = new CaesarSettings(Encoding.Unicode.GetBytes($"{0}"));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.RightShift = rightShift;
 
@@ -100,7 +100,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(26)]
         public void SetRightShiftOutOfRange(int rightShift)
         {
-            CaesarCipherSettings settings = new CaesarCipherSettings(Encoding.Unicode.GetBytes($"{0}"));
+            CaesarSettings settings = new CaesarSettings(Encoding.Unicode.GetBytes($"{0}"));
             Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.RightShift = rightShift);
         }
     }

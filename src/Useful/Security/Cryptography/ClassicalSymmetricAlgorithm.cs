@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography
             LegalBlockSizesValue = new KeySizes[1];
             LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
             LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(16, int.MaxValue, 16);
+            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
 
             KeyValue = Array.Empty<byte>();
             IVValue = Array.Empty<byte>();

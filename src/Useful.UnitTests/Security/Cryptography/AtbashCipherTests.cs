@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Security.Cryptography;
+    using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -59,6 +60,26 @@ namespace Useful.Security.Cryptography.Tests
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Encrypt, plaintext));
+        }
+
+        [Fact]
+        public void IvCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
         }
 
         [Fact]
