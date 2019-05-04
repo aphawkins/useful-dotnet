@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// MonoAlphabetic key generator.
     /// </summary>
-    public class MonoAlphabeticKeyGenerator : IKeyGenerator
+    internal class MonoAlphabeticKeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();

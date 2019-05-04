@@ -7,7 +7,6 @@ namespace Useful.Security.Cryptography.Tests
     using System;
     using System.Linq;
     using System.Text;
-    using Useful.Interfaces.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -16,44 +15,55 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RandomKeyCorrectness()
         {
-            IKeyGenerator keyGen = new CaesarKeyGenerator();
-            string keyString;
-            for (int i = 0; i < 100; i++)
+            using (CaesarCipher cipher = new CaesarCipher())
             {
-                keyString = Encoding.Unicode.GetString(keyGen.RandomKey());
-                Assert.True(int.TryParse(keyString, out int key));
-                Assert.True(key >= 0 && key < 26);
+                string keyString;
+                for (int i = 0; i < 100; i++)
+                {
+                    cipher.GenerateKey();
+                    keyString = Encoding.Unicode.GetString(cipher.Key);
+                    Assert.True(int.TryParse(keyString, out int key));
+                    Assert.True(key >= 0 && key < 26);
+                }
             }
         }
 
         [Fact]
         public void RandomIvCorrectness()
         {
-            IKeyGenerator keyGen = new CaesarKeyGenerator();
-            Assert.Equal(Array.Empty<byte>(), keyGen.RandomIv());
+            using (CaesarCipher cipher = new CaesarCipher())
+            {
+                cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
         }
 
         [Fact]
         public void KeyRandomness()
         {
-            IKeyGenerator keyGen = new CaesarKeyGenerator();
-            byte[] key = Array.Empty<byte>();
-            byte[] newKey;
             bool diff = false;
 
-            newKey = keyGen.RandomKey();
-            key = newKey;
-
-            for (int i = 0; i < 10; i++)
+            using (CaesarCipher cipher = new CaesarCipher())
             {
-                if (!newKey.SequenceEqual(key))
-                {
-                    diff = true;
-                    break;
-                }
+                byte[] key = Array.Empty<byte>();
+                byte[] newKey;
 
+                cipher.GenerateKey();
+                newKey = cipher.Key;
                 key = newKey;
-                newKey = keyGen.RandomKey();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    if (!newKey.SequenceEqual(key))
+                    {
+                        diff = true;
+                        break;
+                    }
+
+                    key = newKey;
+                    cipher.GenerateKey();
+                    newKey = cipher.Key;
+                }
             }
 
             Assert.True(diff);

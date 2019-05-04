@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarCipherSettings.cs" company="APH Software">
+﻿// <copyright file="CaesarSettings.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public sealed class CaesarCipherSettings : CipherSettings
+    public sealed class CaesarSettings : CipherSettings
     {
         private const int DefaultShift = 1;
 
@@ -21,27 +21,27 @@ namespace Useful.Security.Cryptography
         private int _rightShift;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
+        /// Initializes a new instance of the <see cref="CaesarSettings"/> class.
         /// </summary>
-        public CaesarCipherSettings()
+        public CaesarSettings()
             : this(DefaultShift)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
+        /// Initializes a new instance of the <see cref="CaesarSettings"/> class.
         /// </summary>
         /// <param name="key">The encryption Key.</param>
-        public CaesarCipherSettings(byte[] key)
+        public CaesarSettings(byte[] key)
             : this(GetRightShift(key))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarCipherSettings"/> class.
+        /// Initializes a new instance of the <see cref="CaesarSettings"/> class.
         /// </summary>
         /// <param name="rightShift">The right shift.</param>
-        public CaesarCipherSettings(int rightShift)
+        public CaesarSettings(int rightShift)
             : base()
         {
             if (rightShift < 0 || rightShift > 25)
