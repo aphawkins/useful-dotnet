@@ -19,7 +19,7 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCD|AB CD|True", "ABCD", "BADC" },
             { "ABC|AB BC CA|False", "ABC", "BCA" },
             { "ABC||True", "ABC", "ABC" },
-            { "ABCD||True", "ABÅCD", "ABÅCD" },
+            { "ABCD||True", "Å", "Å" },
             { "ABCD|AB CD|True", "ABCD", "BADC" },
             { "ABC|AB BC CA|False", "ABC", "BCA" },
             { "ABCD|AB CD|True", "AB CD", "BA DC" },
@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography.Tests
             using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
                 cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, cipher.Encrypt(ciphertext));
+                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             }
         }
 
@@ -67,14 +67,14 @@ namespace Useful.Security.Cryptography.Tests
             using (SymmetricAlgorithm cipher = new MonoAlphabeticCipher())
             {
                 cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, ciphertext));
+                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
             }
         }
 
         [Fact]
         public void IvCorrectness()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
                 cipher.GenerateIV();
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
@@ -82,27 +82,48 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void KeyCorrectness()
+        public void IvSet()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
+            {
+                cipher.IV = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyCtor()
+        {
+            byte[] key = Encoding.Unicode.GetBytes("ABC||True");
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(key)))
+            {
+                Assert.Equal(key, cipher.Settings.Key.ToArray());
+                Assert.Equal(key, cipher.Key);
+            }
+        }
+
+        [Fact]
+        public void KeyGenerateCorrectness()
+        {
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
                 string keyString;
                 for (int i = 0; i < 100; i++)
                 {
                     cipher.GenerateKey();
                     keyString = Encoding.Unicode.GetString(cipher.Key);
-                    Assert.True(int.TryParse(keyString, out int key));
-                    Assert.True(key >= 0 && key < 26);
+
+                    // How to test for correctness?
                 }
             }
         }
 
         [Fact]
-        public void KeyRandomness()
+        public void KeyGenerateRandomness()
         {
             bool diff = false;
 
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
                 byte[] key = Array.Empty<byte>();
                 byte[] newKey;
@@ -126,6 +147,18 @@ namespace Useful.Security.Cryptography.Tests
             }
 
             Assert.True(diff);
+        }
+
+        [Fact]
+        public void KeySet()
+        {
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
+            {
+                byte[] key = Encoding.Unicode.GetBytes("ABC||True");
+                cipher.Key = key;
+                Assert.Equal(key, cipher.Settings.Key.ToArray());
+                Assert.Equal(key, cipher.Key);
+            }
         }
 
         [Fact]

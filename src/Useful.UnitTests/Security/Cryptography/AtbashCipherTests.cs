@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -15,6 +16,7 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", ">?@ [\\]" },
+            { "Å", "Å" },
         };
 
         [Theory]
@@ -63,6 +65,16 @@ namespace Useful.Security.Cryptography.Tests
             using (AtbashCipher cipher = new AtbashCipher())
             {
                 cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void IvSet()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.IV = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
             }
         }

@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
-    using System.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -16,6 +15,7 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", "]\\[ @?>" },
+            { "Å", "Å" },
         };
 
         [Theory]

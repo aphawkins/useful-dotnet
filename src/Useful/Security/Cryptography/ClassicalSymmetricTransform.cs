@@ -106,7 +106,7 @@ namespace Useful.Security.Cryptography
         {
             if (inputBuffer[0] == 0)
             {
-                return inputBuffer;
+                return Array.Empty<byte>();
             }
 
             byte[] outputBuffer = new byte[inputBuffer.Length];

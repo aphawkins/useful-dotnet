@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -31,6 +32,28 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
+        public override byte[] Key
+        {
+            get
+            {
+                return Settings.Key.ToArray();
+            }
+
+            set
+            {
+                Settings = new MonoAlphabeticSettings(value);
+                base.Key = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public override byte[] IV
+        {
+            get => Settings.IV.ToArray();
+            set => _ = value;
+        }
+
+        /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
             ICipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(rgbKey));
@@ -51,6 +74,7 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
+                sb.Append(((MonoAlphabeticSettings)Settings).Reverse(ciphertext[i]));
             }
 
             return sb.ToString();
@@ -63,6 +87,7 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
+                sb.Append(((MonoAlphabeticSettings)Settings)[plaintext[i]]);
             }
 
             return sb.ToString();

@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography
         {
             using (ICryptoTransform transformer = GetTransformer(cipher, transformMode))
             {
-                using (StreamReader reader = new StreamReader(input, true))
+                using (StreamReader reader = new StreamReader(input, new UnicodeEncoding()))
                 {
                     reader.Peek();
 

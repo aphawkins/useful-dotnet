@@ -15,6 +15,7 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
             { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
             { ">?@ [\\]", ">?@ [\\]" },
+            { "Å", "Å" },
         };
 
         [Theory]
