@@ -5,82 +5,87 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
-    using System.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class ROT13CipherTests : IDisposable
+    public class ROT13CipherTests
     {
-        private ICipher _cipher;
-        private SymmetricAlgorithm _symmetric;
-
-        public ROT13CipherTests()
-        {
-            _cipher = new ROT13Cipher();
-            _symmetric = new ROT13Cipher();
-        }
-
         public static TheoryData<string, string> Data => new TheoryData<string, string>
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
             { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
             { ">?@ [\\]", ">?@ [\\]" },
+            { "Å", "Å" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            Assert.Equal(plaintext, _cipher.Decrypt(ciphertext));
+            using (ROT13Cipher cipher = new ROT13Cipher())
+            {
+                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext)
         {
-            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Decrypt, plaintext));
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            using (ROT13Cipher cipher = new ROT13Cipher())
+            {
+                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, plaintext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            Assert.Equal(ciphertext, _cipher.Encrypt(plaintext));
+            using (ROT13Cipher cipher = new ROT13Cipher())
+            {
+                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
-            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Encrypt, plaintext));
+            using (ROT13Cipher cipher = new ROT13Cipher())
+            {
+                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
+            }
+        }
+
+        [Fact]
+        public void IvCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyCorrectness()
+        {
+            using (ROT13Cipher cipher = new ROT13Cipher())
+            {
+                cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
         }
 
         [Fact]
         public void Name()
         {
-            Assert.Equal("ROT13", _cipher.CipherName);
-            Assert.Equal("ROT13", _symmetric.ToString());
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
+            using (ROT13Cipher cipher = new ROT13Cipher())
             {
-                // free managed resources
-                (_cipher as IDisposable)?.Dispose();
-                _cipher = null;
-
-                _symmetric?.Dispose();
-                _symmetric = null;
+                Assert.Equal("ROT13", cipher.CipherName);
+                Assert.Equal("ROT13", cipher.ToString());
             }
-
-            // free native resources if there are any.
         }
     }
 }

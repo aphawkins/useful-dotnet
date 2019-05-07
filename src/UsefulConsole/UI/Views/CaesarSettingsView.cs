@@ -26,7 +26,7 @@ namespace UsefulConsole.UI.Views
                 isGood = int.TryParse(input, out result) && result >= 0 && result < 26;
             }
 
-            ((CaesarCipherSettings)_controller.Settings).RightShift = result;
+            ((CaesarSettings)_controller.Settings).RightShift = result;
 
             Console.WriteLine($"Right shift selected: {result}");
         }

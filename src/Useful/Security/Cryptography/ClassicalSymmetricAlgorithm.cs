@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Security.Cryptography;
+    using Useful.Interfaces.Security.Cryptography;
 
     /// <summary>
     /// Classical symmetric algorithm.
@@ -39,6 +40,11 @@ namespace Useful.Security.Cryptography
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the key generator.
+        /// </summary>
+        protected IKeyGenerator KeyGenerator { get; set; } = new KeyGenerator();
+
         /// <inheritdoc />
         public abstract string Decrypt(string ciphertext);
 
@@ -55,13 +61,14 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             // IV is always empty.
-            IVValue = Array.Empty<byte>();
+            IVValue = KeyGenerator.RandomIv();
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = Array.Empty<byte>();
+            KeyValue = KeyGenerator.RandomKey();
+            Key = KeyValue;
         }
 
         private void Reset()
@@ -74,7 +81,7 @@ namespace Useful.Security.Cryptography
             LegalBlockSizesValue = new KeySizes[1];
             LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
             LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(16, 16, 16);
+            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
 
             KeyValue = Array.Empty<byte>();
             IVValue = Array.Empty<byte>();

@@ -5,82 +5,98 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
-    using System.Security.Cryptography;
+    using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class AtbashCipherTests : IDisposable
+    public class AtbashCipherTests
     {
-        private ICipher _cipher;
-        private SymmetricAlgorithm _symmetric;
-
-        public AtbashCipherTests()
-        {
-            _cipher = new AtbashCipher();
-            _symmetric = new AtbashCipher();
-        }
-
         public static TheoryData<string, string> Data => new TheoryData<string, string>
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", ">?@ [\\]" },
+            { "Å", "Å" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            Assert.Equal(plaintext, _cipher.Decrypt(ciphertext));
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext)
         {
-            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Decrypt, ciphertext));
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            Assert.Equal(ciphertext, _cipher.Encrypt(plaintext));
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
+            }
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
-            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(_symmetric, CipherTransformMode.Encrypt, plaintext));
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
+            }
+        }
+
+        [Fact]
+        public void IvCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void IvSet()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.IV = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyCorrectness()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
         }
 
         [Fact]
         public void Name()
         {
-            Assert.Equal("Atbash", _cipher.CipherName);
-            Assert.Equal("Atbash", _symmetric.ToString());
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
+            using (AtbashCipher cipher = new AtbashCipher())
             {
-                // free managed resources
-                (_cipher as IDisposable)?.Dispose();
-                _cipher = null;
-
-                _symmetric?.Dispose();
-                _symmetric = null;
+                Assert.Equal("Atbash", cipher.CipherName);
+                Assert.Equal("Atbash", cipher.ToString());
             }
-
-            // free native resources if there are any.
         }
     }
 }

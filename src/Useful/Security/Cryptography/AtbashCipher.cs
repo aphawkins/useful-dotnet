@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -28,6 +29,20 @@ namespace Useful.Security.Cryptography
         public AtbashCipher(CipherSettings settings)
             : base("Atbash", settings)
         {
+        }
+
+        /// <inheritdoc />
+        public override byte[] IV
+        {
+            get => Settings.IV.ToArray();
+            set => _ = value;
+        }
+
+        /// <inheritdoc />
+        public override byte[] Key
+        {
+            get => Settings.Key.ToArray();
+            set => _ = value;
         }
 
         /// <inheritdoc />
@@ -76,19 +91,19 @@ namespace Useful.Security.Cryptography
         /// <returns>The enciphered letter.</returns>
         private static char Encipher(char letter)
         {
-            if (!char.IsLetter(letter))
-            {
-                // Not a letter so do nothing to it
-                return letter;
-            }
-
-            if (char.IsUpper(letter))
+            if (letter >= 'A' && letter <= 'Z')
             {
                 // A=Z, B=Y, C=X, etc
                 return (char)('Z' - (letter % 'A'));
             }
-
-            return (char)('z' - (letter % 'a'));
+            else if (letter >= 'a' && letter <= 'z')
+            {
+                return (char)('z' - (letter % 'a'));
+            }
+            else
+            {
+                return letter;
+            }
         }
     }
 }
