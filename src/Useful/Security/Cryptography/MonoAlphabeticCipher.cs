@@ -34,10 +34,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override byte[] Key
         {
-            get
-            {
-                return Settings.Key.ToArray();
-            }
+            get => Settings.Key.ToArray();
 
             set
             {

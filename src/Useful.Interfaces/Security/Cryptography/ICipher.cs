@@ -15,12 +15,11 @@ namespace Useful.Security.Cryptography
         string CipherName { get; }
 
         /// <summary>
-        /// Gets or sets the cipher's settings.
+        /// Gets the cipher's settings.
         /// </summary>
         ICipherSettings Settings
         {
             get;
-            set;
         }
 
         /// <summary>

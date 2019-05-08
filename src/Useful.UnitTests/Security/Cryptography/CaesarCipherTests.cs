@@ -21,6 +21,19 @@ namespace Useful.Security.Cryptography.Tests
             { "Å", "Å", 3 },
         };
 
+        [Fact]
+        public void CtorSettings()
+        {
+            byte[] key = Encoding.Unicode.GetBytes("7");
+            using (CaesarCipher cipher = new CaesarCipher(new CaesarSettings(key)))
+            {
+                Assert.Equal(key, cipher.Settings.Key.ToArray());
+                Assert.Equal(key, cipher.Key);
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext, int rightShift)
@@ -66,17 +79,29 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void IvCorrectness()
+        public void IvGenerateCorrectness()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
                 cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
             }
         }
 
         [Fact]
-        public void KeyCorrectness()
+        public void IvSet()
+        {
+            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
+            {
+                cipher.IV = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyGenerateCorrectness()
         {
             using (CaesarCipher cipher = new CaesarCipher())
             {
@@ -92,7 +117,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void KeyRandomness()
+        public void KeyGenerateRandomness()
         {
             bool diff = false;
 
@@ -123,12 +148,37 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void KeySet()
+        {
+            using (CaesarCipher cipher = new CaesarCipher())
+            {
+                byte[] key = Encoding.Unicode.GetBytes("7");
+                cipher.Key = key;
+                Assert.Equal(key, cipher.Settings.Key.ToArray());
+                Assert.Equal(key, cipher.Key);
+            }
+        }
+
+        [Fact]
         public void Name()
         {
             using (CaesarCipher cipher = new CaesarCipher())
             {
                 Assert.Equal("Caesar", cipher.CipherName);
                 Assert.Equal("Caesar", cipher.ToString());
+            }
+        }
+
+        [Fact]
+        public void SinghCodeBook()
+        {
+            string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
+            string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
+
+            using (CaesarCipher cipher = new CaesarCipher(new CaesarSettings(7)))
+            {
+                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
+                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             }
         }
     }
