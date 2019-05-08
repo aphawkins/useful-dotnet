@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -28,6 +29,25 @@ namespace Useful.Security.Cryptography
             : base("Caesar", settings)
         {
             KeyGenerator = new CaesarKeyGenerator();
+        }
+
+        /// <inheritdoc />
+        public override byte[] Key
+        {
+            get => Settings.Key.ToArray();
+
+            set
+            {
+                Settings = new CaesarSettings(value);
+                base.Key = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public override byte[] IV
+        {
+            get => Settings.IV.ToArray();
+            set => _ = value;
         }
 
         /// <inheritdoc />

@@ -36,12 +36,12 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The encoding used by this cipher.
         /// </summary>
-        private static Encoding encoding = new UnicodeEncoding(false, false);
+        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
 
         /// <summary>
         /// The current substitutions.
         /// </summary>
-        private IList<char> _substitutions = new List<char>();
+        private readonly IList<char> _substitutions = new List<char>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
@@ -128,7 +128,7 @@ namespace Useful.Security.Cryptography
                 key.Append(GetSubstitutionString());
                 key.Append(KeySeperator);
                 key.Append(IsSymmetric);
-                return new List<byte>(encoding.GetBytes(key.ToString()));
+                return new List<byte>(Encoding.GetBytes(key.ToString()));
             }
         }
 
@@ -399,7 +399,7 @@ namespace Useful.Security.Cryptography
             IDictionary<char, char> substitutions = new Dictionary<char, char>();
             bool isSymmetric = false;
 
-            string keyString = encoding.GetString(key);
+            string keyString = Encoding.GetString(key);
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 

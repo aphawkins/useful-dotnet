@@ -16,30 +16,21 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
         /// </summary>
         public ReverseCipher()
-            : this(new CipherSettings())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReverseCipher"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public ReverseCipher(CipherSettings settings)
-            : base("Reverse", settings)
+            : base("Reverse", new CipherSettings())
         {
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ReverseCipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ReverseCipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ReverseCipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ReverseCipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 

@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -16,31 +17,21 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
         /// </summary>
         public ROT13Cipher()
-            : this(new CipherSettings())
+            : base("ROT13", new CipherSettings())
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public ROT13Cipher(CipherSettings settings)
-            : base("ROT13", settings)
-        {
-            Settings = settings;
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ROT13Cipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ROT13Cipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new ROT13Cipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 

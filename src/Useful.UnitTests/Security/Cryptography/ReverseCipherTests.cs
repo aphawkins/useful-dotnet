@@ -5,6 +5,8 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Linq;
+    using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -17,6 +19,18 @@ namespace Useful.Security.Cryptography.Tests
             { ">?@ [\\]", "]\\[ @?>" },
             { "Å", "Å" },
         };
+
+        [Fact]
+        public void CtorSettings()
+        {
+            using (ReverseCipher cipher = new ReverseCipher())
+            {
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
 
         [Theory]
         [MemberData(nameof(Data))]
@@ -59,21 +73,45 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void IvCorrectness()
+        public void IvGenerateCorrectness()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ReverseCipher cipher = new ReverseCipher())
             {
                 cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
             }
         }
 
         [Fact]
-        public void KeyCorrectness()
+        public void IvSet()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (ReverseCipher cipher = new ReverseCipher())
+            {
+                cipher.IV = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyGenerateCorrectness()
+        {
+            using (ReverseCipher cipher = new ReverseCipher())
             {
                 cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
+        }
+
+        [Fact]
+        public void KeySet()
+        {
+            using (ReverseCipher cipher = new ReverseCipher())
+            {
+                cipher.Key = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.Key);
             }
         }

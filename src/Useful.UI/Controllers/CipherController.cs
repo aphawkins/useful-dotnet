@@ -14,8 +14,8 @@ namespace Useful.UI.Controllers
     /// </summary>
     public class CipherController : IController
     {
-        private IRepository<ICipher> _repository;
-        private ICipherView _view;
+        private readonly IRepository<ICipher> _repository;
+        private readonly ICipherView _view;
         private ISettingsController _settingsController;
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Useful.UI.Controllers
             _settingsController = new SettingsController(cipher.Settings, settingsView);
             _settingsController?.LoadView();
 
-            _repository.CurrentItem.Settings = _settingsController?.Settings;
+            // _repository.CurrentItem.Settings = _settingsController?.Settings;
             _view.ShowSettings(settingsView);
         }
 

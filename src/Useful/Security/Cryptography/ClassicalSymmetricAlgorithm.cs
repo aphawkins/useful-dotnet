@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Linq;
     using System.Security.Cryptography;
     using Useful.Interfaces.Security.Cryptography;
 
@@ -27,6 +28,20 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
+        public override byte[] IV
+        {
+            get => Settings.IV.ToArray();
+            set => _ = value;
+        }
+
+        /// <inheritdoc />
+        public override byte[] Key
+        {
+            get => Settings.Key.ToArray();
+            set => _ = value;
+        }
+
+        /// <inheritdoc />
         public virtual string CipherName
         {
             get;
@@ -37,7 +52,7 @@ namespace Useful.Security.Cryptography
         public virtual ICipherSettings Settings
         {
             get;
-            set;
+            internal set;
         }
 
         /// <summary>

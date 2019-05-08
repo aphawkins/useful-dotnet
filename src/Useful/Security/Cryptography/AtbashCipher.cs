@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -18,44 +17,21 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
         /// </summary>
         public AtbashCipher()
-            : this(new CipherSettings())
+            : base("Atbash", new CipherSettings())
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AtbashCipher"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public AtbashCipher(CipherSettings settings)
-            : base("Atbash", settings)
-        {
-        }
-
-        /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => Settings.IV.ToArray();
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get => Settings.Key.ToArray();
-            set => _ = value;
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new AtbashCipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new AtbashCipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new AtbashCipher(new CipherSettings(rgbKey, rgbIV));
+            ICipher cipher = new AtbashCipher();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 

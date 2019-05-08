@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Linq;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -60,11 +61,12 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void IvCorrectness()
+        public void IvGenerateCorrectness()
         {
             using (AtbashCipher cipher = new AtbashCipher())
             {
                 cipher.GenerateIV();
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
             }
         }
@@ -75,16 +77,41 @@ namespace Useful.Security.Cryptography.Tests
             using (AtbashCipher cipher = new AtbashCipher())
             {
                 cipher.IV = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.IV);
             }
         }
 
         [Fact]
-        public void KeyCorrectness()
+        public void CtorSettings()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            }
+        }
+
+        [Fact]
+        public void KeyGenerateCorrectness()
         {
             using (AtbashCipher cipher = new AtbashCipher())
             {
                 cipher.GenerateKey();
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
+                Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            }
+        }
+
+        [Fact]
+        public void KeySet()
+        {
+            using (AtbashCipher cipher = new AtbashCipher())
+            {
+                cipher.Key = Encoding.Unicode.GetBytes("A");
+                Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.Key);
             }
         }
