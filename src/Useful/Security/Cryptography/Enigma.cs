@@ -15,19 +15,16 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class Enigma : SymmetricAlgorithm
     {
-        #region Fields
-        /// <summary>
-        /// The length of the key.
-        /// </summary>
-        private readonly int LengthOfKey = 5;
-
         /// <summary>
         /// The size of a byte.
         /// </summary>
         private const int SizeOfByte = 8;
-        #endregion
 
-        #region ctor
+        /// <summary>
+        /// The length of the key.
+        /// </summary>
+        private readonly int _LengthOfKey = 5;
+
         /// <summary>
         /// Initializes a new instance of the Enigma class.
         /// </summary>
@@ -37,8 +34,8 @@ namespace Useful.Security.Cryptography
             PaddingValue = PaddingMode.None;
             KeySizeValue = int.MaxValue;
 
-            //switch (model)
-            //{
+            // switch (model)
+            // {
             //    case EnigmaModel.Military:
             //        {
             //            LengthOfKey = 5;
@@ -52,8 +49,9 @@ namespace Useful.Security.Cryptography
             //        }
             //    default:
             //        throw new Exception();
-            //}
-            BlockSizeValue = LengthOfKey * sizeof(char) * SizeOfByte;
+            // }
+            BlockSizeValue = _LengthOfKey * sizeof(char) * SizeOfByte;
+
             // FeedbackSizeValue = 2;
             LegalBlockSizesValue = new KeySizes[1];
             LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 1);
@@ -61,14 +59,26 @@ namespace Useful.Security.Cryptography
             LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 1);
 
             EnigmaSettings defaultSettings = EnigmaSettings.GetDefault();
-            this.KeyValue = defaultSettings.Key;
-            this.IVValue = defaultSettings.IV;
+            KeyValue = defaultSettings.Key;
+            IVValue = defaultSettings.IV;
 
             // BlockSizeValue = this.m_settings.GetIV().Length * 8;
         }
-        #endregion
 
-        #region Methods
+        public override byte[] Key
+        {
+            get
+            {
+                return base.Key;
+            }
+            set
+            {
+                EnigmaSettings enigmaKey = EnigmaSettings.ParseKey(value);
+                BlockSizeValue = EnigmaSettings.GetIvLength(enigmaKey.Model) * sizeof(char) * SizeOfByte;
+                base.Key = value;
+            }
+        }
+
         /// <summary>
         /// Creates a symmetric decryptor object.
         /// </summary>
@@ -83,6 +93,32 @@ namespace Useful.Security.Cryptography
             try
             {
                 return new EnigmaTransform(rgbKey, rgbIV, CipherTransformMode.Decrypt);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new CryptographicException("Error with Key or IV.", ex);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        public override ICryptoTransform CreateDecryptor()
+        {
+            if (Key == null)
+            {
+                throw new CryptographicException("Key is null.");
+            }
+
+            if (IV == null)
+            {
+                throw new CryptographicException("IV is null.");
+            }
+
+            try
+            {
+                return new EnigmaTransform(Key, IV, CipherTransformMode.Decrypt);
             }
             catch (ArgumentException ex)
             {
@@ -112,50 +148,24 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override ICryptoTransform CreateDecryptor()
-        {
-            if (this.Key == null)
-            {
-                throw new CryptographicException("Key is null.");
-            }
-
-            if (this.IV == null)
-            {
-                throw new CryptographicException("IV is null.");
-            }
-
-            try
-            {
-                return new EnigmaTransform(this.Key, this.IV, CipherTransformMode.Decrypt);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new CryptographicException("Error with Key or IV.", ex);
-            }
-        }
-
-        /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         public override ICryptoTransform CreateEncryptor()
         {
-            if (this.Key == null)
+            if (Key == null)
             {
                 throw new CryptographicException("Key is null.");
             }
 
-            if (this.IV == null)
+            if (IV == null)
             {
                 throw new CryptographicException("IV is null.");
             }
 
             try
             {
-                return new EnigmaTransform(this.Key, this.IV, CipherTransformMode.Encrypt);
+                return new EnigmaTransform(Key, IV, CipherTransformMode.Encrypt);
             }
             catch (ArgumentException ex)
             {
@@ -168,7 +178,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public override void GenerateIV()
         {
-            this.IVValue = EnigmaSettings.GetRandom().IV;
+            IVValue = EnigmaSettings.GetRandom().IV;
         }
 
         /// <summary>
@@ -176,22 +186,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public override void GenerateKey()
         {
-            this.KeyValue = EnigmaSettings.GetRandom().Key;// Key();
+            KeyValue = EnigmaSettings.GetRandom().Key;// Key();
         }
-
-        public override byte[] Key
-        {
-            get
-            {
-                return base.Key;
-            }
-            set
-            {
-                EnigmaSettings enigmaKey = EnigmaSettings.ParseKey(value);
-                BlockSizeValue = EnigmaSettings.GetIvLength(enigmaKey.Model) * sizeof(char) * SizeOfByte;
-                base.Key = value;
-            }
-        }
-        #endregion
     }
 }

@@ -10,61 +10,57 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Diagnostics.Contracts;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
-    using System.Linq;
 
     /// <summary>
     /// The Enigma algorithm.
     /// </summary>
     internal sealed class EnigmaTransform : IUsefulCryptoTransform
     {
-        #region Fields
         /// <summary>
         /// The block size.
         /// </summary>
         private const int BlockSize = 2;
-        
+
         /// <summary>
         /// The transform mode.
         /// </summary>
-        private readonly CipherTransformMode TransformMode;
+        private readonly CipherTransformMode _TransformMode;
 
         /// <summary>
         /// The settings for this cipher.
         /// </summary>
-        private EnigmaSettings settings;
+        private EnigmaSettings _settings;
 
         /// <summary>
         /// The plugboard settings.
         /// </summary>
-        private MonoAlphabeticTransform plugboard;
+        private MonoAlphabeticTransform _plugboard;
 
         /// <summary>
         /// Defines which rotor is in which position.
         /// </summary>
-        private Dictionary<EnigmaRotorPosition, EnigmaRotor> rotors;
+        private Dictionary<EnigmaRotorPosition, EnigmaRotor> _rotors;
 
         /// <summary>
         /// Defines the reverse order for which rotor is in which position.
         /// </summary>
-        private SortedDictionary<EnigmaRotorPosition, EnigmaRotor> reverseRotorOrder;
+        private SortedDictionary<EnigmaRotorPosition, EnigmaRotor> _reverseRotorOrder;
 
         /// <summary>
         /// The reflector for this transform.
         /// </summary>
-        private EnigmaReflector reflector;
+        private EnigmaReflector _reflector;
 
         /// <summary>
-        /// Has this object been disposed?
+        /// Has this object been disposed?.
         /// </summary>
-        private bool disposed;
-        #endregion
+        private bool _disposed;
 
-        #region ctor
         /// <summary>
-        /// Initializes a new instance of the EnigmaTransform class.
+        /// Initializes a new instance of the <see cref="EnigmaTransform"/> class.
         /// </summary>
         /// <param name="rgbKey">The transform's Key.</param>
         /// <param name="rgbIV">The transform's Initialization Vector.</param>
@@ -75,7 +71,7 @@ namespace Useful.Security.Cryptography
             Contract.Requires(rgbIV != null);
 
             this.settings = new EnigmaSettings(rgbKey, rgbIV);
-            this.TransformMode = transformMode;
+            _TransformMode = transformMode;
 
             this.CanReuseTransform = true;
             this.CanTransformMultipleBlocks = false;
@@ -83,42 +79,41 @@ namespace Useful.Security.Cryptography
             this.OutputBlockSize = BlockSize;
 
             // Plugboard
-            this.plugboard = new MonoAlphabeticTransform(this.settings.Plugboard.Key, this.settings.Plugboard.IV, this.TransformMode);
+            _plugboard = new MonoAlphabeticTransform(this.settings.Plugboard.Key, this.settings.Plugboard.IV, _TransformMode);
 
             // Rotors
-            this.rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
+            _rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
             EnigmaRotor previousRotor = null;
             foreach (EnigmaRotorPosition rotorPosition in this.settings.Rotors.AllowedRotorPositions)
             {
                 EnigmaRotor rotor = this.settings.Rotors[rotorPosition];
-                this.rotors.Add(rotorPosition, rotor);
-                rotor.RotorAdvanced += this.EnigmaTransform_RotorAdvanced;
+                _rotors.Add(rotorPosition, rotor);
+                rotor.RotorAdvanced += EnigmaTransform_RotorAdvanced;
 
                 if (previousRotor != null)
                 {
                     previousRotor.RotorAdvanced += rotor.PreviousRotorAdvanced;
                 }
+
                 previousRotor = rotor;
             }
 
-            this.reverseRotorOrder = new SortedDictionary<EnigmaRotorPosition, EnigmaRotor>(this.rotors, new EnigmaRotorPositionSorter(SortOrder.Descending));
+            _reverseRotorOrder = new SortedDictionary<EnigmaRotorPosition, EnigmaRotor>(_rotors, new EnigmaRotorPositionSorter(SortOrder.Descending));
 
             // Initial rotor position
             if (this.settings.Rotors.Count > 0)
             {
                 foreach (EnigmaRotorPosition rotorPosition in this.settings.Rotors.AllowedRotorPositions)
                 {
-                    this.rotors[rotorPosition].RingPosition = this.settings.Rotors[rotorPosition].RingPosition;
-                    this.rotors[rotorPosition].CurrentSetting = this.settings.Rotors[rotorPosition].CurrentSetting;
+                    _rotors[rotorPosition].RingPosition = this.settings.Rotors[rotorPosition].RingPosition;
+                    _rotors[rotorPosition].CurrentSetting = this.settings.Rotors[rotorPosition].CurrentSetting;
                 }
             }
 
             // Reflector
-            this.reflector = EnigmaReflector.Create(this.settings.ReflectorNumber); 
+            _reflector = EnigmaReflector.Create(this.settings.ReflectorNumber);
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets a value indicating whether this transform be reused.
         /// </summary>
@@ -138,9 +133,7 @@ namespace Useful.Security.Cryptography
         /// Gets a value indicating whether this can transform multiple blocks.
         /// </summary>
         public bool CanTransformMultipleBlocks { get; private set; }
-        #endregion
 
-        #region Methods
         /// <summary>
         /// Gets the Key.
         /// </summary>
@@ -326,29 +319,29 @@ namespace Useful.Security.Cryptography
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         public void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (_disposed)
             {
                 return;
             }
 
-            // A call to Dispose(false) should only clean up native resources. 
+            // A call to Dispose(false) should only clean up native resources.
             // A call to Dispose(true) should clean up both managed and native resources.
             if (disposing)
             {
                 // Dispose managed resources
-                if (this.plugboard != null)
+                if (_plugboard != null)
                 {
-                    this.plugboard.Dispose();
+                    _plugboard.Dispose();
                 }
 
-                if (this.reflector != null)
+                if (_reflector != null)
                 {
-                    this.reflector.Dispose();
+                    _reflector.Dispose();
                 }
             }
 
             // Free native resources
-            this.disposed = true;
+            _disposed = true;
         }
 
         /// <summary>
@@ -361,18 +354,18 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void EnigmaTransform_RotorAdvanced(object sender, EnigmaRotorAdvanceEventArgs e)
         {
             Contract.Requires(this.settings != null);
-            Contract.Requires(this.rotors != null);
+            Contract.Requires(_rotors != null);
 
             // Find which rotor has advanced
             EnigmaRotorPosition rotorPosition = this.settings.Rotors.AllowedRotorPositions.FirstOrDefault(x => this.settings.Rotors[x].RotorNumber == e.RotorNumber);
-            this.settings.AdvanceRotor(rotorPosition, this.rotors[rotorPosition].CurrentSetting);
+            this.settings.AdvanceRotor(rotorPosition, _rotors[rotorPosition].CurrentSetting);
         }
 
         /// <summary>
@@ -381,10 +374,10 @@ namespace Useful.Security.Cryptography
         /// <param name="numberOfPositions">The number of positions to move the rotors.</param>
         private void AdvanceRotors(int numberOfPositions)
         {
-            Contract.Requires(this.rotors != null);
+            Contract.Requires(_rotors != null);
 
             // Advance the fastest rotor
-            EnigmaRotor rotor = this.rotors[EnigmaRotorPosition.Fastest];
+            EnigmaRotor rotor = _rotors[EnigmaRotorPosition.Fastest];
 
             for (int i = 0; i < numberOfPositions; i++)
             {
@@ -420,7 +413,7 @@ namespace Useful.Security.Cryptography
         private char Encipher(char letter)
         {
             Contract.Requires(this.settings != null);
-            Contract.Requires(this.rotors != null);
+            Contract.Requires(_rotors != null);
 
             char newLetter;
 
@@ -437,39 +430,32 @@ namespace Useful.Security.Cryptography
             ////this.AdvanceRotorsToPosition(this.settings.Counter);
 
             // Advance the rotors one position
-            this.AdvanceRotors(1);
+            AdvanceRotors(1);
 
             // Plugboard
-            newLetter = this.plugboard.Encipher(newLetter);
+            newLetter = _plugboard.Encipher(newLetter);
 
             // Go thru the rotors forwards
             foreach (EnigmaRotorPosition rotorPosition in this.settings.Rotors.AllowedRotorPositions)
             {
-                newLetter = this.rotors[rotorPosition].Forward(newLetter);
+                newLetter = _rotors[rotorPosition].Forward(newLetter);
             }
 
             // Go thru the relector
-            newLetter = this.reflector.Reflect(newLetter);
+            newLetter = _reflector.Reflect(newLetter);
 
             // Go thru the rotors backwards
-            foreach (EnigmaRotorPosition rotorPosition in this.reverseRotorOrder.Keys)
+            foreach (EnigmaRotorPosition rotorPosition in _reverseRotorOrder.Keys)
             {
-                newLetter = this.reverseRotorOrder[rotorPosition].Backward(newLetter);
+                newLetter = _reverseRotorOrder[rotorPosition].Backward(newLetter);
             }
 
-            newLetter = this.plugboard.Decipher(newLetter);
+            newLetter = _plugboard.Decipher(newLetter);
 
             // Letter cannot encrypt to itself.
             Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");
 
             return newLetter;
         }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(Enum.IsDefined(typeof(CipherTransformMode), this.TransformMode));
-        }
-        #endregion
     }
 }

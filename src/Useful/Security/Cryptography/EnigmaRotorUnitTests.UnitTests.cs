@@ -1,71 +1,62 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Useful.Security.Cryptography;
-using System.IO;
-using System;
+﻿// <copyright file="EnigmaRotor.UnitTests.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
 
 namespace UsefulQA
 {
+    using Useful.Security.Cryptography;
+
     /// <summary>
-    ///This is a test class for EnigmaSettingsTest and is intended
-    ///to contain all EnigmaSettingsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for EnigmaSettingsTest and is intended
+    /// to contain all EnigmaSettingsTest Unit Tests.
+    /// </summary>
+    [TestClass]
     public class EnigmaRotorUnitTests
     {
-        #region Fields
-        #endregion
 
-        #region Properties
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
         public TestContext TestContextInstance { get; set; }
-        #endregion
 
-        #region Methods
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
+        // You can use the following additional attributes as you write your tests:
         //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext)
+        // {
+        // }
         //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup()
+        // {
+        // }
         //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        // Use TestInitialize to run code before running each test
+        // [TestInitialize()]
+        // public void MyTestInitialize()
+        // {
+        // }
         //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup()]
+        // public void MyTestCleanup()
+        // {
+        // }
         //
-        #endregion
 
         /// <summary>
-        ///A test for EnigmaSettings Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for EnigmaSettings Constructor.
+        /// </summary>
+        [TestMethod]
         public void EnigmaRotor_ctor()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotor_One()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
@@ -98,24 +89,25 @@ namespace UsefulQA
             Assert.AreEqual(target.Forward('Z'), 'J');
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotor_RotorNumber0()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.None);
             Assert.AreEqual(target.RotorNumber, EnigmaRotorNumber.None);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotor_RotorNumber1()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
             Assert.AreEqual(target.RotorNumber, EnigmaRotorNumber.One);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotor_CurrentSetting()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+
             // Default
             Assert.AreEqual(target.CurrentSetting, 'A');
             target.CurrentSetting = 'W';
@@ -123,19 +115,19 @@ namespace UsefulQA
         }
 
         // Covered by contract
-        //[TestMethod()]
-        //public void EnigmaRotor_CurrentSetting_Invalid()
-        //{
+        // [TestMethod()]
+        // public void EnigmaRotor_CurrentSetting_Invalid()
+        // {
         //    EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
         //    target.CurrentSetting = 'W';
         //    target.CurrentSetting = 'Å';
         //    Assert.AreEqual(target.CurrentSetting, 'W');
-        //}
-
-        [TestMethod()]
+        // }
+        [TestMethod]
         public void EnigmaRotor_RingPosition()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+
             // Default
             Assert.AreEqual(target.RingPosition, 'A');
             target.RingPosition = 'W';
@@ -143,16 +135,15 @@ namespace UsefulQA
         }
 
         // Covered by contract
-        //[TestMethod()]
-        //public void EnigmaRotor_RingPosition_Invalid()
-        //{
+        // [TestMethod()]
+        // public void EnigmaRotor_RingPosition_Invalid()
+        // {
         //    EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
         //    target.RingPosition = 'W';
         //    target.RingPosition = 'Å';
         //    Assert.AreEqual(target.RingPosition, 'W');
-        //}
-
-        [TestMethod()]
+        // }
+        [TestMethod]
         public void EnigmaRotor_AdvanceRotor()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
@@ -165,7 +156,7 @@ namespace UsefulQA
             Assert.AreEqual(target.Forward('A'), 'J');
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotor_Ring()
         {
             EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
@@ -177,7 +168,5 @@ namespace UsefulQA
             target.CurrentSetting = 'Y';
             Assert.AreEqual(target.Forward('A'), 'W');
         }
-
-        #endregion
     }
 }

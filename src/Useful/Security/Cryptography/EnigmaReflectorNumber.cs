@@ -23,6 +23,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         C,
         BThin,
-        CThin
+        CThin,
     }
 }

@@ -30,6 +30,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Fourth rotor - The next after the slowest rotor.
         /// </summary>
-        Forth = 3
+        Forth = 3,
     }
 }

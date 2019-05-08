@@ -7,17 +7,14 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Diagnostics.Contracts;
     using System;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// A structure for the Enigma's key.
     /// </summary>
     internal class EnigmaKey
     {
-        #region Properties
         /// <summary>
         /// Gets or sets the Enigma model type.
         /// </summary>
@@ -37,9 +34,7 @@ namespace Useful.Security.Cryptography
         /// Gets or sets a swapped plugboard pair.
         /// </summary>
         internal Collection<SubstitutionPair> PlugboardPairs { get; set; }
-        #endregion
 
-        #region ctor
         /// <summary>
         /// Initializes a new instance of the MonoAlphabeticSettings class.
         /// </summary>
@@ -47,23 +42,8 @@ namespace Useful.Security.Cryptography
         /// <param name="iv">The Initialization Vector.</param>
         public EnigmaKey()
         {
-            this.RotorSettings = EnigmaRotorOrder.Create(this.Model);
-            this.PlugboardPairs = new Collection<SubstitutionPair>();
+            RotorSettings = EnigmaRotorOrder.Create(Model);
+            PlugboardPairs = new Collection<SubstitutionPair>();
         }
-        #endregion
-
-        #region Methods
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.RotorSettings != null);
-            Contract.Invariant(this.PlugboardPairs != null);
-            Contract.Invariant(Enum.IsDefined(typeof(EnigmaModel), this.Model));
-            //Contract.Invariant(Contract.ForAll<KeyValuePair<EnigmaRotorPosition, EnigmaRotorSettings>>(this.RotorSettings, x => Enum.IsDefined(typeof(EnigmaRotorPosition), x.Key)));
-            //Contract.Invariant(Contract.ForAll<KeyValuePair<EnigmaRotorPosition, EnigmaRotorSettings>>(this.RotorSettings, x => Enum.IsDefined(typeof(EnigmaRotorNumber), x.Value)));
-            Contract.Invariant(Contract.ForAll<SubstitutionPair>(this.PlugboardPairs, x => x != null));
-        }
-
-        #endregion
     }
 }

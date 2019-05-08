@@ -212,7 +212,7 @@ namespace Useful.Security.Cryptography
                         _substitutions[toSubsIndex] = toSubs;
                     }
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
@@ -221,7 +221,7 @@ namespace Useful.Security.Cryptography
 
                     if (from != to)
                     {
-                        this.OnCollectionChanged(
+                        OnCollectionChanged(
                             new NotifyCollectionChangedEventArgs(
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(to, from),
@@ -230,7 +230,7 @@ namespace Useful.Security.Cryptography
 
                         if (fromSubs != from)
                         {
-                            this.OnCollectionChanged(
+                            OnCollectionChanged(
                                 new NotifyCollectionChangedEventArgs(
                                     NotifyCollectionChangedAction.Replace,
                                     new KeyValuePair<char, char>(fromSubs, fromSubs),
@@ -241,7 +241,7 @@ namespace Useful.Security.Cryptography
 
                     if (toSubs != to)
                     {
-                        this.OnCollectionChanged(
+                        OnCollectionChanged(
                             new NotifyCollectionChangedEventArgs(
                                 NotifyCollectionChangedAction.Replace,
                                 new KeyValuePair<char, char>(toSubs, toSubs),
@@ -260,14 +260,14 @@ namespace Useful.Security.Cryptography
 
                     _substitutions[toInvIndex] = fromSubs;
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(from, to),
                             new KeyValuePair<char, char>(from, fromSubs),
                             CharacterSet.IndexOf(from)));
 
-                    this.OnCollectionChanged(
+                    OnCollectionChanged(
                         new NotifyCollectionChangedEventArgs(
                             NotifyCollectionChangedAction.Replace,
                             new KeyValuePair<char, char>(toInv, fromSubs),
@@ -466,7 +466,7 @@ namespace Useful.Security.Cryptography
         /// <param name="e">Arguments of the event being raised.</param>
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            this.CollectionChanged?.Invoke(this, e);
+            CollectionChanged?.Invoke(this, e);
         }
 
         private IDictionary<char, char> GetSubstitutions()

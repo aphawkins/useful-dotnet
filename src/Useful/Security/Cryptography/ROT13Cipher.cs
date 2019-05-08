@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 

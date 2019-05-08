@@ -1,50 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Security.Cryptography;
-using System.Text;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Useful.Security.Cryptography;
+﻿// <copyright file="EnigmaRotorSettings.UnitTests.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
 
 namespace UsefulQA
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using Useful.Security.Cryptography;
+
     /// <summary>
-    ///This is a test class for EnigmaSettingsTest and is intended
-    ///to contain all EnigmaSettingsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for EnigmaSettingsTest and is intended
+    /// to contain all EnigmaSettingsTest Unit Tests.
+    /// </summary>
+    [TestClass]
     public class EnigmaRotorSettingsTest
     {
-        #region Fields
-        string propertiesChanged;
-        #endregion
+        string _propertiesChanged;
 
         public EnigmaRotorSettingsTest()
         {
         }
 
-        #region Properties
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
         public TestContext TestContextInstance { get; set; }
-        #endregion
-
-        #region Methods
 
         /// <summary>
-        ///A test for EnigmaSettings Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for EnigmaSettings Constructor.
+        /// </summary>
+        [TestMethod]
         public void EnigmaRotorSettings_ctor()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaSettings_SetRotorOrder()
         {
             EnigmaRotorSettings target = EnigmaRotorSettings.Create(EnigmaModel.Military);
@@ -74,7 +67,7 @@ namespace UsefulQA
             #endregion
 
             #region Two rotors set
-            this.propertiesChanged = string.Empty;
+            _propertiesChanged = string.Empty;
             target[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Two);
 
             availableRotors = target.AvailableRotors.ToList();
@@ -96,18 +89,18 @@ namespace UsefulQA
             #endregion
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaSettings_SetRotorOrderPropertyChanged()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
             settings.PropertyChanged += target_PropertyChanged;
-            this.propertiesChanged = "";
+            _propertiesChanged = "";
 
             settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            Assert.IsTrue(this.propertiesChanged == "Item;AvailableRotors;");
+            Assert.IsTrue(_propertiesChanged == "Item;AvailableRotors;");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_SetRotor()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
@@ -122,7 +115,7 @@ namespace UsefulQA
             #endregion
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_GetAllowedRotorPositions()
         {
             Collection<EnigmaRotorPosition> positions = EnigmaRotorSettings.GetAllowedRotorPositions(EnigmaModel.Military);
@@ -146,7 +139,7 @@ namespace UsefulQA
             Assert.IsTrue(positions[3] == EnigmaRotorPosition.Forth);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_GetAllowedRotorPositions1()
         {
             List<EnigmaRotorNumber> rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Fastest);
@@ -255,7 +248,7 @@ namespace UsefulQA
             Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Gamma);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_GetOrderKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
@@ -266,7 +259,7 @@ namespace UsefulQA
             Assert.AreEqual(settings.GetOrderKey(), "Beta V III I");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_GetSettingKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
@@ -281,7 +274,7 @@ namespace UsefulQA
             Assert.AreEqual(settings.GetSettingKey(), "G E D B");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EnigmaRotorSettings_GetRingKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
@@ -298,9 +291,8 @@ namespace UsefulQA
 
         private void target_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.propertiesChanged += e.PropertyName;
-            this.propertiesChanged += ";";
+            _propertiesChanged += e.PropertyName;
+            _propertiesChanged += ";";
         }
-        #endregion
     }
 }

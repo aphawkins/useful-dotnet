@@ -1,6 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+// <copyright file="EnigmaWheel.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
 
 namespace Useful.Security.Cryptography
 {
@@ -9,21 +9,21 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public struct EnigmaWheel
     {
-        EnigmaScrambler myScrambler;
-        char currentLetter;
-        
+        EnigmaScrambler _myScrambler;
+        char _currentLetter;
+
         /// <summary>
         /// The letter the wheel currently has.
         /// </summary>
         public char CurrentLetter
         {
-			get 
-			{ 
-				return this.currentLetter; 
+			get
+			{
+				return _currentLetter;
 			}
-			set 
-			{ 
-				this.currentLetter = value; 
+			set
+			{
+				_currentLetter = value;
 			}
         }
 
@@ -32,13 +32,13 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaScrambler MyScrambler
         {
-            get 
-			{ 
-				return this.myScrambler; 
+            get
+			{
+				return _myScrambler;
 			}
 			set
-			{ 
-				this.myScrambler = value; 
+			{
+				_myScrambler = value;
 			}
         }
 

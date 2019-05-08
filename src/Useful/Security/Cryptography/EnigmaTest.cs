@@ -1,72 +1,65 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Useful.Security.Cryptography;
-using System.IO;
+﻿// <copyright file="EnigmaTest.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
 
 namespace TestProject1
 {
-
+    using System.IO;
+    using System.Security.Cryptography;
+    using System.Text;
+    using Useful.Security.Cryptography;
 
     /// <summary>
-    ///This is a test class for EnigmaSettingsTest and is intended
-    ///to contain all EnigmaSettingsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    /// This is a test class for EnigmaSettingsTest and is intended
+    /// to contain all EnigmaSettingsTest Unit Tests.
+    /// </summary>
+    [TestClass]
     public class EnigmaTest
     {
-        #region Fields
-        #endregion
 
-        #region Properties
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
         public TestContext TestContextInstance { get; set; }
-        #endregion
 
-        #region Methods
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
+        // You can use the following additional attributes as you write your tests:
         //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext)
+        // {
+        // }
         //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup()
+        // {
+        // }
         //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        // Use TestInitialize to run code before running each test
+        // [TestInitialize()]
+        // public void MyTestInitialize()
+        // {
+        // }
         //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup()]
+        // public void MyTestCleanup()
+        // {
+        // }
         //
-        #endregion
 
         /// <summary>
-        ///A test for EnigmaSettings Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for EnigmaSettings Constructor.
+        /// </summary>
+        [TestMethod]
         public void Enigma_ctor()
         {
             Enigma target = new Enigma();
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Enigma_CreateEncryptor()
         {
             Enigma target = new Enigma();
@@ -80,7 +73,7 @@ namespace TestProject1
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Enigma_Basic()
         {
             Enigma target = new Enigma();
@@ -95,7 +88,7 @@ namespace TestProject1
             TestTargetStream(target, input, output);
             Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.Key), key, false) == 0);
             Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.IV), newIv, false) == 0);
-  
+
             target.Key = Encoding.Unicode.GetBytes(key);
             target.IV = Encoding.Unicode.GetBytes(iv);
             TestTargetString(target, input, output);
@@ -124,7 +117,7 @@ namespace TestProject1
             Assert.IsTrue(string.Compare(enciphered, output, false) == 0);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Enigma_Notches()
         {
             Enigma target = new Enigma();
@@ -132,7 +125,7 @@ namespace TestProject1
             TestTarget(target, @"Military|I II III|", @"Q E V", @"HELLO WORLD", @"UXEOERTMHJ", @"A F W");
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Enigma_Spaces()
         {
             Enigma target = new Enigma();
@@ -140,7 +133,7 @@ namespace TestProject1
             TestTarget(target, @"Military|I II III|", @"A A A", @"HELLO WORLD", @"MFNCZBBFZM", @"K A A");
         }
 
-		[TestMethod()]
+		[TestMethod]
 		public void Enigma_Disallowed_Chars()
 		{
 			Enigma target = new Enigma();
@@ -148,7 +141,7 @@ namespace TestProject1
 			TestTarget(target, @"Military|I II III|", @"A A A", @"HELLOÅÅÅÅÅWORLD", @"MFNCZBBFZM", @"K A A");
 		}
 
-        [TestMethod()]
+        [TestMethod]
         public void Enigma_Mixed_Case()
         {
             Enigma target = new Enigma();
@@ -156,7 +149,7 @@ namespace TestProject1
             TestTarget(target, @"Military|I II III|", @"A A A", @"HeLlOwOrLd", @"MFNCZBBFZM", @"K A A");
         }
 
-		[TestMethod()]
+		[TestMethod]
 		public void Enigma_Backspace()
 		{
 			Enigma target = new Enigma();
@@ -166,11 +159,7 @@ namespace TestProject1
 			// target.
 		}
 
-            #region Test Clear
-            // TODO:
-            // target.Clear();
-            #endregion
-
-        #endregion
+        // TODO:
+        // target.Clear();
     }
 }

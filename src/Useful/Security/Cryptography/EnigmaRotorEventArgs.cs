@@ -15,7 +15,6 @@ namespace Useful.Security.Cryptography
     [Serializable]
     public class EnigmaRotorAdvanceEventArgs : EventArgs
     {
-        #region ctor
         /// <summary>
         /// Initializes a new instance of the EnigmaRotorEventArgs class.
         /// </summary>
@@ -24,16 +23,11 @@ namespace Useful.Security.Cryptography
         /// <param name="isDoubleStep">Flag to say if a DoubleStep has been hit (one after a notch) has been hit.</param>
         public EnigmaRotorAdvanceEventArgs(EnigmaRotorNumber rotorNumber, bool isNotchHit, bool isDoubleStep)
         {
-            this.RotorNumber = rotorNumber;
-            this.IsNotchHit = isNotchHit;
-            this.IsDoubleStep = isDoubleStep;
+            RotorNumber = rotorNumber;
+            IsNotchHit = isNotchHit;
+            IsDoubleStep = isDoubleStep;
         }
-        #endregion
 
-        #region Fields
-        #endregion
-
-        #region Properties
         /// <summary>
         /// Gets the message to send.
         /// </summary>
@@ -48,6 +42,5 @@ namespace Useful.Security.Cryptography
         /// Gets the flag to say if a DoubleStep has been hit (one after a notch) has been hit.
         /// </summary>
         public bool IsDoubleStep { get; private set; }
-        #endregion
     }
 }

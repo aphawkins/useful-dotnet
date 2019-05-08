@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Wehrmacht (Enigma I - Heer (Army) and Luftwaffe (Airforce))
         /// </summary>
-        Military, 
+        Military,
         /// <summary>
         /// Kriegsmarine (Enigma M3)
         /// </summary>
@@ -23,6 +23,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Kriegsmarine (Enigma M4)
         /// </summary>
-        M4
+        M4,
     }
 }

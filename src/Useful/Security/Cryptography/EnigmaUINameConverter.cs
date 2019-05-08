@@ -7,17 +7,14 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System.Globalization;
-    using System.Security.Cryptography;
     using System;
-    using System.Diagnostics.Contracts;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// Names for Enigma elements.
     /// </summary>
     public static class EnigmaUINameConverter
     {
-        #region EnigmaRotorNumber
         /// <summary>
         /// Gets an rotor from a name.
         /// </summary>
@@ -151,9 +148,7 @@ namespace Useful.Security.Cryptography
                     }
             }
         }
-        #endregion
 
-        #region EnigmaRotorPosition
         /// <summary>
         /// Gets a name for a rotor position.
         /// </summary>
@@ -190,6 +185,5 @@ namespace Useful.Security.Cryptography
                     }
             }
         }
-        #endregion
     }
 }

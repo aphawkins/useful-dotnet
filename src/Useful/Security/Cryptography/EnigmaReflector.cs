@@ -10,8 +10,6 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
-    using System.Diagnostics.Contracts;
     using System.Security.Cryptography;
 
     /// <summary>
@@ -19,7 +17,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class EnigmaReflector : IDisposable
     {
-        #region Fields
         /// <summary>
         /// Defines if the reflector is symmetric i.e. if one letter substitutes to another letter and vice versa.
         /// </summary>
@@ -28,59 +25,52 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The substitution of the rotor, effectively the wiring.
         /// </summary>
-        private MonoAlphabeticTransform wiring;
+        private MonoAlphabeticTransform _wiring;
 
         /// <summary>
         /// The settings for the wiring.
         /// </summary>
-        private MonoAlphabeticSettings wiringSettings;
+        private MonoAlphabeticSettings _wiringSettings;
 
         /// <summary>
         /// States if this object been disposed.
         /// </summary>
-        private bool isDisposed;
-        #endregion
+        private bool _isDisposed;
 
-        #region ctor
         /// <summary>
         /// Initializes a new instance of the EnigmaReflector class.
         /// </summary>
         /// <param name="reflectorNumber"></param>
         private EnigmaReflector(EnigmaReflectorNumber reflectorNumber)
         {
-            this.ReflectorNumber = reflectorNumber;
-            this.SetWiring();
+            ReflectorNumber = reflectorNumber;
+            SetWiring();
         }
-        #endregion
 
-        #region Properties
         /// <summary>
         /// Gets the designation of this reflector.
         /// </summary>
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
-        #endregion
 
-        #region Methods
         public static EnigmaReflector Create(EnigmaReflectorNumber reflectorNumber)
         {
             EnigmaReflector reflector = new EnigmaReflector(reflectorNumber);
             return reflector;
         }
 
-
         /// <summary>
         /// The letter this reflector encodes to going through it.
         /// </summary>
         /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter</returns>
+        /// <returns>The transformed letter.</returns>
         public char Reflect(char letter)
         {
-            if (this.isDisposed)
+            if (_isDisposed)
             {
                 throw new ObjectDisposedException(typeof(EnigmaReflector).ToString());
             }
 
-            char newLetter = this.wiring.Encipher(letter);
+            char newLetter = _wiring.Encipher(letter);
 
             return newLetter;
         }
@@ -109,7 +99,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -119,24 +109,24 @@ namespace Useful.Security.Cryptography
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
 
-            // A call to Dispose(false) should only clean up native resources. 
+            // A call to Dispose(false) should only clean up native resources.
             // A call to Dispose(true) should clean up both managed and native resources.
             if (disposing)
             {
                 // Dispose managed resources
-                if (this.wiring != null)
+                if (_wiring != null)
                 {
-                    this.wiring.Dispose();
+                    _wiring.Dispose();
                 }
             }
 
             // Free native resources
-            this.isDisposed = true;
+            _isDisposed = true;
         }
 
         /// <summary>
@@ -144,11 +134,11 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private void SetWiring()
         {
-            Contract.Requires(Enum.IsDefined(typeof(EnigmaReflectorNumber), this.ReflectorNumber));
+            Contract.Requires(Enum.IsDefined(typeof(EnigmaReflectorNumber), ReflectorNumber));
 
             char[] reflectorWiring;
 
-            switch (this.ReflectorNumber)
+            switch (ReflectorNumber)
             {
                 case EnigmaReflectorNumber.A:
                     {
@@ -197,18 +187,10 @@ namespace Useful.Security.Cryptography
 
             byte[] wiringKey = MonoAlphabeticSettings.BuildKey(new Collection<char>(reflectorWiring), reflectorPairs, IsReflectorSymmetric);
             byte[] wiringIV = MonoAlphabeticSettings.BuildIV();
-            this.wiringSettings = new MonoAlphabeticSettings(wiringKey, wiringIV);
+            _wiringSettings = new MonoAlphabeticSettings(wiringKey, wiringIV);
             CipherTransformMode transformMode = CipherTransformMode.Encrypt;
             Contract.Assert(Enum.IsDefined(typeof(CipherTransformMode), transformMode));
-            this.wiring = new MonoAlphabeticTransform(this.wiringSettings.Key, this.wiringSettings.IV, transformMode);
-        }
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.wiring != null);
-            Contract.Invariant(this.wiringSettings != null);
-            Contract.Invariant(Enum.IsDefined(typeof(EnigmaReflectorNumber), this.ReflectorNumber));
+            _wiring = new MonoAlphabeticTransform(_wiringSettings.Key, _wiringSettings.IV, transformMode);
         }
 
         internal static EnigmaReflector GetDefault(EnigmaModel model)
@@ -245,7 +227,7 @@ namespace Useful.Security.Cryptography
                     {
                         return new List<EnigmaReflectorNumber>(2) {
                             EnigmaReflectorNumber.B,
-                            EnigmaReflectorNumber.C
+                            EnigmaReflectorNumber.C,
                             };
                     }
 
@@ -253,16 +235,15 @@ namespace Useful.Security.Cryptography
                     {
                         return new List<EnigmaReflectorNumber>(2) {
                             EnigmaReflectorNumber.BThin,
-                            EnigmaReflectorNumber.CThin
+                            EnigmaReflectorNumber.CThin,
                             };
                     }
+
                 default:
                     {
                         throw new CryptographicException("Unknown Enigma model.");
                     }
             }
         }
-
-        #endregion
     }
 }

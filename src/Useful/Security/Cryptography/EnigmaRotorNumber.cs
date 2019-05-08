@@ -65,6 +65,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Rotor number Gamma.
         /// </summary>
-        Gamma = 10
+        Gamma = 10,
     }
 }
