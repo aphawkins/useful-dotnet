@@ -1,9 +1,6 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="EnigmaKey.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+﻿// <copyright file="EnigmaKey.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>A structure for the Enigma's key.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -35,10 +32,8 @@ namespace Useful.Security.Cryptography
         internal Collection<SubstitutionPair> PlugboardPairs { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the MonoAlphabeticSettings class.
+        /// Initializes a new instance of the <see cref="EnigmaKey"/> class.
         /// </summary>
-        /// <param name="key">The encryption Key.</param>
-        /// <param name="iv">The Initialization Vector.</param>
         public EnigmaKey()
         {
             RotorSettings = EnigmaRotorOrder.Create(Model);

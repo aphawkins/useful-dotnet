@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
-// <copyright file="EnigmaRotorEventArgs.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+﻿// <copyright file="EnigmaRotorAdvanceEventArgs.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>The arguments for an EnigmaRotorEvent.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -12,7 +9,6 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The arguments for an EnigmaRotorEvent.
     /// </summary>
-    [Serializable]
     public class EnigmaRotorAdvanceEventArgs : EventArgs
     {
         /// <summary>

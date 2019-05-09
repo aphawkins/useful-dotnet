@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\Cryptography\Enigma.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaTransform.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaUINameConverter.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabetic.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransform.cs" />
   </ItemGroup>

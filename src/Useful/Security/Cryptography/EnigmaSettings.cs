@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaSettings.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>The Enigma algorithm settings.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -138,8 +135,8 @@ namespace Useful.Security.Cryptography
                 // }
                 // else
                 // {
-                    this.Plugboard.Key = plugboardKey;
-                    this.Plugboard.IV = plugboardIV;
+                this.Plugboard.Key = plugboardKey;
+                this.Plugboard.IV = plugboardIV;
 
                 // }
 
@@ -506,6 +503,7 @@ namespace Useful.Security.Cryptography
 
                 return iv;
             }
+
             set
             {
                 // Example:

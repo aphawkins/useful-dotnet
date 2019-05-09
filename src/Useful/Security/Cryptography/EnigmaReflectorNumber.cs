@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaReflectorNumber.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>Engima reflectors.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -13,6 +10,7 @@ namespace Useful.Security.Cryptography
     public enum EnigmaReflectorNumber
     {
         A,
+
         /// <summary>
         /// Reflector B.
         /// </summary>

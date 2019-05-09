@@ -99,7 +99,8 @@ namespace Useful.Security.Cryptography
             {
                 case EnigmaModel.Military:
                     {
-                        return new List<EnigmaRotorNumber>(6) {
+                        return new List<EnigmaRotorNumber>(6)
+                        {
                             EnigmaRotorNumber.None,
                             EnigmaRotorNumber.One,
                             EnigmaRotorNumber.Two,
@@ -111,7 +112,8 @@ namespace Useful.Security.Cryptography
 
                 case EnigmaModel.M3:
                     {
-                        return new List<EnigmaRotorNumber>(9) {
+                        return new List<EnigmaRotorNumber>(9)
+                        {
                             EnigmaRotorNumber.None,
                             EnigmaRotorNumber.One,
                             EnigmaRotorNumber.Two,
@@ -126,7 +128,8 @@ namespace Useful.Security.Cryptography
 
                 case EnigmaModel.M4:
                     {
-                        return new List<EnigmaRotorNumber>(11) {
+                        return new List<EnigmaRotorNumber>(11)
+                        {
                             EnigmaRotorNumber.None,
                             EnigmaRotorNumber.One,
                             EnigmaRotorNumber.Two,

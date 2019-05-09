@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaReflector.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>An Enigma reflector.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -222,21 +219,23 @@ namespace Useful.Security.Cryptography
         {
             switch (model)
             {
-                case (EnigmaModel.Military):
-                case (EnigmaModel.M3):
+                case EnigmaModel.Military:
+                case EnigmaModel.M3:
                     {
-                        return new List<EnigmaReflectorNumber>(2) {
+                        return new List<EnigmaReflectorNumber>(2)
+                        {
                             EnigmaReflectorNumber.B,
                             EnigmaReflectorNumber.C,
-                            };
+                        };
                     }
 
-                case (EnigmaModel.M4):
+                case EnigmaModel.M4:
                     {
-                        return new List<EnigmaReflectorNumber>(2) {
+                        return new List<EnigmaReflectorNumber>(2)
+                        {
                             EnigmaReflectorNumber.BThin,
                             EnigmaReflectorNumber.CThin,
-                            };
+                        };
                     }
 
                 default:

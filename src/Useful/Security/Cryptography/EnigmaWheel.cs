@@ -21,6 +21,7 @@ namespace Useful.Security.Cryptography
 			{
 				return _currentLetter;
 			}
+
 			set
 			{
 				_currentLetter = value;
@@ -36,7 +37,8 @@ namespace Useful.Security.Cryptography
 			{
 				return _myScrambler;
 			}
-			set
+
+            set
 			{
 				_myScrambler = value;
 			}
@@ -47,7 +49,7 @@ namespace Useful.Security.Cryptography
 		/// </summary>
 		/// <param name="obj">The object to compare.</param>
 		/// <returns>True if the objects are equal, else false.</returns>
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
 			return base.Equals(obj);
 		}
@@ -56,7 +58,7 @@ namespace Useful.Security.Cryptography
 		/// Retrieves a value that indicates the hash code value for this object.
 		/// </summary>
 		/// <returns>The hash code value for this object.</returns>
-		public override int GetHashCode()
+        public override int GetHashCode()
 		{
 			return base.GetHashCode();
 		}
@@ -67,7 +69,7 @@ namespace Useful.Security.Cryptography
 		/// <param name="operandX">This object.</param>
 		/// <param name="operandY">The object to compare.</param>
 		/// <returns>true if the objects are equal; otherwise false.</returns>
-		public static bool operator ==(EnigmaWheel operandX, EnigmaWheel operandY)
+        public static bool operator ==(EnigmaWheel operandX, EnigmaWheel operandY)
 		{
 			return operandX == operandY;
 		}
@@ -78,7 +80,7 @@ namespace Useful.Security.Cryptography
 		/// <param name="operandX">This object.</param>
 		/// <param name="operandY">The object to compare.</param>
 		/// <returns>true if the objects are not equal; otherwise false.</returns>
-		public static bool operator !=(EnigmaWheel operandX, EnigmaWheel operandY)
+        public static bool operator !=(EnigmaWheel operandX, EnigmaWheel operandY)
 		{
 			return operandX != operandY;
 		}

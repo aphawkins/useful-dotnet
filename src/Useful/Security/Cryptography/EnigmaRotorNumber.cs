@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaRotorNumber.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>An Enigma rotor number.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {

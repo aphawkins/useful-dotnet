@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaRotor.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>An Enigma Rotor.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
@@ -82,7 +79,7 @@ namespace Useful.Security.Cryptography
         // public event EventHandler<EnigmaRotorAdvanceEventArgs> RotorReversed;
 
         /// <summary>
-        /// The letters available to this rotor.
+        /// Gets the letters available to this rotor.
         /// </summary>
         public Collection<char> Letters { get; private set; }
 
@@ -92,12 +89,12 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorNumber RotorNumber { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether this rotor advance positions.
+        /// Gets or sets a value indicating whether this rotor advance positions.
         /// </summary>
         private bool CanTurn { get; set; }
 
         /// <summary>
-        /// Gets the current letter the rotor is set to.
+        /// Gets or sets the current letter the rotor is set to.
         /// </summary>
         public char CurrentSetting
         {
@@ -107,6 +104,7 @@ namespace Useful.Security.Cryptography
 
                 return Letters[_currentSetting];
             }
+
             set
             {
                 Contract.Requires(Letters.Contains(value));
@@ -121,7 +119,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Gets the current letter the rotor's ring is set to.
+        /// Gets or sets the current letter the rotor's ring is set to.
         /// </summary>
         public char RingPosition
         {
@@ -131,6 +129,7 @@ namespace Useful.Security.Cryptography
 
                 return Letters[_ringPosition];
             }
+
             set
             {
                 Contract.Requires(Letters.Contains(value));
@@ -226,7 +225,11 @@ namespace Useful.Security.Cryptography
             // Add the offset the current position
             int currentPosition = Letters.IndexOf(letter);
             int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count) throw new IndexOutOfRangeException();
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             char newLetter = Letters[newLet];
 
             newLetter = _wiring.Encipher(newLetter);
@@ -234,7 +237,11 @@ namespace Useful.Security.Cryptography
             // Undo offset the current position
             currentPosition = Letters.IndexOf(newLetter);
             newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count) throw new IndexOutOfRangeException();
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             Contract.Assert(newLet >= 0);
             return Letters[newLet];
         }
@@ -256,7 +263,11 @@ namespace Useful.Security.Cryptography
             // Add the offset the current position
             int currentPosition = Letters.IndexOf(letter);
             int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count) throw new IndexOutOfRangeException();
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             char newLetter = Letters[newLet];
 
             newLetter = _wiring.Decipher(newLetter);
@@ -264,7 +275,11 @@ namespace Useful.Security.Cryptography
             // Undo offset the current position
             currentPosition = Letters.IndexOf(newLetter);
             newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count) throw new IndexOutOfRangeException();
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             return Letters[newLet];
         }
 

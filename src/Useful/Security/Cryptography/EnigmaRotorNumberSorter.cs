@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaRotorNumberSorter.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>A comparer for sorting Enigma rotors.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {

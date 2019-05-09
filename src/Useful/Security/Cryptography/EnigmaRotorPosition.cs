@@ -1,9 +1,6 @@
-//-----------------------------------------------------------------------
 // <copyright file="EnigmaRotorPosition.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>Enigma rotor positions.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
