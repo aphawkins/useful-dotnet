@@ -6,7 +6,8 @@ namespace Useful.UI.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Useful.Security.Cryptography;
+    using Useful.Interfaces;
+    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Views;
 
     /// <summary>

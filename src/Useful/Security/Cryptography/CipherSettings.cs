@@ -8,6 +8,7 @@ namespace Useful.Security.Cryptography
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Settings for the Reverse cipher.

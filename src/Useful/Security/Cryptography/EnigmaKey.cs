@@ -7,7 +7,6 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System;
     using System.Collections.ObjectModel;
 
     /// <summary>

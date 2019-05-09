@@ -7,13 +7,14 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Security.Cryptography;
     using System.Text;
+    using Useful.Security.Cryptography.Interfaces;
 
     internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
         private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
         private readonly ICipher _cipher;
-        private Encoding _encoding = new UnicodeEncoding();
+        private readonly Encoding _encoding = new UnicodeEncoding();
 
         internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
         {

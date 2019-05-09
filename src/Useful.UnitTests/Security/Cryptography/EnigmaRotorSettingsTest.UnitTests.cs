@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace UsefulQA
+namespace Useful.Security.Cryptography.Tests
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -42,8 +42,6 @@ namespace UsefulQA
         {
             EnigmaRotorSettings target = EnigmaRotorSettings.Create(EnigmaModel.Military);
             List<EnigmaRotorNumber> availableRotors;
-
-            #region No rotors set
             availableRotors = target.AvailableRotors.ToList();
             Assert.IsTrue(availableRotors.Count == 6);
             Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
@@ -52,9 +50,6 @@ namespace UsefulQA
             Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Three);
             Assert.IsTrue(availableRotors[4] == EnigmaRotorNumber.Four);
             Assert.IsTrue(availableRotors[5] == EnigmaRotorNumber.Five);
-            #endregion
-
-            #region One rotor set
             target[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
 
             availableRotors = target.AvailableRotors.ToList();
@@ -64,9 +59,6 @@ namespace UsefulQA
             Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Three);
             Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Four);
             Assert.IsTrue(availableRotors[4] == EnigmaRotorNumber.Five);
-            #endregion
-
-            #region Two rotors set
             _propertiesChanged = string.Empty;
             target[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Two);
 
@@ -76,9 +68,6 @@ namespace UsefulQA
             Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.Three);
             Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Four);
             Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Five);
-            #endregion
-
-            #region All rotors set
             target[EnigmaRotorPosition.Third] = EnigmaRotor.Create(EnigmaRotorNumber.Three);
 
             availableRotors = target.AvailableRotors.ToList();
@@ -86,7 +75,6 @@ namespace UsefulQA
             Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
             Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.Four);
             Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Five);
-            #endregion
         }
 
         [TestMethod]
@@ -104,15 +92,9 @@ namespace UsefulQA
         public void EnigmaRotorSettings_SetRotor()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
-
-            #region No rotors set
             Assert.IsTrue(settings[EnigmaRotorPosition.Fastest].RotorNumber == EnigmaRotorNumber.None);
-            #endregion
-
-            #region Set rotor
             settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
             Assert.IsTrue(settings[EnigmaRotorPosition.Fastest].RotorNumber == EnigmaRotorNumber.One);
-            #endregion
         }
 
         [TestMethod]

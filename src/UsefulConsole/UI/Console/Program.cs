@@ -4,7 +4,6 @@
 
 namespace UsefulConsole.UI.Console
 {
-    using Useful;
     using Useful.Security.Cryptography;
     using Useful.UI.Controllers;
     using Useful.UI.Views;

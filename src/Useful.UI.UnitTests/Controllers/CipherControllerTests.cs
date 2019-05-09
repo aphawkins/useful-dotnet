@@ -7,18 +7,19 @@ namespace Useful.UI.Controllers.Tests
     using System;
     using System.Collections.Generic;
     using Moq;
-    using Useful.Security.Cryptography;
+    using Useful.Interfaces;
+    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Controllers;
     using Useful.UI.Views;
     using Xunit;
 
     public class CipherControllerTests
     {
-        private Mock<ICipher> _moqCipher;
-        private Mock<IRepository<ICipher>> _moqRepository;
-        private Mock<ICipherView> _moqView;
-        private Mock<ICipherSettingsView> _moqSettingsView;
-        private CipherController _controller;
+        private readonly Mock<ICipher> _moqCipher;
+        private readonly Mock<IRepository<ICipher>> _moqRepository;
+        private readonly Mock<ICipherView> _moqView;
+        private readonly Mock<ICipherSettingsView> _moqSettingsView;
+        private readonly CipherController _controller;
 
         public CipherControllerTests()
         {

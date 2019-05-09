@@ -193,7 +193,7 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorSettings Rotors { get; private set; }
 
         /// <summary>
-        /// Gets the plugboard settings.
+        /// Gets or sets the plugboard settings.
         /// </summary>
         internal MonoAlphabeticSettings Plugboard { get; set; }
 
@@ -442,7 +442,7 @@ namespace Useful.Security.Cryptography
         // }
 
         /// <summary>
-        /// Get the encryption Key.
+        /// Gets or sets get the encryption Key.
         /// </summary>
         public byte[] Key
         {
@@ -455,6 +455,7 @@ namespace Useful.Security.Cryptography
                 // Contract.Assert(key != null);
                 return key;
             }
+
             set
             {
                 // if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
@@ -490,7 +491,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Set the Initialization Vector.
+        /// Gets or sets set the Initialization Vector.
         /// </summary>
         /// <param name="newValue">The new Initialization Vector.</param>
         public byte[] IV
@@ -623,7 +624,6 @@ namespace Useful.Security.Cryptography
         /// Returns the default initialization key.
         /// </summary>
         /// <returns>The default initialization key.</returns>
-        [Pure]
         private static byte[] GetDefaultKey()
         {
             // Model
@@ -945,7 +945,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="rotorSetting"></param>
         /// <returns></returns>
-        [Pure]
         private static byte[] BuildIV(EnigmaRotorSettings rotorSettings)
         {
             // Example:

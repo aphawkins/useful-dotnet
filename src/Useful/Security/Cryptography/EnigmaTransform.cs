@@ -194,7 +194,7 @@ namespace Useful.Security.Cryptography
         {
             if (inputBuffer == null)
             {
-                throw new ArgumentNullException("inputBuffer");
+                throw new ArgumentNullException(nameof(inputBuffer));
             }
 
             if (inputOffset < 0)
@@ -262,27 +262,27 @@ namespace Useful.Security.Cryptography
         {
             if (inputBuffer == null)
             {
-                throw new ArgumentNullException("inputBuffer");
+                throw new ArgumentNullException(nameof(inputBuffer));
             }
 
             if (inputOffset < 0)
             {
-                throw new ArgumentException("Value cannot be negative.", "inputOffset");
+                throw new ArgumentException("Value cannot be negative.", nameof(inputOffset));
             }
 
             if (inputCount < 0)
             {
-                throw new ArgumentException("Value cannot be negative.", "inputCount");
+                throw new ArgumentException("Value cannot be negative.", nameof(inputCount));
             }
 
             if (outputBuffer == null)
             {
-                throw new ArgumentNullException("outputBuffer");
+                throw new ArgumentNullException(nameof(outputBuffer));
             }
 
             if (outputOffset < 0)
             {
-                throw new ArgumentException("Value cannot be negative.", "outputOffset");
+                throw new ArgumentException("Value cannot be negative.", nameof(outputOffset));
             }
 
             if (inputOffset + inputCount > inputBuffer.GetLowerBound(0) + inputBuffer.Length)

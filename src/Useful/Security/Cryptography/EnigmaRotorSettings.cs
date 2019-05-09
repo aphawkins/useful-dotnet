@@ -381,7 +381,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Pure]
         public static Collection<EnigmaRotorPosition> GetAllowedRotorPositions(EnigmaModel model)
         {
             Collection<EnigmaRotorPosition> allowedRotorPositions = new Collection<EnigmaRotorPosition>();
