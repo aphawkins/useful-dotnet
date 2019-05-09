@@ -8,6 +8,7 @@ namespace UsefulConsole.UI.Views
     using System.Collections.Generic;
     using System.Linq;
     using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Controllers;
     using Useful.UI.Views;
 

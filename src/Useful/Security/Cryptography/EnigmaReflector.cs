@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Security.Cryptography;
 
@@ -15,6 +14,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class EnigmaReflector : IDisposable
     {
+        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         /// <summary>
         /// Defines if the reflector is symmetric i.e. if one letter substitutes to another letter and vice versa.
         /// </summary>
@@ -28,18 +29,13 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The substitution of the rotor, effectively the wiring.
         /// </summary>
-        private MonoAlphabeticTransform _wiring;
+        private MonoAlphabeticCipher _wiring;
 
         /// <summary>
-        /// The settings for the wiring.
+        /// Initializes a new instance of the <see cref="EnigmaReflector"/> class.
         /// </summary>
-        private MonoAlphabeticSettings _wiringSettings;
-
-        /// <summary>
-        /// Initializes a new instance of the EnigmaReflector class.
-        /// </summary>
-        /// <param name="reflectorNumber"></param>
-        private EnigmaReflector(EnigmaReflectorNumber reflectorNumber)
+        /// <param name="reflectorNumber">The reflector number.</param>
+        public EnigmaReflector(EnigmaReflectorNumber reflectorNumber)
         {
             ReflectorNumber = reflectorNumber;
             SetWiring();
@@ -49,12 +45,6 @@ namespace Useful.Security.Cryptography
         /// Gets the designation of this reflector.
         /// </summary>
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
-
-        public static EnigmaReflector Create(EnigmaReflectorNumber reflectorNumber)
-        {
-            EnigmaReflector reflector = new EnigmaReflector(reflectorNumber);
-            return reflector;
-        }
 
         /// <summary>
         /// Releases all resources used by this object.
@@ -96,65 +86,65 @@ namespace Useful.Security.Cryptography
                 throw new ObjectDisposedException(typeof(EnigmaReflector).ToString());
             }
 
-            char newLetter = _wiring.Encipher(letter);
+            char newLetter = _wiring.Encrypt(letter);
 
             return newLetter;
         }
 
-        internal static List<EnigmaReflectorNumber> GetAllowed(EnigmaModel model)
-        {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                case EnigmaModel.M3:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                        {
-                            EnigmaReflectorNumber.B,
-                            EnigmaReflectorNumber.C,
-                        };
-                    }
+        ////internal static List<EnigmaReflectorNumber> GetAllowed(EnigmaModel model)
+        ////{
+        ////    switch (model)
+        ////    {
+        ////        case EnigmaModel.Military:
+        ////        case EnigmaModel.M3:
+        ////            {
+        ////                return new List<EnigmaReflectorNumber>(2)
+        ////                {
+        ////                    EnigmaReflectorNumber.B,
+        ////                    EnigmaReflectorNumber.C,
+        ////                };
+        ////            }
 
-                case EnigmaModel.M4:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                        {
-                            EnigmaReflectorNumber.BThin,
-                            EnigmaReflectorNumber.CThin,
-                        };
-                    }
+        ////        case EnigmaModel.M4:
+        ////            {
+        ////                return new List<EnigmaReflectorNumber>(2)
+        ////                {
+        ////                    EnigmaReflectorNumber.BThin,
+        ////                    EnigmaReflectorNumber.CThin,
+        ////                };
+        ////            }
 
-                default:
-                    {
-                        throw new CryptographicException("Unknown Enigma model.");
-                    }
-            }
-        }
+        ////        default:
+        ////            {
+        ////                throw new CryptographicException("Unknown Enigma model.");
+        ////            }
+        ////    }
+        ////}
 
-        internal static EnigmaReflector GetDefault(EnigmaModel model)
-        {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                    return EnigmaReflector.Create(EnigmaReflectorNumber.B);
-                case EnigmaModel.M3:
-                case EnigmaModel.M4:
-                    return EnigmaReflector.Create(EnigmaReflectorNumber.BThin);
-                default:
-                    throw new CryptographicException("Unknown Enigma model.");
-            }
-        }
+        ////internal static EnigmaReflector GetDefault(EnigmaModel model)
+        ////{
+        ////    switch (model)
+        ////    {
+        ////        case EnigmaModel.Military:
+        ////            return new EnigmaReflector(EnigmaReflectorNumber.B);
+        ////        case EnigmaModel.M3:
+        ////        case EnigmaModel.M4:
+        ////            return new EnigmaReflector(EnigmaReflectorNumber.BThin);
+        ////        default:
+        ////            throw new CryptographicException("Unknown Enigma model.");
+        ////    }
+        ////}
 
-        internal static EnigmaReflector GetRandom(EnigmaModel model)
-        {
-            Random rnd = new Random();
+        ////internal static EnigmaReflector GetRandom(EnigmaModel model)
+        ////{
+        ////    Random rnd = new Random();
 
-            List<EnigmaReflectorNumber> reflectors = GetAllowed(model);
+        ////    List<EnigmaReflectorNumber> reflectors = GetAllowed(model);
 
-            int nextRandomNumber = rnd.Next(0, reflectors.Count);
+        ////    int nextRandomNumber = rnd.Next(0, reflectors.Count);
 
-            return EnigmaReflector.Create(reflectors[nextRandomNumber]);
-        }
+        ////    return new EnigmaReflector(reflectors[nextRandomNumber]);
+        ////}
 
         /// <summary>
         /// Clean up any resources being used.
@@ -172,10 +162,7 @@ namespace Useful.Security.Cryptography
             if (disposing)
             {
                 // Dispose managed resources
-                if (_wiring != null)
-                {
-                    _wiring.Dispose();
-                }
+                _wiring?.Dispose();
             }
 
             // Free native resources
@@ -229,19 +216,16 @@ namespace Useful.Security.Cryptography
 
             Dictionary<char, char> reflectorPairs = new Dictionary<char, char>();
 
-            Debug.Assert(Letters.EnglishAlphabetUppercase.Count == reflectorWiring.Length);
+            Debug.Assert(CharacterSet.Length == reflectorWiring.Length, "Wiring length should equal letter count.");
 
-            for (int i = 0; i < Letters.EnglishAlphabetUppercase.Count; i++)
+            for (int i = 0; i < CharacterSet.Length; i++)
             {
-                reflectorPairs.Add(Letters.EnglishAlphabetUppercase[i], reflectorWiring[i]);
+                reflectorPairs.Add(CharacterSet[i], reflectorWiring[i]);
             }
 
-            byte[] wiringKey = MonoAlphabeticSettings.BuildKey(new Collection<char>(reflectorWiring), reflectorPairs, IsReflectorSymmetric);
-            byte[] wiringIV = MonoAlphabeticSettings.BuildIV();
-            _wiringSettings = new MonoAlphabeticSettings(wiringKey, wiringIV);
-            CipherTransformMode transformMode = CipherTransformMode.Encrypt;
-            Contract.Assert(Enum.IsDefined(typeof(CipherTransformMode), transformMode));
-            _wiring = new MonoAlphabeticTransform(_wiringSettings.Key, _wiringSettings.IV, transformMode);
+            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(new List<char>(CharacterSet), reflectorPairs, IsReflectorSymmetric);
+            _wiring?.Dispose();
+            _wiring = new MonoAlphabeticCipher(wiringSettings);
         }
     }
 }

@@ -90,5 +90,10 @@ namespace Useful.Security.Cryptography
 
             return sb.ToString();
         }
+
+        internal char Encrypt(char plaintext)
+        {
+            return ((MonoAlphabeticSettings)Settings)[plaintext];
+        }
     }
 }

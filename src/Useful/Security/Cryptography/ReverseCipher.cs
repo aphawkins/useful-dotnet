@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System.Linq;
     using System.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// The Reverse cipher.
