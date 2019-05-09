@@ -349,11 +349,11 @@ namespace Useful.Security.Cryptography.Tests
             TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
         }
 
-// #region Test Clear
-//            // TODO:
-//            // target.Clear();
-//            #endregion
+        // #region Test Clear
+        //            // TODO:
+        //            // target.Clear();
+        //            #endregion
 
-// #endregion
+        // #endregion
     }
 }

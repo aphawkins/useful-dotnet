@@ -30,12 +30,12 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorNumber RotorNumber { get; private set; }
 
         /// <summary>
-        /// Gets the flag to say if a notch has been hit.
+        /// Gets a value indicating whether gets the flag to say if a notch has been hit.
         /// </summary>
         public bool IsNotchHit { get; private set; }
 
         /// <summary>
-        /// Gets the flag to say if a DoubleStep has been hit (one after a notch) has been hit.
+        /// Gets a value indicating whether gets the flag to say if a DoubleStep has been hit (one after a notch) has been hit.
         /// </summary>
         public bool IsDoubleStep { get; private set; }
     }

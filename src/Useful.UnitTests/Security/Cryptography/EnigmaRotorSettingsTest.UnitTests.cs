@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.Tests
     [TestClass]
     public class EnigmaRotorSettingsTest
     {
-        string _propertiesChanged;
+        private string _propertiesChanged;
 
         public EnigmaRotorSettingsTest()
         {

@@ -9,6 +9,9 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public enum EnigmaReflectorNumber
     {
+        /// <summary>
+        /// Reflector A.
+        /// </summary>
         A,
 
         /// <summary>
@@ -20,7 +23,15 @@ namespace Useful.Security.Cryptography
         /// Reflector C.
         /// </summary>
         C,
+
+        /// <summary>
+        /// Reflector B Thin.
+        /// </summary>
         BThin,
+
+        /// <summary>
+        /// Reflector C Thin.
+        /// </summary>
         CThin,
     }
 }

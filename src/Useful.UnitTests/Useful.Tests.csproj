@@ -14,6 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\Cryptography\EnigmaRotorSettingsTest.UnitTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaRotorTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaSettings.UnitTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaTest.UnitTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="xunit" Version="2.4.1" />

@@ -17,11 +17,11 @@ namespace Useful.Security.Cryptography.Tests
     [TestClass]
     public class EnigmaSettingsTest
     {
-        EnigmaSettings _defaultSettings = EnigmaSettings.GetDefault();
-        byte[] _defaultKey;
-        byte[] _defaultIV;
+        private EnigmaSettings _defaultSettings = EnigmaSettings.GetDefault();
+        private byte[] _defaultKey;
+        private byte[] _defaultIV;
 
-        string _propertiesChanged = string.Empty;
+        private string _propertiesChanged = string.Empty;
 
         public EnigmaSettingsTest()
         {
