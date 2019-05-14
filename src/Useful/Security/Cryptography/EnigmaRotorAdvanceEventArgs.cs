@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
     public class EnigmaRotorAdvanceEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the EnigmaRotorEventArgs class.
+        /// Initializes a new instance of the <see cref="EnigmaRotorAdvanceEventArgs"/> class.
         /// </summary>
         /// <param name="rotorNumber">The rotor number that this notch belongs to.</param>
         /// <param name="isNotchHit">Flag to say if a notch has been hit.</param>

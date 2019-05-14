@@ -7,9 +7,6 @@
   <ItemGroup>
     <Compile Remove="Security\Cryptography\Enigma.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKey.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotor.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorAdvanceEventArgs.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorNumber.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorNumberSorter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorPosition.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorPositionSorter.cs" />

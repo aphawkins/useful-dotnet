@@ -1,138 +1,151 @@
-﻿// <copyright file="EnigmaRotorUnitTests.cs" company="APH Software">
+﻿// <copyright file="EnigmaRotorTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.Security.Cryptography.Tests
 {
+    using System;
     using Useful.Security.Cryptography;
+    using Xunit;
 
     /// <summary>
-    /// This is a test class for EnigmaSettingsTest and is intended
-    /// to contain all EnigmaSettingsTest Unit Tests.
+    /// This is a test class for EnigmaRotor.
     /// </summary>
-    [TestClass]
     public class EnigmaRotorTests
     {
-        /// <summary>
-        /// A test for EnigmaSettings Constructor.
-        /// </summary>
-        [TestMethod]
-        public void EnigmaRotor_ctor()
+        public static TheoryData<EnigmaRotorNumber, string, string> Data => new TheoryData<EnigmaRotorNumber, string, string>
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            { EnigmaRotorNumber.One, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q" },
+            { EnigmaRotorNumber.Two, "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E" },
+            { EnigmaRotorNumber.Three, "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V" },
+            { EnigmaRotorNumber.Four, "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J" },
+            { EnigmaRotorNumber.Five, "VZBRGITYUPSDNHLXAWMJQOFECK", "Z" },
+            { EnigmaRotorNumber.Six, "JPGVOUMFYQBENHZRDKASXLICTW", "MZ" },
+            { EnigmaRotorNumber.Seven, "NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ" },
+            { EnigmaRotorNumber.Eight, "FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ" },
+            { EnigmaRotorNumber.Beta, "LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty },
+            { EnigmaRotorNumber.Gamma, "FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty },
+        };
+
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void EnigmaRotor(EnigmaRotorNumber rotorNumber, string reflection, string notches)
+        {
+            _ = notches;
+            string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            using (EnigmaRotor target = new EnigmaRotor(rotorNumber))
+            {
+                Assert.Equal(rotorNumber, target.RotorNumber);
+
+                for (int i = 0; i < characterSet.Length; i++)
+                {
+                    Assert.Equal(reflection[i], target.Forward(characterSet[i]));
+                    Assert.Equal(characterSet[i], target.Backward(reflection[i]));
+                }
+            }
         }
 
-        [TestMethod]
-        public void EnigmaRotor_One()
+        [Fact]
+        public void EnigmaRotorAdvanceRotor()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            string propertyChanged = string.Empty;
 
-            Assert.AreEqual(target.Forward('A'), 'E');
-            Assert.AreEqual(target.Forward('B'), 'K');
-            Assert.AreEqual(target.Forward('C'), 'M');
-            Assert.AreEqual(target.Forward('D'), 'F');
-            Assert.AreEqual(target.Forward('E'), 'L');
-            Assert.AreEqual(target.Forward('F'), 'G');
-            Assert.AreEqual(target.Forward('G'), 'D');
-            Assert.AreEqual(target.Forward('H'), 'Q');
-            Assert.AreEqual(target.Forward('I'), 'V');
-            Assert.AreEqual(target.Forward('J'), 'Z');
-            Assert.AreEqual(target.Forward('K'), 'N');
-            Assert.AreEqual(target.Forward('L'), 'T');
-            Assert.AreEqual(target.Forward('M'), 'O');
-            Assert.AreEqual(target.Forward('N'), 'W');
-            Assert.AreEqual(target.Forward('O'), 'Y');
-            Assert.AreEqual(target.Forward('P'), 'H');
-            Assert.AreEqual(target.Forward('Q'), 'X');
-            Assert.AreEqual(target.Forward('R'), 'U');
-            Assert.AreEqual(target.Forward('S'), 'S');
-            Assert.AreEqual(target.Forward('T'), 'P');
-            Assert.AreEqual(target.Forward('U'), 'A');
-            Assert.AreEqual(target.Forward('V'), 'I');
-            Assert.AreEqual(target.Forward('W'), 'B');
-            Assert.AreEqual(target.Forward('X'), 'R');
-            Assert.AreEqual(target.Forward('Y'), 'C');
-            Assert.AreEqual(target.Forward('Z'), 'J');
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                target.RotorAdvanced += (sender, e) => propertyChanged += e.RotorNumber;
+                target.RingPosition = 'A';
+                target.CurrentSetting = 'A';
+                Assert.Equal('E', target.Forward('A'));
+                target.RingPosition = 'A';
+                target.AdvanceRotor();
+                Assert.Equal('B', target.CurrentSetting);
+                Assert.Equal('J', target.Forward('A'));
+            }
+
+            Assert.Equal("One", propertyChanged);
         }
 
-        [TestMethod]
-        public void EnigmaRotor_RotorNumber0()
+        [Fact]
+        public void EnigmaRotorCurrentSetting()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.None);
-            Assert.AreEqual(target.RotorNumber, EnigmaRotorNumber.None);
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                // Default
+                Assert.Equal('A', target.CurrentSetting);
+                target.CurrentSetting = 'W';
+                Assert.Equal('W', target.CurrentSetting);
+            }
         }
 
-        [TestMethod]
-        public void EnigmaRotor_RotorNumber1()
+        [Fact]
+        public void EnigmaRotorCurrentSettingInvalid()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            Assert.AreEqual(target.RotorNumber, EnigmaRotorNumber.One);
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                target.CurrentSetting = 'W';
+                Assert.Throws<ArgumentOutOfRangeException>(() => target.CurrentSetting = 'Å');
+                Assert.Equal('W', target.CurrentSetting);
+            }
         }
 
-        [TestMethod]
-        public void EnigmaRotor_CurrentSetting()
+        [Theory]
+        [MemberData(nameof(Data))]
+        public void EnigmaRotorNotches(EnigmaRotorNumber rotorNumber, string reflection, string notches)
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            _ = reflection;
+            string propertyChanged;
 
-            // Default
-            Assert.AreEqual(target.CurrentSetting, 'A');
-            target.CurrentSetting = 'W';
-            Assert.AreEqual(target.CurrentSetting, 'W');
+            foreach (char notch in notches)
+            {
+                using (EnigmaRotor target = new EnigmaRotor(rotorNumber))
+                {
+                    propertyChanged = string.Empty;
+                    target.RotorAdvanced += (sender, e) => propertyChanged += e.IsNotchHit;
+                    target.RingPosition = 'A';
+                    target.CurrentSetting = notch;
+                    target.AdvanceRotor();
+                    Assert.Equal("True", propertyChanged);
+                }
+            }
         }
 
-        // Covered by contract
-        // [TestMethod()]
-        // public void EnigmaRotor_CurrentSetting_Invalid()
-        // {
-        //    EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
-        //    target.CurrentSetting = 'W';
-        //    target.CurrentSetting = 'Å';
-        //    Assert.AreEqual(target.CurrentSetting, 'W');
-        // }
-        [TestMethod]
-        public void EnigmaRotor_RingPosition()
+        [Fact]
+        public void EnigmaRotorRing()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                target.RingPosition = 'B';
+                target.CurrentSetting = 'A';
+                Assert.Equal('K', target.Forward('A'));
 
-            // Default
-            Assert.AreEqual(target.RingPosition, 'A');
-            target.RingPosition = 'W';
-            Assert.AreEqual(target.RingPosition, 'W');
+                target.RingPosition = 'F';
+                target.CurrentSetting = 'Y';
+                Assert.Equal('W', target.Forward('A'));
+            }
         }
 
-        // Covered by contract
-        // [TestMethod()]
-        // public void EnigmaRotor_RingPosition_Invalid()
-        // {
-        //    EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
-        //    target.RingPosition = 'W';
-        //    target.RingPosition = 'Å';
-        //    Assert.AreEqual(target.RingPosition, 'W');
-        // }
-        [TestMethod]
-        public void EnigmaRotor_AdvanceRotor()
+        [Fact]
+        public void EnigmaRotorRingPosition()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            target.RingPosition = 'A';
-            target.CurrentSetting = 'A';
-            Assert.AreEqual(target.Forward('A'), 'E');
-            target.RingPosition = 'A';
-            target.AdvanceRotor();
-            Assert.AreEqual(target.CurrentSetting, 'B');
-            Assert.AreEqual(target.Forward('A'), 'J');
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                // Default
+                Assert.Equal('A', target.RingPosition);
+                target.RingPosition = 'W';
+                Assert.Equal('W', target.RingPosition);
+            }
         }
 
-        [TestMethod]
-        public void EnigmaRotor_Ring()
+        [Fact]
+        public void EnigmaRotorRingPositionInvalid()
         {
-            EnigmaRotor target = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            target.RingPosition = 'B';
-            target.CurrentSetting = 'A';
-            Assert.AreEqual(target.Forward('A'), 'K');
-
-            target.RingPosition = 'F';
-            target.CurrentSetting = 'Y';
-            Assert.AreEqual(target.Forward('A'), 'W');
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            {
+                target.RingPosition = 'W';
+                Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 'Å');
+                Assert.Equal('W', target.RingPosition);
+            }
         }
     }
 }

@@ -6,8 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Security.Cryptography;
+    using System.Diagnostics;
 
     /// <summary>
     /// An Enigma Rotor.
@@ -20,24 +19,16 @@ namespace Useful.Security.Cryptography
         private const bool IsRotorSymmetric = false;
 
         /// <summary>
-        /// The letters available to this rotor.
-        /// </summary>
-        private static readonly Collection<char> rotorLetters = new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray());
-
-        /// <summary>
-        /// The cipher for the wiring inside the rotor.
-        /// </summary>
-        private MonoAlphabeticTransform _wiring;
-
-        /// <summary>
-        /// The wiring inside the rotor.
-        /// </summary>
-        private MonoAlphabeticSettings _wiringSettings;
-
-        /// <summary>
         /// The current offset position of the rotor in relation to the letters.
         /// </summary>
         private int _currentSetting;
+
+        /// <summary>
+        /// State if the object has been disposed.
+        /// </summary>
+        private bool _isDisposed;
+
+        private IList<int> _notches;
 
         /// <summary>
         /// The current offset position of the rotor's ring in relation to the letters.
@@ -45,20 +36,17 @@ namespace Useful.Security.Cryptography
         private int _ringPosition;
 
         /// <summary>
-        /// State if the object has been disposed.
+        /// The cipher for the wiring inside the rotor.
         /// </summary>
-        private bool _isDisposed;
-
-        private List<int> _notches;
+        private MonoAlphabeticCipher _wiring;
 
         /// <summary>
-        /// Initializes a new instance of the EnigmaRotor class.
+        /// Initializes a new instance of the <see cref="EnigmaRotor"/> class.
         /// </summary>
-        /// <param name="rotorNumber"></param>
-        private EnigmaRotor(EnigmaRotorNumber rotorNumber)
+        /// <param name="rotorNumber">The rotor number.</param>
+        public EnigmaRotor(EnigmaRotorNumber rotorNumber)
         {
             RotorNumber = rotorNumber;
-            Letters = GetAllowedLetters(RotorNumber);
             CanTurn = true;
             SetWiring();
             if (rotorNumber != EnigmaRotorNumber.None)
@@ -79,9 +67,61 @@ namespace Useful.Security.Cryptography
         // public event EventHandler<EnigmaRotorAdvanceEventArgs> RotorReversed;
 
         /// <summary>
+        /// Gets or sets the current letter the rotor is set to.
+        /// </summary>
+        public char CurrentSetting
+        {
+            get
+            {
+                return Letters[_currentSetting];
+            }
+
+            set
+            {
+                if (_isDisposed)
+                {
+                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
+                }
+
+                if (!Letters.Contains(value))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
+
+                _currentSetting = Letters.IndexOf(value);
+            }
+        }
+
+        /// <summary>
         /// Gets the letters available to this rotor.
         /// </summary>
-        public Collection<char> Letters { get; private set; }
+        public IList<char> Letters { get; private set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+
+        /// <summary>
+        /// Gets or sets the current letter the rotor's ring is set to.
+        /// </summary>
+        public char RingPosition
+        {
+            get
+            {
+                return Letters[_ringPosition];
+            }
+
+            set
+            {
+                if (_isDisposed)
+                {
+                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
+                }
+
+                if (!Letters.Contains(value))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                }
+
+                _ringPosition = Letters.IndexOf(value);
+            }
+        }
 
         /// <summary>
         /// Gets the designation of this rotor.
@@ -93,203 +133,31 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private bool CanTurn { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current letter the rotor is set to.
-        /// </summary>
-        public char CurrentSetting
-        {
-            get
-            {
-                Contract.Requires(RotorNumber != EnigmaRotorNumber.None);
+        /////// <summary>
+        ///////
+        /////// </summary>
+        /////// <param name="rotorOrder"></param>
+        /////// <returns></returns>
+        ////public static EnigmaRotor GetRandom(EnigmaRotorNumber rotorNumber)
+        ////{
+        ////    Random rnd = new Random();
+        ////    Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotorNumber);
 
-                return Letters[_currentSetting];
-            }
+        ////    int index1 = rnd.Next(0, letters.Count);
+        ////    int index2 = rnd.Next(0, letters.Count);
 
-            set
-            {
-                Contract.Requires(Letters.Contains(value));
+        ////    EnigmaRotor rotor = EnigmaRotor.Create(rotorNumber);
+        ////    rotor._ringPosition = letters[index1];
+        ////    rotor._currentSetting = letters[index2];
 
-                if (_isDisposed)
-                {
-                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-                }
-
-                _currentSetting = Letters.IndexOf(value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current letter the rotor's ring is set to.
-        /// </summary>
-        public char RingPosition
-        {
-            get
-            {
-                Contract.Requires(RotorNumber != EnigmaRotorNumber.None);
-
-                return Letters[_ringPosition];
-            }
-
-            set
-            {
-                Contract.Requires(Letters.Contains(value));
-
-                if (_isDisposed)
-                {
-                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-                }
-
-                _ringPosition = Letters.IndexOf(value);
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="rotorNumber"></param>
-        /// <returns></returns>
-        public static EnigmaRotor Create(EnigmaRotorNumber rotorNumber)
-        {
-            return new EnigmaRotor(rotorNumber);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="rotorNumber"></param>
-        /// <returns></returns>
-        public static Collection<char> GetAllowedLetters(EnigmaRotorNumber rotorNumber)
-        {
-            Contract.Requires(Enum.IsDefined(typeof(EnigmaRotorNumber), rotorNumber));
-            Contract.Ensures(Contract.Result<Collection<char>>() != null);
-
-            switch (rotorNumber)
-            {
-                case EnigmaRotorNumber.None:
-                    {
-                        return new Collection<char>();
-                    }
-
-                case EnigmaRotorNumber.One:
-                case EnigmaRotorNumber.Two:
-                case EnigmaRotorNumber.Three:
-                case EnigmaRotorNumber.Four:
-                case EnigmaRotorNumber.Five:
-                case EnigmaRotorNumber.Beta:
-                case EnigmaRotorNumber.Gamma:
-                    {
-                        return EnigmaRotor.rotorLetters;
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException("Unknown rotor");
-                    }
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="rotorOrder"></param>
-        /// <returns></returns>
-        public static EnigmaRotor GetRandom(EnigmaRotorNumber rotorNumber)
-        {
-            Random rnd = new Random();
-            Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotorNumber);
-
-            int index1 = rnd.Next(0, letters.Count);
-            int index2 = rnd.Next(0, letters.Count);
-
-            EnigmaRotor rotor = EnigmaRotor.Create(rotorNumber);
-            rotor._ringPosition = letters[index1];
-            rotor._currentSetting = letters[index2];
-
-            return rotor;
-        }
-
-        /// <summary>
-        /// The letter this rotor encodes to going forward through it.
-        /// </summary>
-        /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter.</returns>
-        public char Forward(char letter)
-        {
-            Contract.Requires(Letters.Count != 0);
-
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-            }
-
-            // Add the offset the current position
-            int currentPosition = Letters.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            char newLetter = Letters[newLet];
-
-            newLetter = _wiring.Encipher(newLetter);
-
-            // Undo offset the current position
-            currentPosition = Letters.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            Contract.Assert(newLet >= 0);
-            return Letters[newLet];
-        }
-
-        /// <summary>
-        /// The letter this rotor encodes to going backwards through it.
-        /// </summary>
-        /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter.</returns>
-        public char Backward(char letter)
-        {
-            Contract.Requires(Letters.Count != 0);
-
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-            }
-
-            // Add the offset the current position
-            int currentPosition = Letters.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            char newLetter = Letters[newLet];
-
-            newLetter = _wiring.Decipher(newLetter);
-
-            // Undo offset the current position
-            currentPosition = Letters.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-
-            return Letters[newLet];
-        }
+        ////    return rotor;
+        ////}
 
         /// <summary>
         /// Advances the rotor one notch.
         /// </summary>
         public void AdvanceRotor()
         {
-            Contract.Requires(Letters.Count > 0);
-
             if (_isDisposed)
             {
                 throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
@@ -301,11 +169,8 @@ namespace Useful.Security.Cryptography
                 return;
             }
 
-            int setting = (_currentSetting + 1) % Letters.Count;
-
-            Contract.Assert(setting >= 0);
-
-            _currentSetting = setting;
+            _currentSetting++;
+            _currentSetting %= Letters.Count;
 
             bool isNotchHit = false;
             bool isDoubleStep = false;
@@ -327,105 +192,40 @@ namespace Useful.Security.Cryptography
             OnRotorAdvanced(isNotchHit, isDoubleStep);
         }
 
-        public void PreviousRotorAdvanced(object sender, EnigmaRotorAdvanceEventArgs e)
+        /// <summary>
+        /// The letter this rotor encodes to going backwards through it.
+        /// </summary>
+        /// <param name="letter">The letter to transform.</param>
+        /// <returns>The transformed letter.</returns>
+        public char Backward(char letter)
         {
-            if (e.IsNotchHit)
+            if (_isDisposed)
             {
-                AdvanceRotor();
+                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
             }
 
-            if (e.IsDoubleStep && _notches.Contains(_currentSetting))
+            // Add the offset the current position
+            int currentPosition = Letters.IndexOf(letter);
+            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
+            if (newLet < 0 || newLet >= Letters.Count)
             {
-                AdvanceRotor();
+                throw new IndexOutOfRangeException();
             }
+
+            char newLetter = Letters[newLet];
+
+            newLetter = _wiring.Decrypt(newLetter);
+
+            // Undo offset the current position
+            currentPosition = Letters.IndexOf(newLetter);
+            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return Letters[newLet];
         }
-
-        ///// <summary>
-        ///// Reverses the rotor one notch.
-        ///// </summary>
-        // public void ReverseRotor()
-        // {
-        //    Contract.Requires(this.Letters.Count != 0);
-
-        // if (this.isDisposed)
-        //    {
-        //        throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-        //    }
-
-        // // Don't reverse the rotor if it can't turn
-        //    if (!this.CanTurn)
-        //    {
-        //        return;
-        //    }
-
-        // int setting = (this.currentSetting - 1 + this.Letters.Count) % this.Letters.Count;
-
-        // if (0 > setting) throw new IndexOutOfRangeException();
-
-        // this.SetCurrentSetting(setting);
-
-        // this.OnRotorReversed();
-
-        // if (0 > this.currentSetting || this.currentSetting >= this.Letters.Count) throw new IndexOutOfRangeException();
-
-        // foreach (int notch in this.notches)
-        //    {
-        //        if (this.currentSetting == (notch - 1 + this.Letters.Count) % this.Letters.Count)
-        //        {
-        //            this.OnRotorReversedNotchHit();
-        //            break;
-        //        }
-        //    }
-        // }
-
-        ///// <summary>
-        ///// Sets the current letter the rotor is set to.
-        ///// </summary>
-        ///// <param name="setting">The letter the rotor is positioned at.</param>
-        // public void SetCurrentSetting(char setting)
-        // {
-        //    Contract.Requires(this.Letters.Contains(setting));
-
-        // //if (!this.Letters.Contains(setting))
-        //    //{
-        //    //    throw new ArgumentException("This setting is not allowed.");
-        //    //}
-
-        // if (this.isDisposed)
-        //    {
-        //        throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-        //    }
-
-        // if (!this.Letters.Contains(setting))
-        //    {
-        //        throw new CryptographicException();
-        //    }
-
-        // Contract.Assert(this.Letters.IndexOf(setting) >= 0);
-        //    this.SetCurrentSetting(this.Letters.IndexOf(setting));
-        // }
-
-        ///// <summary>
-        ///// Sets the current letter the rotor's ring is set to.
-        ///// </summary>
-        ///// <param name="setting">The letter the rotor's ring is positioned at.</param>
-        // public void SetRingPosition(char setting)
-        // {
-        //    Contract.Requires(this.Letters.IndexOf(setting) >= 0);
-
-        // if (this.isDisposed)
-        //    {
-        //        throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-        //    }
-
-        // if (!this.Letters.Contains(setting))
-        //    {
-        //        throw new CryptographicException();
-        //    }
-
-        // Contract.Assert(this.Letters.IndexOf(setting) >= 0);
-        //    this.SetRingPosition(this.Letters.IndexOf(setting));
-        // }
 
         /// <summary>
         /// Releases all resources used by this object.
@@ -435,6 +235,95 @@ namespace Useful.Security.Cryptography
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        /// The letter this rotor encodes to going forward through it.
+        /// </summary>
+        /// <param name="letter">The letter to transform.</param>
+        /// <returns>The transformed letter.</returns>
+        public char Forward(char letter)
+        {
+            if (_isDisposed)
+            {
+                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
+            }
+
+            // Add the offset the current position
+            int currentPosition = Letters.IndexOf(letter);
+            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            char newLetter = Letters[newLet];
+
+            newLetter = _wiring.Encrypt(newLetter);
+
+            // Undo offset the current position
+            currentPosition = Letters.IndexOf(newLetter);
+            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
+            if (newLet < 0 || newLet >= Letters.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return Letters[newLet];
+        }
+        /////// <summary>
+        /////// The previous rotor has advanced.
+        /////// </summary>
+        /////// <param name="e">The event arguments.</param>
+        //// public void PreviousRotorAdvanced(EnigmaRotorAdvanceEventArgs e)
+        //// {
+        ////    if (e.IsNotchHit)
+        ////    {
+        ////        AdvanceRotor();
+        ////    }
+
+        ////    if (e.IsDoubleStep && _notches.Contains(_currentSetting))
+        ////    {
+        ////        AdvanceRotor();
+        ////    }
+        //// }
+
+        /////// <summary>
+        /////// Reverses the rotor one notch.
+        /////// </summary>
+        //// public void ReverseRotor()
+        //// {
+        ////    Contract.Requires(this.Letters.Count != 0);
+
+        //// if (this.isDisposed)
+        ////    {
+        ////        throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
+        ////    }
+
+        //// // Don't reverse the rotor if it can't turn
+        ////    if (!this.CanTurn)
+        ////    {
+        ////        return;
+        ////    }
+
+        //// int setting = (this.currentSetting - 1 + this.Letters.Count) % this.Letters.Count;
+
+        //// if (0 > setting) throw new IndexOutOfRangeException();
+
+        //// this.SetCurrentSetting(setting);
+
+        //// this.OnRotorReversed();
+
+        //// if (0 > this.currentSetting || this.currentSetting >= this.Letters.Count) throw new IndexOutOfRangeException();
+
+        //// foreach (int notch in this.notches)
+        ////    {
+        ////        if (this.currentSetting == (notch - 1 + this.Letters.Count) % this.Letters.Count)
+        ////        {
+        ////            this.OnRotorReversedNotchHit();
+        ////            break;
+        ////        }
+        ////    }
+        //// }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -462,169 +351,41 @@ namespace Useful.Security.Cryptography
             _isDisposed = true;
         }
 
-        ///// <summary>
-        ///// Sets the current position the rotor is set to.
-        ///// </summary>
-        ///// <param name="setting">The current position the rotor is set to.</param>
-        // private void SetCurrentSetting(int setting)
-        // {
-        //    Contract.Requires(setting >= 0);
-        //    Contract.Requires(setting < this.Letters.Count);
+        private void OnRotorAdvanced(bool isNotchHit, bool isDoubleStep)
+        {
+            RotorAdvanced?.Invoke(this, new EnigmaRotorAdvanceEventArgs(RotorNumber, isNotchHit, isDoubleStep));
+        }
 
-        // this.currentSetting = setting;
-
-        // Contract.Assume(setting < this.Letters.Count);
-
-        // this.CurrentSetting = this.Letters[setting];
-        // }
-
-        ///// <summary>
-        ///// Sets the current position the rotor's ring is set to.
-        ///// </summary>
-        ///// <param name="setting">The current position the rotor's ring is set to.</param>
-        // private void SetRingPosition(int setting)
-        // {
-        //    Contract.Requires(setting >= 0);
-        //    Contract.Requires(setting < this.Letters.Count);
-
-        // this.ringPosition = setting;
-
-        // Contract.Assume(setting < this.Letters.Count);
-
-        // this.RingPosition = this.Letters[setting];
-        // }
         private void SetWiring()
         {
-            Contract.Requires(Letters != null);
-
-            char[] rotorWiring;
-            char[] rotorNotches;
-
-            switch (RotorNumber)
+            IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches, bool canTurn)> wiring = new Dictionary<EnigmaRotorNumber, (string, string, bool)>()
             {
-                case EnigmaRotorNumber.None:
-                    {
-                        rotorWiring = string.Empty.ToCharArray();
-                        rotorNotches = string.Empty.ToCharArray();
-                        CanTurn = false;
-                        break;
-                    }
+                { EnigmaRotorNumber.None, (string.Empty, string.Empty, false) },
+                { EnigmaRotorNumber.One, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q", true) },
+                { EnigmaRotorNumber.Two, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E", true) },
+                { EnigmaRotorNumber.Three, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V", true) },
+                { EnigmaRotorNumber.Four, ("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J", true) },
+                { EnigmaRotorNumber.Five, ("VZBRGITYUPSDNHLXAWMJQOFECK", "Z", true) },
+                { EnigmaRotorNumber.Six, ("JPGVOUMFYQBENHZRDKASXLICTW", "MZ", true) },
+                { EnigmaRotorNumber.Seven, ("NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ", true) },
+                { EnigmaRotorNumber.Eight, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ", true) },
+                { EnigmaRotorNumber.Beta, ("LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty, false) },
+                { EnigmaRotorNumber.Gamma, ("FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty, false) },
+            };
 
-                case EnigmaRotorNumber.One:
-                    {
-                        rotorWiring = @"EKMFLGDQVZNTOWYHXUSPAIBRCJ".ToCharArray();
-                        rotorNotches = @"Q".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
+            var (rotorWiring, rotorNotches, canTurn) = wiring[RotorNumber];
 
-                case EnigmaRotorNumber.Two:
-                    {
-                        rotorWiring = @"AJDKSIRUXBLHWTMCQGZNPYFVOE".ToCharArray();
-                        rotorNotches = @"E".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
+            Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
 
-                case EnigmaRotorNumber.Three:
-                    {
-                        rotorWiring = @"BDFHJLCPRTXVZNYEIWGAKMUSQO".ToCharArray();
-                        rotorNotches = @"V".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Four:
-                    {
-                        rotorWiring = @"ESOVPZJAYQUIRHXLNFTGKDCMWB".ToCharArray();
-                        rotorNotches = @"J".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Five:
-                    {
-                        rotorWiring = @"VZBRGITYUPSDNHLXAWMJQOFECK".ToCharArray();
-                        rotorNotches = @"Z".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Six:
-                    {
-                        rotorWiring = @"JPGVOUMFYQBENHZRDKASXLICTW".ToCharArray();
-                        rotorNotches = @"MZ".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Seven:
-                    {
-                        rotorWiring = @"NZJHGRCXMYSWBOUFAIVLPEKQDT".ToCharArray();
-                        rotorNotches = @"MZ".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Eight:
-                    {
-                        rotorWiring = @"FKQHTLXOCBJSPDZRAMEWNIUYGV".ToCharArray();
-                        rotorNotches = @"MZ".ToCharArray();
-                        CanTurn = true;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Beta:
-                    {
-                        rotorWiring = @"LEYJVCNIXWPBQMDRTAKZGFUHOS".ToCharArray();
-                        rotorNotches = string.Empty.ToCharArray();
-                        CanTurn = false;
-                        break;
-                    }
-
-                case EnigmaRotorNumber.Gamma:
-                    {
-                        rotorWiring = @"FSOKANUERHMBTIYCWLQPZXVGJD".ToCharArray();
-                        rotorNotches = string.Empty.ToCharArray();
-                        CanTurn = false;
-                        break;
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException("Unknown Enigma Rotor Number.");
-                    }
+            IDictionary<char, char> rotorPairs = new Dictionary<char, char>();
+            for (int i = 0; i < Letters.Count; i++)
+            {
+                rotorPairs.Add(Letters[i], rotorWiring[i]);
             }
 
-            Dictionary<char, char> rotorPairs = new Dictionary<char, char>();
-
-            if (rotorWiring.Length == Letters.Count)
-            {
-                for (int i = 0; i < Letters.Count; i++)
-                {
-                    rotorPairs.Add(Letters[i], rotorWiring[i]);
-                }
-            }
-
-            byte[] wiringKey = MonoAlphabeticSettings.BuildKey(new Collection<char>(Letters), rotorPairs, IsRotorSymmetric);
-            byte[] wiringIV = MonoAlphabeticSettings.BuildIV();
-
-            Contract.Assert(wiringKey != null);
-            Contract.Assert(wiringIV != null);
-
-            _wiringSettings = new MonoAlphabeticSettings(wiringKey, wiringIV);
-
-            byte[] rgbKey = _wiringSettings.Key;
-            byte[] rgbIV = _wiringSettings.IV;
-
-            Contract.Assert(rgbKey != null);
-            Contract.Assert(rgbIV != null);
-
-            CipherTransformMode transformMode = CipherTransformMode.Encrypt;
-
-            Contract.Assume(Enum.IsDefined(typeof(CipherTransformMode), transformMode));
-
-            _wiring = new MonoAlphabeticTransform(rgbKey, rgbIV, transformMode);
+            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(Letters, rotorPairs, IsRotorSymmetric);
+            _wiring?.Dispose();
+            _wiring = new MonoAlphabeticCipher(wiringSettings);
 
             // Set the notches
             _notches = new List<int>(rotorNotches.Length);
@@ -632,11 +393,8 @@ namespace Useful.Security.Cryptography
             {
                 _notches.Add(Letters.IndexOf(notch));
             }
-        }
 
-        private void OnRotorAdvanced(bool isNotchHit, bool isDoubleStep)
-        {
-            RotorAdvanced?.Invoke(this, new EnigmaRotorAdvanceEventArgs(RotorNumber, isNotchHit, isDoubleStep));
+            CanTurn = canTurn;
         }
 
         // private void OnRotorReversed()

@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Compile Remove="Security\Cryptography\EnigmaRotorSettingsTest.UnitTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorTests.cs" />
     <Compile Remove="Security\Cryptography\EnigmaSettings.UnitTests.cs" />
     <Compile Remove="Security\Cryptography\EnigmaTest.UnitTests.cs" />
   </ItemGroup>
