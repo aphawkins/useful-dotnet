@@ -133,26 +133,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private bool CanTurn { get; set; }
 
-        /////// <summary>
-        ///////
-        /////// </summary>
-        /////// <param name="rotorOrder"></param>
-        /////// <returns></returns>
-        ////public static EnigmaRotor GetRandom(EnigmaRotorNumber rotorNumber)
-        ////{
-        ////    Random rnd = new Random();
-        ////    Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotorNumber);
-
-        ////    int index1 = rnd.Next(0, letters.Count);
-        ////    int index2 = rnd.Next(0, letters.Count);
-
-        ////    EnigmaRotor rotor = EnigmaRotor.Create(rotorNumber);
-        ////    rotor._ringPosition = letters[index1];
-        ////    rotor._currentSetting = letters[index2];
-
-        ////    return rotor;
-        ////}
-
         /// <summary>
         /// Advances the rotor one notch.
         /// </summary>

@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="EnigmaTransform.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
-// <summary>The Enigma algorithm.</summary>
-//-----------------------------------------------------------------------
-
 namespace Useful.Security.Cryptography
 {
     using System;

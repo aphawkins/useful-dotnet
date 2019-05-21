@@ -1,19 +1,20 @@
-//-----------------------------------------------------------------------
 // <copyright file="Enigma.cs" company="APH Software">
-//     Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
-// <summary>Simulates the Enigma encoding machine.</summary>
-//-----------------------------------------------------------------------
 
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Diagnostics;
+    using System.Linq;
     using System.Security.Cryptography;
+    using System.Text;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Simulates the Enigma encoding machine.
     /// </summary>
-    public sealed class Enigma : SymmetricAlgorithm
+    public sealed class Enigma : ClassicalSymmetricAlgorithm
     {
         /// <summary>
         /// The size of a byte.
@@ -26,51 +27,84 @@ namespace Useful.Security.Cryptography
         private readonly int _LengthOfKey = 5;
 
         /// <summary>
-        /// Initializes a new instance of the Enigma class.
+        /// The plugboard settings.
         /// </summary>
-        public Enigma() // EnigmaModel model)
+        private MonoAlphabeticCipher _plugboard;
+
+        /// <summary>
+        /// Has this object been disposed?.
+        /// </summary>
+        private bool _disposed;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Enigma"/> class.
+        /// </summary>
+        public Enigma()
+            : this(new EnigmaSettings())
         {
-            ModeValue = CipherMode.ECB;
-            PaddingValue = PaddingMode.None;
-            KeySizeValue = int.MaxValue;
-
-            // switch (model)
-            // {
-            //    case EnigmaModel.Military:
-            //        {
-            //            LengthOfKey = 5;
-            //            break;
-            //        }
-            //    case EnigmaModel.Navy:
-            //    case EnigmaModel.M4:
-            //        {
-            //            LengthOfKey = 5;
-            //            break;
-            //        }
-            //    default:
-            //        throw new Exception();
-            // }
-            BlockSizeValue = _LengthOfKey * sizeof(char) * SizeOfByte;
-
-            // FeedbackSizeValue = 2;
-            LegalBlockSizesValue = new KeySizes[1];
-            LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 1);
-            LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 1);
-
-            EnigmaSettings defaultSettings = EnigmaSettings.GetDefault();
-            KeyValue = defaultSettings.Key;
-            IVValue = defaultSettings.IV;
-
-            // BlockSizeValue = this.m_settings.GetIV().Length * 8;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Enigma"/> class.
+        /// </summary>
+        /// <param name="settings">The cipher's settings.</param>
+        public Enigma(EnigmaSettings settings)
+            : base("Enigma", settings)
+        {
+            KeyGenerator = new EnigmaKeyGenerator();
+
+            // Plugboard
+            _plugboard = new MonoAlphabeticCipher(new MonoAlphabeticSettings(((EnigmaSettings)Settings).Plugboard.Key.ToArray()));
+        }
+
+        /////// <summary>
+        /////// Initializes a new instance of the <see cref="Enigma"/> class.
+        /////// </summary>
+        ////public Enigma() // EnigmaModel model)
+        ////{
+        ////    ModeValue = CipherMode.ECB;
+        ////    PaddingValue = PaddingMode.None;
+        ////    KeySizeValue = int.MaxValue;
+
+        ////    // switch (model)
+        ////    // {
+        ////    //    case EnigmaModel.Military:
+        ////    //        {
+        ////    //            LengthOfKey = 5;
+        ////    //            break;
+        ////    //        }
+        ////    //    case EnigmaModel.Navy:
+        ////    //    case EnigmaModel.M4:
+        ////    //        {
+        ////    //            LengthOfKey = 5;
+        ////    //            break;
+        ////    //        }
+        ////    //    default:
+        ////    //        throw new Exception();
+        ////    // }
+        ////    BlockSizeValue = _LengthOfKey * sizeof(char) * SizeOfByte;
+
+        ////    // FeedbackSizeValue = 2;
+        ////    LegalBlockSizesValue = new KeySizes[1];
+        ////    LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 1);
+        ////    LegalKeySizesValue = new KeySizes[1];
+        ////    LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 1);
+
+        ////    EnigmaSettings defaultSettings = EnigmaSettings.GetDefault();
+        ////    KeyValue = defaultSettings.Key;
+        ////    IVValue = defaultSettings.IV;
+
+        ////    // BlockSizeValue = this.m_settings.GetIV().Length * 8;
+        ////}
+
+        /// <inheritdoc/>
         public override byte[] Key
         {
             get
             {
                 return base.Key;
             }
+
             set
             {
                 EnigmaSettings enigmaKey = EnigmaSettings.ParseKey(value);
@@ -79,114 +113,146 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Creates a symmetric decryptor object.
-        /// </summary>
-        /// <param name="rgbKey">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="rgbIV">The initialization vector to use for the symmetric algorithm.</param>
-        /// <returns>The symmetric decryptor object.</returns>
+        /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            this.CheckNullArgument(() => rgbKey);
-            this.CheckNullArgument(() => rgbIV);
-
-            try
-            {
-                return new EnigmaTransform(rgbKey, rgbIV, CipherTransformMode.Decrypt);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new CryptographicException("Error with Key or IV.", ex);
-            }
+            ICipher cipher = new Enigma();
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public override ICryptoTransform CreateDecryptor()
-        {
-            if (Key == null)
-            {
-                throw new CryptographicException("Key is null.");
-            }
-
-            if (IV == null)
-            {
-                throw new CryptographicException("IV is null.");
-            }
-
-            try
-            {
-                return new EnigmaTransform(Key, IV, CipherTransformMode.Decrypt);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new CryptographicException("Error with Key or IV.", ex);
-            }
-        }
-
-        /// <summary>
-        /// Creates a symmetric encryptor object.
-        /// </summary>
-        /// <param name="rgbKey">The secret key to use for the symmetric algorithm.</param>
-        /// <param name="rgbIV">The initialization vector to use for the symmetric algorithm.</param>
-        /// <returns>The symmetric encryptor object.</returns>
+        /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            this.CheckNullArgument(() => rgbKey);
-            this.CheckNullArgument(() => rgbIV);
-
-            try
-            {
-                return new EnigmaTransform(rgbKey, rgbIV, CipherTransformMode.Encrypt);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new CryptographicException("Error with Key or IV.", ex);
-            }
+            ICipher cipher = new Enigma();
+            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public override ICryptoTransform CreateEncryptor()
+        /// <inheritdoc/>
+        public override string Decrypt(string ciphertext)
         {
-            if (Key == null)
-            {
-                throw new CryptographicException("Key is null.");
-            }
-
-            if (IV == null)
-            {
-                throw new CryptographicException("IV is null.");
-            }
-
-            try
-            {
-                return new EnigmaTransform(Key, IV, CipherTransformMode.Encrypt);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new CryptographicException("Error with Key or IV.", ex);
-            }
+            return Encrypt(ciphertext);
         }
 
-        /// <summary>
-        /// Generates a random initialization vector (IV) to use for the algorithm.
-        /// </summary>
+        /// <inheritdoc/>
+        public override string Encrypt(string plaintext)
+        {
+            StringBuilder output = new StringBuilder();
+            foreach (char inputChar in plaintext.ToCharArray())
+            {
+                ////if (Letters.IsCleanable(this.settings.AllowedLetters, inputChar))
+                ////{
+                    // Encrypt and Decrypt work the same way
+                    output.Append(Encipher(inputChar));
+                ////}
+            }
+
+            return output.ToString();
+        }
+
+        /// <inheritdoc />
         public override void GenerateIV()
         {
             IVValue = EnigmaSettings.GetRandom().IV;
         }
 
-        /// <summary>
-        /// Generates a random key to be used for the algorithm.
-        /// </summary>
+        /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = EnigmaSettings.GetRandom().Key;// Key();
+            KeyValue = EnigmaSettings.GetRandom().Key;
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            // A call to Dispose(false) should only clean up native resources.
+            // A call to Dispose(true) should clean up both managed and native resources.
+            if (disposing)
+            {
+                // Dispose managed resources
+                if (_plugboard != null)
+                {
+                    _plugboard.Dispose();
+                }
+
+                if (_reflector != null)
+                {
+                    _reflector.Dispose();
+                }
+            }
+
+            // Free native resources
+            _disposed = true;
+
+            // Call base class implementation.
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Encipher a plaintext letter into an enciphered letter.  Decipher works in the same way as encipher.
+        /// </summary>
+        /// <param name="letter">The plaintext letter to encipher.</param>
+        /// <returns>The enciphered letter.</returns>
+        private char Encipher(char letter)
+        {
+            char newLetter;
+
+            if (!((EnigmaSettings)Settings).AllowedLetters.Contains(letter))
+            {
+                return letter;
+            }
+
+            newLetter = letter;
+
+            // Ensure all the rotors are set correctly
+            ////this.AdvanceRotorsToPosition(this.settings.Counter);
+
+            // Advance the rotors one position
+            AdvanceRotors(1);
+
+            // Plugboard
+            newLetter = _plugboard.Encrypt(newLetter);
+
+            // Go thru the rotors forwards
+            foreach (EnigmaRotorPosition rotorPosition in ((EnigmaSettings)Settings).Rotors.AllowedRotorPositions)
+            {
+                newLetter = _rotors[rotorPosition].Forward(newLetter);
+            }
+
+            // Go thru the relector
+            newLetter = _reflector.Reflect(newLetter);
+
+            // Go thru the rotors backwards
+            foreach (EnigmaRotorPosition rotorPosition in _reverseRotorOrder.Keys)
+            {
+                newLetter = _reverseRotorOrder[rotorPosition].Backward(newLetter);
+            }
+
+            newLetter = _plugboard.Decipher(newLetter);
+
+            // Letter cannot encrypt to itself.
+            // Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");
+
+            return newLetter;
+        }
+
+        /// <summary>
+        /// Advances the rotors by a specified number of positions.
+        /// </summary>
+        /// <param name="numberOfPositions">The number of positions to move the rotors.</param>
+        private void AdvanceRotors(int numberOfPositions)
+        {
+            // Advance the fastest rotor
+            EnigmaRotor rotor = _rotors[EnigmaRotorPosition.Fastest];
+
+            for (int i = 0; i < numberOfPositions; i++)
+            {
+                rotor.AdvanceRotor();
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="Enigma.UnitTests.cs" company="APH Software">
+﻿// <copyright file="EnigmaTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -7,183 +7,125 @@ namespace Useful.Security.Cryptography.Tests
     using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography;
+    using Xunit;
 
-    /// <summary>
-    /// This is a test class for EnigmaSettingsTest and is intended
-    /// to contain all EnigmaSettingsTest Unit Tests.
-    /// </summary>
-    [TestClass]
-    public class EnigmaTest
+    public class EnigmaTests
     {
-
-        // #region Properties
-        //        /// <summary>
-        //        ///Gets or sets the test context which provides
-        //        ///information about and functionality for the current test run.
-        //        ///</summary>
-        //        public TestContext TestContextInstance { get; set; }
-        //        #endregion
-
-        // #region Methods
-        //        #region Additional test attributes
-        //        //
-        //        //You can use the following additional attributes as you write your tests:
-        //        //
-        //        //Use ClassInitialize to run code before running the first test in the class
-        //        //[ClassInitialize()]
-        //        //public static void MyClassInitialize(TestContext testContext)
-        //        //{
-        //        //}
-        //        //
-        //        //Use ClassCleanup to run code after all tests in a class have run
-        //        //[ClassCleanup()]
-        //        //public static void MyClassCleanup()
-        //        //{
-        //        //}
-        //        //
-        //        //Use TestInitialize to run code before running each test
-        //        //[TestInitialize()]
-        //        //public void MyTestInitialize()
-        //        //{
-        //        //}
-        //        //
-        //        //Use TestCleanup to run code after each test has run
-        //        //[TestCleanup()]
-        //        //public void MyTestCleanup()
-        //        //{
-        //        //}
-        //        //
-        //        #endregion
-
-        /// <summary>
-        /// A test for EnigmaSettings Constructor.
-        /// </summary>
-        [TestMethod]
+        [Fact]
         public void Enigma_ctor()
         {
-            Enigma target = new Enigma();
+            using (Enigma target = new Enigma())
+            {
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Default()
         {
             // Default is Military
-            Enigma target = new Enigma();
-            Assert.IsTrue(Encoding.Unicode.GetString(target.Key) == "Military|B|I II III|A A A|");
-            Assert.IsTrue(Encoding.Unicode.GetString(target.IV) == "A A A");
-        }
-
-        [TestMethod]
-        public void Enigma_CreateEncryptor()
-        {
-            Enigma target = new Enigma();
-            try
+            using (Enigma target = new Enigma())
             {
-                ICryptoTransform transformer = target.CreateEncryptor();
-            }
-            catch (CryptographicException)
-            {
-                // Expected
+                Assert.Equal("Military|B|I II III|A A A|", Encoding.Unicode.GetString(target.Key));
+                Assert.Equal("A A A", Encoding.Unicode.GetString(target.IV));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Military()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_M4()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"M4|BThin|Beta I II III|A A A A|", @"A A A A", @"HELLOWORLD", @"ILBDAAMTAZ", @"A A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"M4|BThin|Beta I II III|A A A A|", @"A A A A", @"HELLOWORLD", @"ILBDAAMTAZ", @"A A A K");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Rings_1()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|I II III|A A B|", @"A A B", @"A", @"B", @"A A C");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|I II III|A A B|", @"A A B", @"A", @"B", @"A A C");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Rings_2()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|I II III|B B B|", @"A A A", @"HELLOWORLD", @"LOFUHHMJJX", @"A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|I II III|B B B|", @"A A A", @"HELLOWORLD", @"LOFUHHMJJX", @"A A K");
+            }
         }
 
-        private void TestTarget(SymmetricAlgorithm target, string key, string iv, string input, string output, string newIv)
-        {
-            CipherTestUtils.TestTarget(target, key, iv, input, output, newIv);
-            Assert.IsTrue(string.Equals(Encoding.Unicode.GetString(target.Key), key));
-            Assert.IsTrue(string.Equals(Encoding.Unicode.GetString(target.IV), newIv));
-        }
-
-        [TestMethod]
+        [Fact]
         public void Enigma_Notches_Singlestep()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"V E Q", @"A", @"Z", @"W F R");
-            TestTarget(target, @"Military|B|III II I|A A A|", @"W F R", @"A", @"U", @"W F S");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"V E Q", @"A", @"Z", @"W F R");
+                TestTarget(target, @"Military|B|III II I|A A A|", @"W F R", @"A", @"U", @"W F S");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Notches_Doublestep()
         {
-            Enigma target = new Enigma();
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"K D O", @"A", @"U", @"K D P");
+                TestTarget(target, @"Military|B|III II I|A A A|", @"K D P", @"A", @"L", @"K D Q");
+                TestTarget(target, @"Military|B|III II I|A A A|", @"K D Q", @"A", @"M", @"K E R");
 
-            TestTarget(target, @"Military|B|III II I|A A A|", @"K D O", @"A", @"U", @"K D P");
-            TestTarget(target, @"Military|B|III II I|A A A|", @"K D P", @"A", @"L", @"K D Q");
-            TestTarget(target, @"Military|B|III II I|A A A|", @"K D Q", @"A", @"M", @"K E R");
-
-            // Should doublestep the middle rotor here
-            TestTarget(target, @"Military|B|III II I|A A A|", @"K E R", @"A", @"H", @"L F S");
-            TestTarget(target, @"Military|B|III II I|A A A|", @"L F S", @"A", @"J", @"L F T");
-            TestTarget(target, @"Military|B|III II I|A A A|", @"L F T", @"A", @"C", @"L F U");
-
-            // target.
+                // Should doublestep the middle rotor here
+                TestTarget(target, @"Military|B|III II I|A A A|", @"K E R", @"A", @"H", @"L F S");
+                TestTarget(target, @"Military|B|III II I|A A A|", @"L F S", @"A", @"J", @"L F T");
+                TestTarget(target, @"Military|B|III II I|A A A|", @"L F T", @"A", @"C", @"L F U");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Spaces()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLO WORLD", @"MFNCZBBFZM", @"A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLO WORLD", @"MFNCZBBFZM", @"A A K");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Disallowed_Chars()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOÅÅÅÅÅWORLD", @"MFNCZBBFZM", @"A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOÅÅÅÅÅWORLD", @"MFNCZBBFZM", @"A A K");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Mixed_Case()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HeLlOwOrLd", @"MFNCZBBFZM", @"A A K");
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HeLlOwOrLd", @"MFNCZBBFZM", @"A A K");
+            }
         }
 
-        [TestMethod]
+        [Fact]
         public void Enigma_Backspace()
         {
-            Enigma target = new Enigma();
-
-            TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
-
-            // target.
+            using (Enigma target = new Enigma())
+            {
+                TestTarget(target, @"Military|B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
+            }
         }
 
         // [TestMethod()]
@@ -246,10 +188,7 @@ namespace Useful.Security.Cryptography.Tests
         // TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
         // }
 
-        /// <summary>
-        ///
-        /// </summary>
-        [TestMethod]
+        [Fact]
         public void Enigma_1941_07_07_1925()
         {
             StringBuilder sb = new StringBuilder();
@@ -287,15 +226,16 @@ namespace Useful.Security.Cryptography.Tests
 
             EnigmaSettings settings = new EnigmaSettings(key, iv);
 
-            Enigma enigma = new Enigma();
-
-            TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+            using (Enigma enigma = new Enigma())
+            {
+                TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+            }
         }
 
         /// <summary>
         /// http://users.telenet.be/d.rijmenants/en/m4project.htm.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void Enigma_M4_Example()
         {
             StringBuilder sb = new StringBuilder();
@@ -344,16 +284,17 @@ namespace Useful.Security.Cryptography.Tests
 
             EnigmaSettings settings = new EnigmaSettings(key, iv);
 
-            Enigma enigma = new Enigma();
-
-            TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+            using (Enigma enigma = new Enigma())
+            {
+                TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+            }
         }
 
-        // #region Test Clear
-        //            // TODO:
-        //            // target.Clear();
-        //            #endregion
-
-        // #endregion
+        private void TestTarget(SymmetricAlgorithm target, string key, string iv, string input, string output, string newIv)
+        {
+            CipherTestUtils.TestTarget(target, key, iv, input, output, newIv);
+            Assert.Equal(key, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
+        }
     }
 }

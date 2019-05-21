@@ -91,61 +91,6 @@ namespace Useful.Security.Cryptography
             return newLetter;
         }
 
-        ////internal static List<EnigmaReflectorNumber> GetAllowed(EnigmaModel model)
-        ////{
-        ////    switch (model)
-        ////    {
-        ////        case EnigmaModel.Military:
-        ////        case EnigmaModel.M3:
-        ////            {
-        ////                return new List<EnigmaReflectorNumber>(2)
-        ////                {
-        ////                    EnigmaReflectorNumber.B,
-        ////                    EnigmaReflectorNumber.C,
-        ////                };
-        ////            }
-
-        ////        case EnigmaModel.M4:
-        ////            {
-        ////                return new List<EnigmaReflectorNumber>(2)
-        ////                {
-        ////                    EnigmaReflectorNumber.BThin,
-        ////                    EnigmaReflectorNumber.CThin,
-        ////                };
-        ////            }
-
-        ////        default:
-        ////            {
-        ////                throw new CryptographicException("Unknown Enigma model.");
-        ////            }
-        ////    }
-        ////}
-
-        ////internal static EnigmaReflector GetDefault(EnigmaModel model)
-        ////{
-        ////    switch (model)
-        ////    {
-        ////        case EnigmaModel.Military:
-        ////            return new EnigmaReflector(EnigmaReflectorNumber.B);
-        ////        case EnigmaModel.M3:
-        ////        case EnigmaModel.M4:
-        ////            return new EnigmaReflector(EnigmaReflectorNumber.BThin);
-        ////        default:
-        ////            throw new CryptographicException("Unknown Enigma model.");
-        ////    }
-        ////}
-
-        ////internal static EnigmaReflector GetRandom(EnigmaModel model)
-        ////{
-        ////    Random rnd = new Random();
-
-        ////    List<EnigmaReflectorNumber> reflectors = GetAllowed(model);
-
-        ////    int nextRandomNumber = rnd.Next(0, reflectors.Count);
-
-        ////    return new EnigmaReflector(reflectors[nextRandomNumber]);
-        ////}
-
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>

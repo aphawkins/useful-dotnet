@@ -8,10 +8,7 @@
     <Compile Remove="Security\Cryptography\Enigma.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKey.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorNumberSorter.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorPosition.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorPositionSorter.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorSettings.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaSettings.cs" />
     <Compile Remove="Security\Cryptography\EnigmaTransform.cs" />
     <Compile Remove="Security\Cryptography\EnigmaUINameConverter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaWheel.cs" />

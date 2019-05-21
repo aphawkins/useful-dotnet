@@ -14,9 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Security\Cryptography\EnigmaRotorSettingsTest.UnitTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaSettings.UnitTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaTest.UnitTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

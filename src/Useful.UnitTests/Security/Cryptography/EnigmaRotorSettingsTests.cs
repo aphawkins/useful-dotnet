@@ -8,36 +8,22 @@ namespace Useful.Security.Cryptography.Tests
     using System.Collections.ObjectModel;
     using System.Linq;
     using Useful.Security.Cryptography;
+    using Xunit;
 
-    /// <summary>
-    /// This is a test class for EnigmaSettingsTest and is intended
-    /// to contain all EnigmaSettingsTest Unit Tests.
-    /// </summary>
-    [TestClass]
     public class EnigmaRotorSettingsTest
     {
         private string _propertiesChanged;
 
-        public EnigmaRotorSettingsTest()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the test context which provides
-        /// information about and functionality for the current test run.
-        /// </summary>
-        public TestContext TestContextInstance { get; set; }
-
         /// <summary>
         /// A test for EnigmaSettings Constructor.
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_ctor()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaSettings_SetRotorOrder()
         {
             EnigmaRotorSettings target = EnigmaRotorSettings.Create(EnigmaModel.Military);
@@ -77,18 +63,18 @@ namespace Useful.Security.Cryptography.Tests
             Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Five);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaSettings_SetRotorOrderPropertyChanged()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
-            settings.PropertyChanged += target_PropertyChanged;
-            _propertiesChanged = "";
+            settings.PropertyChanged += targetPropertyChanged;
+            _propertiesChanged = string.Empty;
 
             settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
             Assert.IsTrue(_propertiesChanged == "Item;AvailableRotors;");
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_SetRotor()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
@@ -97,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.IsTrue(settings[EnigmaRotorPosition.Fastest].RotorNumber == EnigmaRotorNumber.One);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_GetAllowedRotorPositions()
         {
             Collection<EnigmaRotorPosition> positions = EnigmaRotorSettings.GetAllowedRotorPositions(EnigmaModel.Military);
@@ -121,7 +107,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.IsTrue(positions[3] == EnigmaRotorPosition.Forth);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_GetAllowedRotorPositions1()
         {
             List<EnigmaRotorNumber> rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Fastest);
@@ -230,7 +216,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Gamma);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_GetOrderKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
@@ -241,7 +227,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.AreEqual(settings.GetOrderKey(), "Beta V III I");
         }
 
-        [TestMethod]
+        [Fact]
         public void EnigmaRotorSettings_GetSettingKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
@@ -256,22 +242,22 @@ namespace Useful.Security.Cryptography.Tests
             Assert.AreEqual(settings.GetSettingKey(), "G E D B");
         }
 
-        [TestMethod]
-        public void EnigmaRotorSettings_GetRingKeys()
+        [Fact]
+        public void GetRingKeys()
         {
             EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
-            settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.One);
             settings[EnigmaRotorPosition.Fastest].RingPosition = 'B';
-            settings[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Three);
+            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.Three);
             settings[EnigmaRotorPosition.Second].RingPosition = 'D';
-            settings[EnigmaRotorPosition.Third] = EnigmaRotor.Create(EnigmaRotorNumber.Five);
+            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.Five);
             settings[EnigmaRotorPosition.Third].RingPosition = 'E';
-            settings[EnigmaRotorPosition.Forth] = EnigmaRotor.Create(EnigmaRotorNumber.Beta);
+            settings[EnigmaRotorPosition.Forth] = new EnigmaRotor(EnigmaRotorNumber.Beta);
             settings[EnigmaRotorPosition.Forth].RingPosition = 'G';
-            Assert.AreEqual(settings.GetRingKey(), "G E D B");
+            Assert.Equal("G E D B", settings.GetRingKey());
         }
 
-        private void target_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void targetPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             _propertiesChanged += e.PropertyName;
             _propertiesChanged += ";";

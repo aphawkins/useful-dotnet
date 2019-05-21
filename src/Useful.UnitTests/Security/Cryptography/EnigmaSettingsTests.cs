@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaSettings.UnitTests.cs" company="APH Software">
+﻿// <copyright file="EnigmaSettingsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,317 +9,235 @@ namespace Useful.Security.Cryptography.Tests
     using System.Linq;
     using System.Text;
     using Useful.Security.Cryptography;
+    using Xunit;
 
-    /// <summary>
-    /// This is a test class for EnigmaSettingsTest and is intended
-    /// to contain all EnigmaSettingsTest Unit Tests.
-    /// </summary>
-    [TestClass]
-    public class EnigmaSettingsTest
+    public class EnigmaSettingsTests
     {
-        private EnigmaSettings _defaultSettings = EnigmaSettings.GetDefault();
-        private byte[] _defaultKey;
-        private byte[] _defaultIV;
-
         private string _propertiesChanged = string.Empty;
-
-        public EnigmaSettingsTest()
-        {
-            _defaultKey = _defaultSettings.Key;
-            _defaultIV = _defaultSettings.IV;
-        }
-
-        // #region Properties
-        //        /// <summary>
-        //        ///Gets or sets the test context which provides
-        //        ///information about and functionality for the current test run.
-        //        ///</summary>
-        //        public TestContext TestContextInstance {get; set; }
-        //        #endregion
-
-        // #region Methods
-        //        #region Additional test attributes
-        //        //
-        //        //You can use the following additional attributes as you write your tests:
-        //        //
-        //        //Use ClassInitialize to run code before running the first test in the class
-        //        //[ClassInitialize()]
-        //        //public static void MyClassInitialize(TestContext testContext)
-        //        //{
-        //        //}
-        //        //
-        //        //Use ClassCleanup to run code after all tests in a class have run
-        //        //[ClassCleanup()]
-        //        //public static void MyClassCleanup()
-        //        //{
-        //        //}
-        //        //
-        //        // Use TestInitialize to run code before running each test
-        //        //[TestInitialize()]
-        //        //public void MyTestInitialize()
-        //        //{
-
-        // //}
-        //        //
-        //        //Use TestCleanup to run code after each test has run
-        //        //[TestCleanup()]
-        //        //public void MyTestCleanup()
-        //        //{
-        //        //}
-        //        //
-        //        #endregion
 
         /// <summary>
         /// A test for EnigmaSettings Constructor.
         /// </summary>
-        [TestMethod]
-        public void EnigmaSettings_ctor()
+        [Fact]
+        public void Ctor()
         {
-            EnigmaSettings target = EnigmaSettings.GetDefault();
-            TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, string.Empty, 0,
-                EnigmaRotorNumber.Three, EnigmaRotorNumber.Two, EnigmaRotorNumber.One, null,
-                'A', 'A', 'A', null,
-                'A', 'A', 'A', null,
-                Encoding.Unicode.GetString(_defaultKey), Encoding.Unicode.GetString(_defaultIV));
+            EnigmaSettings target = new EnigmaSettings();
+            TestState(
+                target,
+                EnigmaModel.Military,
+                EnigmaReflectorNumber.B,
+                string.Empty,
+                0,
+                EnigmaRotorNumber.Three,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.One,
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                "Military|B|I II III|A A A|",
+                "A A A");
         }
 
-        [TestMethod]
-        public void EnigmaSettings_SetKey_Valid()
+        [Fact]
+        public void SetKeyValid()
         {
             string tempKey = @"Military|B|III II I|A A A|AB";
             byte[] key = Encoding.Unicode.GetBytes(tempKey);
             _propertiesChanged = string.Empty;
 
-            EnigmaSettings target = EnigmaSettings.GetDefault();
-            target.PropertyChanged += target_PropertyChanged;
+            EnigmaSettings target = new EnigmaSettings();
+            target.PropertyChanged += TargetPropertyChanged;
             _propertiesChanged = string.Empty;
 
             target.Key = key;
 
-            TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, "Key;", 1,
-                EnigmaRotorNumber.One, EnigmaRotorNumber.Two, EnigmaRotorNumber.Three, null,
-                'A', 'A', 'A', null,
-                'A', 'A', 'A', null,
-                tempKey, Encoding.Unicode.GetString(_defaultIV));
+            TestState(
+                target,
+                EnigmaModel.Military,
+                EnigmaReflectorNumber.B,
+                "Key;",
+                1,
+                EnigmaRotorNumber.One,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.Three,
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                tempKey,
+                "A A A");
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Model_Missing()
+        [Fact]
+        public void CtorModelMissing()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"|B|III II I|A A A|AA BB");
-            byte[] iv = Encoding.Unicode.GetBytes(@"");
+            byte[] iv = Encoding.Unicode.GetBytes(string.Empty);
 
-            try
-            {
-                EnigmaSettings target = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Model_Military()
+        [Fact]
+        public void CtorModelMilitary()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|I II III|A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
             EnigmaSettings target = new EnigmaSettings(key, iv);
-            TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, string.Empty, 1,
-                EnigmaRotorNumber.Three, EnigmaRotorNumber.Two, EnigmaRotorNumber.One, null,
-                'A', 'A', 'A', null,
-                'A', 'A', 'A', null,
-                Encoding.Unicode.GetString(key), Encoding.Unicode.GetString(iv));
+            TestState(
+                target,
+                EnigmaModel.Military,
+                EnigmaReflectorNumber.B,
+                string.Empty,
+                1,
+                EnigmaRotorNumber.Three,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.One,
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                Encoding.Unicode.GetString(key),
+                Encoding.Unicode.GetString(iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Model_M4()
+        [Fact]
+        public void CtorModelM4()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"M4|BThin|Beta I II III|D C B A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"Z Y X W");
 
             EnigmaSettings target = new EnigmaSettings(key, iv);
-            TestState(target, EnigmaModel.M4, EnigmaReflectorNumber.BThin, string.Empty, 1,
-                EnigmaRotorNumber.Three, EnigmaRotorNumber.Two, EnigmaRotorNumber.One, EnigmaRotorNumber.Beta,
-                'A', 'B', 'C', 'D',
-                'W', 'X', 'Y', 'Z',
-                Encoding.Unicode.GetString(key), Encoding.Unicode.GetString(iv));
+            TestState(
+                target,
+                EnigmaModel.M4,
+                EnigmaReflectorNumber.BThin,
+                string.Empty,
+                1,
+                EnigmaRotorNumber.Three,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.One,
+                EnigmaRotorNumber.Beta,
+                'A',
+                'B',
+                'C',
+                'D',
+                'W',
+                'X',
+                'Y',
+                'Z',
+                Encoding.Unicode.GetString(key),
+                Encoding.Unicode.GetString(iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Model_Invalid()
+        [Fact]
+        public void CtorModelInvalid()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"invalid|B|III II I|A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings target = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Reflector_Invalid_1()
+        [Fact]
+        public void CtorReflectorInvalid1()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|BThin|I II III|A A A|");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings target = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Reflector_Invalid_2()
+        [Fact]
+        public void CtorReflectorInvalid2()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"M4|B|Beta I II III|A A A A|");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rotors_Missing()
+        [Fact]
+        public void CtorRotorsMissing()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B||A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rotors_Wrong_Number()
+        [Fact]
+        public void CtorRotorsWrongNumber()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|IV III II I|A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rotors_Duplicate()
+        [Fact]
+        public void CtorRotorsDuplicate()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|I I I|A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rotors_Invalid()
+        [Fact]
+        public void CtorRotorsInvalid()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|Beta II I|A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rings_Missing()
+        [Fact]
+        public void CtorRingsMissing()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|I II III||AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rings_Wrong_Number()
+        [Fact]
+        public void CtorRingsWrongNumber()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|I II III|A A A A|AB");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_ctor_Rings_Invalid_Char()
+        [Fact]
+        public void CtorRingsInvalidChar()
         {
             byte[] key = Encoding.Unicode.GetBytes(@"Military|B|I II III|A A Å|");
             byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-            try
-            {
-                EnigmaSettings settings = new EnigmaSettings(key, iv);
-                Assert.Fail();
-            }
-            catch (ArgumentException)
-            {
-                // sucess
-            }
+            Assert.Throws<ArgumentException>(() => new EnigmaSettings(key, iv));
         }
 
-        [TestMethod]
-        public void EnigmaSettings_SetPlugboard_Empty()
+        [Fact]
+        public void SetPlugboardEmpty()
         {
             string tempKey = @"Military|B|III II I|A A A|AB";
             byte[] key = Encoding.Unicode.GetBytes(tempKey);
@@ -329,26 +247,56 @@ namespace Useful.Security.Cryptography.Tests
 
             // Should not exception
             EnigmaSettings target = new EnigmaSettings(key, iv);
-            target.PropertyChanged += target_PropertyChanged;
+            target.PropertyChanged += TargetPropertyChanged;
 
             target.Plugboard.Clear();
 
             // Removes settings
-            TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, "", 0,
-                EnigmaRotorNumber.One, EnigmaRotorNumber.Two, EnigmaRotorNumber.Three, null,
-                'A', 'A', 'A', null,
-                'A', 'A', 'A', null,
-                @"Military|B|III II I|A A A|", tempIV);
+            TestState(
+                target,
+                EnigmaModel.Military,
+                EnigmaReflectorNumber.B,
+                string.Empty,
+                0,
+                EnigmaRotorNumber.One,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.Three,
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                @"Military|B|III II I|A A A|",
+                tempIV);
 
             _propertiesChanged = string.Empty;
             target.Plugboard.Clear();
 
             // Shouldn't do anything (already empty)
-            TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, "", 0,
-                EnigmaRotorNumber.One, EnigmaRotorNumber.Two, EnigmaRotorNumber.Three, null,
-                'A', 'A', 'A', null,
-                'A', 'A', 'A', null,
-                @"Military|B|III II I|A A A|", tempIV);
+            TestState(
+                target,
+                EnigmaModel.Military,
+                EnigmaReflectorNumber.B,
+                string.Empty,
+                0,
+                EnigmaRotorNumber.One,
+                EnigmaRotorNumber.Two,
+                EnigmaRotorNumber.Three,
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                'A',
+                'A',
+                'A',
+                null,
+                @"Military|B|III II I|A A A|",
+                tempIV);
         }
 
         // TODO: Check Each part notifies the Key/IV has changed
@@ -498,28 +446,29 @@ namespace Useful.Security.Cryptography.Tests
         //            }
         //        }
 
-        // [TestMethod()]
-        //        public void EnigmaSettings_SetIV_Valid()
-        //        {
-        //            string tempKey = @"Military|B|III II I|A A A|AB";
-        //            byte[] key = Encoding.Unicode.GetBytes(tempKey);
-        //            string tempIV = @"A A A";
-        //            byte[] iv = Encoding.Unicode.GetBytes(tempIV);
-        //            settingsChangedCount = 0;
+        //// [TestMethod()]
+        ////        public void EnigmaSettings_SetIV_Valid()
+        ////        {
+        ////            string tempKey = @"Military|B|III II I|A A A|AB";
+        ////            byte[] key = Encoding.Unicode.GetBytes(tempKey);
+        ////            string tempIV = @"A A A";
+        ////            byte[] iv = Encoding.Unicode.GetBytes(tempIV);
+        ////            settingsChangedCount = 0;
 
-        // EnigmaSettings target = new EnigmaSettings(key, iv);
-        //            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
+        //// EnigmaSettings target = new EnigmaSettings(key, iv);
+        ////            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
 
-        // tempIV = @"Q E V";
-        //            target.SetIV(Encoding.Unicode.GetBytes(tempIV));
+        //// tempIV = @"Q E V";
+        ////            target.SetIV(Encoding.Unicode.GetBytes(tempIV));
 
-        // TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, 1, 2,
-        //                EnigmaRotorNumber.One, EnigmaRotorNumber.Two, EnigmaRotorNumber.Three, null,
-        //                'A', 'A', 'A', null,
-        //                'V', 'E', 'Q', null,
-        //                tempKey, tempIV);
-        //        }
-        private void target_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        //// TestState(target, EnigmaModel.Military, EnigmaReflectorNumber.B, 1, 2,
+        ////                EnigmaRotorNumber.One, EnigmaRotorNumber.Two, EnigmaRotorNumber.Three, null,
+        ////                'A', 'A', 'A', null,
+        ////                'V', 'E', 'Q', null,
+        ////                tempKey, tempIV);
+        ////        }
+
+        private void TargetPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             _propertiesChanged += e.PropertyName;
             _propertiesChanged += ";";
@@ -747,102 +696,103 @@ namespace Useful.Security.Cryptography.Tests
 
         // }
 
-        // [TestMethod()]
-        //        public void EnigmaSettings_SetPlugboard_DuplicatePairs()
-        //        {
-        //            byte[] key = Encoding.Unicode.GetBytes(@"Military|B|III II I|A A A|AB");
-        //            byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
+        //// [TestMethod()]
+        ////        public void EnigmaSettings_SetPlugboard_DuplicatePairs()
+        ////        {
+        ////            byte[] key = Encoding.Unicode.GetBytes(@"Military|B|III II I|A A A|AB");
+        ////            byte[] iv = Encoding.Unicode.GetBytes(@"A A A");
 
-        // #region Duplicate Pairs
-        //            EnigmaSettings target = new EnigmaSettings(key, iv);
-        //            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
+        //// #region Duplicate Pairs
+        ////            EnigmaSettings target = new EnigmaSettings(key, iv);
+        ////            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
 
-        // this.settingsChangedCount = 0;
+        //// this.settingsChangedCount = 0;
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
 
-        // SubstitutionPair subs = new SubstitutionPair('C', 'C');
+        //// SubstitutionPair subs = new SubstitutionPair('C', 'C');
 
-        // target.SetPlugboardPair(subs);
+        //// target.SetPlugboardPair(subs);
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
-        //            Assert.IsTrue(this.settingsChangedCount == 1);
-        //            #endregion
-        //        }
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        ////            Assert.IsTrue(this.settingsChangedCount == 1);
+        ////            #endregion
+        ////        }
 
-        // [TestMethod()]
-        //        public void EnigmaSettings_SetPlugboard()
-        //        {
-        //            string tempKey;
-        //            byte[] key;
+        //// [TestMethod()]
+        ////        public void EnigmaSettings_SetPlugboard()
+        ////        {
+        ////            string tempKey;
+        ////            byte[] key;
 
-        // string tempIV = null;
-        //            byte[] iv = null;
+        //// string tempIV = null;
+        ////            byte[] iv = null;
 
-        // tempKey = @"Military|B|III II I|A A A|AB";
-        //            key = Encoding.Unicode.GetBytes(tempKey);
-        //            tempIV = @"A A A";
-        //            iv = Encoding.Unicode.GetBytes(tempIV);
+        //// tempKey = @"Military|B|III II I|A A A|AB";
+        ////            key = Encoding.Unicode.GetBytes(tempKey);
+        ////            tempIV = @"A A A";
+        ////            iv = Encoding.Unicode.GetBytes(tempIV);
 
-        // #region Invalid Char
-        //            EnigmaSettings target = new EnigmaSettings(key, iv);
-        //            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
+        //// #region Invalid Char
+        ////            EnigmaSettings target = new EnigmaSettings(key, iv);
+        ////            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
 
-        // this.settingsChangedCount = 0;
+        //// this.settingsChangedCount = 0;
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
 
-        // SubstitutionPair subs = new SubstitutionPair('C', 'Å');
-        //            try
-        //            {
-        //                target.SetPlugboardNew(new Collection<SubstitutionPair>() { subs });
-        //                Assert.Fail();
-        //            }
-        //            catch (ArgumentException)
-        //            {
-        //                // success
-        //            }
+        //// SubstitutionPair subs = new SubstitutionPair('C', 'Å');
+        ////            try
+        ////            {
+        ////                target.SetPlugboardNew(new Collection<SubstitutionPair>() { subs });
+        ////                Assert.Fail();
+        ////            }
+        ////            catch (ArgumentException)
+        ////            {
+        ////                // success
+        ////            }
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
-        //            Assert.IsTrue(this.settingsChangedCount == 0);
-        //            #endregion
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        ////            Assert.IsTrue(this.settingsChangedCount == 0);
+        ////            #endregion
 
-        // #region Valid
-        //            target = new EnigmaSettings(key, iv);
-        //            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
+        //// #region Valid
+        ////            target = new EnigmaSettings(key, iv);
+        ////            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
 
-        // this.settingsChangedCount = 0;
+        //// this.settingsChangedCount = 0;
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
 
-        // subs = new SubstitutionPair('C', 'D');
-        //            target.SetPlugboardNew(new Collection<SubstitutionPair>() { subs });
+        //// subs = new SubstitutionPair('C', 'D');
+        ////            target.SetPlugboardNew(new Collection<SubstitutionPair>() { subs });
 
-        // tempKey = @"Military|B|III II I|A A A|CD";
+        //// tempKey = @"Military|B|III II I|A A A|CD";
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
-        //            Assert.IsTrue(this.settingsChangedCount == 1);
-        //            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
-        //            #endregion
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        ////            Assert.IsTrue(this.settingsChangedCount == 1);
+        ////            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
+        ////            #endregion
 
-        // #region Valid
-        //            target = new EnigmaSettings(key, iv);
-        //            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
+        //// #region Valid
+        ////            target = new EnigmaSettings(key, iv);
+        ////            target.SettingsChanged += new EventHandler<EventArgs>(target_SettingsChanged);
 
-        // this.settingsChangedCount = 0;
+        //// this.settingsChangedCount = 0;
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 2);
 
-        // target.SetPlugboardPair(new SubstitutionPair('C', 'D'));
+        //// target.SetPlugboardPair(new SubstitutionPair('C', 'D'));
 
-        // tempKey = @"Military|B|III II I|A A A|AB CD";
+        //// tempKey = @"Military|B|III II I|A A A|AB CD";
 
-        // Assert.IsTrue(target.PlugboardSubstitutionCount == 4);
-        //            Assert.IsTrue(this.settingsChangedCount == 1);
-        //            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
-        //            #endregion
+        //// Assert.IsTrue(target.PlugboardSubstitutionCount == 4);
+        ////            Assert.IsTrue(this.settingsChangedCount == 1);
+        ////            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.GetKey()), tempKey, false) == 0);
+        ////            #endregion
 
-        // }
+        //// }
+
         private void TestState(
             EnigmaSettings target,
             EnigmaModel model,
@@ -862,39 +812,36 @@ namespace Useful.Security.Cryptography.Tests
             char rotorSettingThird,
             char? rotorSettingForth,
             string key,
-            string iv
-            )
+            string iv)
         {
             List<EnigmaRotorPosition> positions = new List<EnigmaRotorPosition>() { EnigmaRotorPosition.Fastest, EnigmaRotorPosition.Second, EnigmaRotorPosition.Third };
 
-            Assert.IsTrue("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToList().TrueForAll(x => target.AllowedLetters.Contains(x)));
-            Assert.IsTrue(positions.TrueForAll(x => target.Rotors.AllowedRotorPositions.Contains(x)));
-            Assert.IsTrue(string.Compare(target.CipherName, "Enigma") == 0);
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Fastest].RotorNumber == rotorPositionFastest);
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Second].RotorNumber == rotorPositionSecond);
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Third].RotorNumber == rotorPositionThird);
+            Assert.True("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToList().TrueForAll(x => target.AllowedLetters.Contains(x)));
+            Assert.True(positions.TrueForAll(x => target.Rotors.AllowedRotorPositions.Contains(x)));
+            Assert.Equal("Enigma", target.CipherName);
+            Assert.Equal(rotorPositionFastest, target.Rotors[EnigmaRotorPosition.Fastest].RotorNumber);
+            Assert.Equal(rotorPositionSecond, target.Rotors[EnigmaRotorPosition.Second].RotorNumber);
+            Assert.Equal(rotorPositionThird, target.Rotors[EnigmaRotorPosition.Third].RotorNumber);
             if (rotorPositionForth != null)
             {
-                Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Forth].RotorNumber == rotorPositionForth);
+                Assert.Equal(rotorPositionForth, target.Rotors[EnigmaRotorPosition.Forth].RotorNumber);
             }
 
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting == rotorSettingFastest);
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Second].CurrentSetting == rotorSettingSecond);
-            Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Third].CurrentSetting == rotorSettingThird);
+            Assert.Equal(rotorSettingFastest, target.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal(rotorSettingSecond, target.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal(rotorSettingThird, target.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
             if (rotorSettingForth != null)
             {
-                Assert.IsTrue(target.Rotors[EnigmaRotorPosition.Forth].CurrentSetting == rotorSettingForth);
+                Assert.Equal(rotorSettingForth, target.Rotors[EnigmaRotorPosition.Forth].CurrentSetting);
             }
 
-            Assert.IsTrue(target.Model == model);
-            Assert.IsTrue(target.PlugboardSubstitutionCount == plugboardSubstitutionCount);
-            Assert.IsTrue(target.ReflectorNumber == reflector);
-            Assert.IsTrue(target.Rotors.Count == (rotorSettingForth == null ? 3 : 4));
-            Assert.IsTrue(_propertiesChanged == propertiesChanged);
-            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.Key), key, false) == 0);
-            Assert.IsTrue(string.Compare(Encoding.Unicode.GetString(target.IV), iv, false) == 0);
+            Assert.Equal(model, target.Model);
+            Assert.Equal(plugboardSubstitutionCount, target.PlugboardSubstitutionCount);
+            Assert.Equal(reflector, target.ReflectorNumber);
+            Assert.Equal(rotorSettingForth == null ? 3 : 4, target.Rotors.Count);
+            Assert.Equal(propertiesChanged, _propertiesChanged);
+            Assert.Equal(key, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(iv, Encoding.Unicode.GetString(target.IV.ToArray()));
         }
-
-        // #endregion
     }
 }
