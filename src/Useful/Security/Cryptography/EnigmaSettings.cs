@@ -24,15 +24,17 @@ namespace Useful.Security.Cryptography
         /// </summary>
         internal const char KeyDelimiter = ' ';
 
-        /// <summary>
-        /// Is the plugboard symmetric?.
-        /// </summary>
-        private const bool IsPlugboardSymmetric = true;
+        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        /// <summary>
-        /// The seperator between values in an IV field.
-        /// </summary>
-        private const char IVSeperator = ' ';
+        /////// <summary>
+        /////// Is the plugboard symmetric?.
+        /////// </summary>
+        ////private const bool IsPlugboardSymmetric = true;
+
+        /////// <summary>
+        /////// The seperator between values in an IV field.
+        /////// </summary>
+        ////private const char IVSeperator = ' ';
 
         /// <summary>
         /// the number of fields in the key.
@@ -43,6 +45,10 @@ namespace Useful.Security.Cryptography
         /// The seperator between key fields.
         /// </summary>
         private const char KeySeperator = '|';
+
+        private const string _defaultKey = "Military|B|I II III|A A A|";
+
+        private const string _defaultIv = "A A A";
 
         private EnigmaModel _model;
 
@@ -64,39 +70,50 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
-        /// <param name="byteKey">The encryption Key.</param>
-        /// <param name="byteIV">The Initialization Vector.</param>
-        public EnigmaSettings(byte[] byteKey, byte[] byteIV)
+        public EnigmaSettings()
+            : this(Encoding.Unicode.GetBytes(_defaultKey), Encoding.Unicode.GetBytes(_defaultIv))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
+        /// </summary>
+        /// <param name="key">The encryption Key.</param>
+        /// <param name="iv">The Initialization Vector.</param>
+        public EnigmaSettings(byte[] key, byte[] iv)
+            : this(GetSettings(key, iv))
         {
             // Reset rotor settings
             // this.rotorSettings = new SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings>(new EnigmaRotorPositionSorter(SortOrder.Ascending));
             // this.Rotors = new EnigmaRotorSettings();
             // this.AllowedRotorPositions = new Collection<EnigmaRotorPosition>();
             // this.availableRotors = new List<EnigmaRotorNumber>();
-            AllowedLetters = new Collection<char>();
-            this.CipherName = "Enigma";
-            this.Plugboard = new MonoAlphabeticSettings(AllowedLetters, new Dictionary<char, char>(), true);
+            // this.Plugboard = new MonoAlphabeticSettings(CharacterSet.ToList(), new Dictionary<char, char>(), true);
 
-            Key = byteKey;
-            IV = byteIV;
+            ////Key = byteKey;
+            ////IV = byteIV;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
-        public EnigmaSettings()
+        /// <param name="model">Teh Enigm model.</param>
+        /// <param name="reflector">The reflector.</param>
+        /// <param name="rotorSettings">The rotor settings.</param>
+        /// <param name="plugboard">The plugboard.</param>
+        public EnigmaSettings(EnigmaModel model, EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard)
+            : base()
         {
+            _model = model;
+            ReflectorNumber = reflector;
+            Rotors = rotorSettings;
+            Plugboard = plugboard;
         }
 
-        /// <summary>
-        /// Gets the allowed letters.
-        /// </summary>
-        public Collection<char> AllowedLetters { get; private set; }
-
-        /// <summary>
-        /// Gets the name of this cipher.
-        /// </summary>
-        public string CipherName { get; private set; }
+        private EnigmaSettings((EnigmaModel model, EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard) settings)
+            : this(settings.model, settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
+        {
+        }
 
         /// <inheritdoc/>
         public override IEnumerable<byte> IV
@@ -171,50 +188,14 @@ namespace Useful.Security.Cryptography
             ////}
         }
 
-        /// <summary>
-        /// Gets or sets get the encryption Key.
-        /// </summary>
-        public byte[] Key
+        /// <inheritdoc/>
+        public override IEnumerable<byte> Key
         {
             get
             {
-                byte[] key = EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, Rotors, this.Plugboard);
+                byte[] key = BuildKey(_model, ReflectorNumber, Rotors, Plugboard);
 
-                // Contract.Assert(key != null);
                 return key;
-            }
-
-            set
-            {
-                // if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
-                // {
-                //    return;
-                // }
-                EnigmaSettings settings = ParseKey(value);
-
-                // Model
-                this.Model = settings.Model;
-
-                // this.SetEnigmaModel();
-
-                // Rotor Order
-                Rotors = settings.Rotors;
-
-                // foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> rotor in enigmaKey.RotorSettings)
-                // {
-                //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorPosition), rotor.Key));
-                //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorNumber), rotor.Value.RotorNumber));
-                //    this.Rotors[rotor.Key] = rotor.Value;
-                // }
-
-                // Plugboard
-                // this.Plugboard.SetSubstitutions(enigmaKey.PlugboardPairs);
-                this.Plugboard = settings.Plugboard;
-
-                // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
-
-                // No need to build IV?
-                NotifyPropertyChanged();
             }
         }
 
@@ -228,41 +209,39 @@ namespace Useful.Security.Cryptography
                 return _model;
             }
 
-            private set
-            {
-                // Contract.Requires(this.Rotors != null);
-                _model = value;
+            ////private set
+            ////{
+            ////    // Contract.Requires(this.Rotors != null);
+            ////    _model = value;
 
-                AllowedLetters = EnigmaSettings.GetKeyboardLetters(value);
+            ////    // this.AllowedRotorPositions = EnigmaSettings.GetAllowedRotorPositions(this.Model);
+            ////    // this.availableRotors = new List<EnigmaRotorNumber>(EnigmaSettings.GetAllowedRotors(this.Model));
+            ////    // this.rotorSettings.Clear();
 
-                // this.AllowedRotorPositions = EnigmaSettings.GetAllowedRotorPositions(this.Model);
-                // this.availableRotors = new List<EnigmaRotorNumber>(EnigmaSettings.GetAllowedRotors(this.Model));
-                // this.rotorSettings.Clear();
+            ////    //// Fill in the allowed and available rotors
+            ////    // foreach (EnigmaRotorPosition rotorPosition in this.AllowedRotorPositions)
+            ////    // {
+            ////    //    // Set an empty rotor in each position
+            ////    //    this.rotorSettings.Add(rotorPosition, EnigmaRotorSettings.Empty);
+            ////    // }
+            ////    Rotors = new EnigmaRotorSettings(value);
 
-                //// Fill in the allowed and available rotors
-                // foreach (EnigmaRotorPosition rotorPosition in this.AllowedRotorPositions)
-                // {
-                //    // Set an empty rotor in each position
-                //    this.rotorSettings.Add(rotorPosition, EnigmaRotorSettings.Empty);
-                // }
-                Rotors = EnigmaRotorSettings.Create(value);
+            ////    // Plugboard
+            ////    this.Plugboard = new MonoAlphabeticSettings(CharacterSet.ToList(), new Dictionary<char, char>(), IsPlugboardSymmetric);
 
-                // Plugboard
-                this.Plugboard = new MonoAlphabeticSettings(AllowedLetters, new Dictionary<char, char>(), IsPlugboardSymmetric);
+            ////    // if (this.Plugboard == null)
+            ////    // {
+            ////    //    this.Plugboard = new MonoAlphabeticSettings(plugboardKey, plugboardIV);
+            ////    //    this.Plugboard.SettingsChanged += new EventHandler<EventArgs>(this.Plugboard_SettingsChanged);
+            ////    // }
+            ////    // else
+            ////    // {
 
-                // if (this.Plugboard == null)
-                // {
-                //    this.Plugboard = new MonoAlphabeticSettings(plugboardKey, plugboardIV);
-                //    this.Plugboard.SettingsChanged += new EventHandler<EventArgs>(this.Plugboard_SettingsChanged);
-                // }
-                // else
-                // {
+            ////    // }
 
-                // }
-
-                // Reflector
-                this.ReflectorNumber = GetDefaultReflector(this.Model).ReflectorNumber;
-            }
+            ////    // Reflector
+            ////    this.ReflectorNumber = GetDefaultReflector(this.Model).ReflectorNumber;
+            ////}
         }
 
         /// <summary>
@@ -297,265 +276,244 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
 
+        /// <summary>
+        /// Gets the rotors.
+        /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
 
         /// <summary>
         /// Gets or sets the plugboard settings.
         /// </summary>
-        internal MonoAlphabeticSettings Plugboard { get; set; }
+        public MonoAlphabeticSettings Plugboard { get; set; }
 
-        // return key;
-        // }
+        //// return key;
+        //// }
 
-        /// <summary>
-        /// Returns the allowed keyboard letters.
-        /// </summary>
-        /// <param name="model">The Enigma model to get the keyboard letters for.</param>
-        /// <returns>The allowed keyboard letters for the specified model.</returns>
-        public static Collection<char> GetKeyboardLetters(EnigmaModel model)
-        {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                default:
-                    {
-                        return new Collection<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray());
-                    }
-            }
-        }
+        /////// <summary>
+        /////// Clears out all the Plugboard settings and replaces them with new ones.
+        /////// </summary>
+        /////// <param name="pairs">The new plugboard pairs to replace the old ones with.</param>
+        //// public void SetPlugboardNew(Collection<SubstitutionPair> pairs)
+        //// {
+        ////    Contract.Requires(pairs != null);
 
-        ///// <summary>
-        ///// Clears out all the Plugboard settings and replaces them with new ones.
-        ///// </summary>
-        ///// <param name="pairs">The new plugboard pairs to replace the old ones with.</param>
-        // public void SetPlugboardNew(Collection<SubstitutionPair> pairs)
-        // {
-        //    Contract.Requires(pairs != null);
+        //// SubstitutionPair.CheckPairs(EnigmaSettings.GetKeyboardLetters(this.Model), pairs, IsPlugboardSymmetric);
 
-        // SubstitutionPair.CheckPairs(EnigmaSettings.GetKeyboardLetters(this.Model), pairs, IsPlugboardSymmetric);
+        //// // TODO: Check new pairs aren't the same as existing pairs
+        ////    this.Plugboard.SetSubstitutions(pairs);
 
-        // // TODO: Check new pairs aren't the same as existing pairs
-        //    this.Plugboard.SetSubstitutions(pairs);
+        //// // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-        // // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
+        //// // It's all good, raise an event
+        ////    this.NotifyPropertyChanged();
+        //// }
 
-        // // It's all good, raise an event
-        //    this.NotifyPropertyChanged();
-        // }
+        /////// <summary>
+        /////// Sets a new Plugboard setting.
+        /////// </summary>
+        /////// <param name="pair">The new plugboard setting.</param>
+        //// public void SetPlugboardPair(SubstitutionPair pair)
+        //// {
+        ////    SubstitutionPair.CheckPairs(EnigmaSettings.GetKeyboardLetters(this.Model), new Collection<SubstitutionPair>() { pair }, false);
 
-        ///// <summary>
-        ///// Sets a new Plugboard setting.
-        ///// </summary>
-        ///// <param name="pair">The new plugboard setting.</param>
-        // public void SetPlugboardPair(SubstitutionPair pair)
-        // {
-        //    SubstitutionPair.CheckPairs(EnigmaSettings.GetKeyboardLetters(this.Model), new Collection<SubstitutionPair>() { pair }, false);
+        //// this.Plugboard.SetSubstitution(pair);
 
-        // this.Plugboard.SetSubstitution(pair);
+        //// // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-        // // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
+        //// // It's all good, raise an event
+        ////    this.NotifyPropertyChanged();
+        //// }
 
-        // // It's all good, raise an event
-        //    this.NotifyPropertyChanged();
-        // }
+        /////// <summary>
+        /////// The rotors that can be used in this cipher.
+        /////// </summary>
+        /////// <param name="rotorPosition">The position to get the available rotors for.</param>
+        /////// <returns>A collection of available rotors.</returns>
+        //// public IEnumerable<EnigmaRotorNumber> AvailableRotors()
+        //// {
+        ////    return this.availableRotors;
 
-        ///// <summary>
-        ///// The rotors that can be used in this cipher.
-        ///// </summary>
-        ///// <param name="rotorPosition">The position to get the available rotors for.</param>
-        ///// <returns>A collection of available rotors.</returns>
-        // public IEnumerable<EnigmaRotorNumber> AvailableRotors()
-        // {
-        //    return this.availableRotors;
+        //// // this.availableRotors.Sort(new EnigmaRotorNumberSorter(SortOrder.Ascending));
+        ////    // return new Collection<EnigmaRotorNumber>(this.availableRotors[rotorPosition].ToArray());
+        //// }
 
-        // // this.availableRotors.Sort(new EnigmaRotorNumberSorter(SortOrder.Ascending));
-        //    // return new Collection<EnigmaRotorNumber>(this.availableRotors[rotorPosition].ToArray());
-        // }
+        /////// <summary>
+        /////// Set the rotor order for this machine.
+        /////// </summary>
+        /////// <param name="rotorPosition">The position to place this rotor in.</param>
+        /////// <param name="rotorNumber">The rotor to put in this position.</param>
+        //// public void SetRotorOrder(EnigmaRotorPosition rotorPosition, EnigmaRotorSettings rotor)
+        //// {
+        ////    if (!this.AllowedRotorPositions.Contains(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("This position is not available.");
+        ////    }
 
-        ///// <summary>
-        ///// Set the rotor order for this machine.
-        ///// </summary>
-        ///// <param name="rotorPosition">The position to place this rotor in.</param>
-        ///// <param name="rotorNumber">The rotor to put in this position.</param>
-        // public void SetRotorOrder(EnigmaRotorPosition rotorPosition, EnigmaRotorSettings rotor)
-        // {
-        //    if (!this.AllowedRotorPositions.Contains(rotorPosition))
-        //    {
-        //        throw new ArgumentException("This position is not available.");
-        //    }
+        //// // Is the rotor being set to the existing one?
+        ////    if (this.rotorSettings[rotorPosition].RotorNumber == rotor.RotorNumber)
+        ////    {
+        ////        return;
+        ////    }
 
-        // // Is the rotor being set to the existing one?
-        //    if (this.rotorSettings[rotorPosition].RotorNumber == rotor.RotorNumber)
-        //    {
-        //        return;
-        //    }
+        //// if (!this.availableRotors.Contains(rotor.RotorNumber))
+        ////    {
+        ////        throw new ArgumentException("This rotor in this position is not available.");
+        ////    }
 
-        // if (!this.availableRotors.Contains(rotor.RotorNumber))
-        //    {
-        //        throw new ArgumentException("This rotor in this position is not available.");
-        //    }
+        //// this.SetRotorOrder_Private(rotorPosition, rotor);
 
-        // this.SetRotorOrder_Private(rotorPosition, rotor);
+        //// // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-        // // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
+        //// // It's all good, raise an event
+        ////    this.OnSettingsChanged();
+        //// }
 
-        // // It's all good, raise an event
-        //    this.OnSettingsChanged();
-        // }
+        /////// <summary>
+        /////// Set the rotor order for this machine.
+        /////// </summary>
+        /////// <param name="rotorPosition">The position to place this rotor in.</param>
+        /////// <returns>The rotor to put in the position.</returns>
+        //// public EnigmaRotorNumber GetRotorOrder(EnigmaRotorPosition rotorPosition)
+        //// {
+        ////    if (!this.AllowedRotorPositions.Contains(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("Invalid rotor position.");
+        ////    }
 
-        ///// <summary>
-        ///// Set the rotor order for this machine.
-        ///// </summary>
-        ///// <param name="rotorPosition">The position to place this rotor in.</param>
-        ///// <returns>The rotor to put in the position.</returns>
-        // public EnigmaRotorNumber GetRotorOrder(EnigmaRotorPosition rotorPosition)
-        // {
-        //    if (!this.AllowedRotorPositions.Contains(rotorPosition))
-        //    {
-        //        throw new ArgumentException("Invalid rotor position.");
-        //    }
+        //// return this.rotorSettings[rotorPosition].RotorNumber;
+        //// }
 
-        // return this.rotorSettings[rotorPosition].RotorNumber;
-        // }
+        /////// <summary>
+        /////// Gets the rotor's ring setting.
+        /////// </summary>
+        /////// <param name="rotorPosition">The rotor position for which to get the ring setting.</param>
+        /////// <returns>The ring setting for the specified position.</returns>
+        //// public char GetRingSetting(EnigmaRotorPosition rotorPosition)
+        //// {
+        ////    if (!this.AllowedRotorPositions.Contains(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("This position is not allowed.");
+        ////    }
 
-        ///// <summary>
-        ///// Gets the rotor's ring setting.
-        ///// </summary>
-        ///// <param name="rotorPosition">The rotor position for which to get the ring setting.</param>
-        ///// <returns>The ring setting for the specified position.</returns>
-        // public char GetRingSetting(EnigmaRotorPosition rotorPosition)
-        // {
-        //    if (!this.AllowedRotorPositions.Contains(rotorPosition))
-        //    {
-        //        throw new ArgumentException("This position is not allowed.");
-        //    }
+        //// if (this.rotorSettings[rotorPosition].IsEmpty)
+        ////    {
+        ////        throw new ArgumentException("No rotor currently in this position.");
+        ////    }
 
-        // if (this.rotorSettings[rotorPosition].IsEmpty)
-        //    {
-        //        throw new ArgumentException("No rotor currently in this position.");
-        //    }
+        //// if (!this.rotorSettings.ContainsKey(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("No rotor currently in this position.");
+        ////    }
 
-        // if (!this.rotorSettings.ContainsKey(rotorPosition))
-        //    {
-        //        throw new ArgumentException("No rotor currently in this position.");
-        //    }
+        //// return this.rotorSettings[rotorPosition].RingPosition;
+        //// }
 
-        // return this.rotorSettings[rotorPosition].RingPosition;
-        // }
+        /////// <summary>
+        /////// Gets the rotor settings.
+        /////// </summary>
+        /////// <param name="rotorPosition">The rotor position for which to get the setting.</param>
+        /////// <returns>The setting for the specified position.</returns>
+        //// public char GetRotorSetting(EnigmaRotorPosition rotorPosition)
+        //// {
+        ////    if (!this.AllowedRotorPositions.Contains(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("This position is not allowed.");
+        ////    }
 
-        ///// <summary>
-        ///// Gets the rotor settings.
-        ///// </summary>
-        ///// <param name="rotorPosition">The rotor position for which to get the setting.</param>
-        ///// <returns>The setting for the specified position.</returns>
-        // public char GetRotorSetting(EnigmaRotorPosition rotorPosition)
-        // {
-        //    if (!this.AllowedRotorPositions.Contains(rotorPosition))
-        //    {
-        //        throw new ArgumentException("This position is not allowed.");
-        //    }
+        //// if (this.Rotors[rotorPosition].IsNone)
+        ////    {
+        ////        throw new ArgumentException("No rotor currently in this position.");
+        ////    }
 
-        // if (this.Rotors[rotorPosition].IsNone)
-        //    {
-        //        throw new ArgumentException("No rotor currently in this position.");
-        //    }
+        //// if (!this.Rotors.ContainsKey(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("No rotor currently in this position.");
+        ////    }
 
-        // if (!this.Rotors.ContainsKey(rotorPosition))
-        //    {
-        //        throw new ArgumentException("No rotor currently in this position.");
-        //    }
+        //// return this.rotorSettings[rotorPosition].CurrentSetting;
+        //// }
 
-        // return this.rotorSettings[rotorPosition].CurrentSetting;
-        // }
+        /////// <summary>
+        /////// Sets the rotor settings.
+        /////// </summary>
+        /////// <param name="rotorPosition">The rotor position to set.</param>
+        /////// <param name="letter">The letter to set this position to.</param>
+        //// public void SetRotorSetting(EnigmaRotorPosition rotorPosition, char letter)
+        //// {
+        ////    if (!this.AllowedRotorPositions.Contains(rotorPosition))
+        ////    {
+        ////        throw new ArgumentException("This position is not allowed.");
+        ////    }
 
-        ///// <summary>
-        ///// Sets the rotor settings.
-        ///// </summary>
-        ///// <param name="rotorPosition">The rotor position to set.</param>
-        ///// <param name="letter">The letter to set this position to.</param>
-        // public void SetRotorSetting(EnigmaRotorPosition rotorPosition, char letter)
-        // {
-        //    if (!this.AllowedRotorPositions.Contains(rotorPosition))
-        //    {
-        //        throw new ArgumentException("This position is not allowed.");
-        //    }
+        //// if (this.rotorSettings[rotorPosition].RotorNumber == EnigmaRotorNumber.None)
+        ////    {
+        ////        throw new ArgumentException("This setting is not allowed.");
+        ////    }
 
-        // if (this.rotorSettings[rotorPosition].RotorNumber == EnigmaRotorNumber.None)
-        //    {
-        //        throw new ArgumentException("This setting is not allowed.");
-        //    }
+        //// if (!EnigmaRotor.GetAllowedLetters(this.rotorSettings[rotorPosition].RotorNumber).Contains(letter))
+        ////    {
+        ////        throw new ArgumentException("This setting is not allowed.");
+        ////    }
 
-        // if (!EnigmaRotor.GetAllowedLetters(this.rotorSettings[rotorPosition].RotorNumber).Contains(letter))
-        //    {
-        //        throw new ArgumentException("This setting is not allowed.");
-        //    }
+        //// this.SetRotorSetting_Private(rotorPosition, letter);
 
-        // this.SetRotorSetting_Private(rotorPosition, letter);
+        //// // this.iv = EnigmaSettings.BuildIV(this.rotorSetting);
+        ////    this.OnSettingsChanged();
+        //// }
 
-        // // this.iv = EnigmaSettings.BuildIV(this.rotorSetting);
-        //    this.OnSettingsChanged();
-        // }
+        /////// <summary>
+        /////// Set the encryption Key.
+        /////// </summary>
+        /////// <param name="keyValue">The key for this cipher.</param>
+        //// public void SetKey(byte[] keyValue)
+        //// {
+        ////    //if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
+        ////    //{
+        ////    //    return;
+        ////    //}
 
-        ///// <summary>
-        ///// Set the encryption Key.
-        ///// </summary>
-        ///// <param name="keyValue">The key for this cipher.</param>
-        // public void SetKey(byte[] keyValue)
-        // {
-        //    //if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
-        //    //{
-        //    //    return;
-        //    //}
+        //// EnigmaSettings enigmaKey = ParseEnigmaKey(keyValue);
 
-        // EnigmaSettings enigmaKey = ParseEnigmaKey(keyValue);
+        //// // Model
+        ////    this.Model = enigmaKey.Model;
+        ////    // this.SetEnigmaModel();
 
-        // // Model
-        //    this.Model = enigmaKey.Model;
-        //    // this.SetEnigmaModel();
+        //// // Rotor Order
+        ////    this.Rotors = enigmaKey.Rotors;
 
-        // // Rotor Order
-        //    this.Rotors = enigmaKey.Rotors;
+        //// //foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> rotor in enigmaKey.RotorSettings)
+        ////    //{
+        ////    //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorPosition), rotor.Key));
+        ////    //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorNumber), rotor.Value.RotorNumber));
+        ////    //    this.Rotors[rotor.Key] = rotor.Value;
+        ////    //}
 
-        // //foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> rotor in enigmaKey.RotorSettings)
-        //    //{
-        //    //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorPosition), rotor.Key));
-        //    //    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorNumber), rotor.Value.RotorNumber));
-        //    //    this.Rotors[rotor.Key] = rotor.Value;
-        //    //}
+        //// // Plugboard
+        ////    // this.Plugboard.SetSubstitutions(enigmaKey.PlugboardPairs);
+        ////    this.Plugboard = enigmaKey.Plugboard;
 
-        // // Plugboard
-        //    // this.Plugboard.SetSubstitutions(enigmaKey.PlugboardPairs);
-        //    this.Plugboard = enigmaKey.Plugboard;
+        //// // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-        // // this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
+        //// // No need to build IV?
+        ////    this.NotifyPropertyChanged();
+        //// }
 
-        // // No need to build IV?
-        //    this.NotifyPropertyChanged();
-        // }
+        /////// <summary>
+        /////// Get the encryption Key.
+        /////// </summary>
+        /////// <returns>The encryption key.</returns>
+        //// public byte[] GetKey()
+        //// {
+        ////    Contract.Ensures(Contract.Result<byte[]>() != null);
 
-        ///// <summary>
-        ///// Get the encryption Key.
-        ///// </summary>
-        ///// <returns>The encryption key.</returns>
-        // public byte[] GetKey()
-        // {
-        //    Contract.Ensures(Contract.Result<byte[]>() != null);
+        //// byte[] key = EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard);
 
-        // byte[] key = EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard);
+        //// Contract.Assert(key != null);
+        //// // this.SetRotorSetting_Private(rotorPosition, allowedLetters[0]);
+        ////        }
+        ////    }
+        //// }
 
-        // Contract.Assert(key != null);
-        public static EnigmaSettings GetRandom()
-        {
-            byte[] key = EnigmaSettings.GetRandomKey();
-            byte[] iv = EnigmaSettings.GetRandomIV(key);
-            EnigmaSettings settings = new EnigmaSettings(key, iv);
-            return settings;
-        }
-
-        // // this.SetRotorSetting_Private(rotorPosition, allowedLetters[0]);
-        //        }
-        //    }
-        // }
         internal static int GetIvLength(EnigmaModel model)
         {
             switch (model)
@@ -596,10 +554,10 @@ namespace Useful.Security.Cryptography
 
             // Reflector
             settings.ReflectorNumber = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[1]);
-            if (!GetAllowed(settings._model).Contains(settings.ReflectorNumber))
-            {
-                throw new ArgumentException("This reflector is not available.");
-            }
+            ////if (!GetAllowed(settings._model).Contains(settings.ReflectorNumber))
+            ////{
+            ////    throw new ArgumentException("This reflector is not available.");
+            ////}
 
             // Rotor Order
             string[] rotors = parts[2].Split(new char[] { KeyDelimiter });
@@ -652,7 +610,7 @@ namespace Useful.Security.Cryptography
 
             rings = rings.Reverse().ToArray();
 
-            EnigmaRotorSettings rotorSettings = EnigmaRotorSettings.Create(settings._model);
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(settings._model);
 
             for (int i = 0; i < rotors.Length; i++)
             {
@@ -661,8 +619,15 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Null or empty rotor specified.");
                 }
 
-                EnigmaRotorPosition rotorPosition = (EnigmaRotorPosition)Enum.Parse(typeof(EnigmaRotorPosition), i.ToString(Culture.CurrentCulture));
-                EnigmaRotorNumber rotorNumber = EnigmaUINameConverter.Convert(rotors[i]);
+                if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
+                {
+                    throw new ArgumentException($"Invalid rotor position {i}.");
+                }
+
+                if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
+                {
+                    throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
+                }
 
                 if (!rotorSettings.GetAvailableRotors(rotorPosition).Contains(rotorNumber))
                 {
@@ -686,36 +651,21 @@ namespace Useful.Security.Cryptography
             // Plugboard
             string plugs = parts[4];
 
-            // if (string.IsNullOrEmpty(plugs) || plugs.Contains("\0"))
-            // {
-            //    throw new ArgumentException("Null or empty plugs specified.");
-            // }
-            Dictionary<char, char> pairs = MonoAlphabeticSettings.GetPairs(EnigmaSettings.GetKeyboardLetters(settings._model), plugs, KeyDelimiter, true);
+            //// if (string.IsNullOrEmpty(plugs) || plugs.Contains("\0"))
+            //// {
+            ////    throw new ArgumentException("Null or empty plugs specified.");
+            //// }
 
-            byte[] plugboardKey = MonoAlphabeticSettings.BuildKey(EnigmaSettings.GetKeyboardLetters(settings._model), pairs, true);
-            byte[] plugboardIv = MonoAlphabeticSettings.BuildIV();
-
-            settings.Plugboard = new MonoAlphabeticSettings(plugboardKey, plugboardIv);
+            settings.Plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}|{plugs}|{true}"));
 
             return settings;
         }
 
         internal void AdvanceRotor(EnigmaRotorPosition rotorPosition, char currentSetting)
         {
-            // Contract.Assert(this.AllowedRotorPositions.Contains(rotorPosition));
-            Contract.Assert(AllowedLetters.Contains(currentSetting));
-
             Rotors[rotorPosition].CurrentSetting = currentSetting;
 
             // this.SetRotorSetting(rotorPosition, currentSetting);
-        }
-
-        private static EnigmaSettings GetDefault()
-        {
-            byte[] key = EnigmaSettings.GetDefaultKey();
-            byte[] iv = EnigmaSettings.GetDefaultIV(key);
-            EnigmaSettings settings = new EnigmaSettings(key, iv);
-            return settings;
         }
 
         private static EnigmaReflector GetDefaultReflector(EnigmaModel model)
@@ -730,19 +680,6 @@ namespace Useful.Security.Cryptography
                 default:
                     throw new CryptographicException("Unknown Enigma model.");
             }
-        }
-
-        private static EnigmaRotor GetRandom(EnigmaRotorNumber rotorNumber)
-        {
-            Random rnd = new Random();
-            int index1 = rnd.Next(0, allowedletters.Count);
-            int index2 = rnd.Next(0, letters.Count);
-
-            EnigmaRotor rotor = new EnigmaRotor(rotorNumber);
-            rotor.RingPosition = letters[index1];
-            rotor.CurrentSetting = letters[index2];
-
-            return rotor;
         }
 
         private static byte[] BuildIV(EnigmaRotorSettings rotorSettings)
@@ -782,9 +719,8 @@ namespace Useful.Security.Cryptography
             key.Append(KeySeperator);
 
             // Plugboard
-            key.Append(plugboard.GetSettingKey());
+            key.Append(plugboard); // .GetSettingKey());
 
-            // Contract.Assume(Encoding.Unicode.GetBytes(key.ToString()) != null);
             return Encoding.Unicode.GetBytes(key.ToString());
         }
 
@@ -814,7 +750,7 @@ namespace Useful.Security.Cryptography
             EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(model);
 
             // Plugboard
-            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(EnigmaSettings.GetKeyboardLetters(model));
+            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings();
 
             byte[] key = EnigmaSettings.BuildKey(model, EnigmaReflectorNumber.B, rotorSettings, plugboard);
             return key;
@@ -827,80 +763,6 @@ namespace Useful.Security.Cryptography
         {
             return EnigmaModel.Military;
         }
-
-        /// <summary>
-        /// Returns a randomly generated initialization vector.
-        /// </summary>
-        /// <param name="key">The key to base the initialization vector on.</param>
-        /// <returns>A randomly generated initialization vector.</returns>
-        private static byte[] GetRandomIV(byte[] key)
-        {
-            EnigmaSettings enigmaKey = EnigmaSettings.ParseKey(key);
-            EnigmaRotorSettings rotorSettings = EnigmaRotorSettings.GetRandom(enigmaKey.Model);
-            byte[] iv = EnigmaSettings.BuildIV(rotorSettings);
-            return iv;
-        }
-
-        /// <summary>
-        /// Returns a randomly generated initialization key.
-        /// </summary>
-        /// <returns>A randomly generated initialization key.</returns>
-        private static byte[] GetRandomKey()
-        {
-            // Model
-            EnigmaModel model = EnigmaSettings.GetRandomModel();
-
-            // Reflector
-            EnigmaReflectorNumber reflector = GetRandomReflector(model).ReflectorNumber;
-
-            // Rotor Settings
-            EnigmaRotorSettings rotorSettings = EnigmaRotorSettings.GetRandom(model);
-
-            // Plugboard
-            Collection<char> allowedLetters = EnigmaSettings.GetKeyboardLetters(model);
-            MonoAlphabeticSettings plugboard = MonoAlphabeticSettings.GetRandom(allowedLetters, true);
-
-            byte[] key = EnigmaSettings.BuildKey(model, reflector, rotorSettings, plugboard);
-            return key;
-        }
-
-        private static EnigmaReflector GetRandomReflector(EnigmaModel model)
-        {
-            Random rnd = new Random();
-
-            List<EnigmaReflectorNumber> reflectors = GetAllowed(model);
-
-            int nextRandomNumber = rnd.Next(0, reflectors.Count);
-
-            return new EnigmaReflector(reflectors[nextRandomNumber]);
-        }
-
-        // private static List<EnigmaReflectorNumber> GetAllowedReflectors(EnigmaModel model)
-        // {
-        //    switch (model)
-        //    {
-        //        case (EnigmaModel.Military):
-        //        case (EnigmaModel.M3):
-        //            {
-        //                return new List<EnigmaReflectorNumber>(2) {
-        //                    EnigmaReflectorNumber.B,
-        //                    EnigmaReflectorNumber.C
-        //                    };
-        //            }
-
-        // case (EnigmaModel.M4):
-        //            {
-        //                return new List<EnigmaReflectorNumber>(2) {
-        //                    EnigmaReflectorNumber.BThin,
-        //                    EnigmaReflectorNumber.CThin
-        //                    };
-        //            }
-        //        default:
-        //            {
-        //                throw new CryptographicException("Unknown Enigma model.");
-        //            }
-        //    }
-        // }
 
         ///// <summary>
         ///// Gets all the allowed rotors for a given Enigma machine type.
@@ -1069,54 +931,36 @@ namespace Useful.Security.Cryptography
         // return allowedRotors;
         // }
 
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="model"></param>
-        ///// <returns></returns>
-        // internal static Collection<EnigmaRotorPosition> GetAllowedRotorPositions(EnigmaModel model)
-        // {
-        //    Collection<EnigmaRotorPosition> allowedRotorPositions = new Collection<EnigmaRotorPosition>();
+        //// internal static Collection<EnigmaRotorPosition> GetAllowedRotorPositions(EnigmaModel model)
+        //// {
+        ////    Collection<EnigmaRotorPosition> allowedRotorPositions = new Collection<EnigmaRotorPosition>();
 
-        // switch (model)
-        //    {
-        //        case EnigmaModel.Military:
-        //            {
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Fastest);
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Second);
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Third);
-        //                break;
-        //            }
-        //        case EnigmaModel.M3:
-        //        case EnigmaModel.M4:
-        //            {
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Fastest);
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Second);
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Third);
-        //                allowedRotorPositions.Add(EnigmaRotorPosition.Forth);
-        //                break;
-        //            }
+        //// switch (model)
+        ////    {
+        ////        case EnigmaModel.Military:
+        ////            {
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Fastest);
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Second);
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Third);
+        ////                break;
+        ////            }
+        ////        case EnigmaModel.M3:
+        ////        case EnigmaModel.M4:
+        ////            {
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Fastest);
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Second);
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Third);
+        ////                allowedRotorPositions.Add(EnigmaRotorPosition.Forth);
+        ////                break;
+        ////            }
 
-        // default:
-        //            {
-        //                throw new ArgumentException("Unknown Enigma model.");
-        //            }
-        //    }
+        //// default:
+        ////            {
+        ////                throw new ArgumentException("Unknown Enigma model.");
+        ////            }
+        ////    }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        private static EnigmaModel GetRandomModel()
-        {
-            Random rnd = new Random();
-
-            int i = rnd.Next(0, Enum.GetValues(typeof(EnigmaModel)).Length - 1);
-            EnigmaModel model = (EnigmaModel)Enum.Parse(typeof(EnigmaModel), i.ToString(CultureInfo.CurrentCulture), true);
-            return model;
-        }
-
-        private static List<EnigmaReflectorNumber> GetAllowed(EnigmaModel model)
+        private static IList<EnigmaReflectorNumber> GetAllowedReflectors(EnigmaModel model)
         {
             switch (model)
             {
@@ -1146,222 +990,44 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        // private static EnigmaReflectorNumber GetDefaultReflector(EnigmaModel model)
-        // {
-        //    switch (model)
-        //    {
-        //        case EnigmaModel.Military:
-        //            return EnigmaReflectorNumber.B;
-        //        case EnigmaModel.M3:
-        //        case EnigmaModel.M4:
-        //            return EnigmaReflectorNumber.BThin;
-        //        default:
-        //            throw new CryptographicException("Unknown Enigma model.");
-        //    }
-        // }
+        private static (EnigmaModel, EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)
+        {
+            _ = key;
+            _ = iv;
 
-        // private static EnigmaReflectorNumber GetRandomReflector(EnigmaModel model)
-        // {
-        //    Random rnd = new Random();
+            EnigmaModel model = EnigmaModel.Military;
+            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(model);
+            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings();
 
-        // List<EnigmaReflectorNumber> reflectors = GetAllowedReflectors(model);
+            ////// if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
+            ////// {
+            //////    return;
+            ////// }
+            ////EnigmaSettings settings = ParseKey(value);
 
-        // int nextRandomNumber = rnd.Next(0, reflectors.Count);
+            ////// Model
+            ////model = settings.Model;
 
-        // return reflectors[nextRandomNumber];
-        // }
+            ////// this.SetEnigmaModel();
 
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="model"></param>
-        ///// <returns></returns>
-        // private static SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings> GetRandomRotorSettings(EnigmaModel model)
-        // {
-        //    Random rnd = new Random();
-        //    int nextRandomNumber;
-        //    SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings> rotorSettings = new SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings>();
+            ////// Rotor Order
+            ////Rotors = settings.Rotors;
 
-        // Collection<EnigmaRotorPosition> allowedRotorPositions = EnigmaSettings.GetAllowedRotorPositions(model);
+            ////// foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> rotor in enigmaKey.RotorSettings)
+            ////// {
+            //////    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorPosition), rotor.Key));
+            //////    Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorNumber), rotor.Value.RotorNumber));
+            //////    this.Rotors[rotor.Key] = rotor.Value;
+            ////// }
 
-        // List<EnigmaRotorNumber> availableRotorNumbers;
-        //    foreach (EnigmaRotorPosition rotorPosition in allowedRotorPositions)
-        //    {
-        //        availableRotorNumbers = EnigmaSettings.GetAvailableRotors(model, rotorSettings, rotorPosition);
-        //        if (availableRotorNumbers.Contains(EnigmaRotorNumber.None))
-        //        {
-        //            availableRotorNumbers.Remove(EnigmaRotorNumber.None);
-        //        }
+            ////// Plugboard
+            ////// this.Plugboard.SetSubstitutions(enigmaKey.PlugboardPairs);
+            ////Plugboard = settings.Plugboard;
 
-        // nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count);
+            ////// this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-        // rotorSettings[rotorPosition] = GetRandomRotorSettings(availableRotorNumbers[nextRandomNumber]);
-        //    }
-
-        // return rotorSettings;
-        // }
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="rotorOrder"></param>
-        ///// <returns></returns>
-        // private static EnigmaRotorSettings GetDefaultRotorSettings(EnigmaRotorSettings rotorOrder)
-        // {
-        //    Contract.Requires(rotorOrder != null);
-
-        // SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings> rotorSetting = new SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings>();
-
-        // foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotorSettings> rotor in rotorOrder)
-        //    {
-        //        Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotor.Value.RotorNumber);
-        //        EnigmaRotorSettings setting = new EnigmaRotorSettings(rotor.Value.RotorNumber, letters[0], letters[0]);
-        //        rotorSetting.Add(rotor.Key, setting);
-        //    }
-
-        // return rotorSetting;
-        // }
-
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="rotorOrder"></param>
-        ///// <returns></returns>
-        // private static EnigmaRotorSettings GetRandomRotorSettings(EnigmaRotorNumber rotorNumber)
-        // {
-        //    Random rnd = new Random();
-        //    Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotorNumber);
-
-        // int index1 = rnd.Next(0, letters.Count);
-        //    int index2 = rnd.Next(0, letters.Count);
-        //    return new EnigmaRotorSettings(rotorNumber, letters[index1], letters[index2]);
-        // }
-
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="rotorPosition"></param>
-        ///// <param name="letter"></param>
-        // private void SetRotorSetting_Private(EnigmaRotorPosition rotorPosition, char letter)
-        // {
-        //    Contract.Requires(Enum.IsDefined(typeof(EnigmaRotorPosition), rotorPosition));
-        //    Contract.Requires(this.rotorSettings != null);
-        //    Contract.Requires(this.AllowedRotorPositions.Contains(rotorPosition));
-
-        // // Contract.Assert(this.rotorsByPosition[rotorPosition] != EnigmaRotorNumber.None);
-        //    // Contract.Assert(EnigmaRotor.GetAllowedLetters(this.rotorsByPosition[rotorPosition]).Contains(letter));
-
-        // if (this.rotorSettings.ContainsKey(rotorPosition))
-        //    {
-        //        if (this.rotorSettings[rotorPosition].CurrentSetting == letter)
-        //        {
-        //            // Nothing to set, so return
-        //            return;
-        //        }
-
-        // this.rotorSettings[rotorPosition].CurrentSetting = letter;
-        //    }
-        //    else
-        //    {
-        //        throw new Exception();
-        //        // this.rotorSetting.Add(rotorPosition, letter);
-        //    }
-        // }
-        ///// <summary>
-        /////
-        ///// </summary>
-        // private void SetEnigmaModel()
-        // {
-        //    Contract.Requires(this.Rotors != null);
-
-        // this.AllowedLetters = EnigmaSettings.GetKeyboardLetters(this.Model);
-        //    //this.AllowedRotorPositions = EnigmaSettings.GetAllowedRotorPositions(this.Model);
-        //    //this.availableRotors = new List<EnigmaRotorNumber>(EnigmaSettings.GetAllowedRotors(this.Model));
-        //    //this.rotorSettings.Clear();
-
-        // //// Fill in the allowed and available rotors
-        //    //foreach (EnigmaRotorPosition rotorPosition in this.AllowedRotorPositions)
-        //    //{
-        //    //    // Set an empty rotor in each position
-        //    //    this.rotorSettings.Add(rotorPosition, EnigmaRotorSettings.Empty);
-        //    //}
-
-        // // Plugboard
-        //    byte[] plugboardKey = MonoAlphabeticSettings.BuildKey(this.AllowedLetters, new Collection<SubstitutionPair>(), IsPlugboardSymmetric);
-        //    byte[] plugboardIV = MonoAlphabeticSettings.BuildIV();
-        //    if (this.Plugboard == null)
-        //    {
-        //        this.Plugboard = new MonoAlphabeticSettings(plugboardKey, plugboardIV);
-        //        this.Plugboard.SettingsChanged += new EventHandler<EventArgs>(this.Plugboard_SettingsChanged);
-        //    }
-        //    else
-        //    {
-        //        this.Plugboard.SetKey(plugboardKey);
-        //        this.Plugboard.SetIV(plugboardIV);
-        //    }
-
-        // // Reflector
-        //    this.ReflectorNumber = EnigmaSettings.GetDefaultReflector(this.Model);
-        // }
-
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        // private void Plugboard_SettingsChanged(object sender, EventArgs e)
-        // {
-        //    this.NotifyPropertyChanged();
-        // }
-
-        ///// <summary>
-        ///// Set the rotor order for this machine.
-        ///// </summary>
-        ///// <param name="rotorPosition">The position to place this rotor in.</param>
-        ///// <param name="rotorNumber">The rotor to put in this position.</param>
-        // private void SetRotorOrder_Private(EnigmaRotorPosition rotorPosition, EnigmaRotorSettings rotor)
-        // {
-        //    Contract.Requires(Enum.IsDefined(typeof(EnigmaRotorPosition), rotorPosition));
-        //    Contract.Requires(rotor != null);
-        //    // Contract.Requires(this.AllowedRotorPositions.Contains(rotorPosition));
-        //    // Contract.Requires(this.availableRotorsByPosition[rotorPosition].Contains(rotorNumber));
-
-        // // Contract.Assert(Enum.IsDefined(typeof(EnigmaRotorNumber), rotorNumber));
-
-        // if (rotor.RotorNumber == this.rotorSettings[rotorPosition].RotorNumber)
-        //    {
-        //        return;
-        //    }
-
-        // EnigmaRotorNumber currentRotor = this.rotorSettings[rotorPosition].RotorNumber;
-
-        // if (!this.availableRotors.Contains(currentRotor))
-        //    {
-        //        this.availableRotors.Add(currentRotor);
-        //    }
-
-        // if (!rotor.IsEmpty)
-        //    {
-        //        this.availableRotors.Remove(rotor.RotorNumber);
-        //    }
-
-        // this.availableRotors.Sort(new EnigmaRotorNumberSorter(SortOrder.Ascending));
-
-        // // Set the rotor order
-        //    if (this.rotorSettings.ContainsKey(rotorPosition))
-        //    {
-        //        this.rotorSettings[rotorPosition] = rotor;
-        //    }
-        //    else
-        //    {
-        //        this.rotorSettings.Add(rotorPosition, rotor);
-        //    }
-
-        // if (!this.rotorSettings.ContainsKey(rotorPosition))
-        //    {
-        //        Contract.Assume(Enum.IsDefined(typeof(EnigmaRotorNumber), rotor.RotorNumber));
-        //        Collection<char> allowedLetters = EnigmaRotor.GetAllowedLetters(rotor.RotorNumber);
-        //        if (allowedLetters.Count > 0)
-        //        {
-        //            this.Rotors[rotorPosition].CurrentSetting = allowedLetters[0];
+            return (model, reflector, rotorSettings, plugboard);
+        }
     }
 }

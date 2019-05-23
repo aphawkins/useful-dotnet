@@ -15,14 +15,14 @@ namespace Useful.Security.Cryptography.Tests
     {
         public static TheoryData<EnigmaRotorNumber, string, string> Data => new TheoryData<EnigmaRotorNumber, string, string>
         {
-            { EnigmaRotorNumber.One, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q" },
-            { EnigmaRotorNumber.Two, "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E" },
-            { EnigmaRotorNumber.Three, "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V" },
-            { EnigmaRotorNumber.Four, "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J" },
-            { EnigmaRotorNumber.Five, "VZBRGITYUPSDNHLXAWMJQOFECK", "Z" },
-            { EnigmaRotorNumber.Six, "JPGVOUMFYQBENHZRDKASXLICTW", "MZ" },
-            { EnigmaRotorNumber.Seven, "NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ" },
-            { EnigmaRotorNumber.Eight, "FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ" },
+            { EnigmaRotorNumber.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q" },
+            { EnigmaRotorNumber.II, "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E" },
+            { EnigmaRotorNumber.III, "BDFHJLCPRTXVZNYEIWGAKMUSQO", "V" },
+            { EnigmaRotorNumber.IV, "ESOVPZJAYQUIRHXLNFTGKDCMWB", "J" },
+            { EnigmaRotorNumber.V, "VZBRGITYUPSDNHLXAWMJQOFECK", "Z" },
+            { EnigmaRotorNumber.VI, "JPGVOUMFYQBENHZRDKASXLICTW", "MZ" },
+            { EnigmaRotorNumber.VII, "NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ" },
+            { EnigmaRotorNumber.VIII, "FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ" },
             { EnigmaRotorNumber.Beta, "LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty },
             { EnigmaRotorNumber.Gamma, "FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty },
         };
@@ -51,7 +51,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
 
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 target.RotorAdvanced += (sender, e) => propertyChanged += e.RotorNumber;
                 target.RingPosition = 'A';
@@ -69,7 +69,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSetting()
         {
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 // Default
                 Assert.Equal('A', target.CurrentSetting);
@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSettingInvalid()
         {
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 target.CurrentSetting = 'W';
                 Assert.Throws<ArgumentOutOfRangeException>(() => target.CurrentSetting = 'Å');
@@ -113,7 +113,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRing()
         {
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 target.RingPosition = 'B';
                 target.CurrentSetting = 'A';
@@ -128,7 +128,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPosition()
         {
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 // Default
                 Assert.Equal('A', target.RingPosition);
@@ -140,7 +140,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPositionInvalid()
         {
-            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.One))
+            using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 target.RingPosition = 'W';
                 Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 'Å');

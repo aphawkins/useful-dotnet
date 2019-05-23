@@ -341,14 +341,14 @@ namespace Useful.Security.Cryptography
             IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches, bool canTurn)> wiring = new Dictionary<EnigmaRotorNumber, (string, string, bool)>()
             {
                 { EnigmaRotorNumber.None, (string.Empty, string.Empty, false) },
-                { EnigmaRotorNumber.One, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q", true) },
-                { EnigmaRotorNumber.Two, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E", true) },
-                { EnigmaRotorNumber.Three, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V", true) },
-                { EnigmaRotorNumber.Four, ("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J", true) },
-                { EnigmaRotorNumber.Five, ("VZBRGITYUPSDNHLXAWMJQOFECK", "Z", true) },
-                { EnigmaRotorNumber.Six, ("JPGVOUMFYQBENHZRDKASXLICTW", "MZ", true) },
-                { EnigmaRotorNumber.Seven, ("NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ", true) },
-                { EnigmaRotorNumber.Eight, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ", true) },
+                { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q", true) },
+                { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E", true) },
+                { EnigmaRotorNumber.III, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V", true) },
+                { EnigmaRotorNumber.IV, ("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J", true) },
+                { EnigmaRotorNumber.V, ("VZBRGITYUPSDNHLXAWMJQOFECK", "Z", true) },
+                { EnigmaRotorNumber.VI, ("JPGVOUMFYQBENHZRDKASXLICTW", "MZ", true) },
+                { EnigmaRotorNumber.VII, ("NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ", true) },
+                { EnigmaRotorNumber.VIII, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ", true) },
                 { EnigmaRotorNumber.Beta, ("LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty, false) },
                 { EnigmaRotorNumber.Gamma, ("FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty, false) },
             };

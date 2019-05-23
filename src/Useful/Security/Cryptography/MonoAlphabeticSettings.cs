@@ -90,8 +90,8 @@ namespace Useful.Security.Cryptography
             IsSymmetric = isSymmetric;
         }
 
-        private MonoAlphabeticSettings(Tuple<IList<char>, IDictionary<char, char>, bool> settings)
-            : this(settings.Item1, settings.Item2, settings.Item3)
+        private MonoAlphabeticSettings((IList<char> characterSet, IDictionary<char, char> substitutions, bool isSymmetric) settings)
+            : this(settings.characterSet, settings.substitutions, settings.isSymmetric)
         {
         }
 
@@ -381,7 +381,7 @@ namespace Useful.Security.Cryptography
             return pairs;
         }
 
-        private static Tuple<IList<char>, IDictionary<char, char>, bool> GetSettings(byte[] key)
+        private static (IList<char>, IDictionary<char, char>, bool) GetSettings(byte[] key)
         {
             // Example:
             // characterSet|substitutions|isSymmetric
@@ -457,7 +457,7 @@ namespace Useful.Security.Cryptography
 
             substitutions = GetPairs(substitutionPart, SubstitutionDelimiter, characterSet, isSymmetric);
 
-            return new Tuple<IList<char>, IDictionary<char, char>, bool>(characterSet, substitutions, isSymmetric);
+            return (characterSet, substitutions, isSymmetric);
         }
 
         /// <summary>

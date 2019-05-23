@@ -17,42 +17,42 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Rotor number I.
         /// </summary>
-        One = 1,
+        I = 1,
 
         /// <summary>
         /// Rotor number II.
         /// </summary>
-        Two = 2,
+        II = 2,
 
         /// <summary>
         /// Rotor number III.
         /// </summary>
-        Three = 3,
+        III = 3,
 
         /// <summary>
         /// Rotor number IV.
         /// </summary>
-        Four = 4,
+        IV = 4,
 
         /// <summary>
         /// Rotor number V
         /// </summary>
-        Five = 5,
+        V = 5,
 
         /// <summary>
         /// Rotor number VI
         /// </summary>
-        Six = 6,
+        VI = 6,
 
         /// <summary>
         /// Rotor number VII
         /// </summary>
-        Seven = 7,
+        VII = 7,
 
         /// <summary>
         /// Rotor number VIII
         /// </summary>
-        Eight = 8,
+        VIII = 8,
 
         /// <summary>
         /// Rotor number Beta.

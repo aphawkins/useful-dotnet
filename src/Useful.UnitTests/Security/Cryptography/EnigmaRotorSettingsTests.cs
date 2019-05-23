@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaRotorSettings.UnitTests.cs" company="APH Software">
+﻿// <copyright file="EnigmaRotorSettingsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,257 +10,267 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class EnigmaRotorSettingsTest
+    /// <summary>
+    /// Test class for Enigma Rotor Settings.
+    /// </summary>
+    public class EnigmaRotorSettingsTests
     {
-        private string _propertiesChanged;
-
         /// <summary>
         /// A test for EnigmaSettings Constructor.
         /// </summary>
         [Fact]
-        public void EnigmaRotorSettings_ctor()
+        public void Ctor()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.Military);
         }
 
         [Fact]
-        public void EnigmaSettings_SetRotorOrder()
+        public void SetRotorOrder()
         {
-            EnigmaRotorSettings target = EnigmaRotorSettings.Create(EnigmaModel.Military);
-            List<EnigmaRotorNumber> availableRotors;
-            availableRotors = target.AvailableRotors.ToList();
-            Assert.IsTrue(availableRotors.Count == 6);
-            Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(availableRotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(availableRotors[5] == EnigmaRotorNumber.Five);
-            target[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
+            EnigmaRotorSettings target = new EnigmaRotorSettings(EnigmaModel.Military);
+            IList<EnigmaRotorNumber> availableRotors;
+            availableRotors = target.AvailableRotors123.ToList();
+            Assert.Equal(6,  availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  availableRotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[5]);
+            target[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
 
-            availableRotors = target.AvailableRotors.ToList();
-            Assert.IsTrue(availableRotors.Count == 5);
-            Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(availableRotors[4] == EnigmaRotorNumber.Five);
-            _propertiesChanged = string.Empty;
-            target[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Two);
+            availableRotors = target.AvailableRotors123.ToList();
+            Assert.Equal(5,  availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.II,  availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.III,  availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[3]);
+            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[4]);
+            target[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.II);
 
-            availableRotors = target.AvailableRotors.ToList();
-            Assert.IsTrue(availableRotors.Count == 4);
-            Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(availableRotors[3] == EnigmaRotorNumber.Five);
-            target[EnigmaRotorPosition.Third] = EnigmaRotor.Create(EnigmaRotorNumber.Three);
+            availableRotors = target.AvailableRotors123.ToList();
+            Assert.Equal(4,  availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.III,  availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[3]);
+            target[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.III);
 
-            availableRotors = target.AvailableRotors.ToList();
-            Assert.IsTrue(availableRotors.Count == 3);
-            Assert.IsTrue(availableRotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(availableRotors[1] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(availableRotors[2] == EnigmaRotorNumber.Five);
+            availableRotors = target.AvailableRotors123.ToList();
+            Assert.Equal(3,  availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[2]);
         }
 
         [Fact]
-        public void EnigmaSettings_SetRotorOrderPropertyChanged()
+        public void SetRotorOrderPropertyChanged()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
-            settings.PropertyChanged += targetPropertyChanged;
-            _propertiesChanged = string.Empty;
+            string propertiesChanged = string.Empty;
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.Military);
+            settings.PropertyChanged += (sender, e) => propertiesChanged += e.PropertyName;
 
-            settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            Assert.IsTrue(_propertiesChanged == "Item;AvailableRotors;");
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
+            Assert.Equal("ItemAvailableRotors;", propertiesChanged);
         }
 
         [Fact]
-        public void EnigmaRotorSettings_SetRotor()
+        public void SetRotor()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.Military);
-            Assert.IsTrue(settings[EnigmaRotorPosition.Fastest].RotorNumber == EnigmaRotorNumber.None);
-            settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            Assert.IsTrue(settings[EnigmaRotorPosition.Fastest].RotorNumber == EnigmaRotorNumber.One);
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.Military);
+            Assert.Equal(EnigmaRotorNumber.None, settings[EnigmaRotorPosition.Fastest].RotorNumber);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
+            Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
         }
 
         [Fact]
-        public void EnigmaRotorSettings_GetAllowedRotorPositions()
+        public void GetAllowedRotorPositions()
         {
             Collection<EnigmaRotorPosition> positions = EnigmaRotorSettings.GetAllowedRotorPositions(EnigmaModel.Military);
-            Assert.IsTrue(positions.Count == 3);
-            Assert.IsTrue(positions[0] == EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(positions[1] == EnigmaRotorPosition.Second);
-            Assert.IsTrue(positions[2] == EnigmaRotorPosition.Third);
+            Assert.Equal(3, positions.Count);
+            Assert.Equal(EnigmaRotorPosition.Fastest,  positions[0]);
+            Assert.Equal(EnigmaRotorPosition.Second,  positions[1]);
+            Assert.Equal(EnigmaRotorPosition.Third,  positions[2]);
 
             positions = EnigmaRotorSettings.GetAllowedRotorPositions(EnigmaModel.M3);
-            Assert.IsTrue(positions.Count == 4);
-            Assert.IsTrue(positions[0] == EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(positions[1] == EnigmaRotorPosition.Second);
-            Assert.IsTrue(positions[2] == EnigmaRotorPosition.Third);
-            Assert.IsTrue(positions[3] == EnigmaRotorPosition.Forth);
+            Assert.Equal(4,  positions.Count);
+            Assert.Equal(EnigmaRotorPosition.Fastest,  positions[0]);
+            Assert.Equal(EnigmaRotorPosition.Second,  positions[1]);
+            Assert.Equal(EnigmaRotorPosition.Third,  positions[2]);
+            Assert.Equal(EnigmaRotorPosition.Forth,  positions[3]);
 
             positions = EnigmaRotorSettings.GetAllowedRotorPositions(EnigmaModel.M4);
-            Assert.IsTrue(positions.Count == 4);
-            Assert.IsTrue(positions[0] == EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(positions[1] == EnigmaRotorPosition.Second);
-            Assert.IsTrue(positions[2] == EnigmaRotorPosition.Third);
-            Assert.IsTrue(positions[3] == EnigmaRotorPosition.Forth);
+            Assert.Equal(4,  positions.Count);
+            Assert.Equal(EnigmaRotorPosition.Fastest,  positions[0]);
+            Assert.Equal(EnigmaRotorPosition.Second,  positions[1]);
+            Assert.Equal(EnigmaRotorPosition.Third,  positions[2]);
+            Assert.Equal(EnigmaRotorPosition.Forth,  positions[3]);
         }
 
         [Fact]
-        public void EnigmaRotorSettings_GetAllowedRotorPositions1()
+        public void GetAllowedRotorPositions1()
         {
-            List<EnigmaRotorNumber> rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(rotors.Count == 6);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
+            IList<EnigmaRotorNumber> rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Fastest);
+            Assert.Equal(6,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Second);
-            Assert.IsTrue(rotors.Count == 6);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
+            Assert.Equal(6,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.Military, EnigmaRotorPosition.Third);
-            Assert.IsTrue(rotors.Count == 6);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
+            Assert.Equal(6,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M3, EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M3, EnigmaRotorPosition.Second);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M3, EnigmaRotorPosition.Third);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M4, EnigmaRotorPosition.Fastest);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M4, EnigmaRotorPosition.Second);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M4, EnigmaRotorPosition.Third);
-            Assert.IsTrue(rotors.Count == 9);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.One);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Two);
-            Assert.IsTrue(rotors[3] == EnigmaRotorNumber.Three);
-            Assert.IsTrue(rotors[4] == EnigmaRotorNumber.Four);
-            Assert.IsTrue(rotors[5] == EnigmaRotorNumber.Five);
-            Assert.IsTrue(rotors[6] == EnigmaRotorNumber.Six);
-            Assert.IsTrue(rotors[7] == EnigmaRotorNumber.Seven);
-            Assert.IsTrue(rotors[8] == EnigmaRotorNumber.Eight);
+            Assert.Equal(9,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.I,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.II,  rotors[2]);
+            Assert.Equal(EnigmaRotorNumber.III,  rotors[3]);
+            Assert.Equal(EnigmaRotorNumber.IV,  rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.V,  rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VI,  rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VII,  rotors[7]);
+            Assert.Equal(EnigmaRotorNumber.VIII,  rotors[8]);
 
             rotors = EnigmaRotorSettings.GetAllowedRotors(EnigmaModel.M4, EnigmaRotorPosition.Forth);
-            Assert.IsTrue(rotors.Count == 3);
-            Assert.IsTrue(rotors[0] == EnigmaRotorNumber.None);
-            Assert.IsTrue(rotors[1] == EnigmaRotorNumber.Beta);
-            Assert.IsTrue(rotors[2] == EnigmaRotorNumber.Gamma);
+            Assert.Equal(3,  rotors.Count);
+            Assert.Equal(EnigmaRotorNumber.None,  rotors[0]);
+            Assert.Equal(EnigmaRotorNumber.Beta,  rotors[1]);
+            Assert.Equal(EnigmaRotorNumber.Gamma,  rotors[2]);
         }
 
         [Fact]
-        public void EnigmaRotorSettings_GetOrderKeys()
+        public void GetOrderKeys()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
-            settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            settings[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Three);
-            settings[EnigmaRotorPosition.Third] = EnigmaRotor.Create(EnigmaRotorNumber.Five);
-            settings[EnigmaRotorPosition.Forth] = EnigmaRotor.Create(EnigmaRotorNumber.Beta);
-            Assert.AreEqual(settings.GetOrderKey(), "Beta V III I");
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.M4);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
+            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III);
+            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.V);
+            settings[EnigmaRotorPosition.Forth] = new EnigmaRotor(EnigmaRotorNumber.Beta);
+            Assert.Equal("Beta V III I", settings.GetOrderKey());
         }
 
         [Fact]
-        public void EnigmaRotorSettings_GetSettingKeys()
+        public void GetSettingKeys()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
-            settings[EnigmaRotorPosition.Fastest] = EnigmaRotor.Create(EnigmaRotorNumber.One);
-            settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'B';
-            settings[EnigmaRotorPosition.Second] = EnigmaRotor.Create(EnigmaRotorNumber.Three);
-            settings[EnigmaRotorPosition.Second].CurrentSetting = 'D';
-            settings[EnigmaRotorPosition.Third] = EnigmaRotor.Create(EnigmaRotorNumber.Five);
-            settings[EnigmaRotorPosition.Third].CurrentSetting = 'E';
-            settings[EnigmaRotorPosition.Forth] = EnigmaRotor.Create(EnigmaRotorNumber.Beta);
-            settings[EnigmaRotorPosition.Forth].CurrentSetting = 'G';
-            Assert.AreEqual(settings.GetSettingKey(), "G E D B");
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.M4);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I)
+            {
+                CurrentSetting = 'B',
+            };
+            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III)
+            {
+                CurrentSetting = 'D',
+            };
+            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.V)
+            {
+                CurrentSetting = 'E',
+            };
+            settings[EnigmaRotorPosition.Forth] = new EnigmaRotor(EnigmaRotorNumber.Beta)
+            {
+                CurrentSetting = 'G',
+            };
+            Assert.Equal("G E D B", settings.GetSettingKey());
         }
 
         [Fact]
         public void GetRingKeys()
         {
-            EnigmaRotorSettings settings = EnigmaRotorSettings.Create(EnigmaModel.M4);
-            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.One);
-            settings[EnigmaRotorPosition.Fastest].RingPosition = 'B';
-            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.Three);
-            settings[EnigmaRotorPosition.Second].RingPosition = 'D';
-            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.Five);
-            settings[EnigmaRotorPosition.Third].RingPosition = 'E';
-            settings[EnigmaRotorPosition.Forth] = new EnigmaRotor(EnigmaRotorNumber.Beta);
-            settings[EnigmaRotorPosition.Forth].RingPosition = 'G';
+            EnigmaRotorSettings settings = new EnigmaRotorSettings(EnigmaModel.M4);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I)
+            {
+                RingPosition = 'B',
+            };
+            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III)
+            {
+                RingPosition = 'D',
+            };
+            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.V)
+            {
+                RingPosition = 'E',
+            };
+            settings[EnigmaRotorPosition.Forth] = new EnigmaRotor(EnigmaRotorNumber.Beta)
+            {
+                RingPosition = 'G',
+            };
             Assert.Equal("G E D B", settings.GetRingKey());
-        }
-
-        private void targetPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            _propertiesChanged += e.PropertyName;
-            _propertiesChanged += ";";
         }
     }
 }
