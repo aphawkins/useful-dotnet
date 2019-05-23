@@ -355,7 +355,7 @@ namespace Useful.Security.Cryptography
 
             var (rotorWiring, rotorNotches, canTurn) = wiring[RotorNumber];
 
-            Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
+            //// Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
 
             IDictionary<char, char> rotorPairs = new Dictionary<char, char>();
             for (int i = 0; i < Letters.Count; i++)

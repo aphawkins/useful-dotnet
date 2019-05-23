@@ -63,7 +63,7 @@ namespace Useful.Security.Cryptography.Tests
                 Assert.Equal('J', target.Forward('A'));
             }
 
-            Assert.Equal("One", propertyChanged);
+            Assert.Equal("I", propertyChanged);
         }
 
         [Fact]
