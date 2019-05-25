@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// An Enigma Rotor.
@@ -49,11 +48,8 @@ namespace Useful.Security.Cryptography
             RotorNumber = rotorNumber;
             CanTurn = true;
             SetWiring();
-            if (rotorNumber != EnigmaRotorNumber.None)
-            {
-                RingPosition = 'A';
-                CurrentSetting = 'A';
-            }
+            RingPosition = 'A';
+            CurrentSetting = 'A';
         }
 
         /// <summary>
@@ -340,7 +336,6 @@ namespace Useful.Security.Cryptography
         {
             IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches, bool canTurn)> wiring = new Dictionary<EnigmaRotorNumber, (string, string, bool)>()
             {
-                { EnigmaRotorNumber.None, (string.Empty, string.Empty, false) },
                 { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q", true) },
                 { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E", true) },
                 { EnigmaRotorNumber.III, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V", true) },

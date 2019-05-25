@@ -6,12 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Globalization;
     using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
@@ -49,8 +44,6 @@ namespace Useful.Security.Cryptography
         private const string _defaultKey = "Military|B|I II III|A A A|";
 
         private const string _defaultIv = "A A A";
-
-        private EnigmaModel _model;
 
         ///// <summary>
         ///// Rotors, sorted by position.
@@ -97,21 +90,19 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
-        /// <param name="model">Teh Enigm model.</param>
         /// <param name="reflector">The reflector.</param>
         /// <param name="rotorSettings">The rotor settings.</param>
         /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(EnigmaModel model, EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard)
+        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard)
             : base()
         {
-            _model = model;
             ReflectorNumber = reflector;
             Rotors = rotorSettings;
             Plugboard = plugboard;
         }
 
-        private EnigmaSettings((EnigmaModel model, EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard) settings)
-            : this(settings.model, settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
+        private EnigmaSettings((EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard) settings)
+            : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
         {
         }
 
@@ -193,55 +184,10 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                byte[] key = BuildKey(_model, ReflectorNumber, Rotors, Plugboard);
+                byte[] key = BuildKey(ReflectorNumber, Rotors, Plugboard);
 
                 return key;
             }
-        }
-
-        /// <summary>
-        /// Gets the type of Enigma machine.
-        /// </summary>
-        public EnigmaModel Model
-        {
-            get
-            {
-                return _model;
-            }
-
-            ////private set
-            ////{
-            ////    // Contract.Requires(this.Rotors != null);
-            ////    _model = value;
-
-            ////    // this.AllowedRotorPositions = EnigmaSettings.GetAllowedRotorPositions(this.Model);
-            ////    // this.availableRotors = new List<EnigmaRotorNumber>(EnigmaSettings.GetAllowedRotors(this.Model));
-            ////    // this.rotorSettings.Clear();
-
-            ////    //// Fill in the allowed and available rotors
-            ////    // foreach (EnigmaRotorPosition rotorPosition in this.AllowedRotorPositions)
-            ////    // {
-            ////    //    // Set an empty rotor in each position
-            ////    //    this.rotorSettings.Add(rotorPosition, EnigmaRotorSettings.Empty);
-            ////    // }
-            ////    Rotors = new EnigmaRotorSettings(value);
-
-            ////    // Plugboard
-            ////    this.Plugboard = new MonoAlphabeticSettings(CharacterSet.ToList(), new Dictionary<char, char>(), IsPlugboardSymmetric);
-
-            ////    // if (this.Plugboard == null)
-            ////    // {
-            ////    //    this.Plugboard = new MonoAlphabeticSettings(plugboardKey, plugboardIV);
-            ////    //    this.Plugboard.SettingsChanged += new EventHandler<EventArgs>(this.Plugboard_SettingsChanged);
-            ////    // }
-            ////    // else
-            ////    // {
-
-            ////    // }
-
-            ////    // Reflector
-            ////    this.ReflectorNumber = GetDefaultReflector(this.Model).ReflectorNumber;
-            ////}
         }
 
         /// <summary>
@@ -514,18 +460,9 @@ namespace Useful.Security.Cryptography
         ////    }
         //// }
 
-        internal static int GetIvLength(EnigmaModel model)
+        internal static int GetIvLength()
         {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                    return 5;
-                case EnigmaModel.M3:
-                case EnigmaModel.M4:
-                    return 7;
-                default:
-                    throw new CryptographicException("Unknown Enigma model.");
-            }
+            return 5;
         }
 
         internal static EnigmaSettings ParseKey(byte[] key)
@@ -544,29 +481,21 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect number of key parts.");
             }
 
-            // Model
-            if (string.IsNullOrEmpty(parts[0]))
-            {
-                throw new ArgumentException("Model has not been specified.");
-            }
-
-            settings._model = (EnigmaModel)Enum.Parse(typeof(EnigmaModel), parts[0]);
-
             // Reflector
-            settings.ReflectorNumber = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[1]);
+            settings.ReflectorNumber = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[0]);
             ////if (!GetAllowed(settings._model).Contains(settings.ReflectorNumber))
             ////{
             ////    throw new ArgumentException("This reflector is not available.");
             ////}
 
             // Rotor Order
-            string[] rotors = parts[2].Split(new char[] { KeyDelimiter });
+            string[] rotors = parts[1].Split(new char[] { KeyDelimiter });
             if (rotors.Length <= 0)
             {
                 throw new ArgumentException("No rotors specified.");
             }
 
-            int rotorPositionsCount = EnigmaRotorSettings.GetAllowedRotorPositions(settings._model).Count;
+            int rotorPositionsCount = EnigmaRotorSettings.GetAllowedRotorPositions().Count;
 
             if (rotors.Length > rotorPositionsCount)
             {
@@ -586,7 +515,7 @@ namespace Useful.Security.Cryptography
             rotors = rotors.Reverse().ToArray();
 
             // Ring
-            string[] rings = parts[3].Split(new char[] { KeyDelimiter });
+            string[] rings = parts[2].Split(new char[] { KeyDelimiter });
 
             if (rings.Length <= 0)
             {
@@ -610,7 +539,7 @@ namespace Useful.Security.Cryptography
 
             rings = rings.Reverse().ToArray();
 
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(settings._model);
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
 
             for (int i = 0; i < rotors.Length; i++)
             {
@@ -629,7 +558,7 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
                 }
 
-                if (!rotorSettings.GetAvailableRotors(rotorPosition).Contains(rotorNumber))
+                if (!rotorSettings.GetAvailableRotors().Contains(rotorNumber))
                 {
                     throw new ArgumentException("This rotor in this position is not available.");
                 }
@@ -649,7 +578,7 @@ namespace Useful.Security.Cryptography
             settings.Rotors = rotorSettings;
 
             // Plugboard
-            string plugs = parts[4];
+            string plugs = parts[3];
 
             //// if (string.IsNullOrEmpty(plugs) || plugs.Contains("\0"))
             //// {
@@ -668,20 +597,6 @@ namespace Useful.Security.Cryptography
             // this.SetRotorSetting(rotorPosition, currentSetting);
         }
 
-        private static EnigmaReflector GetDefaultReflector(EnigmaModel model)
-        {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                    return new EnigmaReflector(EnigmaReflectorNumber.B);
-                case EnigmaModel.M3:
-                case EnigmaModel.M4:
-                    return new EnigmaReflector(EnigmaReflectorNumber.BThin);
-                default:
-                    throw new CryptographicException("Unknown Enigma model.");
-            }
-        }
-
         private static byte[] BuildIV(EnigmaRotorSettings rotorSettings)
         {
             // Example:
@@ -691,20 +606,12 @@ namespace Useful.Security.Cryptography
             return result;
         }
 
-        private static byte[] BuildKey(
-            EnigmaModel model,
-            EnigmaReflectorNumber reflector,
-            EnigmaRotorSettings rotors,
-            MonoAlphabeticSettings plugboard)
+        private static byte[] BuildKey(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotors, MonoAlphabeticSettings plugboard)
         {
             // Example:
-            // "model|reflector|rotors|ring|plugboard"
+            // "reflector|rotors|ring|plugboard"
             // "Military|B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
             StringBuilder key = new StringBuilder();
-
-            // Model
-            key.Append(model.ToString());
-            key.Append(KeySeperator);
 
             // Reflector
             key.Append(reflector.ToString());
@@ -724,45 +631,8 @@ namespace Useful.Security.Cryptography
             return Encoding.Unicode.GetBytes(key.ToString());
         }
 
-        /// <summary>
-        /// Returns the default initialization vector.
-        /// </summary>
-        /// <param name="key">The key to base the initialization vector on.</param>
-        /// <returns>The default initialization vector.</returns>
-        private static byte[] GetDefaultIV(byte[] key)
-        {
-            EnigmaSettings enigmaKey = EnigmaSettings.ParseKey(key);
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(enigmaKey.Model);
-            byte[] iv = EnigmaSettings.BuildIV(rotorSettings);
-            return iv;
-        }
-
-        /// <summary>
-        /// Returns the default initialization key.
-        /// </summary>
-        /// <returns>The default initialization key.</returns>
-        private static byte[] GetDefaultKey()
-        {
-            // Model
-            EnigmaModel model = EnigmaModel.Military;
-
-            // Rotor Settings
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(model);
-
-            // Plugboard
-            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings();
-
-            byte[] key = EnigmaSettings.BuildKey(model, EnigmaReflectorNumber.B, rotorSettings, plugboard);
-            return key;
-        }
-
         //// return allowedRotorPositions;
         //// }
-
-        private static EnigmaModel GetDefaultModel()
-        {
-            return EnigmaModel.Military;
-        }
 
         ///// <summary>
         ///// Gets all the allowed rotors for a given Enigma machine type.
@@ -960,44 +830,13 @@ namespace Useful.Security.Cryptography
         ////            }
         ////    }
 
-        private static IList<EnigmaReflectorNumber> GetAllowedReflectors(EnigmaModel model)
-        {
-            switch (model)
-            {
-                case EnigmaModel.Military:
-                case EnigmaModel.M3:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                    {
-                        EnigmaReflectorNumber.B,
-                        EnigmaReflectorNumber.C,
-                    };
-                    }
-
-                case EnigmaModel.M4:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                    {
-                        EnigmaReflectorNumber.BThin,
-                        EnigmaReflectorNumber.CThin,
-                    };
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException("Unknown Enigma model.");
-                    }
-            }
-        }
-
-        private static (EnigmaModel, EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)
+        private static (EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)
         {
             _ = key;
             _ = iv;
 
-            EnigmaModel model = EnigmaModel.Military;
             EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(model);
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
             MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings();
 
             ////// if (EnigmaSettings.BuildKey(this.Model, this.ReflectorNumber, this.Rotors, this.Plugboard) == keyValue)
@@ -1027,7 +866,7 @@ namespace Useful.Security.Cryptography
 
             ////// this.key = EnigmaSettings.BuildKey(this.Model, this.rotorsByPosition, this.Plugboard);
 
-            return (model, reflector, rotorSettings, plugboard);
+            return (reflector, rotorSettings, plugboard);
         }
     }
 }

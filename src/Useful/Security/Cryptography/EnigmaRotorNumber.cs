@@ -10,11 +10,6 @@ namespace Useful.Security.Cryptography
     public enum EnigmaRotorNumber
     {
         /// <summary>
-        /// No rotor specified.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
         /// Rotor number I.
         /// </summary>
         I = 1,

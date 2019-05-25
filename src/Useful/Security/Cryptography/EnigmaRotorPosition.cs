@@ -23,10 +23,5 @@ namespace Useful.Security.Cryptography
         /// Third rotor - The slowest rotor.
         /// </summary>
         Third = 2,
-
-        /// <summary>
-        /// Fourth rotor - The next after the slowest rotor.
-        /// </summary>
-        Forth = 3,
     }
 }

@@ -24,22 +24,18 @@ namespace Useful.Security.Cryptography.Tests
             EnigmaSettings target = new EnigmaSettings();
             TestState(
                 target,
-                EnigmaModel.Military,
                 EnigmaReflectorNumber.B,
                 string.Empty,
                 0,
                 EnigmaRotorNumber.III,
                 EnigmaRotorNumber.II,
                 EnigmaRotorNumber.I,
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 "Military|B|I II III|A A A|",
                 "A A A");
         }
@@ -97,51 +93,18 @@ namespace Useful.Security.Cryptography.Tests
             EnigmaSettings target = new EnigmaSettings(key, iv);
             TestState(
                 target,
-                EnigmaModel.Military,
                 EnigmaReflectorNumber.B,
                 string.Empty,
                 1,
                 EnigmaRotorNumber.III,
                 EnigmaRotorNumber.II,
                 EnigmaRotorNumber.I,
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 'A',
                 'A',
                 'A',
-                null,
-                Encoding.Unicode.GetString(key),
-                Encoding.Unicode.GetString(iv));
-        }
-
-        [Fact]
-        public void CtorModelM4()
-        {
-            byte[] key = Encoding.Unicode.GetBytes(@"M4|BThin|Beta I II III|D C B A|AB");
-            byte[] iv = Encoding.Unicode.GetBytes(@"Z Y X W");
-
-            EnigmaSettings target = new EnigmaSettings(key, iv);
-            TestState(
-                target,
-                EnigmaModel.M4,
-                EnigmaReflectorNumber.BThin,
-                string.Empty,
-                1,
-                EnigmaRotorNumber.III,
-                EnigmaRotorNumber.II,
-                EnigmaRotorNumber.I,
-                EnigmaRotorNumber.Beta,
-                'A',
-                'B',
-                'C',
-                'D',
-                'W',
-                'X',
-                'Y',
-                'Z',
                 Encoding.Unicode.GetString(key),
                 Encoding.Unicode.GetString(iv));
         }
@@ -252,22 +215,18 @@ namespace Useful.Security.Cryptography.Tests
             // Removes settings
             TestState(
                 target,
-                EnigmaModel.Military,
                 EnigmaReflectorNumber.B,
                 string.Empty,
                 0,
                 EnigmaRotorNumber.I,
                 EnigmaRotorNumber.II,
                 EnigmaRotorNumber.III,
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 @"Military|B|III II I|A A A|",
                 tempIV);
 
@@ -276,22 +235,18 @@ namespace Useful.Security.Cryptography.Tests
             // Shouldn't do anything (already empty)
             TestState(
                 target,
-                EnigmaModel.Military,
                 EnigmaReflectorNumber.B,
                 string.Empty,
                 0,
                 EnigmaRotorNumber.I,
                 EnigmaRotorNumber.II,
                 EnigmaRotorNumber.III,
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 'A',
                 'A',
                 'A',
-                null,
                 @"Military|B|III II I|A A A|",
                 tempIV);
         }
@@ -792,54 +747,37 @@ namespace Useful.Security.Cryptography.Tests
 
         private void TestState(
             EnigmaSettings target,
-            EnigmaModel model,
             EnigmaReflectorNumber reflector,
             string propertiesChanged,
             int plugboardSubstitutionCount,
             EnigmaRotorNumber rotorPositionFastest,
             EnigmaRotorNumber rotorPositionSecond,
             EnigmaRotorNumber rotorPositionThird,
-            EnigmaRotorNumber? rotorPositionForth,
             char ringSettingFastest,
             char ringSettingSecond,
             char ringSettingThird,
-            char? ringSettingForth,
             char rotorSettingFastest,
             char rotorSettingSecond,
             char rotorSettingThird,
-            char? rotorSettingForth,
             string key,
             string iv)
         {
             _ = ringSettingFastest;
             _ = ringSettingSecond;
             _ = ringSettingThird;
-            _ = ringSettingForth;
 
-            List<EnigmaRotorPosition> positions = new List<EnigmaRotorPosition>() { EnigmaRotorPosition.Fastest, EnigmaRotorPosition.Second, EnigmaRotorPosition.Third };
+            // IList<EnigmaRotorPosition> positions = new List<EnigmaRotorPosition>() { EnigmaRotorPosition.Fastest, EnigmaRotorPosition.Second, EnigmaRotorPosition.Third };
 
             // Assert.True("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToList().TrueForAll(x => target.AllowedLetters.Contains(x)));
             // Assert.True(positions.TrueForAll(x => target.Rotors.AllowedRotorPositions.Contains(x)));
             Assert.Equal(rotorPositionFastest, target.Rotors[EnigmaRotorPosition.Fastest].RotorNumber);
             Assert.Equal(rotorPositionSecond, target.Rotors[EnigmaRotorPosition.Second].RotorNumber);
             Assert.Equal(rotorPositionThird, target.Rotors[EnigmaRotorPosition.Third].RotorNumber);
-            if (rotorPositionForth != null)
-            {
-                Assert.Equal(rotorPositionForth, target.Rotors[EnigmaRotorPosition.Forth].RotorNumber);
-            }
-
             Assert.Equal(rotorSettingFastest, target.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal(rotorSettingSecond, target.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal(rotorSettingThird, target.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
-            if (rotorSettingForth != null)
-            {
-                Assert.Equal(rotorSettingForth, target.Rotors[EnigmaRotorPosition.Forth].CurrentSetting);
-            }
-
-            Assert.Equal(model, target.Model);
             Assert.Equal(plugboardSubstitutionCount, target.PlugboardSubstitutionCount);
             Assert.Equal(reflector, target.ReflectorNumber);
-            Assert.Equal(rotorSettingForth == null ? 3 : 4, target.Rotors.Count);
             Assert.Equal(propertiesChanged, _propertiesChanged);
             Assert.Equal(key, Encoding.Unicode.GetString(target.Key.ToArray()));
             Assert.Equal(iv, Encoding.Unicode.GetString(target.IV.ToArray()));
