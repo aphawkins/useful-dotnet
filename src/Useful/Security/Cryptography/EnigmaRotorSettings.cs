@@ -23,11 +23,11 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings()
         {
-            _availableRotors = GetAllowedRotors();
+            _availableRotors = RotorSet();
 
             _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
             int i = 1;
-            foreach (EnigmaRotorPosition position in GetAllowedRotorPositions())
+            foreach (EnigmaRotorPosition position in RotorPositions())
             {
                 _list[position] = new EnigmaRotor((EnigmaRotorNumber)i);
                 i++;
@@ -84,26 +84,24 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Get the allowed rotor positions.
+        /// Get the rotor positions.
         /// </summary>
         /// <returns>The allowed rotor positions.</returns>
-        public static IList<EnigmaRotorPosition> GetAllowedRotorPositions()
+        public static IList<EnigmaRotorPosition> RotorPositions()
         {
-            IList<EnigmaRotorPosition> allowedRotorPositions = new List<EnigmaRotorPosition>()
+            return new List<EnigmaRotorPosition>()
             {
                 EnigmaRotorPosition.Fastest,
                 EnigmaRotorPosition.Second,
                 EnigmaRotorPosition.Third,
             };
-
-            return allowedRotorPositions;
         }
 
         /// <summary>
-        /// Gets all the allowed rotors for a given Enigma machine type.
+        /// Gets all the rotors.
         /// </summary>
-        /// <returns>All the allowed rotors for the machine type and position.</returns>
-        public static IList<EnigmaRotorNumber> GetAllowedRotors()
+        /// <returns>All the rotors.</returns>
+        public static IList<EnigmaRotorNumber> RotorSet()
         {
             return new List<EnigmaRotorNumber>()
             {
@@ -119,7 +117,7 @@ namespace Useful.Security.Cryptography
         /// Gets the key order.
         /// </summary>
         /// <returns>The key order.</returns>
-        public string GetOrderKey()
+        public string OrderKey()
         {
             StringBuilder key = new StringBuilder();
 
@@ -141,7 +139,7 @@ namespace Useful.Security.Cryptography
         /// Gets the ring key.
         /// </summary>
         /// <returns>The ring key.</returns>
-        public string GetRingKey()
+        public string RingKey()
         {
             StringBuilder key = new StringBuilder();
 
@@ -163,7 +161,7 @@ namespace Useful.Security.Cryptography
         /// Gets the settings key.
         /// </summary>
         /// <returns>The settings key.</returns>
-        public string GetSettingKey()
+        public string SettingKey()
         {
             StringBuilder key = new StringBuilder();
 
@@ -196,9 +194,9 @@ namespace Useful.Security.Cryptography
 
         private void PopulateAvailableRotors()
         {
-            IList<EnigmaRotorNumber> availableRotors = GetAllowedRotors();
+            IList<EnigmaRotorNumber> availableRotors = RotorSet();
 
-            foreach (EnigmaRotorPosition position in GetAllowedRotorPositions())
+            foreach (EnigmaRotorPosition position in RotorPositions())
             {
                 if (availableRotors.Contains(_list[position].RotorNumber))
                 {

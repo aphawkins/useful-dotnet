@@ -35,15 +35,9 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void Ctor()
-        {
-            _ = new EnigmaRotorSettings();
-        }
-
-        [Fact]
         public void GetAllowedRotorPositions()
         {
-            Collection<EnigmaRotorPosition> positions = new Collection<EnigmaRotorPosition>(EnigmaRotorSettings.GetAllowedRotorPositions());
+            Collection<EnigmaRotorPosition> positions = new Collection<EnigmaRotorPosition>(EnigmaRotorSettings.RotorPositions());
             Assert.Equal(3, positions.Count);
             Assert.Equal(EnigmaRotorPosition.Fastest, positions[0]);
             Assert.Equal(EnigmaRotorPosition.Second, positions[1]);
@@ -51,9 +45,9 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void GetAllowedRotorPositions1()
+        public void GetRotorSet()
         {
-            IList<EnigmaRotorNumber> rotors = EnigmaRotorSettings.GetAllowedRotors();
+            IList<EnigmaRotorNumber> rotors = EnigmaRotorSettings.RotorSet();
             Assert.Equal(5, rotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, rotors[0]);
             Assert.Equal(EnigmaRotorNumber.II, rotors[1]);
@@ -69,7 +63,7 @@ namespace Useful.Security.Cryptography.Tests
             settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
             settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III);
             settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II);
-            Assert.Equal("II III I", settings.GetOrderKey());
+            Assert.Equal("II III I", settings.OrderKey());
         }
 
         [Fact]
@@ -88,7 +82,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 RingPosition = 'E',
             };
-            Assert.Equal("E D B", settings.GetRingKey());
+            Assert.Equal("E D B", settings.RingKey());
         }
 
         [Fact]
@@ -107,8 +101,8 @@ namespace Useful.Security.Cryptography.Tests
             EnigmaRotorSettings settings = new EnigmaRotorSettings();
             settings.PropertyChanged += (sender, e) => propertiesChanged += e.PropertyName;
 
-            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
-            Assert.Equal("ItemAvailableRotors;", propertiesChanged);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
+            Assert.Equal("ItemAvailableRotors", propertiesChanged);
         }
 
         [Fact]
@@ -127,7 +121,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 CurrentSetting = 'E',
             };
-            Assert.Equal("E D B", settings.GetSettingKey());
+            Assert.Equal("E D B", settings.SettingKey());
         }
     }
 }

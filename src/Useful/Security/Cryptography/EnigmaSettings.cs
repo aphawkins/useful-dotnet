@@ -495,7 +495,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("No rotors specified.");
             }
 
-            int rotorPositionsCount = EnigmaRotorSettings.GetAllowedRotorPositions().Count;
+            int rotorPositionsCount = EnigmaRotorSettings.RotorPositions().Count;
 
             if (rotors.Length > rotorPositionsCount)
             {
@@ -601,7 +601,7 @@ namespace Useful.Security.Cryptography
         {
             // Example:
             // G M Y
-            byte[] result = Encoding.Unicode.GetBytes(rotorSettings.GetSettingKey());
+            byte[] result = Encoding.Unicode.GetBytes(rotorSettings.SettingKey());
 
             return result;
         }
@@ -618,11 +618,11 @@ namespace Useful.Security.Cryptography
             key.Append(KeySeperator);
 
             // Rotor order
-            key.Append(rotors.GetOrderKey());
+            key.Append(rotors.OrderKey());
             key.Append(KeySeperator);
 
             // Ring setting
-            key.Append(rotors.GetRingKey());
+            key.Append(rotors.RingKey());
             key.Append(KeySeperator);
 
             // Plugboard
