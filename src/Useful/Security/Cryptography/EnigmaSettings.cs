@@ -558,7 +558,7 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
                 }
 
-                if (!rotorSettings.GetAvailableRotors().Contains(rotorNumber))
+                if (!rotorSettings.AvailableRotors.Contains(rotorNumber))
                 {
                     throw new ArgumentException("This rotor in this position is not available.");
                 }

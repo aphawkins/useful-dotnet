@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -16,8 +15,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class EnigmaRotorSettings : INotifyPropertyChanged
     {
-        private readonly IList<EnigmaRotorNumber> _availableRotors;
         private readonly IDictionary<EnigmaRotorPosition, EnigmaRotor> _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
+        private IList<EnigmaRotorNumber> _availableRotors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
@@ -33,19 +32,27 @@ namespace Useful.Security.Cryptography
                 _list[position] = new EnigmaRotor((EnigmaRotorNumber)i);
                 i++;
             }
+
+            PopulateAvailableRotors();
         }
 
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the available rotors.
+        /// Gets or sets the available rotors.
         /// </summary>
-        public IEnumerable<EnigmaRotorNumber> AvailableRotors123
+        public IEnumerable<EnigmaRotorNumber> AvailableRotors
         {
             get
             {
                 return _availableRotors;
+            }
+
+            set
+            {
+                _availableRotors = value.ToList();
+                NotifyPropertyChanged();
             }
         }
 
@@ -72,12 +79,7 @@ namespace Useful.Security.Cryptography
 
                 NotifyPropertyChanged();
 
-                // Correct the available rotors list
-                if (_availableRotors.Contains(value.RotorNumber))
-                {
-                    _availableRotors.Remove(value.RotorNumber);
-                    NotifyPropertyChanged(nameof(AvailableRotors123));
-                }
+                PopulateAvailableRotors();
             }
         }
 
@@ -111,26 +113,6 @@ namespace Useful.Security.Cryptography
                 EnigmaRotorNumber.IV,
                 EnigmaRotorNumber.V,
             };
-        }
-
-        /// <summary>
-        /// Returns the available rotors for a given Enigma model and given position.
-        /// </summary>
-        /// <returns>The available rotors for a given Enigma model and given position.</returns>
-        public IEnumerable<EnigmaRotorNumber> GetAvailableRotors()
-        {
-            // Contract.Assert(AllowedRotorPositions.Contains(rotorPosition));
-            IList<EnigmaRotorNumber> availableRotors = GetAllowedRotors();
-
-            foreach (EnigmaRotorPosition position in GetAllowedRotorPositions())
-            {
-                if (availableRotors.Contains(_list[position].RotorNumber))
-                {
-                    availableRotors.Remove(_list[position].RotorNumber);
-                }
-            }
-
-            return availableRotors;
         }
 
         /// <summary>
@@ -199,52 +181,6 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
-        /////// <summary>
-        ///////
-        /////// </summary>
-        /////// <param name="rotorOrder"></param>
-        /////// <returns></returns>
-        //// private static EnigmaRotorSettings GetDefaultRotorSettings(EnigmaRotorSettings rotorOrder)
-        //// {
-        ////    Contract.Requires(rotorOrder != null);
-
-        //// SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings> rotorSetting = new SortedDictionary<EnigmaRotorPosition, EnigmaRotorSettings>();
-
-        //// foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotorSettings> rotor in rotorOrder)
-        ////    {
-        ////        Collection<char> letters = EnigmaRotor.GetAllowedLetters(rotor.Value.RotorNumber);
-        ////        EnigmaRotorSettings setting = new EnigmaRotorSettings(rotor.Value.RotorNumber, letters[0], letters[0]);
-        ////        rotorSetting.Add(rotor.Key, setting);
-        ////    }
-
-        //// return rotorSetting;
-        //// }
-
-        /////// <summary>
-        ///////
-        /////// </summary>
-        /////// <param name="model"></param>
-        /////// <returns></returns>
-        ////public static EnigmaRotorSettings GetDefault(EnigmaModel model)
-        ////{
-        ////    EnigmaRotorSettings rotorSettings = EnigmaRotorSettings.Create(model);
-        ////    rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.Three);
-        ////    rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.Two);
-        ////    rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.One);
-        ////    switch (model)
-        ////    {
-        ////        case EnigmaModel.Military:
-        ////            break;
-        ////        case EnigmaModel.M3:
-        ////        case EnigmaModel.M4:
-        ////            rotorSettings[EnigmaRotorPosition.Forth] = EnigmaRotor.Create(EnigmaRotorNumber.Beta);
-        ////            break;
-        ////        default:
-        ////            throw new ArgumentException("Unknown Enigma model.");
-        ////    }
-
-        ////    return rotorSettings;
-        ////}
         // This method is called by the Set accessor of each property.
         // The CallerMemberName attribute that is applied to the optional propertyName
         // parameter causes the property name of the caller to be substituted as an argument.
@@ -256,6 +192,21 @@ namespace Useful.Security.Cryptography
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void PopulateAvailableRotors()
+        {
+            IList<EnigmaRotorNumber> availableRotors = GetAllowedRotors();
+
+            foreach (EnigmaRotorPosition position in GetAllowedRotorPositions())
+            {
+                if (availableRotors.Contains(_list[position].RotorNumber))
+                {
+                    availableRotors.Remove(_list[position].RotorNumber);
+                }
+            }
+
+            AvailableRotors = availableRotors;
         }
     }
 }

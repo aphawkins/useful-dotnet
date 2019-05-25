@@ -19,61 +19,6 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void SetRotorOrder()
-        {
-            EnigmaRotorSettings target = new EnigmaRotorSettings();
-            IList<EnigmaRotorNumber> availableRotors;
-            availableRotors = target.AvailableRotors123.ToList();
-            Assert.Equal(6,  availableRotors.Count);
-            Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
-            Assert.Equal(EnigmaRotorNumber.II, availableRotors[1]);
-            Assert.Equal(EnigmaRotorNumber.III, availableRotors[2]);
-            Assert.Equal(EnigmaRotorNumber.IV, availableRotors[3]);
-            Assert.Equal(EnigmaRotorNumber.V, availableRotors[4]);
-            target[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
-
-            availableRotors = target.AvailableRotors123.ToList();
-            Assert.Equal(5,  availableRotors.Count);
-            Assert.Equal(EnigmaRotorNumber.II,  availableRotors[0]);
-            Assert.Equal(EnigmaRotorNumber.III,  availableRotors[1]);
-            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[2]);
-            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[3]);
-            target[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.II);
-
-            availableRotors = target.AvailableRotors123.ToList();
-            Assert.Equal(4,  availableRotors.Count);
-            Assert.Equal(EnigmaRotorNumber.III,  availableRotors[0]);
-            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[1]);
-            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[2]);
-            target[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.III);
-
-            availableRotors = target.AvailableRotors123.ToList();
-            Assert.Equal(3,  availableRotors.Count);
-            Assert.Equal(EnigmaRotorNumber.IV,  availableRotors[0]);
-            Assert.Equal(EnigmaRotorNumber.V,  availableRotors[1]);
-        }
-
-        [Fact]
-        public void SetRotorOrderPropertyChanged()
-        {
-            string propertiesChanged = string.Empty;
-            EnigmaRotorSettings settings = new EnigmaRotorSettings();
-            settings.PropertyChanged += (sender, e) => propertiesChanged += e.PropertyName;
-
-            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
-            Assert.Equal("ItemAvailableRotors;", propertiesChanged);
-        }
-
-        [Fact]
-        public void SetRotor()
-        {
-            EnigmaRotorSettings settings = new EnigmaRotorSettings();
-            Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
-            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
-            Assert.Equal(EnigmaRotorNumber.II, settings[EnigmaRotorPosition.Fastest].RotorNumber);
-        }
-
-        [Fact]
         public void GetAllowedRotorPositions()
         {
             Collection<EnigmaRotorPosition> positions = new Collection<EnigmaRotorPosition>(EnigmaRotorSettings.GetAllowedRotorPositions());
@@ -106,6 +51,25 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void GetRingKeys()
+        {
+            EnigmaRotorSettings settings = new EnigmaRotorSettings();
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I)
+            {
+                RingPosition = 'B',
+            };
+            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III)
+            {
+                RingPosition = 'D',
+            };
+            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.V)
+            {
+                RingPosition = 'E',
+            };
+            Assert.Equal("E D B", settings.GetRingKey());
+        }
+
+        [Fact]
         public void GetSettingKeys()
         {
             EnigmaRotorSettings settings = new EnigmaRotorSettings();
@@ -125,22 +89,45 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void GetRingKeys()
+        public void SetRotor()
         {
             EnigmaRotorSettings settings = new EnigmaRotorSettings();
-            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I)
-            {
-                RingPosition = 'B',
-            };
-            settings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III)
-            {
-                RingPosition = 'D',
-            };
-            settings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.V)
-            {
-                RingPosition = 'E',
-            };
-            Assert.Equal("E D B", settings.GetRingKey());
+            Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
+            Assert.Equal(EnigmaRotorNumber.II, settings[EnigmaRotorPosition.Fastest].RotorNumber);
+        }
+
+        [Fact]
+        public void AvailableRotors()
+        {
+            EnigmaRotorSettings target = new EnigmaRotorSettings();
+            IList<EnigmaRotorNumber> availableRotors = target.AvailableRotors.ToList();
+            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.IV, availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
+
+            target[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.IV);
+            availableRotors = target.AvailableRotors.ToList();
+            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
+
+            target[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.V);
+            availableRotors = target.AvailableRotors.ToList();
+            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
+            Assert.Equal(EnigmaRotorNumber.II, availableRotors[1]);
+        }
+
+        [Fact]
+        public void SetRotorOrderPropertyChanged()
+        {
+            string propertiesChanged = string.Empty;
+            EnigmaRotorSettings settings = new EnigmaRotorSettings();
+            settings.PropertyChanged += (sender, e) => propertiesChanged += e.PropertyName;
+
+            settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I);
+            Assert.Equal("ItemAvailableRotors;", propertiesChanged);
         }
     }
 }
