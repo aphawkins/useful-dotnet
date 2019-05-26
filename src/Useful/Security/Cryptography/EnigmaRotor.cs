@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// An Enigma Rotor.
@@ -16,6 +17,11 @@ namespace Useful.Security.Cryptography
         /// States if this cipher is symmetric i.e. two letters substitute to each other.
         /// </summary>
         private const bool IsRotorSymmetric = false;
+
+        /// <summary>
+        /// Gets the letters available to this rotor.
+        /// </summary>
+        private static readonly IList<char> CharacterSet = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         /// <summary>
         /// The current offset position of the rotor in relation to the letters.
@@ -57,11 +63,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public event EventHandler<EnigmaRotorAdvanceEventArgs> RotorAdvanced;
 
-        ///// <summary>
-        ///// Raised when the rotor is reversed
-        ///// </summary>
-        // public event EventHandler<EnigmaRotorAdvanceEventArgs> RotorReversed;
-
         /// <summary>
         /// Gets or sets the current letter the rotor is set to.
         /// </summary>
@@ -69,7 +70,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return Letters[_currentSetting];
+                return CharacterSet[_currentSetting];
             }
 
             set
@@ -79,19 +80,14 @@ namespace Useful.Security.Cryptography
                     throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
                 }
 
-                if (!Letters.Contains(value))
+                if (!CharacterSet.Contains(value))
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
-                _currentSetting = Letters.IndexOf(value);
+                _currentSetting = CharacterSet.IndexOf(value);
             }
         }
-
-        /// <summary>
-        /// Gets the letters available to this rotor.
-        /// </summary>
-        public IList<char> Letters { get; private set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
         /// <summary>
         /// Gets or sets the current letter the rotor's ring is set to.
@@ -100,7 +96,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return Letters[_ringPosition];
+                return CharacterSet[_ringPosition];
             }
 
             set
@@ -110,12 +106,12 @@ namespace Useful.Security.Cryptography
                     throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
                 }
 
-                if (!Letters.Contains(value))
+                if (!CharacterSet.Contains(value))
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
-                _ringPosition = Letters.IndexOf(value);
+                _ringPosition = CharacterSet.IndexOf(value);
             }
         }
 
@@ -146,19 +142,19 @@ namespace Useful.Security.Cryptography
             }
 
             _currentSetting++;
-            _currentSetting %= Letters.Count;
+            _currentSetting %= CharacterSet.Count;
 
             bool isNotchHit = false;
             bool isDoubleStep = false;
 
             foreach (int notch in _notches)
             {
-                if (_currentSetting == ((notch + 1) % Letters.Count))
+                if (_currentSetting == ((notch + 1) % CharacterSet.Count))
                 {
                     isNotchHit = true;
                     break;
                 }
-                else if (_currentSetting == ((notch + 2) % Letters.Count))
+                else if (_currentSetting == ((notch + 2) % CharacterSet.Count))
                 {
                     isDoubleStep = true;
                     break;
@@ -181,26 +177,26 @@ namespace Useful.Security.Cryptography
             }
 
             // Add the offset the current position
-            int currentPosition = Letters.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
+            int currentPosition = CharacterSet.IndexOf(letter);
+            int newLet = (currentPosition + _currentSetting - _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            char newLetter = Letters[newLet];
+            char newLetter = CharacterSet[newLet];
 
             newLetter = _wiring.Decrypt(newLetter);
 
             // Undo offset the current position
-            currentPosition = Letters.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
+            currentPosition = CharacterSet.IndexOf(newLetter);
+            newLet = (currentPosition - _currentSetting + _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            return Letters[newLet];
+            return CharacterSet[newLet];
         }
 
         /// <summary>
@@ -225,27 +221,28 @@ namespace Useful.Security.Cryptography
             }
 
             // Add the offset the current position
-            int currentPosition = Letters.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
+            int currentPosition = CharacterSet.IndexOf(letter);
+            int newLet = (currentPosition + _currentSetting - _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            char newLetter = Letters[newLet];
+            char newLetter = CharacterSet[newLet];
 
             newLetter = _wiring.Encrypt(newLetter);
 
             // Undo offset the current position
-            currentPosition = Letters.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + Letters.Count) % Letters.Count;
-            if (newLet < 0 || newLet >= Letters.Count)
+            currentPosition = CharacterSet.IndexOf(newLetter);
+            newLet = (currentPosition - _currentSetting + _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            return Letters[newLet];
+            return CharacterSet[newLet];
         }
+
         /////// <summary>
         /////// The previous rotor has advanced.
         /////// </summary>
@@ -260,44 +257,6 @@ namespace Useful.Security.Cryptography
         ////    if (e.IsDoubleStep && _notches.Contains(_currentSetting))
         ////    {
         ////        AdvanceRotor();
-        ////    }
-        //// }
-
-        /////// <summary>
-        /////// Reverses the rotor one notch.
-        /////// </summary>
-        //// public void ReverseRotor()
-        //// {
-        ////    Contract.Requires(this.Letters.Count != 0);
-
-        //// if (this.isDisposed)
-        ////    {
-        ////        throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-        ////    }
-
-        //// // Don't reverse the rotor if it can't turn
-        ////    if (!this.CanTurn)
-        ////    {
-        ////        return;
-        ////    }
-
-        //// int setting = (this.currentSetting - 1 + this.Letters.Count) % this.Letters.Count;
-
-        //// if (0 > setting) throw new IndexOutOfRangeException();
-
-        //// this.SetCurrentSetting(setting);
-
-        //// this.OnRotorReversed();
-
-        //// if (0 > this.currentSetting || this.currentSetting >= this.Letters.Count) throw new IndexOutOfRangeException();
-
-        //// foreach (int notch in this.notches)
-        ////    {
-        ////        if (this.currentSetting == (notch - 1 + this.Letters.Count) % this.Letters.Count)
-        ////        {
-        ////            this.OnRotorReversedNotchHit();
-        ////            break;
-        ////        }
         ////    }
         //// }
 
@@ -353,12 +312,12 @@ namespace Useful.Security.Cryptography
             //// Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
 
             IDictionary<char, char> rotorPairs = new Dictionary<char, char>();
-            for (int i = 0; i < Letters.Count; i++)
+            for (int i = 0; i < CharacterSet.Count; i++)
             {
-                rotorPairs.Add(Letters[i], rotorWiring[i]);
+                rotorPairs.Add(CharacterSet[i], rotorWiring[i]);
             }
 
-            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(Letters, rotorPairs, IsRotorSymmetric);
+            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorPairs, IsRotorSymmetric);
             _wiring?.Dispose();
             _wiring = new MonoAlphabeticCipher(wiringSettings);
 
@@ -366,18 +325,10 @@ namespace Useful.Security.Cryptography
             _notches = new List<int>(rotorNotches.Length);
             foreach (char notch in rotorNotches)
             {
-                _notches.Add(Letters.IndexOf(notch));
+                _notches.Add(CharacterSet.IndexOf(notch));
             }
 
             CanTurn = canTurn;
         }
-
-        // private void OnRotorReversed()
-        // {
-        //    if (this.RotorReversed != null)
-        //    {
-        //        this.RotorReversed(this, new EnigmaRotorAdvanceEventArgs(this.RotorNumber, false));
-        //    }
-        // }
     }
 }

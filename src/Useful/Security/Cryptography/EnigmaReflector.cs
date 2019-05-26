@@ -56,25 +56,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Returns a value indicating whether this instance is equal to another object.
-        /// </summary>
-        /// <param name="obj">The object to compare.</param>
-        /// <returns>True if the objects are equal, else false.</returns>
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        /// <summary>
-        /// Retrieves a value that indicates the hash code value for this object.
-        /// </summary>
-        /// <returns>The hash code value for this object.</returns>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        /// <summary>
         /// The letter this reflector encodes to going through it.
         /// </summary>
         /// <param name="letter">The letter to transform.</param>

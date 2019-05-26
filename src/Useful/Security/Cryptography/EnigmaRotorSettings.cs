@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
@@ -23,11 +24,9 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings()
         {
-            _availableRotors = RotorSet();
-
             _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
             int i = 1;
-            foreach (EnigmaRotorPosition position in RotorPositions())
+            foreach (EnigmaRotorPosition position in RotorPositions)
             {
                 _list[position] = new EnigmaRotor((EnigmaRotorNumber)i);
                 i++;
@@ -40,7 +39,43 @@ namespace Useful.Security.Cryptography
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets or sets the available rotors.
+        /// Gets the rotor positions.
+        /// </summary>
+        /// <returns>The rotor positions.</returns>
+        public static IEnumerable<EnigmaRotorPosition> RotorPositions
+        {
+            get
+            {
+                return new List<EnigmaRotorPosition>()
+                {
+                    EnigmaRotorPosition.Fastest,
+                    EnigmaRotorPosition.Second,
+                    EnigmaRotorPosition.Third,
+                };
+            }
+        }
+
+        /// <summary>
+        /// Gets all the rotors.
+        /// </summary>
+        /// <returns>All the rotors.</returns>
+        public static IEnumerable<EnigmaRotorNumber> RotorSet
+        {
+            get
+            {
+                return new List<EnigmaRotorNumber>()
+                {
+                    EnigmaRotorNumber.I,
+                    EnigmaRotorNumber.II,
+                    EnigmaRotorNumber.III,
+                    EnigmaRotorNumber.IV,
+                    EnigmaRotorNumber.V,
+                };
+            }
+        }
+
+        /// <summary>
+        /// Gets the available rotors.
         /// </summary>
         public IEnumerable<EnigmaRotorNumber> AvailableRotors
         {
@@ -49,17 +84,12 @@ namespace Useful.Security.Cryptography
                 return _availableRotors;
             }
 
-            set
+            private set
             {
                 _availableRotors = value.ToList();
                 NotifyPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// Gets the number of rotors.
-        /// </summary>
-        public int Count => _list.Count;
 
         /// <summary>
         /// Sets the rotor settings.
@@ -75,64 +105,17 @@ namespace Useful.Security.Cryptography
 
             set
             {
+                if (!AvailableRotors.ToList().Contains(value.RotorNumber))
+                {
+                    throw new ArgumentException("This rotor is already in use.", nameof(value));
+                }
+
                 _list[position] = value;
 
                 NotifyPropertyChanged();
 
                 PopulateAvailableRotors();
             }
-        }
-
-        /// <summary>
-        /// Get the rotor positions.
-        /// </summary>
-        /// <returns>The allowed rotor positions.</returns>
-        public static IList<EnigmaRotorPosition> RotorPositions()
-        {
-            return new List<EnigmaRotorPosition>()
-            {
-                EnigmaRotorPosition.Fastest,
-                EnigmaRotorPosition.Second,
-                EnigmaRotorPosition.Third,
-            };
-        }
-
-        /// <summary>
-        /// Gets all the rotors.
-        /// </summary>
-        /// <returns>All the rotors.</returns>
-        public static IList<EnigmaRotorNumber> RotorSet()
-        {
-            return new List<EnigmaRotorNumber>()
-            {
-                EnigmaRotorNumber.I,
-                EnigmaRotorNumber.II,
-                EnigmaRotorNumber.III,
-                EnigmaRotorNumber.IV,
-                EnigmaRotorNumber.V,
-            };
-        }
-
-        /// <summary>
-        /// Gets the key order.
-        /// </summary>
-        /// <returns>The key order.</returns>
-        public string OrderKey()
-        {
-            StringBuilder key = new StringBuilder();
-
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
-            {
-                key.Append(position.Value.RotorNumber);
-                key.Append(EnigmaSettings.KeyDelimiter);
-            }
-
-            if (_list.Count > 0)
-            {
-                key.Remove(key.Length - 1, 1);
-            }
-
-            return key.ToString();
         }
 
         /// <summary>
@@ -146,6 +129,28 @@ namespace Useful.Security.Cryptography
             foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
             {
                 key.Append(position.Value.RingPosition);
+                key.Append(EnigmaSettings.KeyDelimiter);
+            }
+
+            if (_list.Count > 0)
+            {
+                key.Remove(key.Length - 1, 1);
+            }
+
+            return key.ToString();
+        }
+
+        /// <summary>
+        /// Gets the rotor order.
+        /// </summary>
+        /// <returns>The rotor order.</returns>
+        public string RotorOrderKey()
+        {
+            StringBuilder key = new StringBuilder();
+
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
+            {
+                key.Append(position.Value.RotorNumber);
                 key.Append(EnigmaSettings.KeyDelimiter);
             }
 
@@ -194,9 +199,9 @@ namespace Useful.Security.Cryptography
 
         private void PopulateAvailableRotors()
         {
-            IList<EnigmaRotorNumber> availableRotors = RotorSet();
+            IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
 
-            foreach (EnigmaRotorPosition position in RotorPositions())
+            foreach (EnigmaRotorPosition position in RotorPositions)
             {
                 if (availableRotors.Contains(_list[position].RotorNumber))
                 {

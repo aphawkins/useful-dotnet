@@ -460,10 +460,10 @@ namespace Useful.Security.Cryptography
         ////    }
         //// }
 
-        internal static int GetIvLength()
-        {
-            return 5;
-        }
+        ////internal static int GetIvLength()
+        ////{
+        ////    return 5;
+        ////}
 
         internal static EnigmaSettings ParseKey(byte[] key)
         {
@@ -495,7 +495,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("No rotors specified.");
             }
 
-            int rotorPositionsCount = EnigmaRotorSettings.RotorPositions().Count;
+            int rotorPositionsCount = EnigmaRotorSettings.RotorPositions.Count();
 
             if (rotors.Length > rotorPositionsCount)
             {
@@ -564,7 +564,7 @@ namespace Useful.Security.Cryptography
                 }
 
                 EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber);
-                if (!enigmaRotor.Letters.Contains(rings[i][0]))
+                if (!CharacterSet.Contains(rings[i][0]))
                 {
                     throw new ArgumentException("This ring position is invalid.");
                 }
@@ -618,7 +618,7 @@ namespace Useful.Security.Cryptography
             key.Append(KeySeperator);
 
             // Rotor order
-            key.Append(rotors.OrderKey());
+            key.Append(rotors.RotorOrderKey());
             key.Append(KeySeperator);
 
             // Ring setting
