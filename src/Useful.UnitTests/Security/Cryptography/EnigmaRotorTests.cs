@@ -54,13 +54,15 @@ namespace Useful.Security.Cryptography.Tests
             using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 target.RotorAdvanced += (sender, e) => propertyChanged += e.RotorNumber;
-                target.RingPosition = 'A';
+                target.RingPosition = 1;
                 target.CurrentSetting = 'A';
                 Assert.Equal('E', target.Forward('A'));
-                target.RingPosition = 'A';
+                Assert.Equal('A', target.Backward('E'));
+                target.RingPosition = 1;
                 target.AdvanceRotor();
                 Assert.Equal('B', target.CurrentSetting);
                 Assert.Equal('J', target.Forward('A'));
+                Assert.Equal('A', target.Backward('J'));
             }
 
             Assert.Equal("I", propertyChanged);
@@ -102,7 +104,7 @@ namespace Useful.Security.Cryptography.Tests
                 {
                     propertyChanged = string.Empty;
                     target.RotorAdvanced += (sender, e) => propertyChanged += e.IsNotchHit;
-                    target.RingPosition = 'A';
+                    target.RingPosition = 1;
                     target.CurrentSetting = notch;
                     target.AdvanceRotor();
                     Assert.Equal("True", propertyChanged);
@@ -115,11 +117,11 @@ namespace Useful.Security.Cryptography.Tests
         {
             using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
-                target.RingPosition = 'B';
+                target.RingPosition = 2;
                 target.CurrentSetting = 'A';
                 Assert.Equal('K', target.Forward('A'));
 
-                target.RingPosition = 'F';
+                target.RingPosition = 6;
                 target.CurrentSetting = 'Y';
                 Assert.Equal('W', target.Forward('A'));
             }
@@ -131,9 +133,9 @@ namespace Useful.Security.Cryptography.Tests
             using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
                 // Default
-                Assert.Equal('A', target.RingPosition);
-                target.RingPosition = 'W';
-                Assert.Equal('W', target.RingPosition);
+                Assert.Equal(1, target.RingPosition);
+                target.RingPosition = 23;
+                Assert.Equal(23, target.RingPosition);
             }
         }
 
@@ -142,9 +144,10 @@ namespace Useful.Security.Cryptography.Tests
         {
             using (EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I))
             {
-                target.RingPosition = 'W';
-                Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 'Å');
-                Assert.Equal('W', target.RingPosition);
+                target.RingPosition = 23;
+                Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 27);
+                Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 0);
+                Assert.Equal(23, target.RingPosition);
             }
         }
     }

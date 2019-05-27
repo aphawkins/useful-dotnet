@@ -54,7 +54,7 @@ namespace Useful.Security.Cryptography
             RotorNumber = rotorNumber;
             CanTurn = true;
             SetWiring();
-            RingPosition = 'A';
+            RingPosition = 1;
             CurrentSetting = 'A';
         }
 
@@ -92,11 +92,11 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the current letter the rotor's ring is set to.
         /// </summary>
-        public char RingPosition
+        public int RingPosition
         {
             get
             {
-                return CharacterSet[_ringPosition];
+                return _ringPosition;
             }
 
             set
@@ -106,12 +106,12 @@ namespace Useful.Security.Cryptography
                     throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
                 }
 
-                if (!CharacterSet.Contains(value))
+                if (value < 1 || value > CharacterSet.Count)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
-                _ringPosition = CharacterSet.IndexOf(value);
+                _ringPosition = value;
             }
         }
 
@@ -178,7 +178,7 @@ namespace Useful.Security.Cryptography
 
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Count) % CharacterSet.Count;
             if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
@@ -190,7 +190,7 @@ namespace Useful.Security.Cryptography
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Count) % CharacterSet.Count;
             if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
@@ -222,7 +222,7 @@ namespace Useful.Security.Cryptography
 
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Count) % CharacterSet.Count;
             if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();
@@ -234,7 +234,7 @@ namespace Useful.Security.Cryptography
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition + CharacterSet.Count) % CharacterSet.Count;
+            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Count) % CharacterSet.Count;
             if (newLet < 0 || newLet >= CharacterSet.Count)
             {
                 throw new IndexOutOfRangeException();

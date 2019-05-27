@@ -128,7 +128,7 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
             {
-                key.Append(position.Value.RingPosition);
+                key.Append($"{position.Value.RingPosition:00}");
                 key.Append(EnigmaSettings.KeyDelimiter);
             }
 

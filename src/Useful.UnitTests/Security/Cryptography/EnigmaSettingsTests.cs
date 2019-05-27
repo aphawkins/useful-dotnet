@@ -752,19 +752,15 @@ namespace Useful.Security.Cryptography.Tests
             EnigmaRotorNumber rotorPositionFastest,
             EnigmaRotorNumber rotorPositionSecond,
             EnigmaRotorNumber rotorPositionThird,
-            char ringSettingFastest,
-            char ringSettingSecond,
-            char ringSettingThird,
+            int ringSettingFastest,
+            int ringSettingSecond,
+            int ringSettingThird,
             char rotorSettingFastest,
             char rotorSettingSecond,
             char rotorSettingThird,
             string key,
             string iv)
         {
-            _ = ringSettingFastest;
-            _ = ringSettingSecond;
-            _ = ringSettingThird;
-
             // IList<EnigmaRotorPosition> positions = new List<EnigmaRotorPosition>() { EnigmaRotorPosition.Fastest, EnigmaRotorPosition.Second, EnigmaRotorPosition.Third };
 
             // Assert.True("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToList().TrueForAll(x => target.AllowedLetters.Contains(x)));
@@ -775,6 +771,9 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(rotorSettingFastest, target.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal(rotorSettingSecond, target.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal(rotorSettingThird, target.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal(ringSettingFastest, target.Rotors[EnigmaRotorPosition.Fastest].RingPosition);
+            Assert.Equal(ringSettingSecond, target.Rotors[EnigmaRotorPosition.Second].RingPosition);
+            Assert.Equal(ringSettingThird, target.Rotors[EnigmaRotorPosition.Third].RingPosition);
             Assert.Equal(plugboardSubstitutionCount, target.PlugboardSubstitutionCount);
             Assert.Equal(reflector, target.ReflectorNumber);
             Assert.Equal(propertiesChanged, _propertiesChanged);

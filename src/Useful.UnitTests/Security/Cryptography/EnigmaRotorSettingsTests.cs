@@ -65,16 +65,16 @@ namespace Useful.Security.Cryptography.Tests
             EnigmaRotorSettings settings = new EnigmaRotorSettings();
 
             // Default
-            Assert.Equal('A', settings[EnigmaRotorPosition.Fastest].RingPosition);
-            Assert.Equal('A', settings[EnigmaRotorPosition.Second].RingPosition);
-            Assert.Equal('A', settings[EnigmaRotorPosition.Third].RingPosition);
-            Assert.Equal("A A A", settings.RingKey());
+            Assert.Equal(1, settings[EnigmaRotorPosition.Fastest].RingPosition);
+            Assert.Equal(1, settings[EnigmaRotorPosition.Second].RingPosition);
+            Assert.Equal(1, settings[EnigmaRotorPosition.Third].RingPosition);
+            Assert.Equal("01 01 01", settings.RingKey());
 
             // Set
-            settings[EnigmaRotorPosition.Fastest].RingPosition = 'B';
-            settings[EnigmaRotorPosition.Second].RingPosition = 'D';
-            settings[EnigmaRotorPosition.Third].RingPosition = 'E';
-            Assert.Equal("E D B", settings.RingKey());
+            settings[EnigmaRotorPosition.Fastest].RingPosition = 02;
+            settings[EnigmaRotorPosition.Second].RingPosition = 04;
+            settings[EnigmaRotorPosition.Third].RingPosition = 05;
+            Assert.Equal("05 04 02", settings.RingKey());
         }
 
         [Fact]
