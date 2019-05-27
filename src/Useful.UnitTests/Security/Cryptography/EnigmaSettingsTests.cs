@@ -26,16 +26,16 @@ namespace Useful.Security.Cryptography.Tests
                 EnigmaReflectorNumber.B,
                 string.Empty,
                 0,
-                EnigmaRotorNumber.III,
-                EnigmaRotorNumber.II,
                 EnigmaRotorNumber.I,
+                EnigmaRotorNumber.II,
+                EnigmaRotorNumber.III,
+                1,
+                1,
+                1,
                 'A',
                 'A',
                 'A',
-                'A',
-                'A',
-                'A',
-                "Military|B|I II III|A A A|",
+                "B|III II I|01 01 01|",
                 "A A A");
         }
 
