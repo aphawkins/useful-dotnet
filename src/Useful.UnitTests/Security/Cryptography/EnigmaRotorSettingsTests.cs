@@ -53,6 +53,13 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void CurrentSettingInvalid()
+        {
+            EnigmaRotorSettings settings = new EnigmaRotorSettings();
+            Assert.Throws<ArgumentOutOfRangeException>(() => settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'Å');
+        }
+
+        [Fact]
         public void RingPosition()
         {
             EnigmaRotorSettings settings = new EnigmaRotorSettings();
@@ -68,6 +75,13 @@ namespace Useful.Security.Cryptography.Tests
             settings[EnigmaRotorPosition.Second].RingPosition = 'D';
             settings[EnigmaRotorPosition.Third].RingPosition = 'E';
             Assert.Equal("E D B", settings.RingKey());
+        }
+
+        [Fact]
+        public void RingPositionInvalid()
+        {
+            EnigmaRotorSettings settings = new EnigmaRotorSettings();
+            Assert.Throws<ArgumentOutOfRangeException>(() => settings[EnigmaRotorPosition.Fastest].RingPosition = 'Å');
         }
 
         [Fact]
