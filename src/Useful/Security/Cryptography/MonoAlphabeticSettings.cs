@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="key">The encryption Key.</param>
         public MonoAlphabeticSettings(byte[] key)
-            : this(GetSettings(key))
+            : this(ParseSettings(key))
         {
         }
 
@@ -125,7 +125,7 @@ namespace Useful.Security.Cryptography
                 // characterSet|DN GR IS KC QX TM PV HY FW BJ|isSymmetric
                 StringBuilder key = new StringBuilder(new string(CharacterSet.ToArray()));
                 key.Append(KeySeperator);
-                key.Append(GetSubstitutionString());
+                key.Append(SubstitutionString());
                 key.Append(KeySeperator);
                 key.Append(IsSymmetric);
                 return new List<byte>(Encoding.GetBytes(key.ToString()));
@@ -141,7 +141,7 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                return GetSubstitutions().Count;
+                return Substitutions().Count;
             }
         }
 
@@ -297,6 +297,29 @@ namespace Useful.Security.Cryptography
             return _substitutions.First(x => this[x] == letter);
         }
 
+        internal IReadOnlyDictionary<char, char> Substitutions()
+        {
+            Dictionary<char, char> pairsToAdd = new Dictionary<char, char>();
+
+            for (int i = 0; i < CharacterSet.Count; i++)
+            {
+                if (CharacterSet[i] == _substitutions[i])
+                {
+                    continue;
+                }
+
+                if (pairsToAdd.ContainsKey(_substitutions[i])
+                    && pairsToAdd[_substitutions[i]] == CharacterSet[i])
+                {
+                    continue;
+                }
+
+                pairsToAdd.Add(CharacterSet[i], _substitutions[i]);
+            }
+
+            return pairsToAdd;
+        }
+
         /// <summary>
         /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
@@ -347,7 +370,7 @@ namespace Useful.Security.Cryptography
         /// <param name="charaterSet">The letters that the pairs are derived from.</param>
         /// <param name="checkUniqueness">Whether letters in the pairs should be unique e.g. AB CD versus AB BC.</param>
         /// <returns>The string value parsed as pairs.</returns>
-        private static IDictionary<char, char> GetPairs(string key, char delimiter, IEnumerable<char> charaterSet, bool checkUniqueness)
+        private static IDictionary<char, char> Pairs(string key, char delimiter, IEnumerable<char> charaterSet, bool checkUniqueness)
         {
             IDictionary<char, char> pairs = new Dictionary<char, char>();
             string[] rawPairs = key.Split(new char[] { delimiter });
@@ -381,7 +404,7 @@ namespace Useful.Security.Cryptography
             return pairs;
         }
 
-        private static (IList<char>, IDictionary<char, char>, bool) GetSettings(byte[] key)
+        private static (IList<char>, IDictionary<char, char>, bool) ParseSettings(byte[] key)
         {
             // Example:
             // characterSet|substitutions|isSymmetric
@@ -455,7 +478,7 @@ namespace Useful.Security.Cryptography
             // Substitutions
             string substitutionPart = parts[1];
 
-            substitutions = GetPairs(substitutionPart, SubstitutionDelimiter, characterSet, isSymmetric);
+            substitutions = Pairs(substitutionPart, SubstitutionDelimiter, characterSet, isSymmetric);
 
             return (characterSet, substitutions, isSymmetric);
         }
@@ -469,33 +492,10 @@ namespace Useful.Security.Cryptography
             CollectionChanged?.Invoke(this, e);
         }
 
-        private IDictionary<char, char> GetSubstitutions()
-        {
-            IDictionary<char, char> pairsToAdd = new Dictionary<char, char>();
-
-            for (int i = 0; i < CharacterSet.Count; i++)
-            {
-                if (CharacterSet[i] == _substitutions[i])
-                {
-                    continue;
-                }
-
-                if (pairsToAdd.ContainsKey(_substitutions[i])
-                    && pairsToAdd[_substitutions[i]] == CharacterSet[i])
-                {
-                    continue;
-                }
-
-                pairsToAdd.Add(CharacterSet[i], _substitutions[i]);
-            }
-
-            return pairsToAdd;
-        }
-
-        private string GetSubstitutionString()
+        private string SubstitutionString()
         {
             StringBuilder key = new StringBuilder();
-            IDictionary<char, char> substitutions = GetSubstitutions();
+            IReadOnlyDictionary<char, char> substitutions = Substitutions();
 
             foreach (KeyValuePair<char, char> pair in substitutions)
             {

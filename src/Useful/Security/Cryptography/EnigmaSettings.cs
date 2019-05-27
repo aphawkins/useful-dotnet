@@ -610,7 +610,7 @@ namespace Useful.Security.Cryptography
         {
             // Example:
             // "reflector|rotors|ring|plugboard"
-            // "Military|B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
+            // "B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
             StringBuilder key = new StringBuilder();
 
             // Reflector
@@ -626,7 +626,20 @@ namespace Useful.Security.Cryptography
             key.Append(KeySeperator);
 
             // Plugboard
-            key.Append(plugboard); // .GetSettingKey());
+            IReadOnlyDictionary<char, char> substitutions = plugboard.Substitutions();
+
+            foreach (KeyValuePair<char, char> pair in substitutions)
+            {
+                key.Append(pair.Key);
+                key.Append(pair.Value);
+                key.Append(" ");
+            }
+
+            if (substitutions.Count > 0
+                && key.Length > 0)
+            {
+                key.Remove(key.Length - 1, 1);
+            }
 
             return Encoding.Unicode.GetBytes(key.ToString());
         }
