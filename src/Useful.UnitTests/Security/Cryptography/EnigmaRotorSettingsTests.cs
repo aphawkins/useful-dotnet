@@ -119,7 +119,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void RotorPositionsDEfaults()
+        public void RotorPositionsDefaults()
         {
             IList<EnigmaRotorPosition> positions = EnigmaRotorSettings.RotorPositions.ToList();
             Assert.Equal(3, positions.Count);
