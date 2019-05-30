@@ -35,6 +35,134 @@ namespace Useful.Security.Cryptography
             PopulateAvailableRotors();
         }
 
+        internal EnigmaRotorSettings(string rotorOrder, string ringSettings, string rotorSettings)
+        {
+            _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
+            PopulateAvailableRotors();
+
+            // Rotor Order
+            string[] rotors = rotorOrder.Split(new char[] { ' ' });
+            if (rotors.Length <= 0)
+            {
+                throw new ArgumentException("No rotors specified.");
+            }
+
+            int rotorPositionsCount = RotorPositions.Count();
+
+            if (rotors.Length > rotorPositionsCount)
+            {
+                throw new ArgumentException("Too many rotors specified.");
+            }
+
+            if (rotors.Length < rotorPositionsCount)
+            {
+                throw new ArgumentException("Too few rotors specified.");
+            }
+
+            if (rotors[0].Length == 0)
+            {
+                throw new ArgumentException("No rotors specified.");
+            }
+
+            rotors = rotors.Reverse().ToArray();
+
+            // Ring
+            string[] rings = ringSettings.Split(new char[] { ' ' });
+
+            if (rings.Length <= 0)
+            {
+                throw new ArgumentException("No rings specified.");
+            }
+
+            if (rings.Length > rotorPositionsCount)
+            {
+                throw new ArgumentException("Too many rings specified.");
+            }
+
+            if (rings.Length < rotorPositionsCount)
+            {
+                throw new ArgumentException("Too few rings specified.");
+            }
+
+            if (rings[0].Length == 0)
+            {
+                throw new ArgumentException("No rings specified.");
+            }
+
+            rings = rings.Reverse().ToArray();
+
+            // Rotor Settings
+            string[] rotorSetting = rotorSettings.Split(new char[] { ' ' });
+
+            if (rotorSetting.Length <= 0)
+            {
+                throw new ArgumentException("No rotor settings specified.");
+            }
+
+            if (rotorSetting.Length > rotorPositionsCount)
+            {
+                throw new ArgumentException("Too many rotor settings specified.");
+            }
+
+            if (rotorSetting.Length < rotorPositionsCount)
+            {
+                throw new ArgumentException("Too few rotor settings specified.");
+            }
+
+            if (rotorSetting[0].Length == 0)
+            {
+                throw new ArgumentException("No rotor settings specified.");
+            }
+
+            rotorSetting = rotorSetting.Reverse().ToArray();
+
+            for (int i = 0; i < rotors.Length; i++)
+            {
+                if (string.IsNullOrEmpty(rotors[i]) || rotors[i].Contains("\0"))
+                {
+                    throw new ArgumentException("Null or empty rotor specified.");
+                }
+
+                if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
+                {
+                    throw new ArgumentException($"Invalid rotor position {i}.");
+                }
+
+                if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
+                {
+                    throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
+                }
+
+                if (!AvailableRotors.Contains(rotorNumber))
+                {
+                    throw new ArgumentException("This rotor is already in use.");
+                }
+
+                using (EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber))
+                {
+                    ////if (!CharacterSet.Contains(rings[i][0]))
+                    ////{
+                    ////    throw new ArgumentException("This ring position is invalid.");
+                    ////}
+
+                    ////enigmaRotor.RingPosition = rings[i][0];
+
+                    enigmaRotor.RingPosition = int.Parse(rings[i]);
+
+                    if (rotorSetting[i].Length > 1)
+                    {
+                        throw new ArgumentException("Invalid rotor number setting.");
+                    }
+
+                    enigmaRotor.CurrentSetting = rotorSetting[i][0];
+
+                    _list[rotorPosition] = enigmaRotor;
+                }
+
+                PopulateAvailableRotors();
+            }
+        }
+
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -201,11 +329,14 @@ namespace Useful.Security.Cryptography
         {
             IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
 
-            foreach (EnigmaRotorPosition position in RotorPositions)
+            if (_list.Count() > 0)
             {
-                if (availableRotors.Contains(_list[position].RotorNumber))
+                foreach (EnigmaRotorPosition position in RotorPositions)
                 {
-                    availableRotors.Remove(_list[position].RotorNumber);
+                    if (availableRotors.Contains(_list[position].RotorNumber))
+                    {
+                        availableRotors.Remove(_list[position].RotorNumber);
+                    }
                 }
             }
 

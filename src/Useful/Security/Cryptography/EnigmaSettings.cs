@@ -31,15 +31,15 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private const char KeySeperator = '|';
 
-        private const string _defaultKey = "B|I II III|A A A|";
+        ////private const string _defaultKey = "B|III II I|01 01 01|";
 
-        private const string _defaultIv = "A A A";
+        ////private const string _defaultIv = "A A A";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(Encoding.Unicode.GetBytes(_defaultKey), Encoding.Unicode.GetBytes(_defaultIv))
+            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}||True")))
         {
         }
 
@@ -215,130 +215,130 @@ namespace Useful.Security.Cryptography
             // this.SetRotorSetting(rotorPosition, currentSetting);
         }
 
-        private static EnigmaSettings ParseKey(byte[] key)
-        {
-            // Example:
-            // model|reflector|rotors|ring|plugboard
-            EnigmaSettings settings = new EnigmaSettings();
+        ////private static EnigmaSettings ParseKey(byte[] key)
+        ////{
+        ////    // Example:
+        ////    // model|reflector|rotors|ring|plugboard
+        ////    EnigmaSettings settings = new EnigmaSettings();
 
-            char[] tempKey = Encoding.Unicode.GetChars(key);
-            string keyString = new string(tempKey);
+        ////    char[] tempKey = Encoding.Unicode.GetChars(key);
+        ////    string keyString = new string(tempKey);
 
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
+        ////    string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 
-            if (parts.Length != KeyParts)
-            {
-                throw new ArgumentException("Incorrect number of key parts.");
-            }
+        ////    if (parts.Length != KeyParts)
+        ////    {
+        ////        throw new ArgumentException("Incorrect number of key parts.");
+        ////    }
 
-            // Reflector
-            settings.ReflectorNumber = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[0]);
-            ////if (!GetAllowed(settings._model).Contains(settings.ReflectorNumber))
-            ////{
-            ////    throw new ArgumentException("This reflector is not available.");
-            ////}
+        ////    // Reflector
+        ////    settings.ReflectorNumber = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[0]);
+        ////    ////if (!GetAllowed(settings._model).Contains(settings.ReflectorNumber))
+        ////    ////{
+        ////    ////    throw new ArgumentException("This reflector is not available.");
+        ////    ////}
 
-            // Rotor Order
-            string[] rotors = parts[1].Split(new char[] { KeyDelimiter });
-            if (rotors.Length <= 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
+        ////    // Rotor Order
+        ////    string[] rotors = parts[1].Split(new char[] { KeyDelimiter });
+        ////    if (rotors.Length <= 0)
+        ////    {
+        ////        throw new ArgumentException("No rotors specified.");
+        ////    }
 
-            int rotorPositionsCount = EnigmaRotorSettings.RotorPositions.Count();
+        ////    int rotorPositionsCount = EnigmaRotorSettings.RotorPositions.Count();
 
-            if (rotors.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rotors specified.");
-            }
+        ////    if (rotors.Length > rotorPositionsCount)
+        ////    {
+        ////        throw new ArgumentException("Too many rotors specified.");
+        ////    }
 
-            if (rotors.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rotors specified.");
-            }
+        ////    if (rotors.Length < rotorPositionsCount)
+        ////    {
+        ////        throw new ArgumentException("Too few rotors specified.");
+        ////    }
 
-            if (rotors[0].Length == 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
+        ////    if (rotors[0].Length == 0)
+        ////    {
+        ////        throw new ArgumentException("No rotors specified.");
+        ////    }
 
-            rotors = rotors.Reverse().ToArray();
+        ////    rotors = rotors.Reverse().ToArray();
 
-            // Ring
-            string[] rings = parts[2].Split(new char[] { KeyDelimiter });
+        ////    // Ring
+        ////    string[] rings = parts[2].Split(new char[] { KeyDelimiter });
 
-            if (rings.Length <= 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
+        ////    if (rings.Length <= 0)
+        ////    {
+        ////        throw new ArgumentException("No rings specified.");
+        ////    }
 
-            if (rings.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rings specified.");
-            }
+        ////    if (rings.Length > rotorPositionsCount)
+        ////    {
+        ////        throw new ArgumentException("Too many rings specified.");
+        ////    }
 
-            if (rings.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rings specified.");
-            }
+        ////    if (rings.Length < rotorPositionsCount)
+        ////    {
+        ////        throw new ArgumentException("Too few rings specified.");
+        ////    }
 
-            if (rings[0].Length == 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
+        ////    if (rings[0].Length == 0)
+        ////    {
+        ////        throw new ArgumentException("No rings specified.");
+        ////    }
 
-            rings = rings.Reverse().ToArray();
+        ////    rings = rings.Reverse().ToArray();
 
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
 
-            for (int i = 0; i < rotors.Length; i++)
-            {
-                if (string.IsNullOrEmpty(rotors[i]) || rotors[i].Contains("\0"))
-                {
-                    throw new ArgumentException("Null or empty rotor specified.");
-                }
+        ////    for (int i = 0; i < rotors.Length; i++)
+        ////    {
+        ////        if (string.IsNullOrEmpty(rotors[i]) || rotors[i].Contains("\0"))
+        ////        {
+        ////            throw new ArgumentException("Null or empty rotor specified.");
+        ////        }
 
-                if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
-                {
-                    throw new ArgumentException($"Invalid rotor position {i}.");
-                }
+        ////        if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
+        ////        {
+        ////            throw new ArgumentException($"Invalid rotor position {i}.");
+        ////        }
 
-                if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
-                {
-                    throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
-                }
+        ////        if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
+        ////        {
+        ////            throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
+        ////        }
 
-                if (!rotorSettings.AvailableRotors.Contains(rotorNumber))
-                {
-                    throw new ArgumentException("This rotor in this position is not available.");
-                }
+        ////        if (!rotorSettings.AvailableRotors.Contains(rotorNumber))
+        ////        {
+        ////            throw new ArgumentException("This rotor in this position is not available.");
+        ////        }
 
-                EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber);
-                if (!CharacterSet.Contains(rings[i][0]))
-                {
-                    throw new ArgumentException("This ring position is invalid.");
-                }
+        ////        EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber);
+        ////        if (!CharacterSet.Contains(rings[i][0]))
+        ////        {
+        ////            throw new ArgumentException("This ring position is invalid.");
+        ////        }
 
-                enigmaRotor.RingPosition = rings[i][0];
+        ////        enigmaRotor.RingPosition = rings[i][0];
 
-                // enigmaRotor.CurrentSetting = 'A';
-                rotorSettings[rotorPosition] = enigmaRotor;
-            }
+        ////        // enigmaRotor.CurrentSetting = 'A';
+        ////        rotorSettings[rotorPosition] = enigmaRotor;
+        ////    }
 
-            settings.Rotors = rotorSettings;
+        ////    settings.Rotors = rotorSettings;
 
-            // Plugboard
-            string plugs = parts[3];
+        ////    // Plugboard
+        ////    string plugs = parts[3];
 
-            //// if (string.IsNullOrEmpty(plugs) || plugs.Contains("\0"))
-            //// {
-            ////    throw new ArgumentException("Null or empty plugs specified.");
-            //// }
+        ////    //// if (string.IsNullOrEmpty(plugs) || plugs.Contains("\0"))
+        ////    //// {
+        ////    ////    throw new ArgumentException("Null or empty plugs specified.");
+        ////    //// }
 
-            settings.Plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}|{plugs}|{true}"));
+        ////    settings.Plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}|{plugs}|{true}"));
 
-            return settings;
-        }
+        ////    return settings;
+        ////}
 
         private static byte[] BuildIV(EnigmaRotorSettings rotorSettings)
         {
@@ -389,10 +389,8 @@ namespace Useful.Security.Cryptography
 
         private static (EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)
         {
-            _ = iv;
-
-            char[] tempKey = Encoding.Unicode.GetChars(key);
-            string keyString = new string(tempKey);
+            string keyString = Encoding.Unicode.GetString(key);
+            string ivString = Encoding.Unicode.GetString(iv);
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 
@@ -408,92 +406,7 @@ namespace Useful.Security.Cryptography
             ////    throw new ArgumentException("This reflector is not available.");
             ////}
 
-            // Rotor Order
-            string[] rotors = parts[1].Split(new char[] { KeyDelimiter });
-            if (rotors.Length <= 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
-
-            int rotorPositionsCount = EnigmaRotorSettings.RotorPositions.Count();
-
-            if (rotors.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rotors specified.");
-            }
-
-            if (rotors.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rotors specified.");
-            }
-
-            if (rotors[0].Length == 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
-
-            rotors = rotors.Reverse().ToArray();
-
-            // Ring
-            string[] rings = parts[2].Split(new char[] { KeyDelimiter });
-
-            if (rings.Length <= 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
-
-            if (rings.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rings specified.");
-            }
-
-            if (rings.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rings specified.");
-            }
-
-            if (rings[0].Length == 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
-
-            rings = rings.Reverse().ToArray();
-
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-
-            for (int i = 0; i < rotors.Length; i++)
-            {
-                if (string.IsNullOrEmpty(rotors[i]) || rotors[i].Contains("\0"))
-                {
-                    throw new ArgumentException("Null or empty rotor specified.");
-                }
-
-                if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
-                {
-                    throw new ArgumentException($"Invalid rotor position {i}.");
-                }
-
-                if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
-                {
-                    throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
-                }
-
-                if (!rotorSettings.AvailableRotors.Contains(rotorNumber))
-                {
-                    throw new ArgumentException("This rotor in this position is not available.");
-                }
-
-                EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber);
-                if (!CharacterSet.Contains(rings[i][0]))
-                {
-                    throw new ArgumentException("This ring position is invalid.");
-                }
-
-                enigmaRotor.RingPosition = rings[i][0];
-
-                // enigmaRotor.CurrentSetting = 'A';
-                rotorSettings[rotorPosition] = enigmaRotor;
-            }
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(parts[1], parts[2], ivString);
 
              // Plugboard
             string plugs = parts[3];
