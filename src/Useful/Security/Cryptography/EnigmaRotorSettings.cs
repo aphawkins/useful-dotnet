@@ -156,7 +156,14 @@ namespace Useful.Security.Cryptography
 
                     enigmaRotor.CurrentSetting = rotorSetting[i][0];
 
-                    _list[rotorPosition] = enigmaRotor;
+                    if (_list.ContainsKey(rotorPosition))
+                    {
+                        _list[rotorPosition] = enigmaRotor;
+                    }
+                    else
+                    {
+                        _list.Add(new KeyValuePair<EnigmaRotorPosition, EnigmaRotor>(rotorPosition, enigmaRotor));
+                    }
                 }
 
                 PopulateAvailableRotors();
@@ -333,6 +340,11 @@ namespace Useful.Security.Cryptography
             {
                 foreach (EnigmaRotorPosition position in RotorPositions)
                 {
+                    if (!_list.ContainsKey(position))
+                    {
+                        continue;
+                    }
+
                     if (availableRotors.Contains(_list[position].RotorNumber))
                     {
                         availableRotors.Remove(_list[position].RotorNumber);
