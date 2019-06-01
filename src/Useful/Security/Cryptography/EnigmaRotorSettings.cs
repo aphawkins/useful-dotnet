@@ -140,13 +140,6 @@ namespace Useful.Security.Cryptography
 
                 using (EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber))
                 {
-                    ////if (!CharacterSet.Contains(rings[i][0]))
-                    ////{
-                    ////    throw new ArgumentException("This ring position is invalid.");
-                    ////}
-
-                    ////enigmaRotor.RingPosition = rings[i][0];
-
                     enigmaRotor.RingPosition = int.Parse(rings[i]);
 
                     if (rotorSetting[i].Length > 1)
