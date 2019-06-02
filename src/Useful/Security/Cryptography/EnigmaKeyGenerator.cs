@@ -21,44 +21,43 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public byte[] RandomIv()
         {
-            EnigmaSettings enigmaKey = new EnigmaSettings(RandomKey(), Encoding.Unicode.GetBytes("A A A"));
-            EnigmaRotorSettings rotorSettings = GetRandomRotorSettings(enigmaKey.Model);
-            return Encoding.Unicode.GetBytes(rotorSettings.GetSettingKey());
+            Random rnd = new Random();
+            StringBuilder iv = new StringBuilder();
+            for (int i = 0; i < 4; i++)
+            {
+                int nextRandomNumber = rnd.Next(0, CharacterSet.Length);
+                iv.Append(CharacterSet[nextRandomNumber] + " ");
+            }
+
+            iv.Remove(6, 1);
+            return Encoding.Unicode.GetBytes(iv.ToString());
         }
 
         /// <inheritdoc />
         public byte[] RandomKey()
         {
-            // Model
-            EnigmaModel model = GetRandomModel();
-
             // Reflector
             EnigmaReflectorNumber reflectorNumber;
-            using (EnigmaReflector reflector = GetRandomReflector(model))
+            using (EnigmaReflector reflector = GetRandomReflector())
             {
                 reflectorNumber = reflector.ReflectorNumber;
             }
 
             // Rotor Settings
-            EnigmaRotorSettings rotorSettings = GetRandomRotorSettings(model);
+            EnigmaRotorSettings rotorSettings = GetRandomRotorSettings();
 
             // Plugboard
             MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(new MonoAlphabeticKeyGenerator().RandomKey());
 
-            EnigmaSettings settings = new EnigmaSettings(model, reflectorNumber, rotorSettings, plugboard);
+            EnigmaSettings settings = new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
             return settings.Key.ToArray();
         }
 
-        private static EnigmaModel GetRandomModel()
-        {
-            return EnigmaModel.Military;
-        }
-
-        private static EnigmaReflector GetRandomReflector(EnigmaModel model)
+        private static EnigmaReflector GetRandomReflector()
         {
             Random rnd = new Random();
 
-            IList<EnigmaReflectorNumber> reflectors = GetAllowedReflectors(model);
+            IList<EnigmaReflectorNumber> reflectors = GetAllowedReflectors();
 
             int nextRandomNumber = rnd.Next(0, reflectors.Count);
 
@@ -82,22 +81,22 @@ namespace Useful.Security.Cryptography
             return rotor;
         }
 
-        private static EnigmaRotorSettings GetRandomRotorSettings(EnigmaModel model)
+        private static EnigmaRotorSettings GetRandomRotorSettings()
         {
             Random rnd = new Random();
             int nextRandomNumber;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(model);
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
 
-            ICollection<EnigmaRotorPosition> allowedRotorPositions = GetAllowedRotorPositions(model);
+            ICollection<EnigmaRotorPosition> allowedRotorPositions = GetAllowedRotorPositions();
 
             IList<EnigmaRotorNumber> availableRotorNumbers;
             foreach (EnigmaRotorPosition rotorPosition in allowedRotorPositions)
             {
                 availableRotorNumbers = rotorSettings.GetAvailableRotors(rotorPosition);
-                if (availableRotorNumbers.Contains(EnigmaRotorNumber.None))
-                {
-                    availableRotorNumbers.Remove(EnigmaRotorNumber.None);
-                }
+                ////if (availableRotorNumbers.Contains(EnigmaRotorNumber.None))
+                ////{
+                ////    availableRotorNumbers.Remove(EnigmaRotorNumber.None);
+                ////}
 
                 nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count);
 
@@ -107,34 +106,13 @@ namespace Useful.Security.Cryptography
             return rotorSettings;
         }
 
-        private static IList<EnigmaReflectorNumber> GetAllowedReflectors(EnigmaModel model)
+        private static IList<EnigmaReflectorNumber> GetAllowedReflectors()
         {
-            switch (model)
+            return new List<EnigmaReflectorNumber>()
             {
-                case EnigmaModel.Military:
-                case EnigmaModel.M3:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                        {
-                            EnigmaReflectorNumber.B,
-                            EnigmaReflectorNumber.C,
-                        };
-                    }
-
-                case EnigmaModel.M4:
-                    {
-                        return new List<EnigmaReflectorNumber>(2)
-                        {
-                            EnigmaReflectorNumber.BThin,
-                            EnigmaReflectorNumber.CThin,
-                        };
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException("Unknown Enigma model.");
-                    }
-            }
+                EnigmaReflectorNumber.B,
+                EnigmaReflectorNumber.C,
+            };
         }
     }
 }

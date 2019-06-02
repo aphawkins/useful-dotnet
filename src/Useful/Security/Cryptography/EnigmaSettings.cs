@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         internal const char KeyDelimiter = ' ';
 
-        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string DefaultCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
         /// The number of fields in the key.
@@ -34,7 +34,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}||True")))
+            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{DefaultCharacterSet}||True")))
         {
         }
 
@@ -63,8 +63,18 @@ namespace Useful.Security.Cryptography
         }
 
         private EnigmaSettings((EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard) settings)
-            : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
+                    : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
         {
+        }
+
+        /// <summary>
+        /// Gets the character set.
+        /// </summary>
+        /// <value>The character set.</value>
+        public IList<char> CharacterSet
+        {
+            get;
+            private set;
         }
 
         /// <inheritdoc/>
@@ -90,6 +100,11 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
+        /// Gets or sets the plugboard settings.
+        /// </summary>
+        public MonoAlphabeticSettings Plugboard { get; set; }
+
+        /// <summary>
         /// Gets the reflector being used.
         /// </summary>
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
@@ -98,11 +113,6 @@ namespace Useful.Security.Cryptography
         /// Gets the rotors.
         /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the plugboard settings.
-        /// </summary>
-        public MonoAlphabeticSettings Plugboard { get; set; }
 
         internal void AdvanceRotor(EnigmaRotorPosition rotorPosition, char currentSetting)
         {
@@ -178,7 +188,7 @@ namespace Useful.Security.Cryptography
             // Plugboard
             string plugs = parts[3];
 
-            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{CharacterSet}|{plugs}|{true}"));
+            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{DefaultCharacterSet}|{plugs}|{true}"));
 
             return (reflector, rotorSettings, plugboard);
         }

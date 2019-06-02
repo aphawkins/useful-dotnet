@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Security\Cryptography\Enigma.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKey.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaKeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorNumberSorter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorPositionSorter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaTransform.cs" />
