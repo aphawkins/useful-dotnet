@@ -64,7 +64,7 @@ namespace Useful.Security.Cryptography
             return new EnigmaReflector(reflectors[nextRandomNumber]);
         }
 
-        private static EnigmaRotor GetRandom(EnigmaRotorNumber rotorNumber)
+        private static EnigmaRotor GetRandomRotorSettings(EnigmaRotorNumber rotorNumber)
         {
             Random rnd = new Random();
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -87,20 +87,26 @@ namespace Useful.Security.Cryptography
             int nextRandomNumber;
             EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
 
-            ICollection<EnigmaRotorPosition> allowedRotorPositions = GetAllowedRotorPositions();
+            IList<EnigmaRotorPosition> availableRotorPositions = new List<EnigmaRotorPosition>()
+            {
+                EnigmaRotorPosition.Fastest,
+                EnigmaRotorPosition.Second,
+                EnigmaRotorPosition.Third,
+            };
 
             IList<EnigmaRotorNumber> availableRotorNumbers;
-            foreach (EnigmaRotorPosition rotorPosition in allowedRotorPositions)
+
+            foreach (EnigmaRotorPosition rotorPosition in availableRotorPositions)
             {
-                availableRotorNumbers = rotorSettings.GetAvailableRotors(rotorPosition);
+                availableRotorNumbers = new List<EnigmaRotorNumber>(rotorSettings.AvailableRotors);
                 ////if (availableRotorNumbers.Contains(EnigmaRotorNumber.None))
                 ////{
                 ////    availableRotorNumbers.Remove(EnigmaRotorNumber.None);
                 ////}
 
-                nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count);
+                nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count());
 
-                rotorSettings[rotorPosition] = GetRandomRotor(availableRotorNumbers[nextRandomNumber]);
+                rotorSettings[rotorPosition] = GetRandomRotorSettings(availableRotorNumbers[nextRandomNumber]);
             }
 
             return rotorSettings;

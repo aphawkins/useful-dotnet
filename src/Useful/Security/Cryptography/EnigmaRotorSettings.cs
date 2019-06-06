@@ -138,25 +138,25 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("This rotor is already in use.");
                 }
 
-                using (EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber))
+                EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber)
                 {
-                    enigmaRotor.RingPosition = int.Parse(rings[i]);
+                    RingPosition = int.Parse(rings[i]),
+                };
 
-                    if (rotorSetting[i].Length > 1)
-                    {
-                        throw new ArgumentException("Invalid rotor number setting.");
-                    }
+                if (rotorSetting[i].Length > 1)
+                {
+                    throw new ArgumentException("Invalid rotor number setting.");
+                }
 
-                    enigmaRotor.CurrentSetting = rotorSetting[i][0];
+                enigmaRotor.CurrentSetting = rotorSetting[i][0];
 
-                    if (_list.ContainsKey(rotorPosition))
-                    {
-                        _list[rotorPosition] = enigmaRotor;
-                    }
-                    else
-                    {
-                        _list.Add(new KeyValuePair<EnigmaRotorPosition, EnigmaRotor>(rotorPosition, enigmaRotor));
-                    }
+                if (_list.ContainsKey(rotorPosition))
+                {
+                    _list[rotorPosition] = enigmaRotor;
+                }
+                else
+                {
+                    _list.Add(new KeyValuePair<EnigmaRotorPosition, EnigmaRotor>(rotorPosition, enigmaRotor));
                 }
 
                 PopulateAvailableRotors();

@@ -71,10 +71,9 @@ namespace Useful.Security.Cryptography
         /// Gets the character set.
         /// </summary>
         /// <value>The character set.</value>
-        public IList<char> CharacterSet
+        public static IList<char> CharacterSet
         {
-            get;
-            private set;
+            get => DefaultCharacterSet.ToCharArray();
         }
 
         /// <inheritdoc/>
@@ -82,9 +81,11 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                byte[] iv = EnigmaSettings.BuildIV(Rotors);
+                // Example:
+                // G M Y
+                byte[] result = Encoding.Unicode.GetBytes(Rotors.SettingKey());
 
-                return iv;
+                return result;
             }
         }
 
@@ -93,9 +94,40 @@ namespace Useful.Security.Cryptography
         {
             get
             {
-                byte[] key = BuildKey(ReflectorNumber, Rotors, Plugboard);
+                // Example:
+                // "reflector|rotors|ring|plugboard"
+                // "B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
+                StringBuilder key = new StringBuilder();
 
-                return key;
+                // Reflector
+                key.Append(ReflectorNumber.ToString());
+                key.Append(KeySeperator);
+
+                // Rotor order
+                key.Append(Rotors.RotorOrderKey());
+                key.Append(KeySeperator);
+
+                // Ring setting
+                key.Append(Rotors.RingKey());
+                key.Append(KeySeperator);
+
+                // Plugboard
+                IReadOnlyDictionary<char, char> substitutions = Plugboard.Substitutions();
+
+                foreach (KeyValuePair<char, char> pair in substitutions)
+                {
+                    key.Append(pair.Key);
+                    key.Append(pair.Value);
+                    key.Append(" ");
+                }
+
+                if (substitutions.Count > 0
+                    && key.Length > 0)
+                {
+                    key.Remove(key.Length - 1, 1);
+                }
+
+                return Encoding.Unicode.GetBytes(key.ToString());
             }
         }
 
@@ -119,53 +151,6 @@ namespace Useful.Security.Cryptography
             Rotors[rotorPosition].CurrentSetting = currentSetting;
 
             // this.SetRotorSetting(rotorPosition, currentSetting);
-        }
-
-        private static byte[] BuildIV(EnigmaRotorSettings rotorSettings)
-        {
-            // Example:
-            // G M Y
-            byte[] result = Encoding.Unicode.GetBytes(rotorSettings.SettingKey());
-
-            return result;
-        }
-
-        private static byte[] BuildKey(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotors, MonoAlphabeticSettings plugboard)
-        {
-            // Example:
-            // "reflector|rotors|ring|plugboard"
-            // "B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
-            StringBuilder key = new StringBuilder();
-
-            // Reflector
-            key.Append(reflector.ToString());
-            key.Append(KeySeperator);
-
-            // Rotor order
-            key.Append(rotors.RotorOrderKey());
-            key.Append(KeySeperator);
-
-            // Ring setting
-            key.Append(rotors.RingKey());
-            key.Append(KeySeperator);
-
-            // Plugboard
-            IReadOnlyDictionary<char, char> substitutions = plugboard.Substitutions();
-
-            foreach (KeyValuePair<char, char> pair in substitutions)
-            {
-                key.Append(pair.Key);
-                key.Append(pair.Value);
-                key.Append(" ");
-            }
-
-            if (substitutions.Count > 0
-                && key.Length > 0)
-            {
-                key.Remove(key.Length - 1, 1);
-            }
-
-            return Encoding.Unicode.GetBytes(key.ToString());
         }
 
         private static (EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)

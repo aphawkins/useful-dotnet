@@ -11,111 +11,41 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaTests
     {
-        [Fact]
-        public void Ctor()
+        [Theory]
+        [InlineData("", "", "B|III II I|01 01 01|", "A A A")]
+        [InlineData("HELLOWORLD", "MFNCZBBFZM", "B|III II I|01 01 01|", "A A K")]
+        [InlineData("HELLO WORLD", "MFNCZ BBFZM", "B|III II I|01 01 01|", "A A K")]
+        [InlineData("HeLlOwOrLd", "MOQZT", "B|III II I|01 01 01|", "A A F")]
+        [InlineData("Å", "", "B|III II I|01 01 01|", "A A A")]
+        public void EncryptCtor(string plaintext, string ciphertext, string newKey, string newIV)
         {
             using (Enigma target = new Enigma())
             {
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
+                Assert.Equal(ciphertext, s);
+                Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
+                Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
             }
         }
 
-        [Fact]
-        public void Default()
-        {
-            // Default is Military
-            using (Enigma target = new Enigma())
-            {
-                Assert.Equal("B|I II III|A A A|", Encoding.Unicode.GetString(target.Key));
-                Assert.Equal("A A A", Encoding.Unicode.GetString(target.IV));
-            }
-        }
+        [Theory]
+        [InlineData("A", "N", "B|III II I|01 01 02|", "A A A", "A A B")]
+        [InlineData("HELLOWORLD", "VKHWQLADBN", "B|III II I|02 02 02|", "A A A", "A A K")]
+        [InlineData("A", "Z", "B|III II I|01 01 01|", "V E Q", "W F R")] // Notch - single step
+        [InlineData("A", "U", "B|III II I|01 01 01|", "W F R", "W F S")] // Notch - single step
+        [InlineData("A", "M", "B|III II I|01 01 01|", "K D Q", "K E R")] // Notch - single step
+        [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
+        [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
 
-        [Fact]
-        public void Military()
+        public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
-            using (Enigma target = new Enigma())
+            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
+            using (Enigma target = new Enigma(settings))
             {
-                TestTarget(target, @"B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
-            }
-        }
-
-        [Fact]
-        public void Rings1()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|I II III|A A B|", @"A A B", @"A", @"B", @"A A C");
-            }
-        }
-
-        [Fact]
-        public void Rings2()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|I II III|B B B|", @"A A A", @"HELLOWORLD", @"LOFUHHMJJX", @"A A K");
-            }
-        }
-
-        [Fact]
-        public void NotchesSinglestep()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"V E Q", @"A", @"Z", @"W F R");
-                TestTarget(target, @"B|III II I|A A A|", @"W F R", @"A", @"U", @"W F S");
-            }
-        }
-
-        [Fact]
-        public void NotchesDoublestep()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"K D O", @"A", @"U", @"K D P");
-                TestTarget(target, @"B|III II I|A A A|", @"K D P", @"A", @"L", @"K D Q");
-                TestTarget(target, @"B|III II I|A A A|", @"K D Q", @"A", @"M", @"K E R");
-
-                // Should doublestep the middle rotor here
-                TestTarget(target, @"B|III II I|A A A|", @"K E R", @"A", @"H", @"L F S");
-                TestTarget(target, @"B|III II I|A A A|", @"L F S", @"A", @"J", @"L F T");
-                TestTarget(target, @"B|III II I|A A A|", @"L F T", @"A", @"C", @"L F U");
-            }
-        }
-
-        [Fact]
-        public void Spaces()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"A A A", @"HELLO WORLD", @"MFNCZBBFZM", @"A A K");
-            }
-        }
-
-        [Fact]
-        public void DisallowedChars()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"A A A", @"HELLOÅÅÅÅÅWORLD", @"MFNCZBBFZM", @"A A K");
-            }
-        }
-
-        [Fact]
-        public void MixedCase()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"A A A", @"HeLlOwOrLd", @"MFNCZBBFZM", @"A A K");
-            }
-        }
-
-        [Fact]
-        public void Backspace()
-        {
-            using (Enigma target = new Enigma())
-            {
-                TestTarget(target, @"B|III II I|A A A|", @"A A A", @"HELLOWORLD", @"MFNCZBBFZM", @"A A K");
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
+                Assert.Equal(ciphertext, s);
+                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+                Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
             }
         }
 
@@ -283,7 +213,9 @@ namespace Useful.Security.Cryptography.Tests
 
         private void TestTarget(SymmetricAlgorithm target, string key, string iv, string input, string output, string newIv)
         {
-            CipherTestUtils.TestTarget(target, key, iv, input, output, newIv);
+            _ = iv;
+            Assert.Equal(output, CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, input));
+            //// CipherTestUtils.TestTarget(target, key, iv, input, output, newIv);
             Assert.Equal(key, Encoding.Unicode.GetString(target.Key));
             Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }

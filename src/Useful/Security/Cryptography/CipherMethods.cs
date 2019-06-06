@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -43,12 +44,11 @@ namespace Useful.Security.Cryptography
                     }
                 }
 
-                // IUsefulCryptoTransform usefulCryptoTransform = transformer as IUsefulCryptoTransform;
-                // if (usefulCryptoTransform != null)
-                // {
-                //    usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
-                //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
-                // }
+                if (transformer is ClassicalSymmetricTransform classicalTransform)
+                {
+                    cipher.Key = classicalTransform.Cipher.Settings.Key.ToArray();
+                    cipher.IV = classicalTransform.Cipher.Settings.IV.ToArray();
+                }
             }
         }
 
