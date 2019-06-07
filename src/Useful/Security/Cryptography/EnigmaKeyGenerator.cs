@@ -7,7 +7,6 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography.Interfaces;
 

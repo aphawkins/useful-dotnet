@@ -149,6 +149,7 @@ namespace Useful.Security.Cryptography
                 }
 
                 enigmaRotor.CurrentSetting = rotorSetting[i][0];
+                enigmaRotor.RotorAdvanced += EnigmaRotorSettings_RotorAdvanced;
 
                 if (_list.ContainsKey(rotorPosition))
                 {
@@ -239,10 +240,10 @@ namespace Useful.Security.Cryptography
                 }
 
                 _list[position] = value;
-
-                NotifyPropertyChanged();
+                _list[position].RotorAdvanced += EnigmaRotorSettings_RotorAdvanced;
 
                 PopulateAvailableRotors();
+                NotifyPropertyChanged();
             }
         }
 
@@ -310,6 +311,29 @@ namespace Useful.Security.Cryptography
             }
 
             return key.ToString();
+        }
+
+        private void EnigmaRotorSettings_RotorAdvanced(object sender, EnigmaRotorAdvanceEventArgs e)
+        {
+            if (e.IsNotchHit)
+            {
+                if (_list[EnigmaRotorPosition.Fastest].RotorNumber == e.RotorNumber)
+                {
+                    _list[EnigmaRotorPosition.Second].AdvanceRotor();
+                }
+                else if (_list[EnigmaRotorPosition.Second].RotorNumber == e.RotorNumber)
+                {
+                    _list[EnigmaRotorPosition.Third].AdvanceRotor();
+                }
+            }
+
+            if (e.IsDoubleStep)
+            {
+                if (_list[EnigmaRotorPosition.Fastest].RotorNumber == e.RotorNumber)
+                {
+                    _list[EnigmaRotorPosition.Second].AdvanceRotor();
+                }
+            }
         }
 
         // This method is called by the Set accessor of each property.

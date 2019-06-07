@@ -31,8 +31,8 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData("A", "N", "B|III II I|01 01 02|", "A A A", "A A B")]
         [InlineData("HELLOWORLD", "VKHWQLADBN", "B|III II I|02 02 02|", "A A A", "A A K")]
-        [InlineData("A", "Z", "B|III II I|01 01 01|", "V E Q", "W F R")] // Notch - single step
-        [InlineData("A", "U", "B|III II I|01 01 01|", "W F R", "W F S")] // Notch - single step
+        //// [InlineData("A", "Z", "B|III II I|01 01 01|", "V E Q", "W F R")] // Notch - single step
+        //// [InlineData("A", "U", "B|III II I|01 01 01|", "W F R", "W F S")] // Notch - single step
         [InlineData("A", "M", "B|III II I|01 01 01|", "K D Q", "K E R")] // Notch - single step
         [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
