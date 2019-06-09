@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Useful.Interfaces.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// MonoAlphabetic key generator.

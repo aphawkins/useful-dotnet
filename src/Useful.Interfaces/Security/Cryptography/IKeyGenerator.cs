@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Interfaces.Security.Cryptography
+namespace Useful.Security.Cryptography.Interfaces
 {
     /// <summary>
     /// Key generator used to get default and random settings.

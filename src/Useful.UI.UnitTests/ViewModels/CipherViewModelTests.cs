@@ -6,7 +6,7 @@ namespace Useful.UI.ViewModels.Tests
 {
     using System.Collections.Generic;
     using Moq;
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Services;
     using Useful.UI.ViewModels;
     using Xunit;
@@ -14,9 +14,9 @@ namespace Useful.UI.ViewModels.Tests
     public class CipherViewModelTests
     {
         private readonly CipherService _cipherService;
-        private CipherViewModel _viewModel;
-        private Mock<ICipherRepository> _moqRepository;
-        private Mock<ICipher> _moqCipher;
+        private readonly CipherViewModel _viewModel;
+        private readonly Mock<ICipherRepository> _moqRepository;
+        private readonly Mock<ICipher> _moqCipher;
 
         public CipherViewModelTests()
         {

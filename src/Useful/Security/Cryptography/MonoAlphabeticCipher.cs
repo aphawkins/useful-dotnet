@@ -7,6 +7,7 @@ namespace Useful.Security.Cryptography
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// The MonoAlphabetic cipher.
@@ -32,6 +33,13 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
+        public override byte[] IV
+        {
+            get => Settings.IV.ToArray();
+            set => _ = value;
+        }
+
+        /// <inheritdoc />
         public override byte[] Key
         {
             get => Settings.Key.ToArray();
@@ -41,13 +49,6 @@ namespace Useful.Security.Cryptography
                 Settings = new MonoAlphabeticSettings(value);
                 base.Key = value;
             }
-        }
-
-        /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => Settings.IV.ToArray();
-            set => _ = value;
         }
 
         /// <inheritdoc />
@@ -88,6 +89,16 @@ namespace Useful.Security.Cryptography
             }
 
             return sb.ToString();
+        }
+
+        internal char Decrypt(char ciphertext)
+        {
+            return ((MonoAlphabeticSettings)Settings).Reverse(ciphertext);
+        }
+
+        internal char Encrypt(char plaintext)
+        {
+            return ((MonoAlphabeticSettings)Settings)[plaintext];
         }
     }
 }

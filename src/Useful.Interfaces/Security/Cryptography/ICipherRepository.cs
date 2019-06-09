@@ -2,8 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography.Interfaces
 {
+    using Useful.Interfaces;
+
     /// <summary>
     /// A generic repository.
     /// </summary>

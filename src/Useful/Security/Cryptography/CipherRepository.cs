@@ -7,13 +7,14 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Holds all the ciphers.
     /// </summary>
     public class CipherRepository : ICipherRepository
     {
-        private List<ICipher> _ciphers = new List<ICipher>();
+        private readonly List<ICipher> _ciphers = new List<ICipher>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherRepository"/> class.

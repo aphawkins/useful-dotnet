@@ -7,18 +7,18 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Security.Cryptography;
     using System.Text;
+    using Useful.Security.Cryptography.Interfaces;
 
     internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
         private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
-        private readonly ICipher _cipher;
-        private Encoding _encoding = new UnicodeEncoding();
+        private readonly Encoding _encoding = new UnicodeEncoding();
 
         internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
         {
             _transformMode = transformMode;
-            _cipher = cipher;
+            Cipher = cipher;
         }
 
         public bool CanReuseTransform => true;
@@ -28,6 +28,12 @@ namespace Useful.Security.Cryptography
         public int InputBlockSize => _blockSize;
 
         public int OutputBlockSize => _blockSize;
+
+        public ICipher Cipher
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -81,13 +87,13 @@ namespace Useful.Security.Cryptography
             {
                 case CipherTransformMode.Encrypt:
                     {
-                        outputString = _cipher.Encrypt(inputString);
+                        outputString = Cipher.Encrypt(inputString);
                         break;
                     }
 
                 case CipherTransformMode.Decrypt:
                     {
-                        outputString = _cipher.Decrypt(inputString);
+                        outputString = Cipher.Decrypt(inputString);
                         break;
                     }
 
@@ -95,6 +101,11 @@ namespace Useful.Security.Cryptography
                     {
                         throw new CryptographicException($"Unsupported transform mode {_transformMode}.");
                     }
+            }
+
+            if (outputString == "\0")
+            {
+                return 0;
             }
 
             byte[] outputBytes = _encoding.GetBytes(outputString);

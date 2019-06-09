@@ -5,7 +5,7 @@
 namespace Useful.UI.Controllers
 {
     using System;
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Views;
 
     /// <summary>
@@ -13,7 +13,7 @@ namespace Useful.UI.Controllers
     /// </summary>
     public class SettingsController : ISettingsController
     {
-        private ICipherSettingsView _view;
+        private readonly ICipherSettingsView _view;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsController"/> class.

@@ -4,7 +4,7 @@
 
 namespace Useful.UI.Controllers
 {
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// The setting controller.

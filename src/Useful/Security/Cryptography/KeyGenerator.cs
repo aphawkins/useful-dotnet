@@ -5,7 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using Useful.Interfaces.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Caesar key generator.

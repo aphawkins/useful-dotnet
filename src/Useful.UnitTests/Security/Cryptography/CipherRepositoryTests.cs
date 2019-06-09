@@ -8,6 +8,7 @@ namespace Useful.Security.Cryptography.Tests
     using System.Linq;
     using Moq;
     using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
     using Xunit;
 
     public class CipherRepositoryTests : IDisposable
