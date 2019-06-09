@@ -222,10 +222,10 @@ namespace Useful.Security.Cryptography
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Count) % CharacterSet.Count;
-            if (newLet < 0 || newLet >= CharacterSet.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
+            ////if (newLet < 0 || newLet >= CharacterSet.Count)
+            ////{
+            ////    throw new IndexOutOfRangeException();
+            ////}
 
             char newLetter = CharacterSet[newLet];
 
@@ -234,10 +234,10 @@ namespace Useful.Security.Cryptography
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Count) % CharacterSet.Count;
-            if (newLet < 0 || newLet >= CharacterSet.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
+            ////if (newLet < 0 || newLet >= CharacterSet.Count)
+            ////{
+            ////    throw new IndexOutOfRangeException();
+            ////}
 
             return CharacterSet[newLet];
         }

@@ -29,13 +29,21 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("A", "N", "B|III II I|01 01 02|", "A A A", "A A B")]
+        [InlineData("A", "F", "B|III II I|01 01 01|", "A A A", "A A B")] // Default
+        [InlineData("A", "G", "B|III II I|01 01 01|", "A A E", "A A F")] // Change Setting
+        [InlineData("A", "J", "B|III II I|01 01 12|", "A A A", "A A B")] // Change Ring
+        [InlineData("A", "C", "B|III I II|01 01 01|", "A A A", "A A B")] // Change Rotor
+        [InlineData("A", "H", "B|II I III|01 01 01|", "A A A", "A A B")] // Change Rotor
+        [InlineData("A", "P", "B|III II IV|01 01 01|", "A A A", "A A B")] // Change Rotor
+        [InlineData("A", "U", "B|III II V|01 01 01|", "A A A", "A A B")] // Change Rotor
+        [InlineData("A", "W", "B|III II VI|01 01 01|", "A A A", "A A B")] // Change Rotor
+        [InlineData("A", "B", "B|III II V|01 01 12|", "A A A", "A A B")] // Change Rotor + Ring
+        [InlineData("A", "N", "B|III II V|01 01 12|", "A A E", "A A F")] // Change Rotor + Ring + Setting
         [InlineData("HELLOWORLD", "VKHWQLADBN", "B|III II I|02 02 02|", "A A A", "A A K")]
-        //// [InlineData("A", "Z", "B|III II I|01 01 01|", "V E Q", "W F R")] // Notch - single step
-        //// [InlineData("A", "U", "B|III II I|01 01 01|", "W F R", "W F S")] // Notch - single step
         [InlineData("A", "M", "B|III II I|01 01 01|", "K D Q", "K E R")] // Notch - single step
         [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
+        [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")]
 
         public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
@@ -128,7 +136,7 @@ namespace Useful.Security.Cryptography.Tests
             // Ring positions:  02 21 12  (B U L)
             // Plug pairs: AV BS CG DL FU HZ IN KM OW RX
             // Message key: BLA
-            string keyString = "B|II IV V|B U L|AV BS CG DL FU HZ IN KM OW RX";
+            string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
             byte[] key = Encoding.Unicode.GetBytes(keyString);
             string ivString = "B L A";
             byte[] iv = Encoding.Unicode.GetBytes(ivString);
@@ -145,11 +153,20 @@ namespace Useful.Security.Cryptography.Tests
 
             string plaintext = sb.ToString();
 
-            EnigmaSettings settings = new EnigmaSettings(key, iv);
+            ////EnigmaSettings settings = new EnigmaSettings(key, iv);
 
-            using (Enigma enigma = new Enigma())
+            ////using (Enigma enigma = new Enigma())
+            ////{
+            ////    TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+            ////}
+
+            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
+            using (Enigma target = new Enigma(settings))
             {
-                TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, ciphertext);
+                Assert.Equal(plaintext, s);
+                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
             }
         }
 
