@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Useful.Interfaces\Useful.Interfaces.csproj" />
-    <ProjectReference Include="..\Useful.UI\Useful.UI.csproj" />
+    <ProjectReference Include="..\..\src\Useful.Interfaces\Useful.Interfaces.csproj" />
+    <ProjectReference Include="..\..\src\Useful.UI\Useful.UI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Useful\Useful.csproj" />
+    <ProjectReference Include="..\..\src\Useful\Useful.csproj" />
   </ItemGroup>
 
 </Project>
