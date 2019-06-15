@@ -2,8 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography.Interfaces;
@@ -44,6 +47,11 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string Encrypt(string plaintext)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException(nameof(plaintext));
+            }
+
             StringBuilder sb = new StringBuilder(plaintext.Length);
 
             for (int i = 0; i < plaintext.Length; i++)

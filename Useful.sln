@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful", "src\Useful\Useful
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A9F1B7C-7FB4-4292-87EF-C5A0EB53C24B}"
 	ProjectSection(SolutionItems) = preProject
-		..\Directory.Build.props = ..\Directory.Build.props
-		..\README.md = ..\README.md
-		..\analysis\Useful.ruleset = ..\analysis\Useful.ruleset
+		Directory.Build.props = Directory.Build.props
+		README.md = README.md
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulConsole", "src\UsefulConsole\UsefulConsole.csproj", "{50095CCB-6B34-47A0-A729-884A34F385D9}"
@@ -27,8 +27,16 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI.Tests", "test\Useful.UI.Tests\Useful.UI.Tests.csproj", "{864F1B77-D967-408E-8A4C-5192E6259F60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\useful.src.ruleset = src\useful.src.ruleset
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22E4FF0E-F363-451E-8D59-8F41C560DE57}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+		test\useful.test.ruleset = test\useful.test.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

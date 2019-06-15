@@ -2,6 +2,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+
 namespace Useful.Security.Cryptography
 {
     using System;

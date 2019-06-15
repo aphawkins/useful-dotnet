@@ -2,8 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
+
 namespace Useful.Security.Cryptography
 {
+    using System;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
@@ -119,22 +122,6 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /////// <inheritdoc/>
-        ////public override byte[] Key
-        ////{
-        ////    get
-        ////    {
-        ////        return base.Key;
-        ////    }
-
-        ////    set
-        ////    {
-        ////        ////EnigmaSettings enigmaKey = new EnigmaSettings(value);
-        ////        ////BlockSizeValue = EnigmaSettings.GetIvLength(enigmaKey.Model) * sizeof(char) * SizeOfByte;
-        ////        base.Key = value;
-        ////    }
-        ////}
-
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
@@ -158,6 +145,11 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc/>
         public override string Encrypt(string plaintext)
         {
+            if (plaintext == null)
+            {
+                throw new ArgumentNullException(nameof(plaintext));
+            }
+
             StringBuilder output = new StringBuilder();
             foreach (char inputChar in plaintext.ToCharArray())
             {

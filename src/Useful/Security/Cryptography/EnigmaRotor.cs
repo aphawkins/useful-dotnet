@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// An Enigma Rotor.
     /// </summary>
-    public class EnigmaRotor : IDisposable
+    public class EnigmaRotor
     {
         /// <summary>
         /// Gets the letters available to this rotor.
@@ -22,11 +22,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private int _currentSetting;
 
-        /// <summary>
-        /// State if the object has been disposed.
-        /// </summary>
-        private bool _isDisposed;
-
         private IList<int> _notches;
 
         /// <summary>
@@ -37,7 +32,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The cipher for the wiring inside the rotor.
         /// </summary>
-        private MonoAlphabeticCipher _wiring;
+        private MonoAlphabeticSettings _wiring;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotor"/> class.
@@ -69,11 +64,6 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                if (_isDisposed)
-                {
-                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-                }
-
                 if (CharacterSet.IndexOf(value) < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -95,11 +85,6 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                if (_isDisposed)
-                {
-                    throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-                }
-
                 if (value < 1 || value > CharacterSet.Length)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -124,11 +109,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void AdvanceRotor()
         {
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-            }
-
             // Don't advance the rotor if it can't turn
             if (!CanTurn)
             {
@@ -165,11 +145,6 @@ namespace Useful.Security.Cryptography
         /// <returns>The transformed letter.</returns>
         public char Backward(char letter)
         {
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-            }
-
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
@@ -180,7 +155,7 @@ namespace Useful.Security.Cryptography
 
             char newLetter = CharacterSet[newLet];
 
-            newLetter = _wiring.Decrypt(newLetter);
+            newLetter = _wiring.Reverse(newLetter);
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
@@ -191,15 +166,6 @@ namespace Useful.Security.Cryptography
             }
 
             return CharacterSet[newLet];
-        }
-
-        /// <summary>
-        /// Releases all resources used by this object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -209,49 +175,18 @@ namespace Useful.Security.Cryptography
         /// <returns>The transformed letter.</returns>
         public char Forward(char letter)
         {
-            if (_isDisposed)
-            {
-                throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
-            }
-
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
             char newLetter = CharacterSet[newLet];
 
-            newLetter = _wiring.Encrypt(newLetter);
+            newLetter = _wiring[newLetter];
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
 
             return CharacterSet[newLet];
-        }
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_isDisposed)
-            {
-                return;
-            }
-
-            // A call to Dispose(false) should only clean up native resources.
-            // A call to Dispose(true) should clean up both managed and native resources.
-            if (disposing)
-            {
-                // Dispose managed resources
-                if (_wiring != null)
-                {
-                    _wiring.Dispose();
-                }
-            }
-
-            // Free native resources
-            _isDisposed = true;
         }
 
         private void OnRotorAdvanced(bool isNotchHit, bool isDoubleStep)
@@ -279,9 +214,7 @@ namespace Useful.Security.Cryptography
 
             //// Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
 
-            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
-            _wiring?.Dispose();
-            _wiring = new MonoAlphabeticCipher(wiringSettings);
+            _wiring = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
 
             // Set the notches
             _notches = new List<int>(rotorNotches.Length);

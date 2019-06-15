@@ -234,6 +234,11 @@ namespace Useful.Security.Cryptography
 
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
                 if (!AvailableRotors.ToList().Contains(value.RotorNumber))
                 {
                     throw new ArgumentException("This rotor is already in use.", nameof(value));

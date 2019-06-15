@@ -24,6 +24,11 @@ namespace Useful.Security.Cryptography
         /// <param name="output">The output stream.</param>
         public static void SymmetricTransform(SymmetricAlgorithm cipher, CipherTransformMode transformMode, Stream input, Stream output)
         {
+            if (cipher == null)
+            {
+                throw new ArgumentNullException(nameof(cipher));
+            }
+
             using (ICryptoTransform transformer = GetTransformer(cipher, transformMode))
             {
                 using (StreamReader reader = new StreamReader(input, new UnicodeEncoding()))

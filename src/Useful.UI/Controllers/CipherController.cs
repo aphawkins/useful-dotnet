@@ -68,6 +68,11 @@ namespace Useful.UI.Controllers
         /// <param name="settingsView">The view to select.</param>
         public void SelectCipher(ICipher cipher, ICipherSettingsView settingsView)
         {
+            if (cipher == null)
+            {
+                throw new ArgumentNullException(nameof(cipher));
+            }
+
             if (settingsView == null)
             {
                 throw new ArgumentNullException(nameof(settingsView));
