@@ -10,7 +10,7 @@ namespace APIDocker.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        private IList<string> _values = new List<string>() { "qwerty", "asdfgh" };
+        private readonly IList<string> _values = new List<string>() { "qwerty", "asdfgh" };
 
         public ValuesController()
         {

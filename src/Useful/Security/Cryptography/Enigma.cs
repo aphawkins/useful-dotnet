@@ -163,8 +163,8 @@ namespace Useful.Security.Cryptography
             {
                 ////if (Letters.IsCleanable(this.settings.AllowedLetters, inputChar))
                 ////{
-                    // Encrypt and Decrypt work the same way
-                    output.Append(Encipher(inputChar));
+                // Encrypt and Decrypt work the same way
+                output.Append(Encipher(inputChar));
                 ////}
             }
 
@@ -229,7 +229,7 @@ namespace Useful.Security.Cryptography
             {
                 return letter;
             }
-            else if (!EnigmaSettings.CharacterSet.Contains(letter))
+            else if (!settings.CharacterSet.Contains(letter))
             {
                 return '\0';
             }
@@ -261,7 +261,7 @@ namespace Useful.Security.Cryptography
             newLetter = settings.Rotors[EnigmaRotorPosition.Second].Backward(newLetter);
             newLetter = settings.Rotors[EnigmaRotorPosition.Fastest].Backward(newLetter);
 
-            newLetter = settings.Plugboard.Reverse(newLetter);
+            newLetter = settings.Plugboard[newLetter];
 
             // Letter cannot encrypt to itself.
             // Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");

@@ -13,14 +13,9 @@ namespace Useful.Security.Cryptography
     public class EnigmaRotor : IDisposable
     {
         /// <summary>
-        /// States if this cipher is symmetric i.e. two letters substitute to each other.
-        /// </summary>
-        private const bool IsRotorSymmetric = false;
-
-        /// <summary>
         /// Gets the letters available to this rotor.
         /// </summary>
-        private static readonly IList<char> CharacterSet = new List<char>("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
         /// The current offset position of the rotor in relation to the letters.
@@ -79,7 +74,7 @@ namespace Useful.Security.Cryptography
                     throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
                 }
 
-                if (!CharacterSet.Contains(value))
+                if (CharacterSet.IndexOf(value) < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
@@ -105,7 +100,7 @@ namespace Useful.Security.Cryptography
                     throw new ObjectDisposedException(typeof(EnigmaRotor).ToString());
                 }
 
-                if (value < 1 || value > CharacterSet.Count)
+                if (value < 1 || value > CharacterSet.Length)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
@@ -141,19 +136,19 @@ namespace Useful.Security.Cryptography
             }
 
             _currentSetting++;
-            _currentSetting %= CharacterSet.Count;
+            _currentSetting %= CharacterSet.Length;
 
             bool isNotchHit = false;
             bool isDoubleStep = false;
 
             foreach (int notch in _notches)
             {
-                if (_currentSetting == ((notch + 1) % CharacterSet.Count))
+                if (_currentSetting == ((notch + 1) % CharacterSet.Length))
                 {
                     isNotchHit = true;
                     break;
                 }
-                else if (_currentSetting == ((notch + 2) % CharacterSet.Count))
+                else if (_currentSetting == ((notch + 2) % CharacterSet.Length))
                 {
                     isDoubleStep = true;
                     break;
@@ -177,8 +172,8 @@ namespace Useful.Security.Cryptography
 
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Count) % CharacterSet.Count;
-            if (newLet < 0 || newLet >= CharacterSet.Count)
+            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
+            if (newLet < 0 || newLet >= CharacterSet.Length)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -189,8 +184,8 @@ namespace Useful.Security.Cryptography
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Count) % CharacterSet.Count;
-            if (newLet < 0 || newLet >= CharacterSet.Count)
+            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
+            if (newLet < 0 || newLet >= CharacterSet.Length)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -221,43 +216,17 @@ namespace Useful.Security.Cryptography
 
             // Add the offset the current position
             int currentPosition = CharacterSet.IndexOf(letter);
-            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Count) % CharacterSet.Count;
-            ////if (newLet < 0 || newLet >= CharacterSet.Count)
-            ////{
-            ////    throw new IndexOutOfRangeException();
-            ////}
-
+            int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
             char newLetter = CharacterSet[newLet];
 
             newLetter = _wiring.Encrypt(newLetter);
 
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
-            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Count) % CharacterSet.Count;
-            ////if (newLet < 0 || newLet >= CharacterSet.Count)
-            ////{
-            ////    throw new IndexOutOfRangeException();
-            ////}
+            newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
 
             return CharacterSet[newLet];
         }
-
-        /////// <summary>
-        /////// The previous rotor has advanced.
-        /////// </summary>
-        /////// <param name="e">The event arguments.</param>
-        //// public void PreviousRotorAdvanced(EnigmaRotorAdvanceEventArgs e)
-        //// {
-        ////    if (e.IsNotchHit)
-        ////    {
-        ////        AdvanceRotor();
-        ////    }
-
-        ////    if (e.IsDoubleStep && _notches.Contains(_currentSetting))
-        ////    {
-        ////        AdvanceRotor();
-        ////    }
-        //// }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -310,13 +279,7 @@ namespace Useful.Security.Cryptography
 
             //// Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
 
-            IDictionary<char, char> rotorPairs = new Dictionary<char, char>();
-            for (int i = 0; i < CharacterSet.Count; i++)
-            {
-                rotorPairs.Add(CharacterSet[i], rotorWiring[i]);
-            }
-
-            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorPairs, IsRotorSymmetric);
+            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
             _wiring?.Dispose();
             _wiring = new MonoAlphabeticCipher(wiringSettings);
 

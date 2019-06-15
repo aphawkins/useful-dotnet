@@ -44,7 +44,6 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
         [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")]
-
         public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
@@ -227,14 +226,5 @@ namespace Useful.Security.Cryptography.Tests
         ////        TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
         ////    }
         ////}
-
-        private void TestTarget(SymmetricAlgorithm target, string key, string iv, string input, string output, string newIv)
-        {
-            _ = iv;
-            Assert.Equal(output, CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, input));
-            //// CipherTestUtils.TestTarget(target, key, iv, input, output, newIv);
-            Assert.Equal(key, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
-        }
     }
 }

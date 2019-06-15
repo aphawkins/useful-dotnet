@@ -15,16 +15,13 @@ namespace Useful.Security.Cryptography.Tests
     {
         public static TheoryData<string, string, string> Data => new TheoryData<string, string, string>
         {
-            { "ABC|AB|True", "ABC", "BAC" },
-            { "ABCD|AB CD|True", "ABCD", "BADC" },
-            { "ABC|AB BC CA|False", "ABC", "BCA" },
-            { "ABC||True", "ABC", "ABC" },
-            { "ABCD||True", "Å", "Å" },
-            { "ABCD|AB CD|True", "ABCD", "BADC" },
-            { "ABC|AB BC CA|False", "ABC", "BCA" },
-            { "ABCD|AB CD|True", "AB CD", "BA DC" },
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF GH|True", "HeLlOwOrLd", "GeLlOwOrLd" },
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD EF GH|True", "HeLlOwOrLd", "GeLlOwOrLd" },
+            { "ABC|BAC", "ABC", "BAC" },
+            { "ABCD|BADC", "ABCD", "BADC" },
+            { "ABC|BCA", "ABC", "BCA" },
+            { "ABC|ABC", "ABC", "ABC" },
+            { "ABCD|ABCD", "Å", "Å" },
+            { "ABCD|BADC", "AB CD", "BA DC" },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GeLlOwOrLd" },
         };
 
         [Theory]
@@ -96,7 +93,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorSettings()
         {
-            byte[] key = Encoding.Unicode.GetBytes("ABC||True");
+            byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
             using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(key)))
             {
                 Assert.Equal(key, cipher.Settings.Key.ToArray());
@@ -158,7 +155,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
             {
-                byte[] key = Encoding.Unicode.GetBytes("ABC||True");
+                byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
                 cipher.Key = key;
                 Assert.Equal(key, cipher.Settings.Key.ToArray());
                 Assert.Equal(key, cipher.Key);
@@ -216,7 +213,7 @@ namespace Useful.Security.Cryptography.Tests
 "NOW LET DANIEL BE CALLED, AND HE WILL SHOW THE INTERPRETATION. " +
 "THE FIRST CODEWORD IS OTHELLO. ";
 
-            byte[] key = Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AM BF CA DN EX FI GW HP IB JS KH LG ML NT OC PQ QK RV SR TJ UU VD WY XZ YE ZO|False");
+            byte[] key = Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|MFANXIWPBSHGLTCQKVRJUDYZEO");
 
             using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(key)))
             {

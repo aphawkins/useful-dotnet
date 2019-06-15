@@ -9,17 +9,9 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaReflectorTests
     {
-        public static TheoryData<EnigmaReflectorNumber, string> Data => new TheoryData<EnigmaReflectorNumber, string>
-        {
-            { EnigmaReflectorNumber.A, "EJMZALYXVBWFCRQUONTSPIKHGD" },
-            { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT" },
-            { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL" },
-            { EnigmaReflectorNumber.BThin, "ENKQAUYWJICOPBLMDXZVFTHRGS" },
-            { EnigmaReflectorNumber.CThin, "RDOBJNTKVEHMLFCWZAXGYIPSUQ" },
-        };
-
         [Theory]
-        [MemberData(nameof(Data))]
+        [InlineData(EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT")]
+        [InlineData(EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL")]
         public void Reflect(EnigmaReflectorNumber reflectorNumber, string reflection)
         {
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

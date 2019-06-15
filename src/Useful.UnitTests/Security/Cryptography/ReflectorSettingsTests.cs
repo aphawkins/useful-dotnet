@@ -1,4 +1,4 @@
-﻿// <copyright file="MonoAlphabeticSettingsTests.cs" company="APH Software">
+﻿// <copyright file="ReflectorSettingsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -12,113 +12,125 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class MonoAlphabeticSettingsTests
+    public class ReflectorSettingsTests
     {
         [Fact]
         public void CtorEmpty()
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            ReflectorSettings settings = new ReflectorSettings();
             Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.CharacterSet);
             Assert.Equal(0, settings.SubstitutionCount);
-            Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ"), settings.Key.ToArray());
+            Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|"), settings.Key.ToArray());
         }
 
         [Fact]
         public void CtorCharacterSetNull()
         {
-            Assert.Throws<ArgumentNullException>("characterSet", () => new MonoAlphabeticSettings(null, string.Empty));
+            Assert.Throws<ArgumentNullException>("characterSet", () => new ReflectorSettings(null, string.Empty));
         }
 
         [Fact]
         public void CtorSubstitutionsNull()
         {
-            Assert.Throws<ArgumentNullException>("substitutions", () => new MonoAlphabeticSettings("ABC", null));
+            Assert.Throws<ArgumentNullException>("substitutions", () => new ReflectorSettings("ABC", null));
         }
 
         [Theory]
         [InlineData("")] // No key
-        [InlineData("|ABC")] // No character set
-        [InlineData("ABC|")] // No substitutions
-        [InlineData("ABC|AB")] // Too few subs
-        [InlineData("ABC|ABCA")] // Too many subs
-        [InlineData(" ABCD|ABCD")] // Character set spacing
-        [InlineData("AB CD|ABCD")] // Character set spacing
-        [InlineData("ABCD |ABCD")] // Character set spacing
-        [InlineData("ABCD| ABCD")] // Subs spacing
-        [InlineData("ABCD|ABCD ")] // Subs spacing
-        [InlineData("ABCD|AB CD")] // Subs spacing
-        [InlineData("ABCD|aBCD")] // Subs incorrect case
-        [InlineData("ABCD|AACD")] // Incorrect subs letters
         [InlineData("ABCD")] // Incorrect number of parts
-        [InlineData("ABCD|ABCD|")] // Incorrect number of parts
+        [InlineData("ABCD|AB|")] // Incorrect number of parts
         public void CtorKeyInvalid(string key)
         {
             byte[] keyBytes = Encoding.Unicode.GetBytes(key);
-            Assert.Throws<ArgumentException>(nameof(key), () => new MonoAlphabeticSettings(keyBytes));
+            Assert.Throws<ArgumentException>(nameof(key), () => new ReflectorSettings(keyBytes));
         }
 
         [Theory]
-        [InlineData("", "ABC")] // No character set
-        [InlineData(" ABCD", "ABCD")] // Character set spacing
-        [InlineData("AB CD", "ABCD")] // Character set spacing
-        [InlineData("ABCD ", "ABCD")] // Character set spacing
-        public void CtorCharacterSetInvalid(string characterSet, string substitutions)
+        [InlineData("ABC|AB AB")] // Too many subs
+        [InlineData("ABC|AB BA")] // Too many subs
+        [InlineData("ABCD| AB")] // Subs spacing
+        [InlineData("ABCD|AB ")] // Subs spacing
+        [InlineData("ABCD|AB  CD")] // Subs spacing
+        [InlineData("ABCD|aB")] // Subs incorrect case
+        [InlineData("ABCD|AA")] // Incorrect subs letters
+        [InlineData("ABCD|AB BC")] // Subs non-reflective
+        public void CtorKeySubstitutionsInvalid(string key)
         {
-            Assert.Throws<ArgumentException>(nameof(characterSet), () => new MonoAlphabeticSettings(characterSet, substitutions));
+            byte[] keyBytes = Encoding.Unicode.GetBytes(key);
+            Assert.Throws<ArgumentException>(nameof(key), () => new ReflectorSettings(keyBytes));
         }
 
         [Theory]
-        [InlineData("ABC", "")] // No substitutions
-        [InlineData("ABC", "AB")] // Too few subs
-        [InlineData("ABC", "ABCA")] // Too many subs
-        [InlineData("ABCD", " ABCD")] // Subs spacing
-        [InlineData("ABCD", "ABCD ")] // Subs spacing
-        [InlineData("ABCD", "AB CD")] // Subs spacing
-        [InlineData("ABCD", "aBCD")] // Subs incorrect case
-        [InlineData("ABCD", "AACD")] // Incorrect subs letters
-        public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
+        [InlineData("|ABC")] // No character set
+        [InlineData(" ABCD|")] // Character set spacing
+        [InlineData("AB CD|")] // Character set spacing
+        [InlineData("ABCD |")] // Character set spacing
+        public void CtorKeyCharacterSetInvalid(string key)
         {
-            Assert.Throws<ArgumentException>(nameof(substitutions), () => new MonoAlphabeticSettings(characterSet, substitutions));
+            byte[] keyBytes = Encoding.Unicode.GetBytes(key);
+            Assert.Throws<ArgumentException>(nameof(key), () => new ReflectorSettings(keyBytes));
         }
 
         [Fact]
         public void CtorKeyNull()
         {
-            Assert.Throws<ArgumentNullException>("key", () => new MonoAlphabeticSettings(null));
+            Assert.Throws<ArgumentNullException>("key", () => new ReflectorSettings(null));
         }
 
         [Theory]
-        [InlineData("ABC|ABC", 0)]
-        [InlineData("ABCD|BADC", 4)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCEFGHIJKLMNOPQRSTUVWXYZ", 4)]
-        [InlineData("ØA|ØA", 0)]
+        [InlineData("ABC|", 0)]
+        [InlineData("ABC|AB", 1)]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB CD", 2)]
+        [InlineData("ØA|ØA", 1)]
         public void CtorKey(string keyString, int substitutionCount)
         {
             byte[] key = Encoding.Unicode.GetBytes(keyString);
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(key);
+            ReflectorSettings settings = new ReflectorSettings(key);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(key, settings.Key.ToArray());
         }
 
         [Theory]
-        [InlineData("ABC", "ABC", 0)]
-        [InlineData("VWXYZ", "WVYXZ", 4)]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCEFGHIJKLMNOPQRSTUVWXYZ", 4)]
-        [InlineData("ØABC", "BAØC", 2)]
+        [InlineData("ABC", "", 0)]
+        [InlineData("ABC", "BC", 1)]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "AB CD", 2)]
+        [InlineData("ØA", "ØA", 1)]
         public void CtorSettings(string characterSet, string substitutions, int substitutionCount)
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            ReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(Encoding.Unicode.GetBytes($"{characterSet}|{substitutions}"), settings.Key.ToArray());
         }
 
         [Theory]
-        [InlineData("ABC|ABC", 'Ø', 'A')]
-        public void GetSubstitutionsInvalid(string keyInitial, char from, char to)
+        [InlineData("", "ABC")] // No character set
+        [InlineData(" ABCD", "")] // Character set spacing
+        [InlineData("AB CD", "")] // Character set spacing
+        [InlineData("ABCD ", "")] // Character set spacing
+        public void CtorCharacterSetInvalid(string characterSet, string substitutions)
+        {
+            Assert.Throws<ArgumentException>(nameof(characterSet), () => new ReflectorSettings(characterSet, substitutions));
+        }
+
+        [Theory]
+        [InlineData("ABC", "ABCD")] // Too many subs
+        [InlineData("ABCD", " AB")] // Subs spacing
+        [InlineData("ABCD", "AB ")] // Subs spacing
+        [InlineData("ABCD", "AB  CD")] // Subs spacing
+        [InlineData("ABCD", "aB")] // Subs incorrect case
+        [InlineData("ABCD", "AA")] // Incorrect subs letters
+        public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
+        {
+            Assert.Throws<ArgumentException>(nameof(substitutions), () => new ReflectorSettings(characterSet, substitutions));
+        }
+
+        [Theory]
+        [InlineData('Ø', 'A')]
+        public void GetSubstitutionsInvalid(char from, char to)
         {
             string propertyChanged = string.Empty;
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings();
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
 
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
@@ -126,11 +138,11 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC|ABC", 'A', 'A')]
-        public void GetSubstitutionsValid(string keyInitial, char from, char to)
+        [InlineData('A', 'A')]
+        public void GetSubstitutionsValid(char from, char to)
         {
             string propertyChanged = string.Empty;
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings();
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings[from] = to;
 
@@ -141,26 +153,29 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Reverse()
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            ReflectorSettings settings = new ReflectorSettings();
             settings['A'] = 'B';
-            Assert.Equal('A', settings.Reverse('B'));
-        }
-
-        [Fact]
-        public void ReverseInvalid()
-        {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            Assert.Equal('a', settings.Reverse('a'));
+            Assert.Equal('A', settings.Reflect('B'));
         }
 
         [Theory]
-        [InlineData("ABC|BAC", 'A', 'C', 'B', 'C', "ABC|CAB", 3)]
-        [InlineData("ABC|BCA", 'B', 'B', 'C', 'A', "ABC|CBA", 2)]
+        [InlineData('Ø')] // Invalid
+        [InlineData('a')] // Incorrect case
+        [InlineData(' ')] // Space
+        public void ReverseInvalid(char letter)
+        {
+            ReflectorSettings settings = new ReflectorSettings();
+            Assert.Equal(letter, settings.Reflect(letter));
+        }
+
+        [Theory]
+        [InlineData("ABC|AB", 'A', 'C', 'B', 'C', "ABC|AC", 1)]
+        [InlineData("ABC|AB", 'C', 'A', 'C', 'B', "ABC|AC", 1)]
         public void SetSubstitutionChange(string keyInitial, char from, char to, char old, char old1, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
             settings[from] = to;
@@ -169,7 +184,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(Encoding.Unicode.GetBytes(keyResult), settings.Key.ToArray());
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal("Item" + nameof(settings.Key), propertyChanged);
-            Assert.Equal(2, collectionChanged.Count);
+            Assert.Equal(3, collectionChanged.Count);
 
             NotifyCollectionChangedEventArgs changedArgs = collectionChanged[0];
             Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
@@ -185,23 +200,33 @@ namespace Useful.Security.Cryptography.Tests
             changedArgs = collectionChanged[1];
             Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
             Assert.Equal(1, changedArgs.NewItems.Count);
-
-            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal(old, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal(from, ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(to, StringComparison.OrdinalIgnoreCase), changedArgs.NewStartingIndex);
             Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(keyInitial.IndexOf(old1, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+            Assert.Equal(to, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal(old1, ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(keyInitial.IndexOf(to, StringComparison.OrdinalIgnoreCase), changedArgs.OldStartingIndex);
+
+            changedArgs = collectionChanged[2];
+            Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
+            Assert.Equal(1, changedArgs.NewItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal(1, changedArgs.OldItems.Count);
+            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal(1, changedArgs.OldStartingIndex);
         }
 
         [Theory]
-        [InlineData("ABC|BAC", 'A', 'A', "ABC|ABC", 0)]
+        [InlineData("ABC|AC", 'A', 'A', "ABC|", 0)]
         public void SetSubstitutionClear(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
             settings[from] = to;
@@ -220,28 +245,28 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(0, changedArgs.NewStartingIndex);
             Assert.Equal(1, changedArgs.OldItems.Count);
             Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
+            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
             Assert.Equal(0, changedArgs.OldStartingIndex);
 
             changedArgs = collectionChanged[1];
             Assert.Equal(NotifyCollectionChangedAction.Replace, changedArgs.Action);
             Assert.Equal(1, changedArgs.NewItems.Count);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
-            Assert.Equal(1, changedArgs.NewStartingIndex);
+            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Key);
+            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.NewItems[0]).Value);
+            Assert.Equal(2, changedArgs.NewStartingIndex);
             Assert.Equal(1, changedArgs.OldItems.Count);
-            Assert.Equal('B', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
+            Assert.Equal('C', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Key);
             Assert.Equal('A', ((KeyValuePair<char, char>)changedArgs.OldItems[0]).Value);
-            Assert.Equal(1, changedArgs.OldStartingIndex);
+            Assert.Equal(2, changedArgs.OldStartingIndex);
         }
 
         [Theory]
-        [InlineData("ABC|BCA", 'C', 'A', "ABC|BCA", 3)]
+        [InlineData("ABC|AC", 'A', 'C', "ABC|AC", 1)]
         public void SetSubstitutionExisting(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings[from] = to;
@@ -254,13 +279,13 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC|ABC", 'A', 'Ø', 0)]
-        [InlineData("ABC|ABC", 'Ø', 'A', 0)]
+        [InlineData("ABC|", 'A', 'Ø', 0)]
+        [InlineData("ABC|", 'Ø', 'A', 0)]
         public void SetSubstitutionInvalid(string keyInitial, char from, char to, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
 
@@ -272,12 +297,12 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC|ABC", 'A', 'B', "ABC|BAC", 2)]
+        [InlineData("ABC|", 'A', 'B', "ABC|AB", 1)]
         public void SetSubstitutionSet(string keyInitial, char from, char to, string keyResult, int substitutionCount)
         {
             string propertyChanged = string.Empty;
             IList<NotifyCollectionChangedEventArgs> collectionChanged = new List<NotifyCollectionChangedEventArgs>();
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes(keyInitial));
+            ReflectorSettings settings = new ReflectorSettings(Encoding.Unicode.GetBytes(keyInitial));
             settings.PropertyChanged += (sender, e) => { propertyChanged += e.PropertyName; };
             settings.CollectionChanged += (sender, e) => { collectionChanged.Add(e); };
             settings[from] = to;

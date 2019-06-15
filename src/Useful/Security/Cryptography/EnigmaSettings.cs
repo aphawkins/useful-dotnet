@@ -18,8 +18,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         internal const char KeyDelimiter = ' ';
 
-        private const string DefaultCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
         /// <summary>
         /// The number of fields in the key.
         /// </summary>
@@ -34,7 +32,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{DefaultCharacterSet}||True")))
+            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new ReflectorSettings())
         {
         }
 
@@ -54,7 +52,7 @@ namespace Useful.Security.Cryptography
         /// <param name="reflector">The reflector.</param>
         /// <param name="rotorSettings">The rotor settings.</param>
         /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard)
+        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, ReflectorSettings plugboard)
             : base()
         {
             ReflectorNumber = reflector;
@@ -62,18 +60,9 @@ namespace Useful.Security.Cryptography
             Plugboard = plugboard;
         }
 
-        private EnigmaSettings((EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, MonoAlphabeticSettings plugboard) settings)
-                    : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
+        private EnigmaSettings((EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, ReflectorSettings plugboard) settings)
+            : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
         {
-        }
-
-        /// <summary>
-        /// Gets the character set.
-        /// </summary>
-        /// <value>The character set.</value>
-        public static IList<char> CharacterSet
-        {
-            get => DefaultCharacterSet.ToCharArray();
         }
 
         /// <inheritdoc/>
@@ -112,20 +101,7 @@ namespace Useful.Security.Cryptography
                 key.Append(KeySeperator);
 
                 // Plugboard
-                IReadOnlyDictionary<char, char> substitutions = Plugboard.Substitutions();
-
-                foreach (KeyValuePair<char, char> pair in substitutions)
-                {
-                    key.Append(pair.Key);
-                    key.Append(pair.Value);
-                    key.Append(" ");
-                }
-
-                if (substitutions.Count > 0
-                    && key.Length > 0)
-                {
-                    key.Remove(key.Length - 1, 1);
-                }
+                key.Append(Plugboard.SubstitutionString());
 
                 return Encoding.Unicode.GetBytes(key.ToString());
             }
@@ -134,7 +110,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the plugboard settings.
         /// </summary>
-        public MonoAlphabeticSettings Plugboard { get; set; }
+        public ReflectorSettings Plugboard { get; set; }
 
         /// <summary>
         /// Gets the reflector being used.
@@ -149,11 +125,9 @@ namespace Useful.Security.Cryptography
         internal void AdvanceRotor(EnigmaRotorPosition rotorPosition, char currentSetting)
         {
             Rotors[rotorPosition].CurrentSetting = currentSetting;
-
-            // this.SetRotorSetting(rotorPosition, currentSetting);
         }
 
-        private static (EnigmaReflectorNumber, EnigmaRotorSettings, MonoAlphabeticSettings) GetSettings(byte[] key, byte[] iv)
+        private static (EnigmaReflectorNumber, EnigmaRotorSettings, ReflectorSettings) GetSettings(byte[] key, byte[] iv)
         {
             string keyString = Encoding.Unicode.GetString(key);
             string ivString = Encoding.Unicode.GetString(iv);
@@ -173,7 +147,7 @@ namespace Useful.Security.Cryptography
             // Plugboard
             string plugs = parts[3];
 
-            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(Encoding.Unicode.GetBytes($"{DefaultCharacterSet}|{plugs}|{true}"));
+            ReflectorSettings plugboard = new ReflectorSettings(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|{plugs}"));
 
             return (reflector, rotorSettings, plugboard);
         }

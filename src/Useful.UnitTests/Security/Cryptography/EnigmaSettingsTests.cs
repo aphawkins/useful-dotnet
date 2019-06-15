@@ -23,15 +23,15 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void PlugboardCtor()
         {
-            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new MonoAlphabeticSettings(Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB|True")));
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB|True", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
+            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new ReflectorSettings(Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB")));
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
         }
 
         [Fact]
         public void PlugboardDefault()
         {
             EnigmaSettings target = new EnigmaSettings();
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ||True", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
         }
 
         [Theory]
@@ -45,13 +45,13 @@ namespace Useful.Security.Cryptography.Tests
         public void PlugboardKeyCtor()
         {
             EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes("A A A"));
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ||True", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
         }
 
         [Fact]
         public void ReflectorCtor()
         {
-            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new MonoAlphabeticSettings());
+            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new ReflectorSettings());
             Assert.Equal(EnigmaReflectorNumber.C, target.ReflectorNumber);
         }
 
@@ -82,7 +82,7 @@ namespace Useful.Security.Cryptography.Tests
             rotorSettings[EnigmaRotorPosition.Third].RingPosition = 4;
             rotorSettings[EnigmaRotorPosition.Second].RingPosition = 3;
             rotorSettings[EnigmaRotorPosition.Fastest].RingPosition = 2;
-            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new MonoAlphabeticSettings());
+            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new ReflectorSettings());
             Assert.Equal(rotorSettings.RingKey(), target.Rotors.RingKey());
         }
 
@@ -120,7 +120,7 @@ namespace Useful.Security.Cryptography.Tests
             rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.IV);
             rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III);
             rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
-            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new MonoAlphabeticSettings());
+            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new ReflectorSettings());
             Assert.Equal(rotorSettings.RotorOrderKey(), target.Rotors.RotorOrderKey());
         }
 
@@ -161,7 +161,8 @@ namespace Useful.Security.Cryptography.Tests
             rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
             rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
             rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
-            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new MonoAlphabeticSettings());
+            EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new ReflectorSettings());
+            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", target.CharacterSet);
             Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
         }
 

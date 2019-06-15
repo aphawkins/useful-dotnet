@@ -1,4 +1,4 @@
-﻿// <copyright file="MonoAlphabeticKeyGenerator.cs" company="APH Software">
+﻿// <copyright file="ReflectorKeyGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,9 +10,9 @@ namespace Useful.Security.Cryptography
     using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
-    /// MonoAlphabetic key generator.
+    /// Reflector key generator.
     /// </summary>
-    internal class MonoAlphabeticKeyGenerator : IKeyGenerator
+    internal class ReflectorKeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
         public byte[] RandomIv() => Array.Empty<byte>();
@@ -20,9 +20,9 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public byte[] RandomKey()
         {
-            MonoAlphabeticSettings mono = new MonoAlphabeticSettings();
-            List<char> allowedLettersCloneFrom = new List<char>(mono.CharacterSet);
-            List<char> allowedLettersCloneTo = new List<char>(mono.CharacterSet);
+            ReflectorSettings settings = new ReflectorSettings();
+            List<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
+            List<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
 
             Random rnd = new Random();
             int indexFrom;
@@ -36,15 +36,29 @@ namespace Useful.Security.Cryptography
                 indexFrom = rnd.Next(0, allowedLettersCloneFrom.Count);
                 from = allowedLettersCloneFrom[indexFrom];
                 allowedLettersCloneFrom.RemoveAt(indexFrom);
+                if (allowedLettersCloneTo.Contains(from))
+                {
+                    allowedLettersCloneTo.Remove(from);
+                }
 
                 indexTo = rnd.Next(0, allowedLettersCloneTo.Count);
                 to = allowedLettersCloneTo[indexTo];
-                allowedLettersCloneTo.RemoveAt(indexTo);
 
-                mono[from] = to;
+                allowedLettersCloneTo.RemoveAt(indexTo);
+                if (allowedLettersCloneFrom.Contains(to))
+                {
+                    allowedLettersCloneFrom.Remove(to);
+                }
+
+                ////if (from == to)
+                ////{
+                ////    continue;
+                ////}
+
+                settings[from] = to;
             }
 
-            return mono.Key.ToArray();
+            return settings.Key.ToArray();
         }
     }
 }

@@ -37,6 +37,12 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the character set.
+        /// </summary>
+        /// <value>The character set.</value>
+        public string CharacterSet { get; protected set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         /// <inheritdoc />
         public virtual IEnumerable<byte> IV
         {

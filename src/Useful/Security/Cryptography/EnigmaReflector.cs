@@ -6,8 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Security.Cryptography;
+    using System.Text;
 
     /// <summary>
     /// An Enigma reflector.
@@ -17,11 +16,6 @@ namespace Useful.Security.Cryptography
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <summary>
-        /// Defines if the reflector is symmetric i.e. if one letter substitutes to another letter and vice versa.
-        /// </summary>
-        private const bool IsReflectorSymmetric = false;
-
-        /// <summary>
         /// States if this object been disposed.
         /// </summary>
         private bool _isDisposed;
@@ -29,7 +23,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The substitution of the rotor, effectively the wiring.
         /// </summary>
-        private MonoAlphabeticCipher _wiring;
+        private Reflector _wiring;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaReflector"/> class.
@@ -100,58 +94,44 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private void SetWiring()
         {
-            char[] reflectorWiring;
-
-            switch (ReflectorNumber)
+            IDictionary<EnigmaReflectorNumber, string> wiring = new Dictionary<EnigmaReflectorNumber, string>
             {
-                case EnigmaReflectorNumber.A:
-                    {
-                        reflectorWiring = @"EJMZALYXVBWFCRQUONTSPIKHGD".ToCharArray();
-                        break;
-                    }
+                { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT" },
+                { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL" },
+            };
 
-                case EnigmaReflectorNumber.B:
-                    {
-                        reflectorWiring = @"YRUHQSLDPXNGOKMIEBFZCWVJAT".ToCharArray();
-                        break;
-                    }
-
-                case EnigmaReflectorNumber.C:
-                    {
-                        reflectorWiring = @"FVPJIAOYEDRZXWGCTKUQSBNMHL".ToCharArray();
-                        break;
-                    }
-
-                case EnigmaReflectorNumber.BThin:
-                    {
-                        reflectorWiring = @"ENKQAUYWJICOPBLMDXZVFTHRGS".ToCharArray();
-                        break;
-                    }
-
-                case EnigmaReflectorNumber.CThin:
-                    {
-                        reflectorWiring = @"RDOBJNTKVEHMLFCWZAXGYIPSUQ".ToCharArray();
-                        break;
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException("Unknown reflector.");
-                    }
-            }
-
-            Dictionary<char, char> reflectorPairs = new Dictionary<char, char>();
-
-            Debug.Assert(CharacterSet.Length == reflectorWiring.Length, "Wiring length should equal letter count.");
-
+            StringBuilder sb = new StringBuilder();
+            List<char> unique = new List<char>();
             for (int i = 0; i < CharacterSet.Length; i++)
             {
-                reflectorPairs.Add(CharacterSet[i], reflectorWiring[i]);
+                if (unique.Contains(CharacterSet[i])
+                    || unique.Contains(wiring[ReflectorNumber][i]))
+                {
+                    continue;
+                }
+
+                if (CharacterSet[i] < wiring[ReflectorNumber][i])
+                {
+                    sb.Append(CharacterSet[i]);
+                    sb.Append(wiring[ReflectorNumber][i]);
+                }
+                else
+                {
+                    sb.Append(wiring[ReflectorNumber][i]);
+                    sb.Append(CharacterSet[i]);
+                }
+
+                sb.Append(" ");
+
+                unique.Add(CharacterSet[i]);
+                unique.Add(wiring[ReflectorNumber][i]);
             }
 
-            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(new List<char>(CharacterSet), reflectorPairs, IsReflectorSymmetric);
+            sb.Remove(sb.Length - 1, 1);
+
+            ReflectorSettings wiringSettings = new ReflectorSettings(CharacterSet, sb.ToString());
             _wiring?.Dispose();
-            _wiring = new MonoAlphabeticCipher(wiringSettings);
+            _wiring = new Reflector(wiringSettings);
         }
     }
 }

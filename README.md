@@ -29,5 +29,8 @@ Disclaimer!  The aim of this project is for learning.  As a result, the UIs aren
 
 * Atbash Cipher
 * Caesar Cipher
+* Enigma Cipher
+* MonoAlphabetic Cipher
+* Refelctor Cipher
 * Reverse Cipher
 * ROT13 Cipher

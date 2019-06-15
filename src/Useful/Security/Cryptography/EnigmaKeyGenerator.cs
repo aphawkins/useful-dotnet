@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography
             EnigmaRotorSettings rotorSettings = GetRandomRotorSettings();
 
             // Plugboard
-            MonoAlphabeticSettings plugboard = new MonoAlphabeticSettings(new MonoAlphabeticKeyGenerator().RandomKey());
+            ReflectorSettings plugboard = new ReflectorSettings(new ReflectorKeyGenerator().RandomKey());
 
             EnigmaSettings settings = new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
             return settings.Key.ToArray();
