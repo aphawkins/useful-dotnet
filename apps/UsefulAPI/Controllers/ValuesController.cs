@@ -2,59 +2,44 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace APIDocker.Controllers
+namespace UsefulAPI.Controllers
 {
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [ApiController]
+    public class ValuesController : ControllerBase
     {
-        private readonly IList<string> _values = new List<string>() { "qwerty", "asdfgh" };
+        ////// GET api/values
+        ////[HttpGet]
+        ////public static ActionResult<IEnumerable<string>> Get()
+        ////{
+        ////    return new string[] { "value1", "value2" };
+        ////}
 
-        public ValuesController()
-        {
-            // values = new List<string>() { "value1", "value2" };
-        }
+        ////// GET api/values/5
+        ////[HttpGet("{id}")]
+        ////public static ActionResult<string> Get(int id)
+        ////{
+        ////    return "value";
+        ////}
 
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get() => _values;
+        ////// POST api/values
+        ////[HttpPost]
+        ////public static void Post([FromBody] string value)
+        ////{
+        ////}
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            if (_values.Count > id
-                && id >= 0)
-            {
-                return $"value {id} = {_values[id]}";
-            }
+        ////// PUT api/values/5
+        ////[HttpPut("{id}")]
+        ////public static void Put(int id, [FromBody] string value)
+        ////{
+        ////}
 
-            return "No value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-            _values.Add(value);
-        }
-
-        /*
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-        */
-
-        /*
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-        */
+        ////// DELETE api/values/5
+        ////[HttpDelete("{id}")]
+        ////public static void Delete(int id)
+        ////{
+        ////}
     }
 }

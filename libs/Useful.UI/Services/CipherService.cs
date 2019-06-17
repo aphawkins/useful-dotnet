@@ -20,6 +20,9 @@ namespace Useful.UI.Services
             Repository = repository;
         }
 
+        /// <summary>
+        /// Gets or sets the cipher repository.
+        /// </summary>
         public ICipherRepository Repository { get; set; }
 
         /// <summary>
