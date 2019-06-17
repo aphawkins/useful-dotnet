@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Useful.UI.WinForms</RootNamespace>
     <AssemblyName>UsefulWinForms</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -118,7 +118,7 @@
       <Project>{ee625821-3c17-4707-b695-7512e54f6069}</Project>
       <Name>Useful.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Useful\Useful.csproj">
+    <ProjectReference Include="..\..\libs\Useful\Useful.csproj">
       <Project>{03c39f3c-6bae-4708-85c0-5d646f87ffe2}</Project>
       <Name>Useful</Name>
     </ProjectReference>

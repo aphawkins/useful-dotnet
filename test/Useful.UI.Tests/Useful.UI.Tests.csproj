@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Useful.Interfaces\Useful.Interfaces.csproj" />
-    <ProjectReference Include="..\..\src\Useful.UI\Useful.UI.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
   </ItemGroup>
 
 </Project>

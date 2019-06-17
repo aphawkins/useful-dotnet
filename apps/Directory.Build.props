@@ -3,12 +3,13 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet>..\useful.src.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\useful.apps.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
 </Project>

@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Useful\Useful.csproj" />
+    <ProjectReference Include="..\..\libs\Useful\Useful.csproj" />
   </ItemGroup>
-
 </Project>

@@ -32,11 +32,6 @@ namespace Useful.Security.Cryptography
         private const char SubstitutionDelimiter = ' ';
 
         /// <summary>
-        /// The encoding used by this cipher.
-        /// </summary>
-        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
-
-        /// <summary>
         /// The current substitutions.
         /// </summary>
         private IList<char> _substitutions = new List<char>();
@@ -101,7 +96,7 @@ namespace Useful.Security.Cryptography
                 StringBuilder key = new StringBuilder(new string(CharacterSet.ToArray()));
                 key.Append(KeySeperator);
                 key.Append(SubstitutionString());
-                return new List<byte>(Encoding.GetBytes(key.ToString()));
+                return new List<byte>(Encoding.Unicode.GetBytes(key.ToString()));
             }
         }
 
@@ -374,7 +369,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Invalid format.", nameof(key));
             }
 
-            string keyString = Encoding.GetString(key);
+            string keyString = Encoding.Unicode.GetString(key);
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 

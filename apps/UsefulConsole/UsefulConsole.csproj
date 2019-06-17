@@ -2,13 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
     <StartupObject>UsefulConsole.UI.Console.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Useful.UI\Useful.UI.csproj" />
-    <ProjectReference Include="..\Useful\Useful.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
+    <ProjectReference Include="..\..\libs\Useful\Useful.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful", "src\Useful\Useful.csproj", "{03C39F3C-6BAE-4708-85C0-5D646F87FFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful", "libs\Useful\Useful.csproj", "{03C39F3C-6BAE-4708-85C0-5D646F87FFE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A9F1B7C-7FB4-4292-87EF-C5A0EB53C24B}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,30 +12,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulConsole", "src\UsefulConsole\UsefulConsole.csproj", "{50095CCB-6B34-47A0-A729-884A34F385D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulConsole", "apps\UsefulConsole\UsefulConsole.csproj", "{50095CCB-6B34-47A0-A729-884A34F385D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI", "src\Useful.UI\Useful.UI.csproj", "{2ADA4CF8-EC1D-4681-9457-58E512B50DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI", "libs\Useful.UI\Useful.UI.csproj", "{2ADA4CF8-EC1D-4681-9457-58E512B50DE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Interfaces", "src\Useful.Interfaces\Useful.Interfaces.csproj", "{193C19C0-1539-4F90-B7EA-973596FA35A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Interfaces", "libs\Useful.Interfaces\Useful.Interfaces.csproj", "{193C19C0-1539-4F90-B7EA-973596FA35A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI", "src\UsefulAPI\UsefulAPI.csproj", "{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI", "apps\UsefulAPI\UsefulAPI.csproj", "{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "src\UsefulWeb\UsefulWeb.csproj", "{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "apps\UsefulWeb\UsefulWeb.csproj", "{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Tests", "test\Useful.Tests\Useful.Tests.csproj", "{F1008A6D-CE71-40C1-9558-7B1333265492}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.UI.Tests", "test\Useful.UI.Tests\Useful.UI.Tests.csproj", "{864F1B77-D967-408E-8A4C-5192E6259F60}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
 	ProjectSection(SolutionItems) = preProject
-		src\Directory.Build.props = src\Directory.Build.props
-		src\useful.src.ruleset = src\useful.src.ruleset
+		apps\Directory.Build.props = apps\Directory.Build.props
+		apps\useful.apps.ruleset = apps\useful.apps.ruleset
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22E4FF0E-F363-451E-8D59-8F41C560DE57}"
 	ProjectSection(SolutionItems) = preProject
 		test\Directory.Build.props = test\Directory.Build.props
 		test\useful.test.ruleset = test\useful.test.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{32EC7DCC-3276-4493-860F-5E58FADEAF64}"
+	ProjectSection(SolutionItems) = preProject
+		libs\Directory.Build.props = libs\Directory.Build.props
+		libs\useful.libs.ruleset = libs\useful.libs.ruleset
 	EndProjectSection
 EndProject
 Global
@@ -81,10 +87,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{03C39F3C-6BAE-4708-85C0-5D646F87FFE2} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
+		{03C39F3C-6BAE-4708-85C0-5D646F87FFE2} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 		{50095CCB-6B34-47A0-A729-884A34F385D9} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
-		{2ADA4CF8-EC1D-4681-9457-58E512B50DE8} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
-		{193C19C0-1539-4F90-B7EA-973596FA35A8} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
+		{2ADA4CF8-EC1D-4681-9457-58E512B50DE8} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
+		{193C19C0-1539-4F90-B7EA-973596FA35A8} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 		{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 		{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 		{F1008A6D-CE71-40C1-9558-7B1333265492} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
