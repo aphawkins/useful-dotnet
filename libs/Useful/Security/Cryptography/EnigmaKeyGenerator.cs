@@ -37,10 +37,8 @@ namespace Useful.Security.Cryptography
         {
             // Reflector
             EnigmaReflectorNumber reflectorNumber;
-            using (EnigmaReflector reflector = GetRandomReflector())
-            {
-                reflectorNumber = reflector.ReflectorNumber;
-            }
+            EnigmaReflector reflector = GetRandomReflector();
+            reflectorNumber = reflector.ReflectorNumber;
 
             // Rotor Settings
             EnigmaRotorSettings rotorSettings = GetRandomRotorSettings();
@@ -50,6 +48,15 @@ namespace Useful.Security.Cryptography
 
             EnigmaSettings settings = new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
             return settings.Key.ToArray();
+        }
+
+        private static IList<EnigmaReflectorNumber> GetAllowedReflectors()
+        {
+            return new List<EnigmaReflectorNumber>()
+            {
+                EnigmaReflectorNumber.B,
+                EnigmaReflectorNumber.C,
+            };
         }
 
         private static EnigmaReflector GetRandomReflector()
@@ -109,15 +116,6 @@ namespace Useful.Security.Cryptography
             }
 
             return rotorSettings;
-        }
-
-        private static IList<EnigmaReflectorNumber> GetAllowedReflectors()
-        {
-            return new List<EnigmaReflectorNumber>()
-            {
-                EnigmaReflectorNumber.B,
-                EnigmaReflectorNumber.C,
-            };
         }
     }
 }

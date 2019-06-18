@@ -32,13 +32,13 @@ namespace Useful.Security.Cryptography
                 i++;
             }
 
-            PopulateAvailableRotors();
+            _availableRotors = GetAvailableRotors(_list);
         }
 
         internal EnigmaRotorSettings(string rotorOrder, string ringSettings, string rotorSettings)
         {
             _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
-            PopulateAvailableRotors();
+            _availableRotors = GetAvailableRotors(_list);
 
             // Rotor Order
             string[] rotors = rotorOrder.Split(new char[] { ' ' });
@@ -160,7 +160,7 @@ namespace Useful.Security.Cryptography
                     _list.Add(new KeyValuePair<EnigmaRotorPosition, EnigmaRotor>(rotorPosition, enigmaRotor));
                 }
 
-                PopulateAvailableRotors();
+                _availableRotors = GetAvailableRotors(_list);
             }
         }
 
@@ -247,7 +247,7 @@ namespace Useful.Security.Cryptography
                 _list[position] = value;
                 _list[position].RotorAdvanced += EnigmaRotorSettings_RotorAdvanced;
 
-                PopulateAvailableRotors();
+                _availableRotors = GetAvailableRotors(_list);
                 NotifyPropertyChanged();
             }
         }
@@ -318,6 +318,29 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
+        private static IList<EnigmaRotorNumber> GetAvailableRotors(IDictionary<EnigmaRotorPosition, EnigmaRotor> list)
+        {
+            IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
+
+            if (list.Count() > 0)
+            {
+                foreach (EnigmaRotorPosition position in RotorPositions)
+                {
+                    if (!list.ContainsKey(position))
+                    {
+                        continue;
+                    }
+
+                    if (availableRotors.Contains(list[position].RotorNumber))
+                    {
+                        availableRotors.Remove(list[position].RotorNumber);
+                    }
+                }
+            }
+
+            return availableRotors;
+        }
+
         private void EnigmaRotorSettings_RotorAdvanced(object sender, EnigmaRotorAdvanceEventArgs e)
         {
             if (e.IsNotchHit)
@@ -352,29 +375,6 @@ namespace Useful.Security.Cryptography
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void PopulateAvailableRotors()
-        {
-            IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
-
-            if (_list.Count() > 0)
-            {
-                foreach (EnigmaRotorPosition position in RotorPositions)
-                {
-                    if (!_list.ContainsKey(position))
-                    {
-                        continue;
-                    }
-
-                    if (availableRotors.Contains(_list[position].RotorNumber))
-                    {
-                        availableRotors.Remove(_list[position].RotorNumber);
-                    }
-                }
-            }
-
-            AvailableRotors = availableRotors;
         }
     }
 }

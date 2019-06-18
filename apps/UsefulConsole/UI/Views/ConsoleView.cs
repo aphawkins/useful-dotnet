@@ -14,12 +14,14 @@ namespace UsefulConsole.UI.Views
 
     internal class ConsoleView : ICipherView
     {
-        private CipherController _controller;
+        private CipherController? _controller = null;
         private CipherTransformMode _modeSelected;
 
         public void DisplayCipherSelect(IList<ICipher> ciphers)
         {
-            ICipher cipherSelected = null;
+            ICipher selectedCipher;
+            bool selected = false;
+
             IDictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>>()
             {
                 { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new AtbashSettingsView()) },
@@ -28,7 +30,7 @@ namespace UsefulConsole.UI.Views
                 { ConsoleKey.D3, new Tuple<ICipher, ICipherSettingsView>(ciphers[3], new Rot13SettingsView()) },
             };
 
-            while (cipherSelected == null)
+            while (!selected)
             {
                 Console.WriteLine("Select a cipher:");
 
@@ -43,9 +45,10 @@ namespace UsefulConsole.UI.Views
 
                 if (settingViews.ContainsKey(key.Key))
                 {
-                    cipherSelected = settingViews[key.Key].Item1;
-                    _controller.SelectCipher(cipherSelected, settingViews[key.Key].Item2);
-                    Console.WriteLine($"Cipher selected: {cipherSelected.CipherName}");
+                    selectedCipher = settingViews[key.Key].Item1;
+                    _controller!.SelectCipher(selectedCipher, settingViews[key.Key].Item2);
+                    Console.WriteLine($"Cipher selected: {selectedCipher.CipherName}");
+                    selected = true;
                 }
             }
         }
@@ -56,7 +59,7 @@ namespace UsefulConsole.UI.Views
         public void Initialize()
         {
             string text;
-            IList<ICipher> ciphers = _controller.GetCiphers().ToList();
+            IList<ICipher> ciphers = _controller!.GetCiphers().ToList();
             DisplayCipherSelect(ciphers);
             DisplayEncryptionMode();
             DisplayEnterText();

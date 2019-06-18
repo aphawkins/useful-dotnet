@@ -17,22 +17,22 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        private readonly IList<int> _notches;
+
+        /// <summary>
+        /// The cipher for the wiring inside the rotor.
+        /// </summary>
+        private readonly MonoAlphabeticSettings _wiring;
+
         /// <summary>
         /// The current offset position of the rotor in relation to the letters.
         /// </summary>
         private int _currentSetting;
 
-        private IList<int> _notches;
-
         /// <summary>
         /// The current offset position of the rotor's ring in relation to the letters.
         /// </summary>
         private int _ringPosition;
-
-        /// <summary>
-        /// The cipher for the wiring inside the rotor.
-        /// </summary>
-        private MonoAlphabeticSettings _wiring;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotor"/> class.
@@ -41,8 +41,7 @@ namespace Useful.Security.Cryptography
         public EnigmaRotor(EnigmaRotorNumber rotorNumber)
         {
             RotorNumber = rotorNumber;
-            CanTurn = true;
-            SetWiring();
+            (_wiring, _notches) = GetWiring(rotorNumber);
             RingPosition = 1;
             CurrentSetting = 'A';
         }
@@ -100,21 +99,10 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorNumber RotorNumber { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this rotor advance positions.
-        /// </summary>
-        private bool CanTurn { get; set; }
-
-        /// <summary>
         /// Advances the rotor one notch.
         /// </summary>
         public void AdvanceRotor()
         {
-            // Don't advance the rotor if it can't turn
-            if (!CanTurn)
-            {
-                return;
-            }
-
             _currentSetting++;
             _currentSetting %= CharacterSet.Length;
 
@@ -189,41 +177,37 @@ namespace Useful.Security.Cryptography
             return CharacterSet[newLet];
         }
 
+        private static (MonoAlphabeticSettings, IList<int>) GetWiring(EnigmaRotorNumber rotorNumber)
+        {
+            IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches)> wiring = new Dictionary<EnigmaRotorNumber, (string, string)>()
+            {
+                { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q") },
+                { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E") },
+                { EnigmaRotorNumber.III, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V") },
+                { EnigmaRotorNumber.IV, ("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J") },
+                { EnigmaRotorNumber.V, ("VZBRGITYUPSDNHLXAWMJQOFECK", "Z") },
+                { EnigmaRotorNumber.VI, ("JPGVOUMFYQBENHZRDKASXLICTW", "MZ") },
+                { EnigmaRotorNumber.VII, ("NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ") },
+                { EnigmaRotorNumber.VIII, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ") },
+            };
+
+            var (rotorWiring, rotorNotches) = wiring[rotorNumber];
+
+            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
+
+            // Set the notches
+            IList<int> notches = new List<int>(rotorNotches.Length);
+            foreach (char notch in rotorNotches)
+            {
+                notches.Add(CharacterSet.IndexOf(notch));
+            }
+
+            return (wiringSettings, notches);
+        }
+
         private void OnRotorAdvanced(bool isNotchHit, bool isDoubleStep)
         {
             RotorAdvanced?.Invoke(this, new EnigmaRotorAdvanceEventArgs(RotorNumber, isNotchHit, isDoubleStep));
-        }
-
-        private void SetWiring()
-        {
-            IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches, bool canTurn)> wiring = new Dictionary<EnigmaRotorNumber, (string, string, bool)>()
-            {
-                { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q", true) },
-                { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E", true) },
-                { EnigmaRotorNumber.III, ("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V", true) },
-                { EnigmaRotorNumber.IV, ("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J", true) },
-                { EnigmaRotorNumber.V, ("VZBRGITYUPSDNHLXAWMJQOFECK", "Z", true) },
-                { EnigmaRotorNumber.VI, ("JPGVOUMFYQBENHZRDKASXLICTW", "MZ", true) },
-                { EnigmaRotorNumber.VII, ("NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ", true) },
-                { EnigmaRotorNumber.VIII, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ", true) },
-                { EnigmaRotorNumber.Beta, ("LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty, false) },
-                { EnigmaRotorNumber.Gamma, ("FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty, false) },
-            };
-
-            var (rotorWiring, rotorNotches, canTurn) = wiring[RotorNumber];
-
-            //// Debug.Assert(rotorWiring.Length == Letters.Count, "Check for the correct number of letters");
-
-            _wiring = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
-
-            // Set the notches
-            _notches = new List<int>(rotorNotches.Length);
-            foreach (char notch in rotorNotches)
-            {
-                _notches.Add(CharacterSet.IndexOf(notch));
-            }
-
-            CanTurn = canTurn;
         }
     }
 }

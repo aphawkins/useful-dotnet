@@ -17,7 +17,7 @@ namespace Useful.UI.Controllers
     {
         private readonly IRepository<ICipher> _repository;
         private readonly ICipherView _view;
-        private ISettingsController _settingsController;
+        private ISettingsController? _settingsController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherController"/> class.

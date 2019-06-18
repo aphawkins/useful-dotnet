@@ -11,7 +11,7 @@ namespace UsefulConsole.UI.Views
 
     internal class CaesarSettingsView : ICipherSettingsView
     {
-        private SettingsController _controller;
+        private SettingsController? _controller = null;
 
         public void Initialize()
         {
@@ -26,7 +26,7 @@ namespace UsefulConsole.UI.Views
                 isGood = int.TryParse(input, out result) && result >= 0 && result < 26;
             }
 
-            ((CaesarSettings)_controller.Settings).RightShift = result;
+            ((CaesarSettings)_controller!.Settings).RightShift = result;
 
             Console.WriteLine($"Right shift selected: {result}");
         }

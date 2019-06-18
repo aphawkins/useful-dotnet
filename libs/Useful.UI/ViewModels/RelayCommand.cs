@@ -14,7 +14,7 @@ namespace Useful.UI.ViewModels
     /// <typeparam name="T">A type.</typeparam>
     public class RelayCommand<T> : ICommand
     {
-        private readonly Predicate<T> _canExecute = null;
+        private readonly Predicate<T> _canExecute;
         private readonly Action<T> _execute;
 
         /// <summary>

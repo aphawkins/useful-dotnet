@@ -242,11 +242,9 @@ namespace Useful.Security.Cryptography
             newLetter = settings.Rotors[EnigmaRotorPosition.Second].Forward(newLetter);
             newLetter = settings.Rotors[EnigmaRotorPosition.Third].Forward(newLetter);
 
-            using (EnigmaReflector reflector = new EnigmaReflector(settings.ReflectorNumber))
-            {
-                // Go thru the relector
-                newLetter = reflector.Reflect(newLetter);
-            }
+            // Go thru the relector
+            EnigmaReflector reflector = new EnigmaReflector(settings.ReflectorNumber);
+            newLetter = reflector.Reflect(newLetter);
 
             // Go thru the rotors backwards
             newLetter = settings.Rotors[EnigmaRotorPosition.Third].Backward(newLetter);
