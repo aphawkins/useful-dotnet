@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography.Interfaces;
     using Xunit;
 
-    public class CipherRepositoryTests : IDisposable
+    public class CipherRepositoryTests
     {
         private CipherRepository _repository;
         private Mock<ICipher> _moqCipher;
@@ -59,24 +59,6 @@ namespace Useful.Security.Cryptography.Tests
             _repository.Create(_moqCipher.Object);
             _repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
             Assert.Equal(_repository.CurrentItem, _moqCipher.Object);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed resources
-                _repository = null;
-                _moqCipher = null;
-            }
-
-            // free native resources if there are any.
         }
     }
 }

@@ -23,18 +23,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ"), settings.Key.ToArray());
         }
 
-        [Fact]
-        public void CtorCharacterSetNull()
-        {
-            Assert.Throws<ArgumentNullException>("characterSet", () => new MonoAlphabeticSettings(null, string.Empty));
-        }
-
-        [Fact]
-        public void CtorSubstitutionsNull()
-        {
-            Assert.Throws<ArgumentNullException>("substitutions", () => new MonoAlphabeticSettings("ABC", null));
-        }
-
         [Theory]
         [InlineData("")] // No key
         [InlineData("|ABC")] // No character set
@@ -79,12 +67,6 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
         {
             Assert.Throws<ArgumentException>(nameof(substitutions), () => new MonoAlphabeticSettings(characterSet, substitutions));
-        }
-
-        [Fact]
-        public void CtorKeyNull()
-        {
-            Assert.Throws<ArgumentNullException>("key", () => new MonoAlphabeticSettings(null));
         }
 
         [Theory]

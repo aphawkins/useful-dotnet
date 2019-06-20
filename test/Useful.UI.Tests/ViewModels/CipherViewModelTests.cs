@@ -89,7 +89,6 @@ namespace Useful.UI.ViewModels.Tests
             string propertyChanged;
             _viewModel.PropertyChanged += (sender, e) => { propertyChanged = e.PropertyName; };
             _viewModel.CurrentCipher = _moqCipher.Object;
-            _viewModel.CurrentCipher = null;
             propertyChanged = string.Empty;
             _viewModel.CurrentCipher = _moqCipher.Object;
             Assert.Equal(nameof(_viewModel.CurrentCipher), propertyChanged);
@@ -107,7 +106,7 @@ namespace Useful.UI.ViewModels.Tests
         public void CipherViewModelEncryptCommand()
         {
             _viewModel.Plaintext = "MoqPlaintext";
-            Assert.True(_viewModel.EncryptCommand.CanExecute(null));
+            Assert.True(_viewModel.EncryptCommand!.CanExecute(null));
             _viewModel.EncryptCommand.Execute(null);
             Assert.Equal("MoqCiphertext", _viewModel.Ciphertext);
         }
@@ -116,7 +115,7 @@ namespace Useful.UI.ViewModels.Tests
         public void CipherViewModelEncryptCommandNotExecutable()
         {
             Assert.Equal(string.Empty, _viewModel.Plaintext);
-            Assert.False(_viewModel.EncryptCommand.CanExecute(null));
+            Assert.False(_viewModel.EncryptCommand!.CanExecute(null));
         }
 
         [Fact]
@@ -131,7 +130,7 @@ namespace Useful.UI.ViewModels.Tests
         public void CipherViewModelDecryptCommand()
         {
             _viewModel.Ciphertext = "MoqCiphertext";
-            Assert.True(_viewModel.DecryptCommand.CanExecute(null));
+            Assert.True(_viewModel.DecryptCommand!.CanExecute(null));
             _viewModel.DecryptCommand.Execute(null);
             Assert.Equal("MoqPlaintext", _viewModel.Plaintext);
         }
@@ -140,7 +139,7 @@ namespace Useful.UI.ViewModels.Tests
         public void CipherViewModelDecryptCommandNotExecutable()
         {
             _viewModel.Ciphertext = string.Empty;
-            Assert.False(_viewModel.DecryptCommand.CanExecute(null));
+            Assert.False(_viewModel.DecryptCommand!.CanExecute(null));
         }
     }
 }

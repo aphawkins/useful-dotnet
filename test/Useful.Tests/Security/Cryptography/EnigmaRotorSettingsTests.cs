@@ -97,7 +97,7 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
             settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.IV);
             Assert.Equal(EnigmaRotorNumber.IV, settings[EnigmaRotorPosition.Fastest].RotorNumber);
-            Assert.Equal("AvailableRotorsItem", propertiesChanged);
+            Assert.Equal("Item", propertiesChanged);
             Assert.Equal("III II IV", settings.RotorOrderKey());
         }
 

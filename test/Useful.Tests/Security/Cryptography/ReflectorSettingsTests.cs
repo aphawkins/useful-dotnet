@@ -23,18 +23,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|"), settings.Key.ToArray());
         }
 
-        [Fact]
-        public void CtorCharacterSetNull()
-        {
-            Assert.Throws<ArgumentNullException>("characterSet", () => new ReflectorSettings(null, string.Empty));
-        }
-
-        [Fact]
-        public void CtorSubstitutionsNull()
-        {
-            Assert.Throws<ArgumentNullException>("substitutions", () => new ReflectorSettings("ABC", null));
-        }
-
         [Theory]
         [InlineData("")] // No key
         [InlineData("ABCD")] // Incorrect number of parts
@@ -69,12 +57,6 @@ namespace Useful.Security.Cryptography.Tests
         {
             byte[] keyBytes = Encoding.Unicode.GetBytes(key);
             Assert.Throws<ArgumentException>(nameof(key), () => new ReflectorSettings(keyBytes));
-        }
-
-        [Fact]
-        public void CtorKeyNull()
-        {
-            Assert.Throws<ArgumentNullException>("key", () => new ReflectorSettings(null));
         }
 
         [Theory]

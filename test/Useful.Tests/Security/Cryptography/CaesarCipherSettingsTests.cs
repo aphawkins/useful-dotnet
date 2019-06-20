@@ -54,12 +54,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(string.Empty, propertyChanged);
         }
 
-        [Fact]
-        public void ConstructSymmetricNullKey()
-        {
-            Assert.Throws<ArgumentNullException>("key", () => new CaesarSettings(null));
-        }
-
         [Theory]
         [InlineData("-1")]
         [InlineData("26")]

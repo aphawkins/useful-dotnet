@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
     <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />

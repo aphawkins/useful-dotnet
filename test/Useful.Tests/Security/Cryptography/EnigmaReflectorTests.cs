@@ -16,14 +16,12 @@ namespace Useful.Security.Cryptography.Tests
         {
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            using (EnigmaReflector reflector = new EnigmaReflector(reflectorNumber))
-            {
-                Assert.Equal(reflectorNumber, reflector.ReflectorNumber);
+            EnigmaReflector reflector = new EnigmaReflector(reflectorNumber);
+            Assert.Equal(reflectorNumber, reflector.ReflectorNumber);
 
-                for (int i = 0; i < characterSet.Length; i++)
-                {
-                    Assert.Equal(reflection[i], reflector.Reflect(characterSet[i]));
-                }
+            for (int i = 0; i < characterSet.Length; i++)
+            {
+                Assert.Equal(reflection[i], reflector.Reflect(characterSet[i]));
             }
         }
     }

@@ -23,8 +23,6 @@ namespace Useful.Security.Cryptography.Tests
             { EnigmaRotorNumber.VI, "JPGVOUMFYQBENHZRDKASXLICTW", "MZ" },
             { EnigmaRotorNumber.VII, "NZJHGRCXMYSWBOUFAIVLPEKQDT", "MZ" },
             { EnigmaRotorNumber.VIII, "FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ" },
-            { EnigmaRotorNumber.Beta, "LEYJVCNIXWPBQMDRTAKZGFUHOS", string.Empty },
-            { EnigmaRotorNumber.Gamma, "FSOKANUERHMBTIYCWLQPZXVGJD", string.Empty },
         };
 
         [Theory]
