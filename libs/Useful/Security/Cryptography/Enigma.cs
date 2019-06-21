@@ -228,11 +228,8 @@ namespace Useful.Security.Cryptography
 
             newLetter = letter;
 
-            // Ensure all the rotors are set correctly
-            ////this.AdvanceRotorsToPosition(this.settings.Counter);
-
             // Advance the rotors one position
-            AdvanceRotors(1);
+            settings.Rotors.AdvanceRotors();
 
             // Plugboard
             newLetter = settings.Plugboard[newLetter];
@@ -256,21 +253,6 @@ namespace Useful.Security.Cryptography
             // Letter cannot encrypt to itself.
             // Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");
             return newLetter;
-        }
-
-        /// <summary>
-        /// Advances the rotors by a specified number of positions.
-        /// </summary>
-        /// <param name="numberOfPositions">The number of positions to move the rotors.</param>
-        private void AdvanceRotors(int numberOfPositions)
-        {
-            // Advance the fastest rotor
-            EnigmaRotor rotor = ((EnigmaSettings)Settings).Rotors[EnigmaRotorPosition.Fastest];
-
-            for (int i = 0; i < numberOfPositions; i++)
-            {
-                rotor.AdvanceRotor();
-            }
         }
     }
 }

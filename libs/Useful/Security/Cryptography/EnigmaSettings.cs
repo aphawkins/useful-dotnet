@@ -122,11 +122,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
 
-        internal void AdvanceRotor(EnigmaRotorPosition rotorPosition, char currentSetting)
-        {
-            Rotors[rotorPosition].CurrentSetting = currentSetting;
-        }
-
         private static (EnigmaReflectorNumber, EnigmaRotorSettings, ReflectorSettings) GetSettings(byte[] key, byte[] iv)
         {
             string keyString = Encoding.Unicode.GetString(key);
@@ -139,15 +134,11 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect number of key parts.");
             }
 
-            // Reflector
             EnigmaReflectorNumber reflector = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[0]);
 
             EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(parts[1], parts[2], ivString);
 
-            // Plugboard
-            string plugs = parts[3];
-
-            ReflectorSettings plugboard = new ReflectorSettings(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|{plugs}"));
+            ReflectorSettings plugboard = new ReflectorSettings(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|{parts[3]}"));
 
             return (reflector, rotorSettings, plugboard);
         }

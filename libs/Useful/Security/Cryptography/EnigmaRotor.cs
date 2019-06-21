@@ -17,8 +17,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        private readonly IList<int> _notches;
-
         /// <summary>
         /// The cipher for the wiring inside the rotor.
         /// </summary>
@@ -41,15 +39,10 @@ namespace Useful.Security.Cryptography
         public EnigmaRotor(EnigmaRotorNumber rotorNumber)
         {
             RotorNumber = rotorNumber;
-            (_wiring, _notches) = GetWiring(rotorNumber);
+            (_wiring, Notches) = GetWiring(rotorNumber);
             RingPosition = 1;
             CurrentSetting = 'A';
         }
-
-        /// <summary>
-        /// Raised when the rotor is advanced
-        /// </summary>
-        public event EventHandler<EnigmaRotorAdvanceEventArgs> RotorAdvanced;
 
         /// <summary>
         /// Gets or sets the current letter the rotor is set to.
@@ -70,6 +63,15 @@ namespace Useful.Security.Cryptography
 
                 _currentSetting = CharacterSet.IndexOf(value);
             }
+        }
+
+        /// <summary>
+        /// Gets the notches.
+        /// </summary>
+        public string Notches
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -97,34 +99,6 @@ namespace Useful.Security.Cryptography
         /// Gets the designation of this rotor.
         /// </summary>
         public EnigmaRotorNumber RotorNumber { get; private set; }
-
-        /// <summary>
-        /// Advances the rotor one notch.
-        /// </summary>
-        public void AdvanceRotor()
-        {
-            bool isNotchHit = false;
-            bool isDoubleStep = false;
-
-            foreach (int notch in _notches)
-            {
-                if (_currentSetting == notch)
-                {
-                    isNotchHit = true;
-                    break;
-                }
-                else if (_currentSetting == ((notch + 1) % CharacterSet.Length))
-                {
-                    isDoubleStep = true;
-                    break;
-                }
-            }
-
-            _currentSetting++;
-            _currentSetting %= CharacterSet.Length;
-
-            OnRotorAdvanced(isNotchHit, isDoubleStep);
-        }
 
         /// <summary>
         /// The letter this rotor encodes to going backwards through it.
@@ -177,9 +151,9 @@ namespace Useful.Security.Cryptography
             return CharacterSet[newLet];
         }
 
-        private static (MonoAlphabeticSettings, IList<int>) GetWiring(EnigmaRotorNumber rotorNumber)
+        private static (MonoAlphabeticSettings, string) GetWiring(EnigmaRotorNumber rotorNumber)
         {
-            IDictionary<EnigmaRotorNumber, (string rotorWiring, string rotorNotches)> wiring = new Dictionary<EnigmaRotorNumber, (string, string)>()
+            IDictionary<EnigmaRotorNumber, (string rotorWiring, string notches)> wiring = new Dictionary<EnigmaRotorNumber, (string, string)>()
             {
                 { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q") },
                 { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E") },
@@ -191,23 +165,11 @@ namespace Useful.Security.Cryptography
                 { EnigmaRotorNumber.VIII, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ") },
             };
 
-            var (rotorWiring, rotorNotches) = wiring[rotorNumber];
+            var (rotorWiring, notches) = wiring[rotorNumber];
 
             MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
 
-            // Set the notches
-            IList<int> notches = new List<int>(rotorNotches.Length);
-            foreach (char notch in rotorNotches)
-            {
-                notches.Add(CharacterSet.IndexOf(notch));
-            }
-
             return (wiringSettings, notches);
-        }
-
-        private void OnRotorAdvanced(bool isNotchHit, bool isDoubleStep)
-        {
-            RotorAdvanced?.Invoke(this, new EnigmaRotorAdvanceEventArgs(RotorNumber, isNotchHit, isDoubleStep));
         }
     }
 }

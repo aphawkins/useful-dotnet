@@ -149,7 +149,6 @@ namespace Useful.Security.Cryptography
                 }
 
                 enigmaRotor.CurrentSetting = rotorSetting[i][0];
-                enigmaRotor.RotorAdvanced += EnigmaRotorSettings_RotorAdvanced;
 
                 if (_list.ContainsKey(rotorPosition))
                 {
@@ -248,10 +247,50 @@ namespace Useful.Security.Cryptography
                 }
 
                 _list[position] = value;
-                _list[position].RotorAdvanced += EnigmaRotorSettings_RotorAdvanced;
-
                 _availableRotors = GetAvailableRotors(_list);
                 NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Advances the rotor one setting.
+        /// </summary>
+        public void AdvanceRotors()
+        {
+            _list[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Fastest].CurrentSetting + 1) % 'A') + 'A');
+
+            foreach (char notch in _list[EnigmaRotorPosition.Fastest].Notches)
+            {
+                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 1) % 'A') + 'A') == notch)
+                {
+                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1) % 'A') + 'A');
+
+                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    {
+                        if (_list[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
+                        {
+                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1) % 'A') + 'A');
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+                else if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
+                {
+                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1) % 'A') + 'A');
+
+                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    {
+                        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1) % 'A') + 'A') == notch2)
+                        {
+                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1) % 'A') + 'A');
+                            break;
+                        }
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -342,29 +381,6 @@ namespace Useful.Security.Cryptography
             }
 
             return availableRotors;
-        }
-
-        private void EnigmaRotorSettings_RotorAdvanced(object sender, EnigmaRotorAdvanceEventArgs e)
-        {
-            if (e.IsNotchHit)
-            {
-                if (_list[EnigmaRotorPosition.Fastest].RotorNumber == e.RotorNumber)
-                {
-                    _list[EnigmaRotorPosition.Second].AdvanceRotor();
-                }
-                else if (_list[EnigmaRotorPosition.Second].RotorNumber == e.RotorNumber)
-                {
-                    _list[EnigmaRotorPosition.Third].AdvanceRotor();
-                }
-            }
-
-            if (e.IsDoubleStep)
-            {
-                if (_list[EnigmaRotorPosition.Fastest].RotorNumber == e.RotorNumber)
-                {
-                    _list[EnigmaRotorPosition.Second].AdvanceRotor();
-                }
-            }
         }
 
         // This method is called by the Set accessor of each property.

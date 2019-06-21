@@ -49,9 +49,9 @@ namespace Useful.Security.Cryptography.Tests
             using (Enigma target = new Enigma(settings))
             {
                 string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-                Assert.Equal(ciphertext, s);
                 Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
                 Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
+                Assert.Equal(ciphertext, s);
             }
         }
 
