@@ -116,7 +116,8 @@ namespace Useful.Security.Cryptography.Tests
         //// }
 
         [Fact]
-        public void Enigma194107071925()
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+        public void Enigma_1941_07_07_19_25()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ");
@@ -125,7 +126,7 @@ namespace Useful.Security.Cryptography.Tests
             sb.Append("GYKUA CTCDO MOHWX MUUIA UBSTS ");
             sb.Append("LRNBZ SZWNR FXWFY SSXJZ VIJHI ");
             sb.Append("DISHP RKLKA YUPAD TXQSP INQMA ");
-            sb.Append("TLPIF SVKDA SCTAC DPBOP VHJK ");
+            sb.Append("TLPIF SVKDA SCTAC DPBOP VHJK");
 
             string ciphertext = sb.ToString();
 
@@ -135,38 +136,30 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: AV BS CG DL FU HZ IN KM OW RX
             // Message key: BLA
             string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
-            byte[] key = Encoding.Unicode.GetBytes(keyString);
             string ivString = "B L A";
-            byte[] iv = Encoding.Unicode.GetBytes(ivString);
             string newIv = "B R S";
 
             sb = new StringBuilder();
-            sb.Append("AUFKLXABTEILUNGXVONXKURTI");
-            sb.Append("NOWAXKURTINOWAXNORDWESTLX");
-            sb.Append("SEBEZXSEBEZXUAFFLIEGERSTR");
-            sb.Append("ASZERIQTUNGXDUBROWKIXDUBR");
-            sb.Append("OWKIXOPOTSCHKAXOPOTSCHKAX");
-            sb.Append("UMXEINSAQTDREINULLXUHRANG");
-            sb.Append("ETRETENXANGRIFFXINFXRGTX");
+            sb.Append("AUFKL XABTE ILUNG XVONX KURTI ");
+            sb.Append("NOWAX KURTI NOWAX NORDW ESTLX ");
+            sb.Append("SEBEZ XSEBE ZXUAF FLIEG ERSTR ");
+            sb.Append("ASZER IQTUN GXDUB ROWKI XDUBR ");
+            sb.Append("OWKIX OPOTS CHKAX OPOTS CHKAX ");
+            sb.Append("UMXEI NSAQT DREIN ULLXU HRANG ");
+            sb.Append("ETRET ENXAN GRIFF XINFX RGTX");
 
             string plaintext = sb.ToString();
-
-            ////EnigmaSettings settings = new EnigmaSettings(key, iv);
-
-            ////using (Enigma enigma = new Enigma())
-            ////{
-            ////    TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
-            ////}
 
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
             using (Enigma target = new Enigma(settings))
             {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, ciphertext);
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
                 Assert.Equal(plaintext, s);
                 Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
                 Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
             }
         }
+#pragma warning restore CA1707 // Identifiers should not contain underscores
 
         /////// <summary>
         /////// http://users.telenet.be/d.rijmenants/en/m4project.htm.

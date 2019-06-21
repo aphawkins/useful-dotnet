@@ -257,19 +257,19 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void AdvanceRotors()
         {
-            _list[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Fastest].CurrentSetting + 1) % 'A') + 'A');
+            _list[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
             foreach (char notch in _list[EnigmaRotorPosition.Fastest].Notches)
             {
-                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 1) % 'A') + 'A') == notch)
+                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
                 {
-                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1) % 'A') + 'A');
+                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
                     foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
                     {
                         if (_list[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
                         {
-                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1) % 'A') + 'A');
+                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
@@ -278,13 +278,13 @@ namespace Useful.Security.Cryptography
                 }
                 else if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
                 {
-                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1) % 'A') + 'A');
+                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
                     foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
                     {
-                        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1) % 'A') + 'A') == notch2)
+                        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch2)
                         {
-                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1) % 'A') + 'A');
+                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
