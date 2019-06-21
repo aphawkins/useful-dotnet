@@ -156,7 +156,7 @@ namespace Useful.Security.Cryptography
                 ////if (Letters.IsCleanable(this.settings.AllowedLetters, inputChar))
                 ////{
                 // Encrypt and Decrypt work the same way
-                output.Append(Encipher(inputChar));
+                output.Append(Encrypt(inputChar));
                 ////}
             }
 
@@ -211,7 +211,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="letter">The plaintext letter to encipher.</param>
         /// <returns>The enciphered letter.</returns>
-        private char Encipher(char letter)
+        private char Encrypt(char letter)
         {
             char newLetter;
 

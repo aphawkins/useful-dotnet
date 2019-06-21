@@ -199,6 +199,9 @@ namespace Useful.Security.Cryptography
                     EnigmaRotorNumber.III,
                     EnigmaRotorNumber.IV,
                     EnigmaRotorNumber.V,
+                    EnigmaRotorNumber.VI,
+                    EnigmaRotorNumber.VII,
+                    EnigmaRotorNumber.VIII,
                 };
             }
         }

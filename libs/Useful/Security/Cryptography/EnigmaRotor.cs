@@ -103,25 +103,25 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void AdvanceRotor()
         {
-            _currentSetting++;
-            _currentSetting %= CharacterSet.Length;
-
             bool isNotchHit = false;
             bool isDoubleStep = false;
 
             foreach (int notch in _notches)
             {
-                if (_currentSetting == ((notch + 1) % CharacterSet.Length))
+                if (_currentSetting == notch)
                 {
                     isNotchHit = true;
                     break;
                 }
-                else if (_currentSetting == ((notch + 2) % CharacterSet.Length))
+                else if (_currentSetting == ((notch + 1) % CharacterSet.Length))
                 {
                     isDoubleStep = true;
                     break;
                 }
             }
+
+            _currentSetting++;
+            _currentSetting %= CharacterSet.Length;
 
             OnRotorAdvanced(isNotchHit, isDoubleStep);
         }

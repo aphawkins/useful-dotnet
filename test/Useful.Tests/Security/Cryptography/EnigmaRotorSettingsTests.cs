@@ -17,21 +17,30 @@ namespace Useful.Security.Cryptography.Tests
         {
             EnigmaRotorSettings target = new EnigmaRotorSettings();
             IList<EnigmaRotorNumber> availableRotors = target.AvailableRotors.ToList();
-            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(5, availableRotors.Count);
             Assert.Equal(EnigmaRotorNumber.IV, availableRotors[0]);
             Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
+            Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
 
             target[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.IV);
             availableRotors = target.AvailableRotors.ToList();
-            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(5, availableRotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
             Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
+            Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
 
             target[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.V);
             availableRotors = target.AvailableRotors.ToList();
-            Assert.Equal(2, availableRotors.Count);
+            Assert.Equal(5, availableRotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
             Assert.Equal(EnigmaRotorNumber.II, availableRotors[1]);
+            Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
+            Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
+            Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
         }
 
         [Fact]
@@ -132,12 +141,15 @@ namespace Useful.Security.Cryptography.Tests
         public void RotorSet()
         {
             IList<EnigmaRotorNumber> rotors = EnigmaRotorSettings.RotorSet.ToList();
-            Assert.Equal(5, rotors.Count);
+            Assert.Equal(8, rotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, rotors[0]);
             Assert.Equal(EnigmaRotorNumber.II, rotors[1]);
             Assert.Equal(EnigmaRotorNumber.III, rotors[2]);
             Assert.Equal(EnigmaRotorNumber.IV, rotors[3]);
             Assert.Equal(EnigmaRotorNumber.V, rotors[4]);
+            Assert.Equal(EnigmaRotorNumber.VI, rotors[5]);
+            Assert.Equal(EnigmaRotorNumber.VII, rotors[6]);
+            Assert.Equal(EnigmaRotorNumber.VIII, rotors[7]);
         }
     }
 }
