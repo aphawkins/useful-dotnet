@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarCipher.cs" company="APH Software">
+﻿// <copyright file="Caesar.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -15,21 +15,21 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public class CaesarCipher : ClassicalSymmetricAlgorithm
+    public class Caesar : ClassicalSymmetricAlgorithm
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
+        /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
-        public CaesarCipher()
+        public Caesar()
             : this(new CaesarSettings(0))
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarCipher"/> class.
+        /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
-        public CaesarCipher(CaesarSettings settings)
+        public Caesar(CaesarSettings settings)
             : base("Caesar", settings)
         {
             KeyGenerator = new CaesarKeyGenerator();
@@ -57,14 +57,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new CaesarCipher(new CaesarSettings(rgbKey));
+            ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new CaesarCipher(new CaesarSettings(rgbKey));
+            ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 

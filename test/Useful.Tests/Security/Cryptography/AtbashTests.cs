@@ -1,4 +1,4 @@
-// <copyright file="AtbashCipherTests.cs" company="APH Software">
+ï»¿// <copyright file="AtbashTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,21 +10,21 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class AtbashCipherTests
+    public class AtbashTests
     {
         public static TheoryData<string, string> Data => new TheoryData<string, string>
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", ">?@ [\\]" },
-            { "Å", "Å" },
+            { "Ã…", "Ã…" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             }
@@ -34,7 +34,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
             }
@@ -44,7 +44,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             }
@@ -54,7 +54,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
             }
@@ -63,7 +63,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 cipher.GenerateIV();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -74,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 cipher.IV = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorSettings()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.Key);
@@ -97,7 +97,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 cipher.GenerateKey();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
@@ -108,7 +108,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 cipher.Key = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
@@ -119,7 +119,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using (AtbashCipher cipher = new AtbashCipher())
+            using (Atbash cipher = new Atbash())
             {
                 Assert.Equal("Atbash", cipher.CipherName);
                 Assert.Equal("Atbash", cipher.ToString());

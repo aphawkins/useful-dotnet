@@ -24,10 +24,12 @@ namespace Useful.Security.Cryptography
         {
             _ciphers = new List<ICipher>
                 {
-                    new AtbashCipher(),
-                    new CaesarCipher(),
-                    new ReverseCipher(),
-                    new ROT13Cipher(),
+                    new Atbash(),
+                    new Caesar(),
+                    new Enigma(),
+                    new MonoAlphabetic(),
+                    new Reflector(),
+                    new ROT13(),
                 };
 
             CurrentItem = _ciphers[0];
@@ -41,26 +43,6 @@ namespace Useful.Security.Cryptography
             get;
             private set;
         }
-
-        ///// <summary>
-        ///// Loads all the ciphers into a new repository.
-        ///// </summary>
-        ///// <returns>A new instance of the class containing all the ciphers.</returns>
-        // public static CipherRepository Create()
-        // {
-        //    CipherRepository repository = new CipherRepository
-        //    {
-        //        ciphers = new List<ICipher>
-        //        {
-        //            new CaesarCipher(),
-        //            new ReverseCipher(),
-        //            new ROT13Cipher(),
-        //        },
-        //    };
-        //
-        //    repository.CurrentItem = repository.ciphers[0];
-        //    return repository;
-        // }
 
         /// <summary>
         /// Adds a new cipher to the repository.

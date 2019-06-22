@@ -209,6 +209,7 @@ namespace Useful.Security.Cryptography.Tests
 
             Assert.True(diff);
         }
+
         [Fact]
         public void KeySet()
         {
@@ -230,6 +231,7 @@ namespace Useful.Security.Cryptography.Tests
                 Assert.Equal("Enigma M3", cipher.ToString());
             }
         }
+
         [Fact]
         public void PracticalCryptography()
         {

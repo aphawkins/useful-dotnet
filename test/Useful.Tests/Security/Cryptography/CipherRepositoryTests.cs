@@ -12,8 +12,8 @@ namespace Useful.Security.Cryptography.Tests
 
     public class CipherRepositoryTests
     {
-        private CipherRepository _repository;
-        private Mock<ICipher> _moqCipher;
+        private readonly CipherRepository _repository;
+        private readonly Mock<ICipher> _moqCipher;
 
         public CipherRepositoryTests()
         {
@@ -33,7 +33,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryRead()
         {
-            Assert.Equal(4, _repository.Read().Count());
+            Assert.Equal(6, _repository.Read().Count());
         }
 
         [Fact]

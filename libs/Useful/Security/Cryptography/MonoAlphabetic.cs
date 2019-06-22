@@ -1,4 +1,4 @@
-﻿// <copyright file="MonoAlphabeticCipher.cs" company="APH Software">
+﻿// <copyright file="MonoAlphabetic.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -15,21 +15,21 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The MonoAlphabetic cipher.
     /// </summary>
-    public class MonoAlphabeticCipher : ClassicalSymmetricAlgorithm
+    public class MonoAlphabetic : ClassicalSymmetricAlgorithm
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticCipher"/> class.
+        /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
         /// </summary>
-        public MonoAlphabeticCipher()
+        public MonoAlphabetic()
             : this(new MonoAlphabeticSettings())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticCipher"/> class.
+        /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
-        public MonoAlphabeticCipher(MonoAlphabeticSettings settings)
+        public MonoAlphabetic(MonoAlphabeticSettings settings)
             : base("MonoAlphabetic", settings)
         {
             KeyGenerator = new MonoAlphabeticKeyGenerator();
@@ -57,14 +57,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(rgbKey));
+            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new MonoAlphabeticCipher(new MonoAlphabeticSettings(rgbKey));
+            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 

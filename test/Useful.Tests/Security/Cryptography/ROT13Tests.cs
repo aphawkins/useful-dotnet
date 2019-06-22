@@ -1,4 +1,4 @@
-// <copyright file="ROT13CipherTests.cs" company="APH Software">
+ï»¿// <copyright file="ROT13Tests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,20 +10,20 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class ROT13CipherTests
+    public class ROT13Tests
     {
         public static TheoryData<string, string> Data => new TheoryData<string, string>
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
             { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
             { ">?@ [\\]", ">?@ [\\]" },
-            { "Å", "Å" },
+            { "Ã…", "Ã…" },
         };
 
         [Fact]
         public void CtorSettings()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
                 Assert.Equal(Array.Empty<byte>(), cipher.Key);
@@ -36,7 +36,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             }
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext)
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, plaintext));
             }
@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             }
@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext)
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
             }
@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 cipher.GenerateIV();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -86,7 +86,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 cipher.IV = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -97,7 +97,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 cipher.GenerateKey();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
@@ -108,7 +108,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 cipher.Key = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
@@ -119,7 +119,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using (ROT13Cipher cipher = new ROT13Cipher())
+            using (ROT13 cipher = new ROT13())
             {
                 Assert.Equal("ROT13", cipher.CipherName);
                 Assert.Equal("ROT13", cipher.ToString());

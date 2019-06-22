@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13Cipher.cs" company="APH Software">
+﻿// <copyright file="Atbash.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -12,35 +12,36 @@ namespace Useful.Security.Cryptography
     using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
-    /// The ROT13 cipher.
+    /// The Atbash cipher.
     /// </summary>
-    public class ROT13Cipher : ClassicalSymmetricAlgorithm
+    public class Atbash : ClassicalSymmetricAlgorithm
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ROT13Cipher"/> class.
+        /// Initializes a new instance of the <see cref="Atbash"/> class.
         /// </summary>
-        public ROT13Cipher()
-            : base("ROT13", new CipherSettings())
+        public Atbash()
+            : base("Atbash", new CipherSettings())
         {
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ROT13Cipher();
+            ICipher cipher = new Atbash();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
         {
-            ICipher cipher = new ROT13Cipher();
+            ICipher cipher = new Atbash();
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
         /// <inheritdoc />
         public override string Decrypt(string ciphertext)
         {
+            // To decipher just need to use the encryption method as the cipher is reversible
             return Encrypt(ciphertext);
         }
 
@@ -52,30 +53,36 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(plaintext));
             }
 
-            StringBuilder sb = new StringBuilder(plaintext.Length);
+            StringBuilder ciphertext = new StringBuilder();
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int c = plaintext[i];
-
-                // Uppercase
-                if (c >= 'A' && c <= 'Z')
-                {
-                    sb.Append((char)(((c - 'A' + 13) % 26) + 'A'));
-                }
-
-                // Lowercase
-                else if (c >= 'a' && c <= 'z')
-                {
-                    sb.Append((char)(((c - 'a' + 13) % 26) + 'a'));
-                }
-                else
-                {
-                    sb.Append((char)c);
-                }
+                ciphertext.Append(Encipher(plaintext[i]));
             }
 
-            return sb.ToString();
+            return ciphertext.ToString();
+        }
+
+        /// <summary>
+        /// Encipher a plaintext letter into an enciphered letter.
+        /// </summary>
+        /// <param name="letter">The plaintext letter to encipher.</param>
+        /// <returns>The enciphered letter.</returns>
+        private static char Encipher(char letter)
+        {
+            if (letter >= 'A' && letter <= 'Z')
+            {
+                // A=Z, B=Y, C=X, etc
+                return (char)('Z' - (letter % 'A'));
+            }
+            else if (letter >= 'a' && letter <= 'z')
+            {
+                return (char)('z' - (letter % 'a'));
+            }
+            else
+            {
+                return letter;
+            }
         }
     }
 }

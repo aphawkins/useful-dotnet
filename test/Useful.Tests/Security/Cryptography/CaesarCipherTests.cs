@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorSettings()
         {
             byte[] key = Encoding.Unicode.GetBytes("7");
-            using (CaesarCipher cipher = new CaesarCipher(new CaesarSettings(key)))
+            using (Caesar cipher = new Caesar(new CaesarSettings(key)))
             {
                 Assert.Equal(key, cipher.Settings.Key.ToArray());
                 Assert.Equal(key, cipher.Key);
@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext, int rightShift)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 ((CaesarSettings)cipher.Settings).RightShift = rightShift;
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
@@ -49,7 +49,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext, int rightShift)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
                 Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
@@ -60,7 +60,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext, int rightShift)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 ((CaesarSettings)cipher.Settings).RightShift = rightShift;
                 Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
@@ -71,7 +71,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext, int rightShift)
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
                 Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 cipher.GenerateIV();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -92,7 +92,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 cipher.IV = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -103,7 +103,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 string keyString;
                 for (int i = 0; i < 100; i++)
@@ -121,7 +121,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             bool diff = false;
 
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 byte[] key = Array.Empty<byte>();
                 byte[] newKey;
@@ -150,7 +150,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 byte[] key = Encoding.Unicode.GetBytes("7");
                 cipher.Key = key;
@@ -162,7 +162,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using (CaesarCipher cipher = new CaesarCipher())
+            using (Caesar cipher = new Caesar())
             {
                 Assert.Equal("Caesar", cipher.CipherName);
                 Assert.Equal("Caesar", cipher.ToString());
@@ -175,7 +175,7 @@ namespace Useful.Security.Cryptography.Tests
             string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            using (CaesarCipher cipher = new CaesarCipher(new CaesarSettings(7)))
+            using (Caesar cipher = new Caesar(new CaesarSettings(7)))
             {
                 Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
                 Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
