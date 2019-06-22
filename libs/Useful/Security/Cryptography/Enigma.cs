@@ -30,7 +30,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
         public Enigma(EnigmaSettings settings)
-            : base("Enigma", settings)
+            : base("Enigma M3", settings)
         {
             KeyGenerator = new EnigmaKeyGenerator();
         }

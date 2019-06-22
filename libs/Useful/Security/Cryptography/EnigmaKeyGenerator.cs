@@ -22,14 +22,13 @@ namespace Useful.Security.Cryptography
         {
             Random rnd = new Random();
             StringBuilder iv = new StringBuilder();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 int nextRandomNumber = rnd.Next(0, CharacterSet.Length);
                 iv.Append(CharacterSet[nextRandomNumber] + " ");
             }
 
-            iv.Remove(6, 1);
-            return Encoding.Unicode.GetBytes(iv.ToString());
+            return Encoding.Unicode.GetBytes(iv.ToString().Trim());
         }
 
         /// <inheritdoc />
@@ -75,13 +74,10 @@ namespace Useful.Security.Cryptography
             Random rnd = new Random();
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            int index1 = rnd.Next(0, letters.Length);
-            int index2 = rnd.Next(0, letters.Length);
-
             EnigmaRotor rotor = new EnigmaRotor(rotorNumber)
             {
-                RingPosition = letters[index1],
-                CurrentSetting = letters[index2],
+                RingPosition = rnd.Next(1, letters.Length),
+                CurrentSetting = letters[rnd.Next(0, letters.Length - 1)],
             };
 
             return rotor;

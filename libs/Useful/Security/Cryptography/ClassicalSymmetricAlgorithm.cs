@@ -75,8 +75,8 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            // IV is always empty.
             IVValue = KeyGenerator.RandomIv();
+            IV = IVValue;
         }
 
         /// <inheritdoc />

@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
+            using (CaesarCipher cipher = new CaesarCipher())
             {
                 cipher.GenerateIV();
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
@@ -92,7 +92,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using (MonoAlphabeticCipher cipher = new MonoAlphabeticCipher())
+            using (CaesarCipher cipher = new CaesarCipher())
             {
                 cipher.IV = Encoding.Unicode.GetBytes("A");
                 Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
