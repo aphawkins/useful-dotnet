@@ -17,26 +17,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class Enigma : ClassicalSymmetricAlgorithm
     {
-        /////// <summary>
-        /////// The size of a byte.
-        /////// </summary>
-        ////private const int SizeOfByte = 8;
-
-        /////// <summary>
-        /////// The length of the key.
-        /////// </summary>
-        ////private readonly int _lengthOfKey = 5;
-
-        /////// <summary>
-        /////// The plugboard settings.
-        /////// </summary>
-        ////private MonoAlphabeticCipher _plugboard;
-
-        /////// <summary>
-        /////// Has this object been disposed?.
-        /////// </summary>
-        ////private bool _disposed;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Enigma"/> class.
         /// </summary>
@@ -53,50 +33,7 @@ namespace Useful.Security.Cryptography
             : base("Enigma", settings)
         {
             KeyGenerator = new EnigmaKeyGenerator();
-
-            ////// Plugboard
-            ////_plugboard = new MonoAlphabeticCipher(new MonoAlphabeticSettings(((EnigmaSettings)Settings).Plugboard.Key.ToArray()));
         }
-
-        /////// <summary>
-        /////// Initializes a new instance of the <see cref="Enigma"/> class.
-        /////// </summary>
-        ////public Enigma() // EnigmaModel model)
-        ////{
-        ////    ModeValue = CipherMode.ECB;
-        ////    PaddingValue = PaddingMode.None;
-        ////    KeySizeValue = int.MaxValue;
-
-        ////    // switch (model)
-        ////    // {
-        ////    //    case EnigmaModel.Military:
-        ////    //        {
-        ////    //            LengthOfKey = 5;
-        ////    //            break;
-        ////    //        }
-        ////    //    case EnigmaModel.Navy:
-        ////    //    case EnigmaModel.M4:
-        ////    //        {
-        ////    //            LengthOfKey = 5;
-        ////    //            break;
-        ////    //        }
-        ////    //    default:
-        ////    //        throw new Exception();
-        ////    // }
-        ////    BlockSizeValue = _LengthOfKey * sizeof(char) * SizeOfByte;
-
-        ////    // FeedbackSizeValue = 2;
-        ////    LegalBlockSizesValue = new KeySizes[1];
-        ////    LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 1);
-        ////    LegalKeySizesValue = new KeySizes[1];
-        ////    LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 1);
-
-        ////    EnigmaSettings defaultSettings = EnigmaSettings.GetDefault();
-        ////    KeyValue = defaultSettings.Key;
-        ////    IVValue = defaultSettings.IV;
-
-        ////    // BlockSizeValue = this.m_settings.GetIV().Length * 8;
-        ////}
 
         /// <inheritdoc />
         public override byte[] Key
@@ -153,58 +90,12 @@ namespace Useful.Security.Cryptography
             StringBuilder output = new StringBuilder();
             foreach (char inputChar in plaintext.ToCharArray())
             {
-                ////if (Letters.IsCleanable(this.settings.AllowedLetters, inputChar))
-                ////{
                 // Encrypt and Decrypt work the same way
                 output.Append(Encrypt(inputChar));
-                ////}
             }
 
             return output.ToString();
         }
-
-        /////// <inheritdoc />
-        ////public override void GenerateIV()
-        ////{
-        ////    IVValue = EnigmaSettings.GetRandom().IV;
-        ////}
-
-        /////// <inheritdoc />
-        ////public override void GenerateKey()
-        ////{
-        ////    KeyValue = EnigmaSettings.GetRandom().Key;
-        ////}
-
-        /////// <inheritdoc/>
-        ////protected override void Dispose(bool disposing)
-        ////{
-        ////    if (_disposed)
-        ////    {
-        ////        return;
-        ////    }
-
-        ////    // A call to Dispose(false) should only clean up native resources.
-        ////    // A call to Dispose(true) should clean up both managed and native resources.
-        ////    if (disposing)
-        ////    {
-        ////        // Dispose managed resources
-        ////        if (_plugboard != null)
-        ////        {
-        ////            _plugboard.Dispose();
-        ////        }
-
-        ////        if (_reflector != null)
-        ////        {
-        ////            _reflector.Dispose();
-        ////        }
-        ////    }
-
-        ////    // Free native resources
-        ////    _disposed = true;
-
-        ////    // Call base class implementation.
-        ////    base.Dispose(disposing);
-        ////}
 
         /// <summary>
         /// Encipher a plaintext letter into an enciphered letter.  Decipher works in the same way as encipher.

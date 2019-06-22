@@ -4,7 +4,6 @@
 
 namespace Useful.UI.ViewModels.Tests
 {
-    using System;
     using System.Windows.Input;
     using Useful.UI.ViewModels;
     using Xunit;

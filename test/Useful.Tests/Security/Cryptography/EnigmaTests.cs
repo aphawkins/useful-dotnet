@@ -42,8 +42,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("A", "M", "B|III II I|01 01 01|", "K D Q", "K E R")] // Notch - single step
         [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
-        [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")]
-        [InlineData("B", "I", "B|II V I|23 15 02|HN IU JK LM OP TY", "K K R", "K K S")]
+        [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")] // Complex
+        [InlineData("B", "I", "B|II V I|23 15 02|HN IU JK LM OP TY", "K K R", "K K S")] // Bugfix
         public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
@@ -155,6 +155,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
+
         [Fact]
         public void Enigma_1941_07_07_19_25()
         {
@@ -198,64 +199,7 @@ namespace Useful.Security.Cryptography.Tests
                 Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
             }
         }
+
 #pragma warning restore CA1707 // Identifiers should not contain underscores
-
-        /////// <summary>
-        /////// http://users.telenet.be/d.rijmenants/en/m4project.htm.
-        /////// </summary>
-        ////[Fact]
-        ////public void Enigma_M4_Example()
-        ////{
-        ////    StringBuilder sb = new StringBuilder();
-        ////    sb.Append("NCZW VUSX PNYM INHZ XMQX ");
-        ////    sb.Append("SFWX WLKJ AHSH NMCO CCAK ");
-        ////    sb.Append("UQPM KCSM HKSE INJU SBLK ");
-        ////    sb.Append("IOSX CKUB HMLL XCSJ USRR ");
-        ////    sb.Append("DVKO HULX WCCB GVLI YXEO ");
-        ////    sb.Append("AHXR HKKF VDRE WEZL XOBA ");
-        ////    sb.Append("FGYU JQUK GRTV UKAM EURB ");
-        ////    sb.Append("VEKS UHHV OYHA BCJW MAKL ");
-        ////    sb.Append("FKLM YFVN RIZR VVRT KOFD ");
-        ////    sb.Append("ANJM OLBG FFLE OPRG TFLV ");
-        ////    sb.Append("RHOW OPBE KVWM UQFM PWPA ");
-        ////    sb.Append("RMFH AGKX IIBG ");
-
-        ////    string ciphertext = sb.ToString();
-
-        ////    // Enigma model: Kriegsmarine M4
-        ////    // Reflector: B
-        ////    // Rotors: Beta - II - IV - I
-        ////    // Stecker: AT BL DF GJ HM NW OP QY RZ VX
-        ////    // Ringsettings: A-A-A-V
-        ////    // Rotor startposition: V-J-N-A
-        ////    string keyString = "M4|BThin|Beta II IV I|A A A V|AT BL DF GJ HM NW OP QY RZ VX";
-        ////    byte[] key = Encoding.Unicode.GetBytes(keyString);
-        ////    string ivString = "V J N A";
-        ////    byte[] iv = Encoding.Unicode.GetBytes(ivString);
-        ////    string newIv = "V J W Y";
-
-        ////    sb = new StringBuilder();
-        ////    sb.Append("VONVONJLOOKSJHFFTTTE");
-        ////    sb.Append("INSEINSDREIZWOYYQNNS");
-        ////    sb.Append("NEUNINHALTXXBEIANGRI");
-        ////    sb.Append("FFUNTERWASSERGEDRUEC");
-        ////    sb.Append("KTYWABOSXLETZTERGEGN");
-        ////    sb.Append("ERSTANDNULACHTDREINU");
-        ////    sb.Append("LUHRMARQUANTONJOTANE");
-        ////    sb.Append("UNACHTSEYHSDREIYZWOZ");
-        ////    sb.Append("WONULGRADYACHTSMYSTO");
-        ////    sb.Append("SSENACHXEKNSVIERMBFA");
-        ////    sb.Append("ELLTYNNNNNNOOOVIERYS");
-        ////    sb.Append("ICHTEINSNULL");
-
-        ////    string plaintext = sb.ToString();
-
-        ////    EnigmaSettings settings = new EnigmaSettings(key, iv);
-
-        ////    using (Enigma enigma = new Enigma())
-        ////    {
-        ////        TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
-        ////    }
-        ////}
     }
 }

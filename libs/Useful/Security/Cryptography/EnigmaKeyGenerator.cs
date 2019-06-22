@@ -105,13 +105,7 @@ namespace Useful.Security.Cryptography
             foreach (EnigmaRotorPosition rotorPosition in availableRotorPositions)
             {
                 availableRotorNumbers = new List<EnigmaRotorNumber>(rotorSettings.AvailableRotors);
-                ////if (availableRotorNumbers.Contains(EnigmaRotorNumber.None))
-                ////{
-                ////    availableRotorNumbers.Remove(EnigmaRotorNumber.None);
-                ////}
-
                 nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count());
-
                 rotorSettings[rotorPosition] = GetRandomRotorSettings(availableRotorNumbers[nextRandomNumber]);
             }
 

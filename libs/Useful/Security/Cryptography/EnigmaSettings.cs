@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography
             {
                 // Example:
                 // "reflector|rotors|ring|plugboard"
-                // "B|III II I|C B A|DN GR IS KC QX TM PV HY FW BJ"
+                // "B|III II I|03 02 01|DN GR IS KC QX TM PV HY FW BJ"
                 StringBuilder key = new StringBuilder();
 
                 // Reflector

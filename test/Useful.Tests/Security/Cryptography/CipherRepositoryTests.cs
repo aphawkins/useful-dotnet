@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
     using System.Linq;
     using Moq;
     using Useful.Security.Cryptography;
