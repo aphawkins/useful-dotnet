@@ -273,24 +273,22 @@ namespace Useful.Security.Cryptography
                             break;
                         }
                     }
+                }
 
-                    ////break;
+                // Doublestep the middle rotor when the right rotor is 2 past a notch and the middle is on a notch
+                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
+                {
+                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    {
+                        if (_list[EnigmaRotorPosition.Second].CurrentSetting == notch2)
+                        {
+                            _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            break;
+                        }
+                    }
 
-                    ////if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
-                    ////{
-                    ////    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-
-                    ////    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
-                    ////    {
-                    ////        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch2)
-                    ////        {
-                    ////            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-                    ////            break;
-                    ////        }
-                    ////    }
-
-                    ////    break;
-                    ////}
+                    break;
                 }
             }
         }
