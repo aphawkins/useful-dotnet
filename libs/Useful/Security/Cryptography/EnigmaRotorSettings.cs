@@ -274,22 +274,23 @@ namespace Useful.Security.Cryptography
                         }
                     }
 
-                    break;
-                }
-                else if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
-                {
-                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                    ////break;
 
-                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
-                    {
-                        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch2)
-                        {
-                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-                            break;
-                        }
-                    }
+                    ////if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
+                    ////{
+                    ////    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
-                    break;
+                    ////    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    ////    {
+                    ////        if ((((_list[EnigmaRotorPosition.Second].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch2)
+                    ////        {
+                    ////            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                    ////            break;
+                    ////        }
+                    ////    }
+
+                    ////    break;
+                    ////}
                 }
             }
         }

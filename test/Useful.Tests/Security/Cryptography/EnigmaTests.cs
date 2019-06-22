@@ -43,6 +43,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
         [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")]
+        [InlineData("B", "I", "B|II V I|23 15 02|HN IU JK LM OP TY", "K K R", "K K S")]
         public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
@@ -55,68 +56,106 @@ namespace Useful.Security.Cryptography.Tests
             }
         }
 
-        //// [TestMethod()]
-        //// public void Enigma_Singh()
-        //// {
-        ////    StringBuilder sb = new StringBuilder();
-        ////    sb.Append("KJQPW CAISR XWQMA SEUPF OCZOQ");
-        ////    sb.Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ");
-        ////    sb.Append("HRCCF QLVRP CCWLW PUYON FHOGD");
-        ////    sb.Append("DMOJX GGBHW WUXNJ EZAXF UMEYS");
-        ////    sb.Append("ECSMA ZFXNN ASSZG WRBDD MAPGM");
-        ////    sb.Append("RWTGX XZAXL BXCPH ZBOUY VRRVF");
-        ////    sb.Append("DKHXM QOGYL YYCUW QBTAD RLBOZ");
-        ////    sb.Append("KYXQP WUUAF MIZTC EAXBC REDHZ");
-        ////    sb.Append("JDOPS QTNLI HIQHN MJZUH SMVAH");
-        ////    sb.Append("HQJLI JRRXQ ZNFKH UIINZ PMPAF");
-        ////    sb.Append("LHYON MRMDA DFOXT YOPEW EJGEC");
-        ////    sb.Append("AHPYF VMCIX AQDYI AGZXL DTFJW");
-        ////    sb.Append("JQZMG BSNER MIPCK POVLT HZOTU");
-        ////    sb.Append("XQLRS RZNQL DHXHL GHYDN ZKVBF");
-        ////    sb.Append("DMXRZ BROMD PRUXH MFSHJ");
+        [Fact(Skip = "Settings uncertain.")]
+        public void SinghCodeBook()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("KJQPW CAISR XWQMA SEUPF OCZOQ");
+            sb.Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ");
+            sb.Append("HRCCF QLVRP CCWLW PUYON FHOGD");
+            sb.Append("DMOJX GGBHW WUXNJ EZAXF UMEYS");
+            sb.Append("ECSMA ZFXNN ASSZG WRBDD MAPGM");
+            sb.Append("RWTGX XZAXL BXCPH ZBOUY VRRVF");
+            sb.Append("DKHXM QOGYL YYCUW QBTAD RLBOZ");
+            sb.Append("KYXQP WUUAF MIZTC EAXBC REDHZ");
+            sb.Append("JDOPS QTNLI HIQHN MJZUH SMVAH");
+            sb.Append("HQJLI JRRXQ ZNFKH UIINZ PMPAF");
+            sb.Append("LHYON MRMDA DFOXT YOPEW EJGEC");
+            sb.Append("AHPYF VMCIX AQDYI AGZXL DTFJW");
+            sb.Append("JQZMG BSNER MIPCK POVLT HZOTU");
+            sb.Append("XQLRS RZNQL DHXHL GHYDN ZKVBF");
+            sb.Append("DMXRZ BROMD PRUXH MFSHJ");
 
-        //// string ciphertext = sb.ToString();
+            string ciphertext = sb.ToString();
 
-        //// // Reflector: B
-        ////    // Wheel order: III I II (Possibly III II I)
-        ////    // Ring positions: A A A (?)
-        ////    // Plug pairs: EI AS JN KL MU OT
-        ////    // Message key:
+            // Reflector: B
+            // Wheel order: III I II (Possibly III II I)
+            // Ring positions: 01 01 01 (A A A) (?)
+            // Plug pairs: EI AS JN KL MU OT
+            // Message key:
+            string keyString = "B|III II I|01 01 01|EI AS JN KL MU OT";
+            string ivString = "O U A";
+            string newIv = "B R S";
 
-        //// string keyString = "B|III II I|A F P|EI AS JN KL MU OT";
-        ////    byte[] key = Encoding.Unicode.GetBytes(keyString);
-        ////    string ivString = "O U A";
-        ////    byte[] iv = Encoding.Unicode.GetBytes(ivString);
-        ////    string newIv = "B R S";
+            sb = new StringBuilder();
+            sb.Append("DASXL OESUN GSWOR TXIST XPLUT");
+            sb.Append("OXXST UFEXN EUNXE NTHAE LTXEI");
+            sb.Append("NEXMI TTEIL UNGXD IEXMI TXDES");
+            sb.Append("XENTK ODIER TXIST XXICH XHABE");
+            sb.Append("XDASX LINKS STEHE NDEXB YTEXD");
+            sb.Append("ESXSC HLUES SELSX ENTDE CKTXX");
+            sb.Append("ESXIS TXEIN SXEIN SXZER OXEIN");
+            sb.Append("SXZER OXZER OXEIN SXEIN SXEIN");
+            sb.Append("SXXIC HXPRO GRAMM IERTE XDESX");
+            sb.Append("UNDXE NTDEC KTEXD ASSXD ASXWO");
+            sb.Append("RTXDE BUGGE RXWEN NXESX MITXD");
+            sb.Append("EMXUN TENST EHEND ENXSC HLUES");
+            sb.Append("SELXE NTKOD IERTX WIRDX ALSXR");
+            sb.Append("ESULT ATXDI EXUNT ENSTE HENDE");
+            sb.Append("NXSCH RIFTZ EICHE NXHAT");
 
-        //// sb = new StringBuilder();
-        ////    sb.Append("DASXL OESUN GSWOR TXIST XPLUT");
-        ////    sb.Append("OXXST UFEXN EUNXE NTHAE LTXEI");
-        ////    sb.Append("NEXMI TTEIL UNGXD IEXMI TXDES");
-        ////    sb.Append("XENTK ODIER TXIST XXICH XHABE");
-        ////    sb.Append("XDASX LINKS STEHE NDEXB YTEXD");
-        ////    sb.Append("ESXSC HLUES SELSX ENTDE CKTXX");
-        ////    sb.Append("ESXIS TXEIN SXEIN SXZER OXEIN");
-        ////    sb.Append("SXZER OXZER OXEIN SXEIN SXEIN");
-        ////    sb.Append("SXXIC HXPRO GRAMM IERTE XDESX");
-        ////    sb.Append("UNDXE NTDEC KTEXD ASSXD ASXWO");
-        ////    sb.Append("RTXDE BUGGE RXWEN NXESX MITXD");
-        ////    sb.Append("EMXUN TENST EHEND ENXSC HLUES");
-        ////    sb.Append("SELXE NTKOD IERTX WIRDX ALSXR");
-        ////    sb.Append("ESULT ATXDI EXUNT ENSTE HENDE");
-        ////    sb.Append("NXSCH RIFTZ EICHE NXHAT");
+            string plaintext = sb.ToString();
 
-        //// string plaintext = sb.ToString();
-
-        //// EnigmaSettings settings = new EnigmaSettings(key, iv);
-
-        //// Enigma enigma = new Enigma();
-
-        //// TestTarget(enigma, keyString, ivString, ciphertext, plaintext, newIv);
-        //// }
+            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
+            using (Enigma target = new Enigma(settings))
+            {
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
+                Assert.Equal(plaintext, s);
+                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
+            }
+        }
 
         [Fact]
+        public void PracticalCryptography()
+        {
+            StringBuilder ciphertext = new StringBuilder();
+            ciphertext.Append("YXBMXADQBDBAAYIMKDODAYIXNBDQZF");
+            ciphertext.Append("JKOLFVEEQBCLUUXDFVQYGKEYBVRHON");
+            ciphertext.Append("JKPJMKUNLYLZUKBKJOAJTWVWMOMDPG");
+            ciphertext.Append("VXEPUKXBVSGHROFOSBCNKEHEHAKWKO");
+            ciphertext.Append("GWTBZFXSYCGSUUPPIZTRTFVCXZVCXT");
+            ciphertext.Append("FLMTPTAQVMREGWSBFZBM");
+
+            // Reflector: B
+            // Wheel order: II V I
+            // Ring positions:  23 15 02  (W O B)
+            // Plug pairs: PO ML IU KJ NH YT
+            // Message key: KJS
+            string keyString = "B|II V I|23 15 02|HN IU JK LM OP TY";
+            string ivString = "K J S";
+            string newIv = "K P G";
+
+            StringBuilder plaintext = new StringBuilder();
+            plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
+            plaintext.Append("USEDBYTHEGERMANSDURINGWORLDWAR");
+            plaintext.Append("IITHEENIGMAISONEOFTHEBETTERKNO");
+            plaintext.Append("WNHISTORICALENCRYPTIONMACHINES");
+            plaintext.Append("ANDITACTUALLYREFERSTOARANGEOFS");
+            plaintext.Append("IMILARCIPHERMACHINES");
+
+            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
+            using (Enigma target = new Enigma(settings))
+            {
+                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
+                Assert.Equal(plaintext.ToString(), s);
+                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
+            }
+        }
+
 #pragma warning disable CA1707 // Identifiers should not contain underscores
+        [Fact]
         public void Enigma_1941_07_07_19_25()
         {
             StringBuilder sb = new StringBuilder();
