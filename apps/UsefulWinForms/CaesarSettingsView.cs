@@ -1,7 +1,8 @@
-﻿// <copyright file="CaesarSettingsView.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="CaesarSettingsView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
+
+#nullable enable
 
 namespace Useful.UI.WinForms
 {
@@ -9,13 +10,13 @@ namespace Useful.UI.WinForms
     using System.Data;
     using System.Linq;
     using System.Windows.Forms;
-    using Security.Cryptography;
+    using Useful.Security.Cryptography;
     using Useful.UI.Controllers;
-    using Views;
+    using Useful.UI.Views;
 
     public partial class CaesarSettingsView : UserControl, ICipherSettingsView
     {
-        private CaesarSettingsController controller;
+        private SettingsController? _controller;
 
         public CaesarSettingsView()
         {
@@ -26,7 +27,7 @@ namespace Useful.UI.WinForms
 
         public void SetController(IController controller)
         {
-            this.controller = (CaesarSettingsController)controller;
+            _controller = (SettingsController)controller;
         }
 
         public void Initialize()
@@ -37,7 +38,7 @@ namespace Useful.UI.WinForms
 
         private void ComboShift_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ((CaesarCipherSettings)controller.Settings).RightShift = (int)comboRightShift.SelectedItem;
+            ((CaesarSettings)_controller!.Settings).RightShift = (int)comboRightShift.SelectedItem;
         }
     }
 }

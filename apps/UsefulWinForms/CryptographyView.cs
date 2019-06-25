@@ -1,35 +1,38 @@
-﻿// <copyright file="CryptographyView.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="CryptographyView.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
+
+#nullable enable
 
 namespace Useful.UI.WinForms
 {
-    using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
-    using Controllers;
-    using Security.Cryptography;
-    using Views;
+    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
+    using Useful.UI.Controllers;
+    using Useful.UI.Views;
 
     public partial class CryptographyView : Form, IDisposableCipherView
     {
-        private CipherController controller;
+        private CipherController? _controller;
 
         public CryptographyView()
         {
             InitializeComponent();
 
-            comboCiphers.SelectedIndexChanged += (sender, args) => comboCiphers_SelectedIndexChanged();
-            buttonEncrypt.Click += (sender, args) => controller.Encrypt(textPlaintext.Text);
-            buttonDecrypt.Click += (sender, args) => controller.Decrypt(textCiphertext.Text);
+            //// comboCiphers.TextChanged += (sender, args) => ComboCiphers_SelectedIndexChanged();
+            //// comboCiphers.SelectionChangeCommitted += (sender, args) => ComboCiphers_SelectedIndexChanged();
+            comboCiphers.SelectedIndexChanged += (sender, args) => ComboCiphers_SelectedIndexChanged();
+            buttonEncrypt.Click += (sender, args) => _controller!.Encrypt(textPlaintext.Text);
+            buttonDecrypt.Click += (sender, args) => _controller!.Decrypt(textCiphertext.Text);
 
-            Icon = Resources.Resources.GetAppIcon();
+            //// Icon = Resources.Resources.GetAppIcon();
         }
 
         public void SetController(IController controller)
         {
-            this.controller = (CipherController)controller;
+            _controller = (CipherController)controller;
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace Useful.UI.WinForms
         /// </summary>
         public void Initialize()
         {
-            List<ICipher> ciphers = new List<ICipher>(controller.GetCiphers());
+            List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
             comboCiphers.Items.AddRange(ciphers.ToArray());
             comboCiphers.SelectedIndex = 0;
 
@@ -60,18 +63,22 @@ namespace Useful.UI.WinForms
             flowSettings.Controls.Add((Control)cipherSettingsView);
         }
 
-        private void comboCiphers_SelectedIndexChanged()
+        private void ComboCiphers_SelectedIndexChanged()
         {
             ICipher cipher = (ICipher)comboCiphers.SelectedItem;
 
-            if (cipher is CaesarCipher)
+            if (cipher is Caesar)
             {
-                controller.SelectCipher(cipher, new CaesarSettingsView());
+#pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+                _controller!.SelectCipher(cipher, new CaesarSettingsView());
+#pragma warning restore CA2000 // Dispose objects before losing scope
+#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
             }
-            else
-            {
-                controller.SelectCipher(cipher, null);
-            }
+            ////else
+            ////{
+            ////    _controller!.SelectCipher(cipher, null);
+            ////}
         }
     }
 }

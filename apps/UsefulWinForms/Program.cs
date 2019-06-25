@@ -1,15 +1,15 @@
-﻿// <copyright file="Program.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="Program.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.WinForms
 {
     using System;
     using System.Windows.Forms;
-    using Controllers;
-    using Security.Cryptography;
-    using Views;
+    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
+    using Useful.UI.Controllers;
+    using Useful.UI.Views;
 
     internal static class Program
     {
@@ -22,7 +22,7 @@ namespace Useful.UI.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            IRepository<ICipher> repository = CipherRepository.Create();
+            ICipherRepository repository = new CipherRepository();
             using (IDisposableCipherView view = new CryptographyView())
             {
                 IController controller = new CipherController(repository, view);
