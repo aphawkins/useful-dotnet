@@ -2,9 +2,9 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Controllers
+namespace Useful.Security.Cryptography.UI.Controllers
 {
-    using Useful.Security.Cryptography.Interfaces;
+    using Useful.Security.Cryptography;
 
     /// <summary>
     /// The setting controller.

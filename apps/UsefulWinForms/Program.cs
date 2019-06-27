@@ -7,8 +7,7 @@ namespace Useful.UI.WinForms
     using System;
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
-    using Useful.Security.Cryptography.Interfaces;
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
 
     internal static class Program

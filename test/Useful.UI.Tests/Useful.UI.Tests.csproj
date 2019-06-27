@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
-    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
-  </ItemGroup>
-
-</Project>

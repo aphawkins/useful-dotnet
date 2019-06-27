@@ -4,7 +4,7 @@
 
 namespace Useful.UI.Views
 {
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
 
     /// <summary>
     /// An interface that all views should implement.

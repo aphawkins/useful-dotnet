@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Interfaces
+namespace Useful
 {
     using System;
     using System.Collections.Generic;

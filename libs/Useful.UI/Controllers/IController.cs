@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Controllers
+namespace Useful.Security.Cryptography.UI.Controllers
 {
     /// <summary>
     /// A controller.

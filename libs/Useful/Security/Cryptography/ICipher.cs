@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Security.Cryptography.Interfaces
+namespace Useful.Security.Cryptography
 {
     /// <summary>
     /// Interface that all ciphers should implement.

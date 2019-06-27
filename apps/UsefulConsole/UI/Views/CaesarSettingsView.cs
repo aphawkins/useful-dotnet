@@ -6,7 +6,7 @@ namespace UsefulConsole.UI.Views
 {
     using System;
     using Useful.Security.Cryptography;
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
 
     internal class CaesarSettingsView : ICipherSettingsView

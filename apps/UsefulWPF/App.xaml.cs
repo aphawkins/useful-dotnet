@@ -6,7 +6,6 @@ namespace Useful.UI.WPF
 {
     using System.Windows;
     using Useful.Security.Cryptography;
-    using Useful.Security.Cryptography.Interfaces;
     using Useful.UI.Services;
     using Useful.UI.ViewModels;
 

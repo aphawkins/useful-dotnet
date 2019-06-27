@@ -6,7 +6,7 @@ namespace Useful.UI.ViewModels
 {
     using System.Collections.Generic;
     using System.Windows.Input;
-    using Useful.Security.Cryptography.Interfaces;
+    using Useful.Security.Cryptography;
     using Useful.UI.Services;
 
     /// <summary>

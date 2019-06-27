@@ -6,7 +6,7 @@ namespace Useful.UI.ViewModels.Tests
 {
     using System.Collections.Generic;
     using Moq;
-    using Useful.Security.Cryptography.Interfaces;
+    using Useful.Security.Cryptography;
     using Useful.UI.Services;
     using Useful.UI.ViewModels;
     using Xunit;

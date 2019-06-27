@@ -7,9 +7,9 @@ namespace Useful.UI.Controllers.Tests
     using System;
     using System.Collections.Generic;
     using Moq;
-    using Useful.Interfaces;
-    using Useful.Security.Cryptography.Interfaces;
-    using Useful.UI.Controllers;
+    using Useful;
+    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
     using Xunit;
 

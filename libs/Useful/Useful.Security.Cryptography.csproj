@@ -10,8 +10,4 @@
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransform.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Useful.Interfaces\Useful.Interfaces.csproj" />
-  </ItemGroup>
-
 </Project>

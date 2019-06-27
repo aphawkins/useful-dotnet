@@ -4,7 +4,7 @@
 
 namespace Useful.UI.Services
 {
-    using Useful.Security.Cryptography.Interfaces;
+    using Useful.Security.Cryptography;
 
     /// <summary>
     /// A viewmodel for ciphers.

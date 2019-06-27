@@ -7,7 +7,6 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Holds all the ciphers.

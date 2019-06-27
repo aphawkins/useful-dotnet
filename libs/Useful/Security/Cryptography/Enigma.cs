@@ -10,7 +10,6 @@ namespace Useful.Security.Cryptography
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
-    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Simulates the Enigma encoding machine.

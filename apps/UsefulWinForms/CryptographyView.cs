@@ -9,8 +9,7 @@ namespace Useful.UI.WinForms
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
-    using Useful.Security.Cryptography.Interfaces;
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
 
     public partial class CryptographyView : Form, IDisposableCipherView

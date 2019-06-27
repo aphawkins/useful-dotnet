@@ -8,7 +8,6 @@ namespace Useful.Security.Cryptography
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// Enigma key generator.

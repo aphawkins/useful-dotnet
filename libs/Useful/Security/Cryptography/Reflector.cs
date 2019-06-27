@@ -10,7 +10,6 @@ namespace Useful.Security.Cryptography
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
-    using Useful.Security.Cryptography.Interfaces;
 
     /// <summary>
     /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.

@@ -2,12 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Controllers
+namespace Useful.Security.Cryptography.UI.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using Useful.Interfaces;
-    using Useful.Security.Cryptography.Interfaces;
+    using Useful.Security.Cryptography;
     using Useful.UI.Views;
 
     /// <summary>

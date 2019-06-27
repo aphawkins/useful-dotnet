@@ -4,7 +4,7 @@
 
 namespace UsefulConsole.UI.Views
 {
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
 
     internal class ReverseSettingsView : ICipherSettingsView

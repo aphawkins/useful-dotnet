@@ -11,7 +11,7 @@ namespace Useful.UI.WinForms
     using System.Linq;
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
-    using Useful.UI.Controllers;
+    using Useful.Security.Cryptography.UI.Controllers;
     using Useful.UI.Views;
 
     public partial class CaesarSettingsView : UserControl, ICipherSettingsView
