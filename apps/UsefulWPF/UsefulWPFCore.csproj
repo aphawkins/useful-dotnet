@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
+    <ProjectReference Include="..\..\libs\Useful\Useful.csproj" />
+  </ItemGroup>
+
+</Project>

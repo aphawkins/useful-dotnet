@@ -1,6 +1,5 @@
-﻿// <copyright file="CryptographyWindow.xaml.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="CryptographyWindow.xaml.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.WPF
@@ -8,7 +7,7 @@ namespace Useful.UI.WPF
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class CryptographyWindow : Window
     {

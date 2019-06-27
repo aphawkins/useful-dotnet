@@ -1,16 +1,17 @@
-﻿// <copyright file="App.xaml.cs" company="APH Company">
-// Copyright (c) APH Company. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿// <copyright file="App.xaml.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.UI.WPF
 {
     using System.Windows;
-    using Security.Cryptography;
-    using ViewModels;
+    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.Interfaces;
+    using Useful.UI.Services;
+    using Useful.UI.ViewModels;
 
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml.
     /// </summary>
     public partial class App : Application
     {
