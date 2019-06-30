@@ -6,7 +6,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
 {
     using System;
     using Useful.Security.Cryptography;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
 
     /// <summary>
     /// An controller for the cipher settings.

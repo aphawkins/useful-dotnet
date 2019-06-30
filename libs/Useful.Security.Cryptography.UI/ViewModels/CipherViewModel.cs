@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels
+namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.Collections.Generic;
     using System.Windows.Input;
     using Useful.Security.Cryptography;
-    using Useful.UI.Services;
+    using Useful.Security.Cryptography.UI.Services;
 
     /// <summary>
     /// A viewmodel for ciphers.

@@ -6,8 +6,8 @@ namespace UsefulWeb.Controllers
 {
     using System;
     using Microsoft.AspNetCore.Mvc;
-    using Useful.UI.Models;
-    using Useful.UI.Services;
+    using Useful.Security.Cryptography.UI.Models;
+    using Useful.Security.Cryptography.UI.Services;
 
     public class HomeController : Controller
     {

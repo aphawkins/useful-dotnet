@@ -4,7 +4,7 @@
 
 #nullable enable
 
-namespace Useful.UI.WinForms
+namespace UsefulWinForms
 {
     using System;
     using System.Data;
@@ -12,7 +12,7 @@ namespace Useful.UI.WinForms
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
 
     public partial class CaesarSettingsView : UserControl, ICipherSettingsView
     {

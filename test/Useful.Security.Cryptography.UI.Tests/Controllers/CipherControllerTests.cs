@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Controllers.Tests
+namespace Useful.Security.Cryptography.UI.Controllers.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace Useful.UI.Controllers.Tests
     using Useful;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
     using Xunit;
 
     public class CipherControllerTests

@@ -2,13 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.WinForms
+namespace UsefulWinForms
 {
     using System;
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
 
     internal static class Program
     {

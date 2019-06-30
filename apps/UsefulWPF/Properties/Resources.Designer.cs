@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Useful.UI.WPF.Properties {
+namespace UsefulWPF.Properties {
     using System;
     
     

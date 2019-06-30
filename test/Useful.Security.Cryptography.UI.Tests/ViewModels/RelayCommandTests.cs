@@ -2,10 +2,9 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels.Tests
+namespace Useful.Security.Cryptography.UI.ViewModels.Tests
 {
     using System.Windows.Input;
-    using Useful.UI.ViewModels;
     using Xunit;
 
     public class RelayCommandTests

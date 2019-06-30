@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.WPF
+namespace UsefulWPF
 {
     using System.Windows;
     using Useful.Security.Cryptography;
-    using Useful.UI.Services;
-    using Useful.UI.ViewModels;
+    using Useful.Security.Cryptography.UI.Services;
+    using Useful.Security.Cryptography.UI.ViewModels;
 
     /// <summary>
     /// Interaction logic for App.xaml.

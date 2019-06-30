@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Services
+namespace Useful.Security.Cryptography.UI.Services
 {
     using Useful.Security.Cryptography;
 

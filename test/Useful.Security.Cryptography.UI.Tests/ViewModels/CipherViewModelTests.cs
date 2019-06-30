@@ -2,13 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels.Tests
+namespace Useful.Security.Cryptography.UI.ViewModels.Tests
 {
     using System.Collections.Generic;
     using Moq;
     using Useful.Security.Cryptography;
-    using Useful.UI.Services;
-    using Useful.UI.ViewModels;
+    using Useful.Security.Cryptography.UI.Services;
     using Xunit;
 
     public class CipherViewModelTests

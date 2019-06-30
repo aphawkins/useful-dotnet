@@ -10,7 +10,7 @@ namespace UsefulWeb
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Useful.Security.Cryptography;
-    using Useful.UI.Services;
+    using Useful.Security.Cryptography.UI.Services;
 
     public class Startup
     {

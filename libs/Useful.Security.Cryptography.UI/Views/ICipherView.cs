@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Views
+namespace Useful.Security.Cryptography.UI.Views
 {
     /// <summary>
     /// An interface that all cipher views should implement.

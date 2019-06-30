@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.WPF
+namespace UsefulWPF
 {
     using System.Windows;
 

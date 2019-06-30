@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Useful.UI.WinForms.Properties {
+namespace UsefulWinForms.Properties {
     using System;
     
     

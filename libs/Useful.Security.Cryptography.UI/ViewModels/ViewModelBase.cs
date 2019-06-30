@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.ViewModels
+namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;

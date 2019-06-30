@@ -1,4 +1,4 @@
-﻿namespace Useful.UI.WinForms
+﻿namespace UsefulWinForms
 {
     partial class CaesarSettingsView
     {

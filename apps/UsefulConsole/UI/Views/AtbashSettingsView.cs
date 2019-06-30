@@ -5,7 +5,7 @@
 namespace UsefulConsole.UI.Views
 {
     using Useful.Security.Cryptography.UI.Controllers;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
 
     internal class AtbashSettingsView : ICipherSettingsView
     {

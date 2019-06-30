@@ -9,7 +9,7 @@ namespace UsefulConsole.UI.Views
     using System.Linq;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
-    using Useful.UI.Views;
+    using Useful.Security.Cryptography.UI.Views;
 
     internal class ConsoleView : ICipherView
     {

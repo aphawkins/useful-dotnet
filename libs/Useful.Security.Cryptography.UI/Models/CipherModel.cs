@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.UI.Models
+namespace Useful.Security.Cryptography.UI.Models
 {
     /// <summary>
     /// A POCO viewmodel for ciphers.
