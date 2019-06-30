@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
- 
+
   <ItemGroup>
-    <ProjectReference Include="..\Useful\Useful.Security.Cryptography.csproj" />
+    <ProjectReference Include="..\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

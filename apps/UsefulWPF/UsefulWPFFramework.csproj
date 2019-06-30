@@ -96,12 +96,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\Useful.UI\Useful.Security.Cryptography.UI.csproj">
-      <Project>{2ada4cf8-ec1d-4681-9457-58e512b50de8}</Project>
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj">
+      <Project>{EFF136B3-DFB4-4D1B-99C5-6B5BAF845E3A}</Project>
       <Name>Useful.Security.Cryptography.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libs\Useful\Useful.Security.Cryptography.csproj">
-      <Project>{03c39f3c-6bae-4708-85c0-5d646f87ffe2}</Project>
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj">
+      <Project>{DA378A81-AA3A-4EC9-9AF8-D4A48C81BC7A}</Project>
       <Name>Useful.Security.Cryptography</Name>
     </ProjectReference>
   </ItemGroup>

@@ -3,7 +3,6 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
     <CodeAnalysisRuleSet>..\useful.libs.ruleset</CodeAnalysisRuleSet>

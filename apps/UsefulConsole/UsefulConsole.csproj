@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\Useful.UI\Useful.Security.Cryptography.UI.csproj" />
-    <ProjectReference Include="..\..\libs\Useful\Useful.Security.Cryptography.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>
