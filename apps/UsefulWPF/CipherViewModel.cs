@@ -2,6 +2,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#nullable enable
+
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.Collections.Generic;
@@ -68,7 +70,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
                 }
 
                 _ciphertext = value;
-                NotifyPropertyChanged(nameof(Ciphertext));
+                NotifyPropertyChanged();
             }
         }
 
@@ -131,7 +133,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
                 }
 
                 _plaintext = value;
-                NotifyPropertyChanged(nameof(Plaintext));
+                NotifyPropertyChanged();
             }
         }
 
@@ -140,7 +142,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public void Encrypt()
         {
-            _ciphertext = CurrentCipher.Encrypt(_plaintext);
+            Ciphertext = CurrentCipher.Encrypt(_plaintext);
         }
 
         /// <summary>
@@ -148,7 +150,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public void Decrypt()
         {
-            _plaintext = CurrentCipher.Decrypt(_ciphertext);
+            Plaintext = CurrentCipher.Decrypt(_ciphertext);
         }
 
         private void WireCommands()

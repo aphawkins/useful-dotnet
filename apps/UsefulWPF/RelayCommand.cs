@@ -28,14 +28,10 @@ namespace Useful.Security.Cryptography.UI.ViewModels
             _canExecute = canExecute;
         }
 
-#pragma warning disable CS0067
-
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
         public event EventHandler CanExecuteChanged
-
-#if DOTNETFRAMEWORK
         {
             add
             {
@@ -47,11 +43,6 @@ namespace Useful.Security.Cryptography.UI.ViewModels
                 CommandManager.RequerySuggested -= value;
             }
         }
-#else
-        ;
-
-#endif
-#pragma warning restore CS0067
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.

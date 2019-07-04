@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\CipherViewModelTests.cs" />
+    <Compile Remove="ViewModels\RelayCommandTests.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
@@ -39,6 +44,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
