@@ -5,6 +5,7 @@
 namespace UsefulWPF
 {
     using System.Windows;
+    using Useful;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Services;
     using Useful.Security.Cryptography.UI.ViewModels;
@@ -19,7 +20,7 @@ namespace UsefulWPF
             base.OnStartup(e);
 
             CryptographyWindow app = new CryptographyWindow();
-            ICipherRepository repository = new CipherRepository();
+            IRepository<ICipher> repository = new CipherRepository();
             CipherService service = new CipherService(repository);
             CipherViewModel context = new CipherViewModel(service);
             app.DataContext = context;

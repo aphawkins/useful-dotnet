@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// Initializes a new instance of the <see cref="CipherService"/> class.
         /// </summary>
         /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherService(ICipherRepository repository)
+        public CipherService(IRepository<ICipher> repository)
         {
             Repository = repository;
         }
@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// <summary>
         /// Gets or sets the cipher repository.
         /// </summary>
-        public ICipherRepository Repository { get; set; }
+        public IRepository<ICipher> Repository { get; set; }
 
         /// <summary>
         /// Used to encrypt the Plaintext into Ciphertext.

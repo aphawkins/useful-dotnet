@@ -6,6 +6,7 @@ namespace UsefulWinForms
 {
     using System;
     using System.Windows.Forms;
+    using Useful;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
     using Useful.Security.Cryptography.UI.Views;
@@ -21,7 +22,7 @@ namespace UsefulWinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            ICipherRepository repository = new CipherRepository();
+            IRepository<ICipher> repository = new CipherRepository();
             using (IDisposableCipherView view = new CryptographyView())
             {
                 IController controller = new CipherController(repository, view);

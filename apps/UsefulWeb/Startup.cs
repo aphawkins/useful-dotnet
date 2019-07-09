@@ -9,6 +9,7 @@ namespace UsefulWeb
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Useful;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Services;
 
@@ -30,7 +31,7 @@ namespace UsefulWeb
                 options.CheckConsentNeeded = context => true;
             });
 
-            services.AddTransient<ICipherRepository, CipherRepository>();
+            services.AddTransient<IRepository<ICipher>, CipherRepository>();
             services.AddTransient<CipherService, CipherService>();
 
             services.AddControllersWithViews();

@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Holds all the ciphers.
     /// </summary>
-    public class CipherRepository : ICipherRepository
+    public class CipherRepository : IRepository<ICipher>
     {
         private readonly List<ICipher> _ciphers = new List<ICipher>();
 
