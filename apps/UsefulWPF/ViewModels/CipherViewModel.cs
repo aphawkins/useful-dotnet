@@ -27,6 +27,8 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public CipherViewModel(CipherService service)
         {
             _service = service;
+            _service.Repository.SetCurrentItem(x => x.CipherName == "Atbash");
+
             WireCommands();
         }
 

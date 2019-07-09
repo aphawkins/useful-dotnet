@@ -59,7 +59,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CipherViewModel.cs" />
+    <Compile Include="ViewModels\CipherViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
