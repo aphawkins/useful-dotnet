@@ -23,9 +23,9 @@ namespace UsefulConsole.UI.Views
 
             IDictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>>()
             {
-                { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new AtbashSettingsView()) },
+                { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new EmptySettingsView()) },
                 { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new CaesarSettingsView()) },
-                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new Rot13SettingsView()) },
+                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new EmptySettingsView()) },
             };
 
             while (!selected)
