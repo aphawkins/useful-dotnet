@@ -11,12 +11,10 @@ namespace Useful.Security.Cryptography.Tests
 
     public class CipherRepositoryTests
     {
-        private readonly CipherRepository _repository;
         private readonly Mock<ICipher> _moqCipher;
 
         public CipherRepositoryTests()
         {
-            _repository = new CipherRepository();
             _moqCipher = new Mock<ICipher>();
             _moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
         }
@@ -24,39 +22,45 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryCreate()
         {
-            int count = _repository.Read().Count();
-            _repository.Create(_moqCipher.Object);
-            Assert.Equal(count + 1, _repository.Read().Count());
+            CipherRepository repository = new CipherRepository();
+            int count = repository.Read().Count();
+            repository.Create(_moqCipher.Object);
+            Assert.Equal(count + 1, repository.Read().Count());
         }
 
         [Fact]
         public void RepositoryRead()
         {
-            Assert.Equal(6, _repository.Read().Count());
+            CipherRepository repository = new CipherRepository();
+            Assert.Empty(repository.Read());
         }
 
         [Fact]
         public void RepositoryUpdate()
         {
-            int count = _repository.Read().Count();
-            _repository.Update(_moqCipher.Object);
-            Assert.Equal(count, _repository.Read().Count());
+            CipherRepository repository = new CipherRepository();
+            int count = repository.Read().Count();
+            repository.Update(_moqCipher.Object);
+            Assert.Equal(count, repository.Read().Count());
         }
 
         [Fact]
         public void RepositoryDelete()
         {
-            int count = _repository.Read().Count();
-            _repository.Delete(_repository.Read().ToList()[0]);
-            Assert.Equal(count - 1, _repository.Read().Count());
+            CipherRepository repository = new CipherRepository();
+            repository.Create(_moqCipher.Object);
+            int count = repository.Read().Count();
+            repository.Delete(repository.Read().ToList()[0]);
+            Assert.Equal(count - 1, repository.Read().Count());
         }
 
         [Fact]
         public void RepositorySetCurrentItem()
         {
-            _repository.Create(_moqCipher.Object);
-            _repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
-            Assert.Equal(_repository.CurrentItem, _moqCipher.Object);
+            CipherRepository repository = new CipherRepository();
+            repository.Create(_moqCipher.Object);
+            repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
+            Assert.Equal(repository.CurrentItem, _moqCipher.Object);
         }
     }
 }

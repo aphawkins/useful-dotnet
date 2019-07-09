@@ -2,6 +2,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#nullable disable
+
 namespace Useful.Security.Cryptography
 {
     using System;
@@ -14,25 +16,6 @@ namespace Useful.Security.Cryptography
     public class CipherRepository : IRepository<ICipher>
     {
         private readonly List<ICipher> _ciphers = new List<ICipher>();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CipherRepository"/> class.
-        /// It will be empty.
-        /// </summary>
-        public CipherRepository()
-        {
-            _ciphers = new List<ICipher>
-                {
-                    new Atbash(),
-                    new Caesar(),
-                    new Enigma(),
-                    new MonoAlphabetic(),
-                    new Reflector(),
-                    new ROT13(),
-                };
-
-            CurrentItem = _ciphers[0];
-        }
 
         /// <summary>
         /// Gets the current cipher.
