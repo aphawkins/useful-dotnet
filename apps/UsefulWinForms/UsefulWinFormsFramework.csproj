@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptySettingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EmptySettingsView.Designer.cs">
+      <DependentUpon>EmptySettingsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="CaesarSettingsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EmptySettingsView.resx">
+      <DependentUpon>EmptySettingsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CaesarSettingsView.resx">
       <DependentUpon>CaesarSettingsView.cs</DependentUpon>
     </EmbeddedResource>

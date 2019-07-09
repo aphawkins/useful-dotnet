@@ -20,8 +20,6 @@ namespace UsefulWinForms
         {
             InitializeComponent();
 
-            //// comboCiphers.TextChanged += (sender, args) => ComboCiphers_SelectedIndexChanged();
-            //// comboCiphers.SelectionChangeCommitted += (sender, args) => ComboCiphers_SelectedIndexChanged();
             comboCiphers.SelectedIndexChanged += (sender, args) => ComboCiphers_SelectedIndexChanged();
             buttonEncrypt.Click += (sender, args) => _controller!.Encrypt(textPlaintext.Text);
             buttonDecrypt.Click += (sender, args) => _controller!.Decrypt(textCiphertext.Text);
@@ -39,8 +37,12 @@ namespace UsefulWinForms
         /// </summary>
         public void Initialize()
         {
-            List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
-            comboCiphers.Items.AddRange(ciphers.ToArray());
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+            comboCiphers.Items.Add(new Atbash());
+            comboCiphers.Items.Add(new ROT13());
+#pragma warning restore CA2000 // Dispose objects before losing scope
+            //// List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
+            //// comboCiphers.Items.AddRange(ciphers.ToArray());
             comboCiphers.SelectedIndex = 0;
 
             Application.Run(this);
@@ -64,20 +66,30 @@ namespace UsefulWinForms
 
         private void ComboCiphers_SelectedIndexChanged()
         {
-            ICipher cipher = (ICipher)comboCiphers.SelectedItem;
-
-            if (cipher is Caesar)
-            {
 #pragma warning disable CA2000 // Dispose objects before losing scope
 #pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+
+            ICipher cipher = (ICipher)comboCiphers.SelectedItem;
+
+            if (cipher is Atbash)
+            {
+                _controller!.SelectCipher(cipher, new EmptySettingsView());
+            }
+            if (cipher is Caesar)
+            {
+                _controller!.SelectCipher(cipher, new EmptySettingsView());
+            }
+            else if (cipher is ROT13)
+            {
                 _controller!.SelectCipher(cipher, new CaesarSettingsView());
-#pragma warning restore CA2000 // Dispose objects before losing scope
-#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
             }
             ////else
             ////{
             ////    _controller!.SelectCipher(cipher, null);
             ////}
+            
+#pragma warning restore CA2000 // Dispose objects before losing scope
+#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
         }
     }
 }

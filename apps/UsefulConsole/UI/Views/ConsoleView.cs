@@ -25,8 +25,7 @@ namespace UsefulConsole.UI.Views
             {
                 { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new AtbashSettingsView()) },
                 { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new CaesarSettingsView()) },
-                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new ReverseSettingsView()) },
-                { ConsoleKey.D3, new Tuple<ICipher, ICipherSettingsView>(ciphers[3], new Rot13SettingsView()) },
+                { ConsoleKey.D2, new Tuple<ICipher, ICipherSettingsView>(ciphers[2], new Rot13SettingsView()) },
             };
 
             while (!selected)
