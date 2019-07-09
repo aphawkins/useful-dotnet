@@ -12,11 +12,11 @@ namespace UsefulWinForms
     using Useful.Security.Cryptography.UI.Controllers;
     using Useful.Security.Cryptography.UI.Views;
 
-    public partial class CryptographyView : Form, IDisposableCipherView
+    public partial class WinFormsView : Form, IDisposableCipherView
     {
         private CipherController? _controller;
 
-        public CryptographyView()
+        public WinFormsView()
         {
             InitializeComponent();
 
@@ -37,12 +37,8 @@ namespace UsefulWinForms
         /// </summary>
         public void Initialize()
         {
-#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
-            comboCiphers.Items.Add(new Atbash());
-            comboCiphers.Items.Add(new ROT13());
-#pragma warning restore CA2000 // Dispose objects before losing scope
-            //// List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
-            //// comboCiphers.Items.AddRange(ciphers.ToArray());
+            List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
+            comboCiphers.Items.AddRange(ciphers.ToArray());
             comboCiphers.SelectedIndex = 0;
 
             Application.Run(this);
@@ -77,11 +73,11 @@ namespace UsefulWinForms
             }
             if (cipher is Caesar)
             {
-                _controller!.SelectCipher(cipher, new EmptySettingsView());
+                _controller!.SelectCipher(cipher, new CaesarSettingsView());
             }
             else if (cipher is ROT13)
             {
-                _controller!.SelectCipher(cipher, new CaesarSettingsView());
+                _controller!.SelectCipher(cipher, new EmptySettingsView());
             }
             ////else
             ////{

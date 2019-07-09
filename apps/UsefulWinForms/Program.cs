@@ -23,7 +23,14 @@ namespace UsefulWinForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             IRepository<ICipher> repository = new CipherRepository();
-            using (IDisposableCipherView view = new CryptographyView())
+
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+            repository.Create(new Atbash());
+            repository.Create(new Caesar());
+            repository.Create(new ROT13());
+#pragma warning restore CA2000 // Dispose objects before losing scope
+
+            using (IDisposableCipherView view = new WinFormsView())
             {
                 IController controller = new CipherController(repository, view);
                 controller.LoadView();

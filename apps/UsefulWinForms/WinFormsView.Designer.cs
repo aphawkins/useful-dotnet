@@ -1,6 +1,6 @@
 ﻿namespace UsefulWinForms
 {
-    partial class CryptographyView
+    partial class WinFormsView
     {
         /// <summary>
         /// Required designer variable.

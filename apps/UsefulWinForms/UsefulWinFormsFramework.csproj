@@ -58,11 +58,11 @@
     <Compile Include="CaesarSettingsView.Designer.cs">
       <DependentUpon>CaesarSettingsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="CryptographyView.cs">
+    <Compile Include="WinFormsView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CryptographyView.Designer.cs">
-      <DependentUpon>CryptographyView.cs</DependentUpon>
+    <Compile Include="WinFormsView.Designer.cs">
+      <DependentUpon>WinFormsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,8 +72,8 @@
     <EmbeddedResource Include="CaesarSettingsView.resx">
       <DependentUpon>CaesarSettingsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CryptographyView.resx">
-      <DependentUpon>CryptographyView.cs</DependentUpon>
+    <EmbeddedResource Include="WinFormsView.resx">
+      <DependentUpon>WinFormsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
