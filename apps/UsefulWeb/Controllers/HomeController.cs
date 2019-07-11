@@ -5,9 +5,7 @@
 namespace UsefulWeb.Controllers
 {
     using System;
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Models;
     using Useful.Security.Cryptography.UI.Services;
 
