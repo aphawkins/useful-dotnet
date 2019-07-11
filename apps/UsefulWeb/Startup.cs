@@ -31,7 +31,7 @@ namespace UsefulWeb
                 options.CheckConsentNeeded = context => true;
             });
 
-            services.AddTransient<IRepository<ICipher>, CipherRepository>();
+            services.AddTransient<IRepository<ICipher>, WebCipherRepository>();
             services.AddTransient<CipherService, CipherService>();
 
             services.AddControllersWithViews();

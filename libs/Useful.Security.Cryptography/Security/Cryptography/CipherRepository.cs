@@ -18,12 +18,12 @@ namespace Useful.Security.Cryptography
         private readonly List<ICipher> _ciphers = new List<ICipher>();
 
         /// <summary>
-        /// Gets the current cipher.
+        /// Gets or sets the current cipher.
         /// </summary>
         public ICipher CurrentItem
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>

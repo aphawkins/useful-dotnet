@@ -5,7 +5,9 @@
 namespace UsefulWeb.Controllers
 {
     using System;
+    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
+    using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Models;
     using Useful.Security.Cryptography.UI.Services;
 
@@ -23,28 +25,28 @@ namespace UsefulWeb.Controllers
             return RedirectToAction("Cryptography");
         }
 
-        public IActionResult Cryptography(CipherModel cipherViewModel)
+        public IActionResult Cryptography(CipherModel cipherModel)
         {
-            if (cipherViewModel == null)
+            if (cipherModel == null)
             {
-                throw new ArgumentNullException(nameof(cipherViewModel));
+                throw new ArgumentNullException(nameof(cipherModel));
             }
 
             if (Request.ContentLength.HasValue)
             {
-                _cipherService.Repository.SetCurrentItem(x => x.CipherName == cipherViewModel.CurrentCipherName);
+                _cipherService.Repository.SetCurrentItem(x => x.CipherName == cipherModel.CurrentCipherName);
 
                 if (Request.Form.ContainsKey("EncryptCommand"))
                 {
-                    cipherViewModel.Ciphertext = _cipherService.Encrypt(cipherViewModel.Plaintext);
+                    cipherModel.Ciphertext = _cipherService.Encrypt(cipherModel.Plaintext);
                 }
                 else if (Request.Form.ContainsKey("DecryptCommand"))
                 {
-                    cipherViewModel.Plaintext = _cipherService.Decrypt(cipherViewModel.Ciphertext);
+                    cipherModel.Plaintext = _cipherService.Decrypt(cipherModel.Ciphertext);
                 }
             }
 
-            return View(cipherViewModel);
+            return View(cipherModel);
         }
 
         public IActionResult Error()

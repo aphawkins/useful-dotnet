@@ -17,19 +17,19 @@ What's working...
 |Cipher|PowerShell|Console|WinForms|WPF|RESTApi|ASP.NET|NuGet|
 |:-----|:--------:|:-----:|:------:|:-:|:-----:|:-----:|:---:|
 |||Core 3.0|Core 3.0|Core 3.0|Core 3.0|Core 3.0|.NETStandard 2.0|
-|||MVC|MVC|MVVM|
-|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓
+|||MVC|MVC|MVVM||MVC
+|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓||✓
 |[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||✓|✓
 |[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)
 |[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|
 |[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)|
-|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓
+|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓||✓
 
 #### [Atbash](https://en.wikipedia.org/wiki/Atbash)  
-No settings required.
+No settings required.  
 
 #### [Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)  
-Settings:
+Settings:  
 ```
 RightShift=[0..25]  
 ```
@@ -39,7 +39,7 @@ iv=
 ```
 
 #### [Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)  
-Settings:
+Settings:  
 ```
 ReflectorNumber=[B|C]  
 Rotors=[I|II|III|IV|V|VI|VII|VIII]
@@ -60,6 +60,49 @@ Example:
 ```
 key=B|III II I|03 02 01|BJ DN FW GR HY IS KC PV QX TM  
 ```
+
+#### [MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)
+Settings:  
+```
+CharacterSet=[charSet]  
+Substitutions=[substitutedCharSet]
+```
+```
+key={character set|substitutions}  
+iv=  
+```
+Default:  
+```
+key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ  
+iv=  
+```
+Example: 
+```
+key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEGHIJKLMNOPQRSTUVWXYZ  
+```
+
+#### [Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)
+Settings:  
+```
+CharacterSet=[charSet]  
+Substitutions=[substitution pairs]
+```
+```
+key={character set|substitution pairs}  
+iv=  
+```
+Default:  
+```
+key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|  
+iv=  
+```
+Example: 
+```
+key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEGHIJKLMNOPQRSTUVWXYZ  
+```
+
+#### [ROT13](https://en.wikipedia.org/wiki/ROT13)
+No settings required.  
 
 ## Languages & Frameworks  
 

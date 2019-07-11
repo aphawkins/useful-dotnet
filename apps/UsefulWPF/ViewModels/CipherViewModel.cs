@@ -7,6 +7,7 @@
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Input;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Services;
@@ -27,7 +28,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public CipherViewModel(CipherService service)
         {
             _service = service;
-            _service.Repository.SetCurrentItem(x => x.CipherName == "Atbash");
+            _service.Repository.SetCurrentItem(x => x == _service.Repository.Read().ToList()[0]);
 
             WireCommands();
         }
