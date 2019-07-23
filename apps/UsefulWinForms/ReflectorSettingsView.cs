@@ -14,13 +14,13 @@ namespace UsefulWinForms
     using Useful.Security.Cryptography.UI.Controllers;
     using Useful.Security.Cryptography.UI.Views;
 
-    public partial class MonoAlphabeticSettingsView : UserControl, ICipherSettingsView
+    public partial class ReflectorSettingsView : UserControl, ICipherSettingsView
     {
         private SettingsController? _controller;
         private ReflectorSettings? _settings;
         private readonly List<ComboBox> combos = new List<ComboBox>();
 
-        public MonoAlphabeticSettingsView()
+        public ReflectorSettingsView()
         {
             InitializeComponent();
         }
@@ -87,7 +87,7 @@ namespace UsefulWinForms
 
         private void ComboChanged(ComboBox sender)
         {
-            _settings![(char)sender.Tag] = (char)sender.SelectedItem;
+            ((ReflectorSettings)_controller!.Settings)[(char)sender.Tag] = (char)sender.SelectedItem;
         }
     }
 }

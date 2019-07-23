@@ -81,14 +81,14 @@ namespace UsefulWinForms
             {
                 _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
             }
+            if (cipher is Reflector)
+            {
+                _controller!.SelectCipher(cipher, new ReflectorSettingsView());
+            }
             else if (cipher is ROT13)
             {
                 _controller!.SelectCipher(cipher, new EmptySettingsView());
             }
-            ////else
-            ////{
-            ////    _controller!.SelectCipher(cipher, null);
-            ////}
             
 #pragma warning restore CA2000 // Dispose objects before losing scope
 #pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.

@@ -28,6 +28,7 @@ namespace UsefulWinForms
             repository.Create(new Atbash());
             repository.Create(new Caesar());
             repository.Create(new MonoAlphabetic());
+            repository.Create(new Reflector());
             repository.Create(new ROT13());
 #pragma warning restore CA2000 // Dispose objects before losing scope
 

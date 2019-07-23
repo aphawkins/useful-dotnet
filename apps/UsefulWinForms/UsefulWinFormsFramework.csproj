@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReflectorSettingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ReflectorSettingsView.Designer.cs">
+      <DependentUpon>ReflectorSettingsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="MonoAlphabeticSettingsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ReflectorSettingsView.resx">
+      <DependentUpon>ReflectorSettingsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MonoAlphabeticSettingsView.resx">
       <DependentUpon>MonoAlphabeticSettingsView.cs</DependentUpon>
     </EmbeddedResource>
