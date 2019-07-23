@@ -56,8 +56,10 @@ namespace UsefulWinForms
 
         public void ShowSettings(ICipherSettingsView cipherSettingsView)
         {
+            Control ctrl = (Control)cipherSettingsView;
+            //// ctrl.Dock = DockStyle.Fill;
             flowSettings.Controls.Clear();
-            flowSettings.Controls.Add((Control)cipherSettingsView);
+            flowSettings.Controls.Add(ctrl);
         }
 
         private void ComboCiphers_SelectedIndexChanged()
@@ -74,6 +76,10 @@ namespace UsefulWinForms
             if (cipher is Caesar)
             {
                 _controller!.SelectCipher(cipher, new CaesarSettingsView());
+            }
+            if (cipher is MonoAlphabetic)
+            {
+                _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
             }
             else if (cipher is ROT13)
             {

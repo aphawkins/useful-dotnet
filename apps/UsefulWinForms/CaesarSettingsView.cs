@@ -22,7 +22,7 @@ namespace UsefulWinForms
         {
             InitializeComponent();
 
-            comboRightShift.SelectedIndexChanged += ComboShift_SelectedIndexChanged;
+            comboRightShift.SelectionChangeCommitted += (sender, e) => ComboChanged();
         }
 
         public void SetController(IController controller)
@@ -32,11 +32,11 @@ namespace UsefulWinForms
 
         public void Initialize()
         {
-            comboRightShift.Items.AddRange(Enumerable.Range(0, 26).Cast<object>().ToArray());
+            comboRightShift.Items.AddRange(Enumerable.Range(0, ((CaesarSettings)_controller!.Settings).CharacterSet.Length).Cast<object>().ToArray());
             comboRightShift.SelectedIndex = 0;
         }
 
-        private void ComboShift_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboChanged()
         {
             ((CaesarSettings)_controller!.Settings).RightShift = (int)comboRightShift.SelectedItem;
         }

@@ -21,7 +21,7 @@ What's working...
 |[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓||✓
 |[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||✓|✓
 |[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)
-|[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|
+|[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
 |[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)|
 |[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓||✓
 

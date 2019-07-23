@@ -2,6 +2,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#nullable enable
+
 namespace Useful.Security.Cryptography.UI.Controllers
 {
     using System;
@@ -23,7 +25,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         public SettingsController(ICipherSettings cipherSettings, ICipherSettingsView cipherSettingsView)
         {
             _view = cipherSettingsView ?? throw new ArgumentNullException(nameof(cipherSettingsView));
-            Settings = cipherSettings;
+            Settings = cipherSettings ?? throw new ArgumentNullException(nameof(cipherSettings));
             _view.SetController(this);
         }
 
