@@ -18,19 +18,22 @@ namespace Useful.Security.Cryptography.UI.Controllers.Tests
         private readonly Mock<ICipher> _moqCipher;
         private readonly Mock<IRepository<ICipher>> _moqRepository;
         private readonly Mock<ICipherView> _moqView;
+        private readonly Mock<ICipherSettings> _moqSettings;
         private readonly Mock<ICipherSettingsView> _moqSettingsView;
         private readonly CipherController _controller;
 
         public CipherControllerTests()
         {
+            _moqSettings = new Mock<ICipherSettings>();
+            _moqSettingsView = new Mock<ICipherSettingsView>();
             _moqCipher = new Mock<ICipher>();
             _moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
             _moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
+            _moqCipher.Setup(x => x.Settings).Returns(() => _moqSettings.Object);
             _moqRepository = new Mock<IRepository<ICipher>>();
             _moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { _moqCipher.Object });
             _moqRepository.Setup(x => x.CurrentItem).Returns(() => _moqCipher.Object);
             _moqView = new Mock<ICipherView>();
-            _moqSettingsView = new Mock<ICipherSettingsView>();
             _controller = new CipherController(_moqRepository.Object, _moqView.Object);
         }
 
