@@ -122,7 +122,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
 
-        private static (EnigmaReflectorNumber, EnigmaRotorSettings, ReflectorSettings) GetSettings(byte[] key, byte[] iv)
+        private static (EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, ReflectorSettings reflectorSettings) GetSettings(byte[] key, byte[] iv)
         {
             string keyString = Encoding.Unicode.GetString(key);
             string ivString = Encoding.Unicode.GetString(iv);

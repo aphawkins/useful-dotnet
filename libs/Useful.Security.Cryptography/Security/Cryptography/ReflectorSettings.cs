@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged = (sender, e) => { };
 
         /// <inheritdoc />
         public override IEnumerable<byte> Key
@@ -355,7 +355,7 @@ namespace Useful.Security.Cryptography
             return pairs;
         }
 
-        private static (string, string) ParseKey(byte[] key)
+        private static (string characterSet, string substitutions) ParseKey(byte[] key)
         {
             // Example:
             // CharacterSet|Substitutions

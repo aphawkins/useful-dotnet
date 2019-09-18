@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace UsefulWinForms
 {
     using System.Data;
@@ -15,7 +13,7 @@ namespace UsefulWinForms
 
     public partial class CaesarSettingsView : UserControl, ICipherSettingsView
     {
-        private SettingsController? _controller;
+        private SettingsController _controller;
 
         public CaesarSettingsView()
         {

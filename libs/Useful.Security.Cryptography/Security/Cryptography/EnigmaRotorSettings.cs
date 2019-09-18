@@ -164,7 +164,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         /// <summary>
         /// Gets the rotor positions.
@@ -363,7 +363,7 @@ namespace Useful.Security.Cryptography
         {
             IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
 
-            if (list.Count() > 0)
+            if (list.Any())
             {
                 foreach (EnigmaRotorPosition position in RotorPositions)
                 {

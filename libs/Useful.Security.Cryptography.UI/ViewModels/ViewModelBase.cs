@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Raised when a property value is changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         /// <summary>
         /// Used to raise the <see cref="PropertyChanged" /> event.

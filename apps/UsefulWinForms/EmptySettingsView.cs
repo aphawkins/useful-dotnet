@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace UsefulWinForms
 {
     using System.Windows.Forms;

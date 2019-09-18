@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace UsefulWinForms
 {
     using System.Collections.Generic;
@@ -14,7 +12,7 @@ namespace UsefulWinForms
 
     public partial class WinFormsView : Form, IDisposableCipherView
     {
-        private CipherController? _controller;
+        private CipherController _controller;
 
         public WinFormsView()
         {

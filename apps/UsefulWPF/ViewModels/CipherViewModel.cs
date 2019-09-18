@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.Collections.Generic;
@@ -103,7 +101,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets a property that can be used to link to a UI encrypt command.
         /// </summary>
-        public ICommand? EncryptCommand
+        public ICommand EncryptCommand
         {
             get;
             private set;
@@ -112,7 +110,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets a property that can be used to link to a UI decrypt command.
         /// </summary>
-        public ICommand? DecryptCommand
+        public ICommand DecryptCommand
         {
             get;
             private set;

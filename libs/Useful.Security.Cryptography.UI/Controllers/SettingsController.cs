@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace Useful.Security.Cryptography.UI.Controllers
 {
     using System;

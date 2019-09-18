@@ -151,7 +151,7 @@ namespace Useful.Security.Cryptography
             return CharacterSet[newLet];
         }
 
-        private static (MonoAlphabeticSettings, string) GetWiring(EnigmaRotorNumber rotorNumber)
+        private static (MonoAlphabeticSettings wiringSettings, string notches) GetWiring(EnigmaRotorNumber rotorNumber)
         {
             IDictionary<EnigmaRotorNumber, (string rotorWiring, string notches)> wiring = new Dictionary<EnigmaRotorNumber, (string, string)>()
             {

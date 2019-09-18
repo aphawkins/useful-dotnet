@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable enable
-
 namespace UsefulWinForms
 {
     using System.Collections.Generic;
@@ -16,8 +14,8 @@ namespace UsefulWinForms
 
     public partial class ReflectorSettingsView : UserControl, ICipherSettingsView
     {
-        private SettingsController? _controller;
-        private ReflectorSettings? _settings;
+        private SettingsController _controller;
+        private ReflectorSettings _settings;
         private readonly List<ComboBox> combos = new List<ComboBox>();
 
         public ReflectorSettingsView()
