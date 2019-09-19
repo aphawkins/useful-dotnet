@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
-    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
-    <ProjectReference Include="..\..\libs\Useful\Useful.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
   </ItemGroup>
 
 </Project>

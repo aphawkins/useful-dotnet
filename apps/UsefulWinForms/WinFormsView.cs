@@ -12,7 +12,7 @@ namespace UsefulWinForms
 
     public partial class WinFormsView : Form, IDisposableCipherView
     {
-        private CipherController _controller;
+        private CipherController? _controller;
 
         public WinFormsView()
         {

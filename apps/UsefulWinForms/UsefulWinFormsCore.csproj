@@ -3,15 +3,14 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>UsefulWinForms</AssemblyName>
     <RootNamespace>UsefulWinForms</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\Useful.Interfaces\Useful.Interfaces.csproj" />
-    <ProjectReference Include="..\..\libs\Useful.UI\Useful.UI.csproj" />
-    <ProjectReference Include="..\..\libs\Useful\Useful.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
+    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
   </ItemGroup>
 
   <ItemGroup>

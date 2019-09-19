@@ -14,8 +14,8 @@ namespace UsefulWinForms
 
     public partial class ReflectorSettingsView : UserControl, ICipherSettingsView
     {
-        private SettingsController _controller;
-        private ReflectorSettings _settings;
+        private SettingsController? _controller;
+        private ReflectorSettings? _settings;
         private readonly List<ComboBox> combos = new List<ComboBox>();
 
         public ReflectorSettingsView()
@@ -63,7 +63,7 @@ namespace UsefulWinForms
 
                 combo.Items.AddRange(_settings.CharacterSet.Cast<object>().ToArray());
                 combo.SelectedItem = _settings[c];
-                combo.SelectionChangeCommitted += (sender, e) => ComboChanged((ComboBox)sender);
+                combo.SelectionChangeCommitted += (sender, e) => ComboChanged((ComboBox)sender!);
                 combos.Add(combo);
 
                 Controls.Add(combo);
