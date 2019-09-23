@@ -35,10 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
+    <PackageReference Include="Useful.Security.Cryptography" Version="0.1.0-beta2" />
   </ItemGroup>
 
 </Project>

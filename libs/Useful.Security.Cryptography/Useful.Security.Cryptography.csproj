@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>0.1.0-beta2</Version>
+    <Authors>Andy Hawkins</Authors>
+    <Product>Useful Classical Cryptography</Product>
+    <Description>Useful Classical Cryptography</Description>
+    <PackageId>Useful.Security.Cryptography</PackageId>
+    <Copyright />
+    <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
+    <PackageTags>Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

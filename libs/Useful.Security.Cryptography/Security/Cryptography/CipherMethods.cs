@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography
     public static class CipherMethods
     {
         /// <summary>
-        /// Enciphers or deciphers a stream.
+        /// Encrypts or decrypts a stream.
         /// </summary>
         /// <param name="cipher">The cipher to use.</param>
         /// <param name="transformMode">Defines the way in which the cipher will work.</param>

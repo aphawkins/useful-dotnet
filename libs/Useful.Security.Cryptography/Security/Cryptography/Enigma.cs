@@ -97,10 +97,10 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Encipher a plaintext letter into an enciphered letter.  Decipher works in the same way as encipher.
+        /// Encrypt a plaintext letter into an enciphered letter.  Decipher works in the same way as encipher.
         /// </summary>
         /// <param name="letter">The plaintext letter to encipher.</param>
-        /// <returns>The enciphered letter.</returns>
+        /// <returns>The encrypted letter.</returns>
         private char Encrypt(char letter)
         {
             char newLetter;

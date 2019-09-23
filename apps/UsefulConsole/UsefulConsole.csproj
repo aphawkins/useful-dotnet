@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
-    <ProjectReference Include="..\..\libs\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

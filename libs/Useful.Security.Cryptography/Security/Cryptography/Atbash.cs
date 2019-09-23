@@ -56,18 +56,13 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                ciphertext.Append(Encipher(plaintext[i]));
+                ciphertext.Append(Encrypt(plaintext[i]));
             }
 
             return ciphertext.ToString();
         }
 
-        /// <summary>
-        /// Encipher a plaintext letter into an enciphered letter.
-        /// </summary>
-        /// <param name="letter">The plaintext letter to encipher.</param>
-        /// <returns>The enciphered letter.</returns>
-        private static char Encipher(char letter)
+        private static char Encrypt(char letter)
         {
             if (letter >= 'A' && letter <= 'Z')
             {
