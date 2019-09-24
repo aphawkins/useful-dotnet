@@ -20,11 +20,9 @@ namespace Useful.Security.Cryptography
         public byte[] RandomKey()
         {
             byte[] randomNumber = new byte[1];
-            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-            {
-                rngCsp.GetBytes(randomNumber);
-                return Encoding.Unicode.GetBytes($"{randomNumber[0] % 26}");
-            }
+            using RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+            rngCsp.GetBytes(randomNumber);
+            return Encoding.Unicode.GetBytes($"{randomNumber[0] % 26}");
         }
     }
 }

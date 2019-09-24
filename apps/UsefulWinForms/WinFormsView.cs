@@ -63,7 +63,6 @@ namespace UsefulWinForms
         private void ComboCiphers_SelectedIndexChanged()
         {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
 
             ICipher cipher = (ICipher)comboCiphers.SelectedItem;
 
@@ -92,7 +91,6 @@ namespace UsefulWinForms
             }
 
 #pragma warning restore CA2000 // Dispose objects before losing scope
-#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
         }
     }
 }

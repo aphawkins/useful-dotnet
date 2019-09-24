@@ -11,9 +11,7 @@ namespace UsefulAPI
     {
         public static void Main(string[] args)
         {
-#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
             CreateHostBuilder(args).Build().Run();
-#pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

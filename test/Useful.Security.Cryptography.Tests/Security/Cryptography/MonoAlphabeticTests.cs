@@ -28,94 +28,78 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (SymmetricAlgorithm cipher = new MonoAlphabetic())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
-            }
+            using SymmetricAlgorithm cipher = new MonoAlphabetic();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (SymmetricAlgorithm cipher = new MonoAlphabetic())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
-            }
+            using SymmetricAlgorithm cipher = new MonoAlphabetic();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                cipher.GenerateIV();
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            cipher.GenerateIV();
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void IvSet()
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                cipher.IV = Encoding.Unicode.GetBytes("A");
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            cipher.IV = Encoding.Unicode.GetBytes("A");
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void CtorSettings()
         {
             byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
-            using (MonoAlphabetic cipher = new MonoAlphabetic(new MonoAlphabeticSettings(key)))
-            {
-                Assert.Equal(key, cipher.Settings.Key.ToArray());
-                Assert.Equal(key, cipher.Key);
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic(new MonoAlphabeticSettings(key));
+            Assert.Equal(key, cipher.Settings.Key.ToArray());
+            Assert.Equal(key, cipher.Key);
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            string keyString;
+            for (int i = 0; i < 100; i++)
             {
-                string keyString;
-                for (int i = 0; i < 100; i++)
-                {
-                    cipher.GenerateKey();
-                    keyString = Encoding.Unicode.GetString(cipher.Key);
+                cipher.GenerateKey();
+                keyString = Encoding.Unicode.GetString(cipher.Key);
 
-                    // How to test for correctness?
-                }
+                // How to test for correctness?
             }
         }
 
@@ -153,23 +137,19 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
-                cipher.Key = key;
-                Assert.Equal(key, cipher.Settings.Key.ToArray());
-                Assert.Equal(key, cipher.Key);
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
+            cipher.Key = key;
+            Assert.Equal(key, cipher.Settings.Key.ToArray());
+            Assert.Equal(key, cipher.Key);
         }
 
         [Fact]
         public void Name()
         {
-            using (MonoAlphabetic cipher = new MonoAlphabetic())
-            {
-                Assert.Equal("MonoAlphabetic", cipher.CipherName);
-                Assert.Equal("MonoAlphabetic", cipher.ToString());
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic();
+            Assert.Equal("MonoAlphabetic", cipher.CipherName);
+            Assert.Equal("MonoAlphabetic", cipher.ToString());
         }
 
         [Fact]
@@ -215,12 +195,10 @@ namespace Useful.Security.Cryptography.Tests
 
             byte[] key = Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|MFANXIWPBSHGLTCQKVRJUDYZEO");
 
-            using (MonoAlphabetic cipher = new MonoAlphabetic(new MonoAlphabeticSettings(key)))
-            {
-                System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));
-                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
-                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
-            }
+            using MonoAlphabetic cipher = new MonoAlphabetic(new MonoAlphabeticSettings(key));
+            System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));
+            Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
+            Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
     }
 }

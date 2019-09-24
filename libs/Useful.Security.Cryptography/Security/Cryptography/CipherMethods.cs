@@ -29,31 +29,27 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(cipher));
             }
 
-            using (ICryptoTransform transformer = GetTransformer(cipher, transformMode))
+            using ICryptoTransform transformer = GetTransformer(cipher, transformMode);
+            using (StreamReader reader = new StreamReader(input, new UnicodeEncoding()))
             {
-                using (StreamReader reader = new StreamReader(input, new UnicodeEncoding()))
+                reader.Peek();
+
+                // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
+                using CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write);
+                byte[] bytes;
+
+                // The cipher is expecting Unicode
+                while (!reader.EndOfStream)
                 {
-                    reader.Peek();
-
-                    // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
-                    using (CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write))
-                    {
-                        byte[] bytes;
-
-                        // The cipher is expecting Unicode
-                        while (!reader.EndOfStream)
-                        {
-                            bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
-                            crypto.Write(bytes, 0, bytes.Length);
-                        }
-                    }
+                    bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
+                    crypto.Write(bytes, 0, bytes.Length);
                 }
+            }
 
-                if (transformer is ClassicalSymmetricTransform classicalTransform)
-                {
-                    cipher.Key = classicalTransform.Cipher.Settings.Key.ToArray();
-                    cipher.IV = classicalTransform.Cipher.Settings.IV.ToArray();
-                }
+            if (transformer is ClassicalSymmetricTransform classicalTransform)
+            {
+                cipher.Key = classicalTransform.Cipher.Settings.Key.ToArray();
+                cipher.IV = classicalTransform.Cipher.Settings.IV.ToArray();
             }
         }
 
@@ -75,47 +71,40 @@ namespace Useful.Security.Cryptography
 
             Encoding encoding = new UnicodeEncoding();
 
-            using (ICryptoTransform cryptoTransform = GetTransformer(cipher, transformMode))
+            using ICryptoTransform cryptoTransform = GetTransformer(cipher, transformMode);
+
+            // if (cryptoTransform is IUsefulCryptoTransform usefulCryptoTransform)
+            // {
+            //    string output = usefulCryptoTransform.TransformString(input);
+
+            // usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
+            //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
+
+            // return output;
+            // }
+            // else
+            // {
+            //    throw new NotImplementedException();
+
+            // Encrypt the data.
+            using MemoryStream inputStream = new MemoryStream(encoding.GetBytes(input));
+            using MemoryStream outputStream = new MemoryStream();
+            SymmetricTransform(cipher, transformMode, inputStream, outputStream);
+
+            // Remove padding on odd length bytes
+            byte[] encrypted;
+            if (cryptoTransform.OutputBlockSize % 2 == 1)
             {
-                // if (cryptoTransform is IUsefulCryptoTransform usefulCryptoTransform)
-                // {
-                //    string output = usefulCryptoTransform.TransformString(input);
-
-                // usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
-                //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
-
-                // return output;
-                // }
-                // else
-                // {
-                //    throw new NotImplementedException();
-
-                // Encrypt the data.
-                using (MemoryStream inputStream = new MemoryStream(encoding.GetBytes(input)))
-                {
-                    using (MemoryStream outputStream = new MemoryStream())
-                    {
-                        SymmetricTransform(cipher, transformMode, inputStream, outputStream);
-
-                        // Remove padding on odd length bytes
-                        byte[] encrypted;
-                        if (cryptoTransform.OutputBlockSize % 2 == 1)
-                        {
-                            encrypted = TrimArray(outputStream.ToArray());
-                        }
-                        else
-                        {
-                            encrypted = outputStream.ToArray();
-                        }
-
-                        char[] encryptedChars = encoding.GetChars(encrypted);
-
-                        return new string(encryptedChars);
-                    }
-                }
-
-                // }
+                encrypted = TrimArray(outputStream.ToArray());
             }
+            else
+            {
+                encrypted = outputStream.ToArray();
+            }
+
+            char[] encryptedChars = encoding.GetChars(encrypted);
+
+            return new string(encryptedChars);
         }
 
         /// <summary>

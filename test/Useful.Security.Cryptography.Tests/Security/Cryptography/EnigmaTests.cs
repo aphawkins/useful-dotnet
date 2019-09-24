@@ -22,13 +22,11 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("Å", "", "B|III II I|01 01 01|", "A A A")]
         public void EncryptCtor(string plaintext, string ciphertext, string newKey, string newIV)
         {
-            using (Enigma target = new Enigma())
-            {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-                Assert.Equal(ciphertext, s);
-                Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
-                Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
-            }
+            using Enigma target = new Enigma();
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
+            Assert.Equal(ciphertext, s);
+            Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
         }
 
         [Theory]
@@ -51,13 +49,11 @@ namespace Useful.Security.Cryptography.Tests
         public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
         {
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using (Enigma target = new Enigma(settings))
-            {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-                Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
-                Assert.Equal(ciphertext, s);
-            }
+            using Enigma target = new Enigma(settings);
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
+            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
+            Assert.Equal(ciphertext, s);
         }
 
         [Fact]
@@ -95,28 +91,24 @@ namespace Useful.Security.Cryptography.Tests
             string plaintext = sb.ToString();
 
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using (Enigma target = new Enigma(settings))
-            {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
-                Assert.Equal(plaintext, s);
-                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
-            }
+            using Enigma target = new Enigma(settings);
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
+            Assert.Equal(plaintext, s);
+            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }
 
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (Enigma cipher = new Enigma())
+            using Enigma cipher = new Enigma();
+            string ivString;
+            for (int i = 0; i < 100; i++)
             {
-                string ivString;
-                for (int i = 0; i < 100; i++)
-                {
-                    cipher.GenerateIV();
-                    ivString = Encoding.Unicode.GetString(cipher.IV);
+                cipher.GenerateIV();
+                ivString = Encoding.Unicode.GetString(cipher.IV);
 
-                    // Test IV correctness here
-                }
+                // Test IV correctness here
             }
         }
 
@@ -154,28 +146,24 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using (Enigma cipher = new Enigma())
-            {
-                byte[] iv = Encoding.Unicode.GetBytes("A B C");
-                cipher.IV = iv;
-                Assert.Equal(iv, cipher.Settings.IV.ToArray());
-                Assert.Equal(iv, cipher.IV);
-            }
+            using Enigma cipher = new Enigma();
+            byte[] iv = Encoding.Unicode.GetBytes("A B C");
+            cipher.IV = iv;
+            Assert.Equal(iv, cipher.Settings.IV.ToArray());
+            Assert.Equal(iv, cipher.IV);
         }
 
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (Enigma cipher = new Enigma())
+            using Enigma cipher = new Enigma();
+            string keyString;
+            for (int i = 0; i < 100; i++)
             {
-                string keyString;
-                for (int i = 0; i < 100; i++)
-                {
-                    cipher.GenerateKey();
-                    keyString = Encoding.Unicode.GetString(cipher.Key);
+                cipher.GenerateKey();
+                keyString = Encoding.Unicode.GetString(cipher.Key);
 
-                    // Test key correctness here
-                }
+                // Test key correctness here
             }
         }
 
@@ -213,23 +201,19 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (Enigma cipher = new Enigma())
-            {
-                byte[] key = Encoding.Unicode.GetBytes("B|I II III|01 02 03|AB CD");
-                cipher.Key = key;
-                Assert.Equal(key, cipher.Settings.Key.ToArray());
-                Assert.Equal(key, cipher.Key);
-            }
+            using Enigma cipher = new Enigma();
+            byte[] key = Encoding.Unicode.GetBytes("B|I II III|01 02 03|AB CD");
+            cipher.Key = key;
+            Assert.Equal(key, cipher.Settings.Key.ToArray());
+            Assert.Equal(key, cipher.Key);
         }
 
         [Fact]
         public void Name()
         {
-            using (Enigma cipher = new Enigma())
-            {
-                Assert.Equal("Enigma M3", cipher.CipherName);
-                Assert.Equal("Enigma M3", cipher.ToString());
-            }
+            using Enigma cipher = new Enigma();
+            Assert.Equal("Enigma M3", cipher.CipherName);
+            Assert.Equal("Enigma M3", cipher.ToString());
         }
 
         [Fact]
@@ -261,13 +245,11 @@ namespace Useful.Security.Cryptography.Tests
             plaintext.Append("IMILARCIPHERMACHINES");
 
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using (Enigma target = new Enigma(settings))
-            {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
-                Assert.Equal(plaintext.ToString(), s);
-                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
-            }
+            using Enigma target = new Enigma(settings);
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
+            Assert.Equal(plaintext.ToString(), s);
+            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }
 
         [Fact(Skip = "Settings uncertain.")]
@@ -321,13 +303,11 @@ namespace Useful.Security.Cryptography.Tests
             string plaintext = sb.ToString();
 
             EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using (Enigma target = new Enigma(settings))
-            {
-                string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
-                Assert.Equal(plaintext, s);
-                Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-                Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
-            }
+            using Enigma target = new Enigma(settings);
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
+            Assert.Equal(plaintext, s);
+            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }
     }
 }

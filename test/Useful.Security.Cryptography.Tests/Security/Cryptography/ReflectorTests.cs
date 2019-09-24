@@ -27,94 +27,78 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (Reflector cipher = new Reflector())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
-            }
+            using Reflector cipher = new Reflector();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (SymmetricAlgorithm cipher = new Reflector())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
-            }
+            using SymmetricAlgorithm cipher = new Reflector();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptCipher(string key, string plaintext, string ciphertext)
         {
-            using (Reflector cipher = new Reflector())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
-            }
+            using Reflector cipher = new Reflector();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using (SymmetricAlgorithm cipher = new Reflector())
-            {
-                cipher.Key = Encoding.Unicode.GetBytes(key);
-                Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
-            }
+            using SymmetricAlgorithm cipher = new Reflector();
+            cipher.Key = Encoding.Unicode.GetBytes(key);
+            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using (Reflector cipher = new Reflector())
-            {
-                cipher.GenerateIV();
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using Reflector cipher = new Reflector();
+            cipher.GenerateIV();
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void IvSet()
         {
-            using (Reflector cipher = new Reflector())
-            {
-                cipher.IV = Encoding.Unicode.GetBytes("A");
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using Reflector cipher = new Reflector();
+            cipher.IV = Encoding.Unicode.GetBytes("A");
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void CtorSettings()
         {
             byte[] key = Encoding.Unicode.GetBytes("ABC|");
-            using (Reflector cipher = new Reflector(new ReflectorSettings(key)))
-            {
-                Assert.Equal(key, cipher.Settings.Key.ToArray());
-                Assert.Equal(key, cipher.Key);
-                Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
-                Assert.Equal(Array.Empty<byte>(), cipher.IV);
-            }
+            using Reflector cipher = new Reflector(new ReflectorSettings(key));
+            Assert.Equal(key, cipher.Settings.Key.ToArray());
+            Assert.Equal(key, cipher.Key);
+            Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
+            Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
 
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using (Reflector cipher = new Reflector())
+            using Reflector cipher = new Reflector();
+            string keyString;
+            for (int i = 0; i < 100; i++)
             {
-                string keyString;
-                for (int i = 0; i < 100; i++)
-                {
-                    cipher.GenerateKey();
-                    keyString = Encoding.Unicode.GetString(cipher.Key);
+                cipher.GenerateKey();
+                keyString = Encoding.Unicode.GetString(cipher.Key);
 
-                    // How to test for correctness?
-                }
+                // How to test for correctness?
             }
         }
 
@@ -152,23 +136,19 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using (Reflector cipher = new Reflector())
-            {
-                byte[] key = Encoding.Unicode.GetBytes("ABC|");
-                cipher.Key = key;
-                Assert.Equal(key, cipher.Settings.Key.ToArray());
-                Assert.Equal(key, cipher.Key);
-            }
+            using Reflector cipher = new Reflector();
+            byte[] key = Encoding.Unicode.GetBytes("ABC|");
+            cipher.Key = key;
+            Assert.Equal(key, cipher.Settings.Key.ToArray());
+            Assert.Equal(key, cipher.Key);
         }
 
         [Fact]
         public void Name()
         {
-            using (Reflector cipher = new Reflector())
-            {
-                Assert.Equal("Reflector", cipher.CipherName);
-                Assert.Equal("Reflector", cipher.ToString());
-            }
+            using Reflector cipher = new Reflector();
+            Assert.Equal("Reflector", cipher.CipherName);
+            Assert.Equal("Reflector", cipher.ToString());
         }
     }
 }
