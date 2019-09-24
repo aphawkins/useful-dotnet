@@ -1,4 +1,4 @@
-﻿// <copyright file="CryptographyView.cs" company="APH Software">
+﻿// <copyright file="WinFormsView.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -71,14 +71,17 @@ namespace UsefulWinForms
             {
                 _controller!.SelectCipher(cipher, new EmptySettingsView());
             }
+
             if (cipher is Caesar)
             {
                 _controller!.SelectCipher(cipher, new CaesarSettingsView());
             }
+
             if (cipher is MonoAlphabetic)
             {
                 _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
             }
+
             if (cipher is Reflector)
             {
                 _controller!.SelectCipher(cipher, new ReflectorSettingsView());
@@ -87,7 +90,7 @@ namespace UsefulWinForms
             {
                 _controller!.SelectCipher(cipher, new EmptySettingsView());
             }
-            
+
 #pragma warning restore CA2000 // Dispose objects before losing scope
 #pragma warning restore IDISP004 // Don't ignore return value of type IDisposable.
         }

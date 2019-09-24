@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarSettingsView.cs" company="APH Software">
+﻿// <copyright file="ReflectorSettingsView.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -14,9 +14,9 @@ namespace UsefulWinForms
 
     public partial class ReflectorSettingsView : UserControl, ICipherSettingsView
     {
+        private readonly List<ComboBox> _combos = new List<ComboBox>();
         private SettingsController? _controller;
         private ReflectorSettings? _settings;
-        private readonly List<ComboBox> combos = new List<ComboBox>();
 
         public ReflectorSettingsView()
         {
@@ -64,7 +64,7 @@ namespace UsefulWinForms
                 combo.Items.AddRange(_settings.CharacterSet.Cast<object>().ToArray());
                 combo.SelectedItem = _settings[c];
                 combo.SelectionChangeCommitted += (sender, e) => ComboChanged((ComboBox)sender!);
-                combos.Add(combo);
+                _combos.Add(combo);
 
                 Controls.Add(combo);
                 i++;
@@ -78,7 +78,7 @@ namespace UsefulWinForms
             int i = 0;
             foreach (char c in _settings!.CharacterSet)
             {
-                combos[i].SelectedItem = _settings[c];
+                _combos[i].SelectedItem = _settings[c];
                 i++;
             }
         }
