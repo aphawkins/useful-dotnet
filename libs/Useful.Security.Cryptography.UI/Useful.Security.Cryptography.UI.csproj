@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <Version>0.1.0</Version>
+    <Authors>Andy Hawkins</Authors>
+    <Product>Useful Classical Cryptography UI Library</Product>
+    <Description>Classical Cryptography user interface library.</Description>
+    <Copyright>Andrew Hawkins</Copyright>
+    <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
+    <PackageTags>Classical Cryptography</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1-beta3-final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.3.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.5-beta1.final">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -35,7 +43,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Useful.Security.Cryptography" Version="0.1.0-beta2" />
+    <PackageReference Include="Useful.Security.Cryptography" Version="0.1.0" />
   </ItemGroup>
 
 </Project>

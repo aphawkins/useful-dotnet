@@ -1,0 +1,2 @@
+dotnet nuget push libs\Useful.Security.Cryptography\bin\Release\Useful.Security.Cryptography.0.1.0.nupkg -k %NugetApiKey% -s https://api.nuget.org/v3/index.json
+dotnet nuget push libs\Useful.Security.Cryptography.UI\bin\Release\Useful.Security.Cryptography.UI.0.1.0.nupkg -k %NugetApiKey% -s https://api.nuget.org/v3/index.json
