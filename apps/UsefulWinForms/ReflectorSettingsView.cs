@@ -12,7 +12,7 @@ namespace UsefulWinForms
     using Useful.Security.Cryptography.UI.Controllers;
     using Useful.Security.Cryptography.UI.Views;
 
-    public partial class ReflectorSettingsView : UserControl, ICipherSettingsView
+    internal partial class ReflectorSettingsView : UserControl, ICipherSettingsView
     {
         private readonly List<ComboBox> _combos = new List<ComboBox>();
         private SettingsController? _controller;

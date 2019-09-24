@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// A viewmodel for ciphers.
     /// </summary>
-    public class CipherViewModel : ViewModelBase
+    internal class CipherViewModel : ViewModelBase
     {
         private readonly CipherService _service;
         private string _ciphertext = string.Empty;
