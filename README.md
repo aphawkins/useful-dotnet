@@ -14,11 +14,10 @@ Disclaimer!  The aim of this project is for learning.  As a result, the UIs aren
 ### UI & Library support  
 What's working...   
 
-|Cipher|PowerShell|Console|WinForms|WPF|RESTApi|ASP.NET|NuGet|
-|:-----|:--------:|:-----:|:------:|:-:|:-----:|:-----:|:---:|
-|||Core 3.0|Core 3.0|Core 3.0|Core 3.0|Core 3.0|.NETStandard 2.0|
-|||MVC|MVC|MVVM||MVC
-|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓||✓
+|Cipher|PowerShell|Console|WinForms|WPF|RESTApi|ASP.NET|
+|:-----|:--------:|:-----:|:------:|:-:|:-----:|:-----:|
+||Cmdlet|MVC|MVC|MVVM|Web API|MVC
+|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓|✓|✓
 |[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||✓|✓
 |[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)
 |[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
