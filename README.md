@@ -22,7 +22,7 @@ What's working...
 |[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)
 |[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
 |[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
-|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓||✓
+|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓|✓|✓
 
 #### [Atbash](https://en.wikipedia.org/wiki/Atbash)  
 No settings required.  
