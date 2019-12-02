@@ -23,10 +23,15 @@ namespace UsefulAPI.Controllers
 
         // POST api/v1/atbash/encrypt
         [HttpPost]
-        public string Encrpyt([FromBody] string plaintext)
+        public ITest Encrpyt([FromBody] string plaintext)
         {
             using Atbash cipher = new Atbash();
-            return cipher.Encrypt(plaintext);
+            ITest test = new TestResponse
+            {
+                Ciphertext = cipher.Encrypt(plaintext),
+            };
+
+            return test;
         }
     }
 }

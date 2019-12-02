@@ -50,6 +50,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Security.Cryptograph
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Security.Cryptography.UI.Tests", "test\Useful.Security.Cryptography.UI.Tests\Useful.Security.Cryptography.UI.Tests.csproj", "{7B5B68BB-9D2A-480C-BC37-8C498E0488C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI.Tests", "test\WebAPI.Tests\WebAPI.Tests.csproj", "{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,10 @@ Global
 		{7B5B68BB-9D2A-480C-BC37-8C498E0488C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B5B68BB-9D2A-480C-BC37-8C498E0488C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B5B68BB-9D2A-480C-BC37-8C498E0488C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +122,7 @@ Global
 		{EFF136B3-DFB4-4D1B-99C5-6B5BAF845E3A} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 		{2008FAA2-9EFA-43BE-A506-D14480CFD449} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 		{7B5B68BB-9D2A-480C-BC37-8C498E0488C7} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
+		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA7BCA01-7498-4498-A087-A28416E6B00B}
