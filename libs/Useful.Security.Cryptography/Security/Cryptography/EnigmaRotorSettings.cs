@@ -170,28 +170,18 @@ namespace Useful.Security.Cryptography
         /// Gets the rotor positions.
         /// </summary>
         /// <returns>The rotor positions.</returns>
-        public static IEnumerable<EnigmaRotorPosition> RotorPositions
-        {
-            get
-            {
-                return new List<EnigmaRotorPosition>()
+        public static IEnumerable<EnigmaRotorPosition> RotorPositions => new List<EnigmaRotorPosition>()
                 {
                     EnigmaRotorPosition.Fastest,
                     EnigmaRotorPosition.Second,
                     EnigmaRotorPosition.Third,
                 };
-            }
-        }
 
         /// <summary>
         /// Gets all the rotors.
         /// </summary>
         /// <returns>All the rotors.</returns>
-        public static IEnumerable<EnigmaRotorNumber> RotorSet
-        {
-            get
-            {
-                return new List<EnigmaRotorNumber>()
+        public static IEnumerable<EnigmaRotorNumber> RotorSet => new List<EnigmaRotorNumber>()
                 {
                     EnigmaRotorNumber.I,
                     EnigmaRotorNumber.II,
@@ -202,18 +192,13 @@ namespace Useful.Security.Cryptography
                     EnigmaRotorNumber.VII,
                     EnigmaRotorNumber.VIII,
                 };
-            }
-        }
 
         /// <summary>
         /// Gets the available rotors.
         /// </summary>
         public IEnumerable<EnigmaRotorNumber> AvailableRotors
         {
-            get
-            {
-                return _availableRotors;
-            }
+            get => _availableRotors;
 
             private set
             {
@@ -229,10 +214,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The rotor to set in this position.</returns>
         public EnigmaRotor this[EnigmaRotorPosition position]
         {
-            get
-            {
-                return _list[position];
-            }
+            get => _list[position];
 
             set
             {

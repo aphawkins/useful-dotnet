@@ -49,10 +49,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public char CurrentSetting
         {
-            get
-            {
-                return CharacterSet[_currentSetting];
-            }
+            get => CharacterSet[_currentSetting];
 
             set
             {
@@ -79,10 +76,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public int RingPosition
         {
-            get
-            {
-                return _ringPosition;
-            }
+            get => _ringPosition;
 
             set
             {
@@ -165,7 +159,7 @@ namespace Useful.Security.Cryptography
                 { EnigmaRotorNumber.VIII, ("FKQHTLXOCBJSPDZRAMEWNIUYGV", "MZ") },
             };
 
-            var (rotorWiring, notches) = wiring[rotorNumber];
+            (string rotorWiring, string notches) = wiring[rotorNumber];
 
             MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
 

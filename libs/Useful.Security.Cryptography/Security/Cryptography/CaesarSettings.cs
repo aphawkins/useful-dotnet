@@ -53,23 +53,14 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override IEnumerable<byte> Key
-        {
-            get
-            {
-                return new List<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
-            }
-        }
+        public override IEnumerable<byte> Key => new List<byte>(Encoding.Unicode.GetBytes($"{RightShift}"));
 
         /// <summary>
         /// Gets or sets the right shift of the cipher.
         /// </summary>
         public int RightShift
         {
-            get
-            {
-                return _rightShift;
-            }
+            get => _rightShift;
 
             set
             {

@@ -27,8 +27,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string key, string plaintext, string ciphertext)
         {
-            using Reflector cipher = new Reflector();
-            cipher.Key = Encoding.Unicode.GetBytes(key);
+            using Reflector cipher = new Reflector
+            {
+                Key = Encoding.Unicode.GetBytes(key),
+            };
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -36,8 +38,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using SymmetricAlgorithm cipher = new Reflector();
-            cipher.Key = Encoding.Unicode.GetBytes(key);
+            using SymmetricAlgorithm cipher = new Reflector
+            {
+                Key = Encoding.Unicode.GetBytes(key),
+            };
             Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
@@ -45,8 +49,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string key, string plaintext, string ciphertext)
         {
-            using Reflector cipher = new Reflector();
-            cipher.Key = Encoding.Unicode.GetBytes(key);
+            using Reflector cipher = new Reflector
+            {
+                Key = Encoding.Unicode.GetBytes(key),
+            };
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
@@ -54,8 +60,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string key, string plaintext, string ciphertext)
         {
-            using SymmetricAlgorithm cipher = new Reflector();
-            cipher.Key = Encoding.Unicode.GetBytes(key);
+            using SymmetricAlgorithm cipher = new Reflector
+            {
+                Key = Encoding.Unicode.GetBytes(key),
+            };
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
@@ -71,8 +79,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using Reflector cipher = new Reflector();
-            cipher.IV = Encoding.Unicode.GetBytes("A");
+            using Reflector cipher = new Reflector
+            {
+                IV = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }

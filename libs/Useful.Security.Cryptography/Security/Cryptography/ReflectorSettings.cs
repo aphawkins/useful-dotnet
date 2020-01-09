@@ -105,13 +105,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <value>The number of substitutions.</value>
         /// <returns>The number of substitutions made.</returns>
-        public int SubstitutionCount
-        {
-            get
-            {
-                return Substitutions().Count;
-            }
-        }
+        public int SubstitutionCount => Substitutions().Count;
 
         /// <summary>
         /// Gets or sets the current substitutions.

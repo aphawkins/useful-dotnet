@@ -64,8 +64,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using Atbash cipher = new Atbash();
-            cipher.IV = Encoding.Unicode.GetBytes("A");
+            using Atbash cipher = new Atbash
+            {
+                IV = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -92,8 +94,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using Atbash cipher = new Atbash();
-            cipher.Key = Encoding.Unicode.GetBytes("A");
+            using Atbash cipher = new Atbash
+            {
+                Key = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.Key);
         }

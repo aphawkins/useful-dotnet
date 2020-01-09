@@ -14,7 +14,10 @@ namespace Useful.Security.Cryptography
     internal class ReflectorKeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
-        public byte[] RandomIv() => Array.Empty<byte>();
+        public byte[] RandomIv()
+        {
+            return Array.Empty<byte>();
+        }
 
         /// <inheritdoc />
         public byte[] RandomKey()

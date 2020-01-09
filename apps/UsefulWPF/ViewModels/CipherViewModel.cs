@@ -58,10 +58,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public string Ciphertext
         {
-            get
-            {
-                return _ciphertext;
-            }
+            get => _ciphertext;
 
             set
             {
@@ -80,10 +77,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public ICipher CurrentCipher
         {
-            get
-            {
-                return _service.Repository.CurrentItem;
-            }
+            get => _service.Repository.CurrentItem;
 
             set
             {
@@ -121,10 +115,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public string Plaintext
         {
-            get
-            {
-                return _plaintext;
-            }
+            get => _plaintext;
 
             set
             {

@@ -69,7 +69,10 @@ namespace Useful.Security.Cryptography
         /// The name of the Cipher.
         /// </summary>
         /// <returns>Name of the Cipher.</returns>
-        public override string ToString() => CipherName;
+        public override string ToString()
+        {
+            return CipherName;
+        }
 
         /// <inheritdoc />
         public override void GenerateIV()

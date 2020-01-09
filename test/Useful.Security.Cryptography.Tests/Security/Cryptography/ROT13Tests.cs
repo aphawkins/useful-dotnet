@@ -74,8 +74,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using ROT13 cipher = new ROT13();
-            cipher.IV = Encoding.Unicode.GetBytes("A");
+            using ROT13 cipher = new ROT13
+            {
+                IV = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -92,8 +94,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using ROT13 cipher = new ROT13();
-            cipher.Key = Encoding.Unicode.GetBytes("A");
+            using ROT13 cipher = new ROT13
+            {
+                Key = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.Key.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.Key);
         }

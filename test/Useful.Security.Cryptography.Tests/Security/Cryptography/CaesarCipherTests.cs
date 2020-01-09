@@ -45,8 +45,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptSymmetric(string plaintext, string ciphertext, int rightShift)
         {
-            using Caesar cipher = new Caesar();
-            cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
+            using Caesar cipher = new Caesar
+            {
+                Key = Encoding.Unicode.GetBytes($"{rightShift}"),
+            };
             Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
@@ -63,8 +65,10 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptSymmetric(string plaintext, string ciphertext, int rightShift)
         {
-            using Caesar cipher = new Caesar();
-            cipher.Key = Encoding.Unicode.GetBytes($"{rightShift}");
+            using Caesar cipher = new Caesar
+            {
+                Key = Encoding.Unicode.GetBytes($"{rightShift}"),
+            };
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
@@ -80,8 +84,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using Caesar cipher = new Caesar();
-            cipher.IV = Encoding.Unicode.GetBytes("A");
+            using Caesar cipher = new Caesar
+            {
+                IV = Encoding.Unicode.GetBytes("A"),
+            };
             Assert.Equal(Array.Empty<byte>(), cipher.Settings.IV.ToArray());
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }

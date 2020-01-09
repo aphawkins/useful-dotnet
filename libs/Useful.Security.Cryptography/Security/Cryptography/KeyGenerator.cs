@@ -12,9 +12,15 @@ namespace Useful.Security.Cryptography
     internal class KeyGenerator : IKeyGenerator
     {
         /// <inheritdoc />
-        public byte[] RandomIv() => Array.Empty<byte>();
+        public byte[] RandomIv()
+        {
+            return Array.Empty<byte>();
+        }
 
         /// <inheritdoc />
-        public byte[] RandomKey() => Array.Empty<byte>();
+        public byte[] RandomKey()
+        {
+            return Array.Empty<byte>();
+        }
     }
 }
