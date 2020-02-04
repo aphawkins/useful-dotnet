@@ -1,27 +1,3 @@
-Skip to content
-Why GitHub? 
-Enterprise
-Explore 
-Marketplace
-Pricing 
-Search
-
-Sign in
-Sign up
-github
-/
-gitignore
-2.9k94.8k49.4k
- Code Pull requests 140 Actions Projects 0 Security Insights
-Join GitHub today
-GitHub is home to over 40 million developers working together to host and review code, manage projects, and build software together.
-
-gitignore/Python.gitignore
-@mrg0029 mrg0029 wtf is a pyflow (#3242)
-db0ef78 on 18 Nov 2019
-@arcresu@shiftkey@Lucretiel@Harrison-G@jwg4@GabrielC101@misaelnieto@pmsosa@svkampen@vltr@thedrow@matheussl@hugovk@ghisvail@EvandroLG@DSIW@amigcamel@toanant@2Cubed@brettcannon@weinihou@Visgean@nvie@skuschel@sigo@sethmlarson
-129 lines (105 sloc)  1.76 KB
-  
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
