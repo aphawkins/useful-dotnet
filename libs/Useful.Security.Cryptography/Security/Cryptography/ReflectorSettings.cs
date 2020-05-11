@@ -349,7 +349,7 @@ namespace Useful.Security.Cryptography
             return pairs;
         }
 
-        private static (string characterSet, string substitutions) ParseKey(byte[] key)
+        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
         {
             // Example:
             // CharacterSet|Substitutions

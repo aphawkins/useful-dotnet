@@ -217,7 +217,7 @@ namespace Useful.Security.Cryptography
             return _substitutions.First(x => this[x] == letter);
         }
 
-        private static (string characterSet, string substitutions) ParseKey(byte[] key)
+        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
         {
             // Example:
             // characterSet|substitutions

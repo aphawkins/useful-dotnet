@@ -60,8 +60,8 @@ namespace Useful.Security.Cryptography
             Plugboard = plugboard;
         }
 
-        private EnigmaSettings((EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, ReflectorSettings plugboard) settings)
-            : this(settings.reflectorNumber, settings.rotorSettings, settings.plugboard)
+        private EnigmaSettings((EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings Plugboard) settings)
+            : this(settings.ReflectorNumber, settings.RotorSettings, settings.Plugboard)
         {
         }
 
@@ -122,7 +122,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
 
-        private static (EnigmaReflectorNumber reflectorNumber, EnigmaRotorSettings rotorSettings, ReflectorSettings reflectorSettings) GetSettings(byte[] key, byte[] iv)
+        private static (EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings ReflectorSettings) GetSettings(byte[] key, byte[] iv)
         {
             string keyString = Encoding.Unicode.GetString(key);
             string ivString = Encoding.Unicode.GetString(iv);
