@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Security.Cryptograph
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI.Tests", "test\WebAPI.Tests\WebAPI.Tests.csproj", "{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulBlazor", "apps\UsefulBlazor\UsefulBlazor.csproj", "{8B02B0BC-27DB-4C02-B481-23E783613E90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B02B0BC-27DB-4C02-B481-23E783613E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B02B0BC-27DB-4C02-B481-23E783613E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B02B0BC-27DB-4C02-B481-23E783613E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B02B0BC-27DB-4C02-B481-23E783613E90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +115,7 @@ Global
 		{2008FAA2-9EFA-43BE-A506-D14480CFD449} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 		{7B5B68BB-9D2A-480C-BC37-8C498E0488C7} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 		{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
+		{8B02B0BC-27DB-4C02-B481-23E783613E90} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA7BCA01-7498-4498-A087-A28416E6B00B}
