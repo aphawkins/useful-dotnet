@@ -22,7 +22,7 @@ namespace UsefulConsole.UI.Views
             {
                 Console.WriteLine("Select right shift (0 to 25):");
 
-                string input = Console.ReadLine();
+                string? input = Console.ReadLine();
                 isGood = int.TryParse(input, out result) && result >= 0 && result < 26;
             }
 

@@ -56,7 +56,7 @@ namespace UsefulConsole.UI.Views
         /// </summary>
         public void Initialize()
         {
-            string text;
+            string? text;
             IList<ICipher> ciphers = _controller!.GetCiphers().ToList();
             DisplayCipherSelect(ciphers);
             DisplayEncryptionMode();

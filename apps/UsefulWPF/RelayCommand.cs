@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add
             {
@@ -51,8 +51,13 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <returns>
         /// true if this command can be executed; otherwise, false.
         /// </returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
+            if (parameter is null)
+            {
+                return true;
+            }
+
             return _canExecute == null ? true : _canExecute((T)parameter);
         }
 
@@ -60,9 +65,9 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// Defines the method to be called when the command is invoked.
         /// </summary>
         /// <param name="parameter">Data used by the command. If the command does not require data to be passed, this object can be set to <see langword="null" />.</param>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
-            if (!CanExecute(parameter))
+            if (parameter is null || !CanExecute(parameter))
             {
                 return;
             }
