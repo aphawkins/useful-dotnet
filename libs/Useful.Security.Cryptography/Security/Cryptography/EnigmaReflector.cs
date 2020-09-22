@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography
                     sb.Append(CharacterSet[i]);
                 }
 
-                sb.Append(" ");
+                sb.Append(' ');
 
                 unique.Add(CharacterSet[i]);
                 unique.Add(wiring[reflectorNumber][i]);
