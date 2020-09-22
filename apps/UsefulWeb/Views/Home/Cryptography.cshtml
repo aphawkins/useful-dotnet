@@ -8,7 +8,7 @@
                 <label for="CurrentCipherName">Cipher</label>
             </div>
             <div class="col-md-4">
-                @Html.DropDownList("CurrentCipherName", new SelectList(@CipherService.Repository.Read(), @CipherService.Repository.CurrentItem.CipherName), new { @class = "form-control" })
+                @Html.DropDownList("CurrentCipherName", new SelectList(@CipherService.Repository.Read(), @CipherService.Repository.CurrentItem!.CipherName), new { @class = "form-control" })
             </div>
         </div>
         <div class="row">

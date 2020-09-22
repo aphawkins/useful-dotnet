@@ -77,7 +77,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public ICipher CurrentCipher
         {
-            get => _service.Repository.CurrentItem;
+            get => _service.Repository.CurrentItem!;
 
             set
             {
