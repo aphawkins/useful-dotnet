@@ -1,0 +1,42 @@
+﻿Useful.Security.Cryptography.UI.Controllers.CipherController
+Useful.Security.Cryptography.UI.Controllers.CipherController.CipherController(Useful.IRepository<Useful.Security.Cryptography.ICipher!>! repository, Useful.Security.Cryptography.UI.Views.ICipherView! cipherView) -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController.Decrypt(string! ciphertext) -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController.Encrypt(string! plaintext) -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController.GetCiphers() -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.ICipher!>!
+Useful.Security.Cryptography.UI.Controllers.CipherController.LoadView() -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController.SelectCipher(Useful.Security.Cryptography.ICipher! cipher, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! settingsView) -> void
+Useful.Security.Cryptography.UI.Controllers.IController
+Useful.Security.Cryptography.UI.Controllers.IController.LoadView() -> void
+Useful.Security.Cryptography.UI.Controllers.ISettingsController
+Useful.Security.Cryptography.UI.Controllers.ISettingsController.Settings.get -> Useful.Security.Cryptography.ICipherSettings!
+Useful.Security.Cryptography.UI.Controllers.SettingsController
+Useful.Security.Cryptography.UI.Controllers.SettingsController.LoadView() -> void
+Useful.Security.Cryptography.UI.Controllers.SettingsController.Settings.get -> Useful.Security.Cryptography.ICipherSettings!
+Useful.Security.Cryptography.UI.Controllers.SettingsController.SettingsController(Useful.Security.Cryptography.ICipherSettings! cipherSettings, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! cipherSettingsView) -> void
+Useful.Security.Cryptography.UI.Models.CipherModel
+Useful.Security.Cryptography.UI.Models.CipherModel.CipherModel() -> void
+Useful.Security.Cryptography.UI.Models.CipherModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.Models.CipherModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.Models.CipherModel.CurrentCipherName.get -> string!
+Useful.Security.Cryptography.UI.Models.CipherModel.CurrentCipherName.set -> void
+Useful.Security.Cryptography.UI.Models.CipherModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.Models.CipherModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.Services.CipherService
+Useful.Security.Cryptography.UI.Services.CipherService.CipherService(Useful.IRepository<Useful.Security.Cryptography.ICipher!>! repository) -> void
+Useful.Security.Cryptography.UI.Services.CipherService.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.UI.Services.CipherService.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.UI.Services.CipherService.Repository.get -> Useful.IRepository<Useful.Security.Cryptography.ICipher!>!
+Useful.Security.Cryptography.UI.Services.CipherService.Repository.set -> void
+Useful.Security.Cryptography.UI.ViewModels.ViewModelBase
+Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.NotifyPropertyChanged(string! propertyName = "") -> void
+Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.ViewModelBase() -> void
+Useful.Security.Cryptography.UI.Views.ICipherSettingsView
+Useful.Security.Cryptography.UI.Views.ICipherView
+Useful.Security.Cryptography.UI.Views.ICipherView.ShowCiphertext(string! ciphertext) -> void
+Useful.Security.Cryptography.UI.Views.ICipherView.ShowPlaintext(string! plaintext) -> void
+Useful.Security.Cryptography.UI.Views.ICipherView.ShowSettings(Useful.Security.Cryptography.UI.Views.ICipherSettingsView! settingsView) -> void
+Useful.Security.Cryptography.UI.Views.IDisposableCipherView
+Useful.Security.Cryptography.UI.Views.IView
+Useful.Security.Cryptography.UI.Views.IView.Initialize() -> void
+Useful.Security.Cryptography.UI.Views.IView.SetController(Useful.Security.Cryptography.UI.Controllers.IController! controller) -> void

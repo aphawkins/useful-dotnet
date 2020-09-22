@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable disable
-
 namespace Useful.Security.Cryptography
 {
     using System;
@@ -20,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the current cipher.
         /// </summary>
-        public ICipher CurrentItem
+        public ICipher? CurrentItem
         {
             get;
             protected set;

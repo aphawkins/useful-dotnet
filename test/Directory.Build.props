@@ -6,7 +6,7 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>..\useful.test.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>

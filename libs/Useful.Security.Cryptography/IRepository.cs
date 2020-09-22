@@ -16,7 +16,7 @@ namespace Useful
         /// <summary>
         /// Gets the current item.
         /// </summary>
-        T CurrentItem
+        T? CurrentItem
         {
             get;
         }

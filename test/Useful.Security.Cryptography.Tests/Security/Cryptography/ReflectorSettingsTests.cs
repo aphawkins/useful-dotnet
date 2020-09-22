@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#nullable disable
-
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
