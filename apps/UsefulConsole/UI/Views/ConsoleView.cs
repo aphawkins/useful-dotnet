@@ -13,7 +13,7 @@ namespace UsefulConsole.UI.Views
 
     internal class ConsoleView : ICipherView
     {
-        private CipherController? _controller = null;
+        private CipherController? _controller;
         private CipherTransformMode _modeSelected;
 
         public void DisplayCipherSelect(IList<ICipher> ciphers)

@@ -53,12 +53,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </returns>
         public bool CanExecute(object? parameter)
         {
-            if (parameter is null)
-            {
-                return true;
-            }
-
-            return _canExecute == null ? true : _canExecute((T)parameter);
+            return parameter is null || _canExecute == null || _canExecute((T)parameter);
         }
 
         /// <summary>

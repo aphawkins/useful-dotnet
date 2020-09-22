@@ -11,7 +11,7 @@ namespace UsefulConsole.UI.Views
 
     internal class CaesarSettingsView : ICipherSettingsView
     {
-        private SettingsController? _controller = null;
+        private SettingsController? _controller;
 
         public void Initialize()
         {
