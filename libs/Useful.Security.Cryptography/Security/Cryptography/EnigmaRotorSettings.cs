@@ -164,7 +164,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
 
         /// <summary>
         /// Gets the rotor positions.

@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="key">The encryption Key.</param>
         /// <param name="iv">The Initialization Vector.</param>
-        public EnigmaSettings(byte[] key, byte[] iv)
+        public EnigmaSettings(byte[] key, byte[]? iv)
             : this(GetSettings(key, iv))
         {
         }
@@ -122,10 +122,10 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public EnigmaRotorSettings Rotors { get; private set; }
 
-        private static (EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings ReflectorSettings) GetSettings(byte[] key, byte[] iv)
+        private static (EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings ReflectorSettings) GetSettings(byte[] key, byte[]? iv)
         {
             string keyString = Encoding.Unicode.GetString(key);
-            string ivString = Encoding.Unicode.GetString(iv);
+            string ivString = iv != null ? Encoding.Unicode.GetString(iv) : string.Empty;
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 

@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event NotifyCollectionChangedEventHandler CollectionChanged = (sender, e) => { };
+        public event NotifyCollectionChangedEventHandler? CollectionChanged = (sender, e) => { };
 
         /// <inheritdoc />
         public override IEnumerable<byte> Key
@@ -278,7 +278,7 @@ namespace Useful.Security.Cryptography
         private void ParseSubstitutions(string substitutions)
         {
             if (string.IsNullOrWhiteSpace(substitutions)
-                || substitutions.Length != CharacterSet.Count())
+                || substitutions.Length != CharacterSet.Length)
             {
                 throw new ArgumentException("Incorrect number of substitutions.", nameof(substitutions));
             }

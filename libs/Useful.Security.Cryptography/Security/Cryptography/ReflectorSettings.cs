@@ -85,7 +85,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event NotifyCollectionChangedEventHandler CollectionChanged = (sender, e) => { };
+        public event NotifyCollectionChangedEventHandler? CollectionChanged = (sender, e) => { };
 
         /// <inheritdoc />
         public override IEnumerable<byte> Key

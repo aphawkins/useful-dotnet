@@ -54,14 +54,14 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[] rgbIV)
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[] rgbIV)
+        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
