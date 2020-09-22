@@ -36,7 +36,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <param name="plaintext">The text to encrypt.</param>
         public void Encrypt(string plaintext)
         {
-            string encrypted = _repository.CurrentItem.Encrypt(plaintext);
+            string encrypted = _repository.CurrentItem!.Encrypt(plaintext);
             _view.ShowPlaintext(plaintext);
             _view.ShowCiphertext(encrypted);
         }
@@ -47,7 +47,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <param name="ciphertext">The text to decrypt.</param>
         public void Decrypt(string ciphertext)
         {
-            string decrypted = _repository.CurrentItem.Decrypt(ciphertext);
+            string decrypted = _repository.CurrentItem!.Decrypt(ciphertext);
             _view.ShowCiphertext(ciphertext);
             _view.ShowPlaintext(decrypted);
         }

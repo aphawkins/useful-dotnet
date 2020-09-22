@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Andy Hawkins</Authors>
     <Product>Useful Classical Cryptography Library</Product>
     <Description>Classical Cryptography library. Cipher support of SymmetricAlgorithm and string encryption/decryption.</Description>
@@ -13,6 +13,7 @@
     <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
     <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
