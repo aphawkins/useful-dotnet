@@ -15,14 +15,6 @@ namespace Useful.Security.Cryptography
         string CipherName { get; }
 
         /// <summary>
-        /// Gets the cipher's settings.
-        /// </summary>
-        ICipherSettings Settings
-        {
-            get;
-        }
-
-        /// <summary>
         /// Encrypts a plaintext string.
         /// </summary>
         /// <param name="plaintext">The text to encrypt.</param>

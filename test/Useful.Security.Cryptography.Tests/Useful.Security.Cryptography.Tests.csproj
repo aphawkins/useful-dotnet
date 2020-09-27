@@ -5,23 +5,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\Cryptography\CipherSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaReflectorTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaRotorSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaRotorTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaTests.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\MonoAlphabeticTests.cs" />
+    <Compile Remove="Security\Cryptography\ReflectorSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\ReflectorTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-	<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
-	<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
 	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Moq" Version="4.14.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">

@@ -62,8 +62,6 @@ namespace UsefulWinForms
 
         private void ComboCiphers_SelectedIndexChanged()
         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
             ICipher cipher = (ICipher)comboCiphers.SelectedItem;
 
             if (cipher is Atbash)
@@ -89,8 +87,6 @@ namespace UsefulWinForms
             {
                 _controller!.SelectCipher(cipher, new EmptySettingsView());
             }
-
-#pragma warning restore CA2000 // Dispose objects before losing scope
         }
     }
 }

@@ -30,27 +30,27 @@ namespace Useful.Security.Cryptography
             }
 
             using ICryptoTransform transformer = GetTransformer(cipher, transformMode);
-            using (StreamReader reader = new StreamReader(input, new UnicodeEncoding()))
+            using StreamReader reader = new StreamReader(input, new UnicodeEncoding());
+            reader.Peek();
+
+            // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
+            using CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write);
+            byte[] bytes;
+
+            // The cipher is expecting Unicode
+            while (!reader.EndOfStream)
             {
-                reader.Peek();
-
-                // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
-                using CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write);
-                byte[] bytes;
-
-                // The cipher is expecting Unicode
-                while (!reader.EndOfStream)
-                {
-                    bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
-                    crypto.Write(bytes, 0, bytes.Length);
-                }
+                bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
+                crypto.Write(bytes, 0, bytes.Length);
             }
 
+            /*
             if (transformer is ClassicalSymmetricTransform classicalTransform)
             {
                 cipher.Key = classicalTransform.Cipher.Settings.Key.ToArray();
                 cipher.IV = classicalTransform.Cipher.Settings.IV.ToArray();
             }
+            */
         }
 
         /// <summary>

@@ -21,12 +21,8 @@ namespace UsefulWPF
 
             CryptographyWindow app = new CryptographyWindow();
             IRepository<ICipher> repository = new CipherRepository();
-
-#pragma warning disable CA2000 // Dispose objects before losing scope
             repository.Create(new Atbash());
             repository.Create(new ROT13());
-#pragma warning restore CA2000
-
             CipherService service = new CipherService(repository);
             CipherViewModel context = new CipherViewModel(service);
             app.DataContext = context;

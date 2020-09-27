@@ -2,50 +2,28 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
     /// The Atbash cipher.
     /// </summary>
-    public class Atbash : ClassicalSymmetricAlgorithm
+    public class Atbash : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Atbash"/> class.
-        /// </summary>
-        public Atbash()
-            : base("Atbash", new CipherSettings())
-        {
-        }
+        /// <inheritdoc />
+        public string CipherName => "Atbash";
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Atbash();
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Atbash();
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override string Decrypt(string ciphertext)
+        public string Decrypt(string ciphertext)
         {
             // To decipher just need to use the encryption method as the cipher is reversible
             return Encrypt(ciphertext);
         }
 
         /// <inheritdoc />
-        public override string Encrypt(string plaintext)
+        public string Encrypt(string plaintext)
         {
             if (plaintext == null)
             {
@@ -60,6 +38,12 @@ namespace Useful.Security.Cryptography
             }
 
             return ciphertext.ToString();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return CipherName;
         }
 
         private static char Encrypt(char letter)

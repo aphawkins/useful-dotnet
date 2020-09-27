@@ -2,73 +2,40 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Linq;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public class Caesar : ClassicalSymmetricAlgorithm
+    public class Caesar : ICipher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
         public Caesar()
-            : this(new CaesarSettings(0))
         {
+            Settings = new CaesarSettings();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public Caesar(CaesarSettings settings)
-            : base("Caesar", settings)
-        {
-            KeyGenerator = new CaesarKeyGenerator();
-        }
+        /// <param name="settings">Settings.</param>
+        public Caesar(ICaesarSettings settings) => Settings = settings;
+
+        /// <inheritdoc/>
+        public string CipherName => "Caesar";
+
+        /// <summary>
+        /// Gets or sets settings.
+        /// </summary>
+        public ICaesarSettings Settings { get; set; }
 
         /// <inheritdoc />
-        public override byte[] Key
-        {
-            get => Settings.Key.ToArray();
-
-            set
-            {
-                Settings = new CaesarSettings(value);
-                base.Key = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => Settings.IV.ToArray();
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Caesar(new CaesarSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override string Decrypt(string ciphertext)
+        public string Decrypt(string ciphertext)
         {
             if (ciphertext == null)
             {
@@ -102,7 +69,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override string Encrypt(string plaintext)
+        public string Encrypt(string plaintext)
         {
             if (plaintext == null)
             {
@@ -133,6 +100,12 @@ namespace Useful.Security.Cryptography
             }
 
             return sb.ToString();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return CipherName;
         }
     }
 }

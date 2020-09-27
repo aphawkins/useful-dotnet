@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA1822 // Mark members as static
-
 namespace UsefulAPI.Controllers
 {
     using Microsoft.AspNetCore.Mvc;

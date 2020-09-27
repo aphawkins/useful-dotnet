@@ -2,49 +2,27 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public class ROT13 : ClassicalSymmetricAlgorithm
+    public class ROT13 : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ROT13"/> class.
-        /// </summary>
-        public ROT13()
-            : base("ROT13", new CipherSettings())
-        {
-        }
+        /// <inheritdoc />
+        public string CipherName => "ROT13";
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new ROT13();
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new ROT13();
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override string Decrypt(string ciphertext)
+        public string Decrypt(string ciphertext)
         {
             return Encrypt(ciphertext);
         }
 
         /// <inheritdoc />
-        public override string Encrypt(string plaintext)
+        public string Encrypt(string plaintext)
         {
             if (plaintext == null)
             {
@@ -75,6 +53,12 @@ namespace Useful.Security.Cryptography
             }
 
             return sb.ToString();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return CipherName;
         }
     }
 }
