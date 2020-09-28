@@ -11,9 +11,6 @@ namespace UsefulWPF
     /// </summary>
     public partial class CryptographyWindow : Window
     {
-        public CryptographyWindow()
-        {
-            InitializeComponent();
-        }
+        public CryptographyWindow() => InitializeComponent();
     }
 }

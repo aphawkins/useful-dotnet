@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -23,7 +24,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
@@ -31,14 +32,14 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Encrypt(string plaintext, string ciphertext)
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             cipher.GenerateIV();
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -46,7 +47,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric
+            using SymmetricAlgorithm cipher = new AtbashSymmetric
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
@@ -56,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorSettings()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal(Array.Empty<byte>(), cipher.Key);
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -64,7 +65,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             cipher.GenerateKey();
             Assert.Equal(Array.Empty<byte>(), cipher.Key);
         }
@@ -72,7 +73,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric
+            using SymmetricAlgorithm cipher = new AtbashSymmetric
             {
                 Key = Encoding.Unicode.GetBytes("A"),
             };
@@ -82,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using AtbashSymmetric cipher = new AtbashSymmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal("Atbash", cipher.ToString());
         }
     }

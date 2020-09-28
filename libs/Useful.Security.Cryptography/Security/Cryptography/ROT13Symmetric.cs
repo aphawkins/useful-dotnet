@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Security.Cryptography;
-    using System.Text;
 
     /// <summary>
     /// The ROT13 cipher.
@@ -60,10 +59,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return _algorithm.CipherName;
-        }
+        public override string ToString() => _algorithm.CipherName;
 
         private void Reset()
         {

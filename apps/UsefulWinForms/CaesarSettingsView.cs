@@ -22,10 +22,7 @@ namespace UsefulWinForms
             comboRightShift.SelectionChangeCommitted += (sender, e) => ComboChanged();
         }
 
-        public void SetController(IController controller)
-        {
-            _controller = (SettingsController)controller;
-        }
+        public void SetController(IController controller) => _controller = (SettingsController)controller;
 
         public void Initialize()
         {
@@ -33,9 +30,6 @@ namespace UsefulWinForms
             comboRightShift.SelectedIndex = 0;
         }
 
-        private void ComboChanged()
-        {
-            ((CaesarSettings)_controller!.Settings).RightShift = (int)comboRightShift.SelectedItem;
-        }
+        private void ComboChanged() => ((CaesarSettings)_controller!.Settings).RightShift = (int)comboRightShift.SelectedItem;
     }
 }

@@ -132,18 +132,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Used to encrypt the <see cref="Plaintext"/> into <see cref="Ciphertext"/>.
         /// </summary>
-        public void Encrypt()
-        {
-            Ciphertext = CurrentCipher.Encrypt(_plaintext);
-        }
+        public void Encrypt() => Ciphertext = CurrentCipher.Encrypt(_plaintext);
 
         /// <summary>
         /// Used to decrypt the <see cref="Ciphertext"/> into <see cref="Plaintext"/>.
         /// </summary>
-        public void Decrypt()
-        {
-            Plaintext = CurrentCipher.Decrypt(_ciphertext);
-        }
+        public void Decrypt() => Plaintext = CurrentCipher.Decrypt(_ciphertext);
 
         private void WireCommands()
         {

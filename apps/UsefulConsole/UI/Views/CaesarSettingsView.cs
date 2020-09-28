@@ -31,9 +31,6 @@ namespace UsefulConsole.UI.Views
             Console.WriteLine($"Right shift selected: {result}");
         }
 
-        public void SetController(IController controller)
-        {
-            _controller = (SettingsController)controller;
-        }
+        public void SetController(IController controller) => _controller = (SettingsController)controller;
     }
 }

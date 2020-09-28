@@ -59,10 +59,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return _algorithm.CipherName;
-        }
+        public override string ToString() => _algorithm.CipherName;
 
         private void Reset()
         {

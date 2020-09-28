@@ -11,8 +11,6 @@
     <Compile Remove="Security\Cryptography\EnigmaRotorTests.cs" />
     <Compile Remove="Security\Cryptography\EnigmaSettingsTests.cs" />
     <Compile Remove="Security\Cryptography\EnigmaTests.cs" />
-    <Compile Remove="Security\Cryptography\MonoAlphabeticSettingsTests.cs" />
-    <Compile Remove="Security\Cryptography\MonoAlphabeticTests.cs" />
     <Compile Remove="Security\Cryptography\ReflectorSettingsTests.cs" />
     <Compile Remove="Security\Cryptography\ReflectorTests.cs" />
   </ItemGroup>

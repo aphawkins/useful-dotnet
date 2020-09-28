@@ -5,8 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -22,18 +20,9 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
         /// </summary>
         public CaesarSymmetric()
-            : this(new CaesarSettings(0))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public CaesarSymmetric(ICaesarSettings settings)
         {
             Reset();
-            _algorithm = new Caesar(settings);
+            _algorithm = new Caesar(new CaesarSettings());
             _keyGen = new CaesarKeyGenerator();
         }
 
@@ -85,10 +74,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return _algorithm.CipherName;
-        }
+        public override string ToString() => _algorithm.CipherName;
 
         private static ICaesarSettings GetSettings(byte[] key)
         {

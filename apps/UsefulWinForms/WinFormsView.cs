@@ -25,10 +25,7 @@ namespace UsefulWinForms
             //// Icon = Resources.Resources.GetAppIcon();
         }
 
-        public void SetController(IController controller)
-        {
-            _controller = (CipherController)controller;
-        }
+        public void SetController(IController controller) => _controller = (CipherController)controller;
 
         /// <summary>
         /// Initializes the view.
@@ -42,15 +39,9 @@ namespace UsefulWinForms
             Application.Run(this);
         }
 
-        public void ShowCiphertext(string ciphertext)
-        {
-            textCiphertext.Text = ciphertext;
-        }
+        public void ShowCiphertext(string ciphertext) => textCiphertext.Text = ciphertext;
 
-        public void ShowPlaintext(string plaintext)
-        {
-            textPlaintext.Text = plaintext;
-        }
+        public void ShowPlaintext(string plaintext) => textPlaintext.Text = plaintext;
 
         public void ShowSettings(ICipherSettingsView cipherSettingsView)
         {

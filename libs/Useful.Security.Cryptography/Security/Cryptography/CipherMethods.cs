@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -92,16 +91,7 @@ namespace Useful.Security.Cryptography
             SymmetricTransform(cipher, transformMode, inputStream, outputStream);
 
             // Remove padding on odd length bytes
-            byte[] encrypted;
-            if (cryptoTransform.OutputBlockSize % 2 == 1)
-            {
-                encrypted = TrimArray(outputStream.ToArray());
-            }
-            else
-            {
-                encrypted = outputStream.ToArray();
-            }
-
+            byte[] encrypted = cryptoTransform.OutputBlockSize % 2 == 1 ? TrimArray(outputStream.ToArray()) : outputStream.ToArray();
             char[] encryptedChars = encoding.GetChars(encrypted);
 
             return new string(encryptedChars);

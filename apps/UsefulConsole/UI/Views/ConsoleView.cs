@@ -77,20 +77,11 @@ namespace UsefulConsole.UI.Views
             }
         }
 
-        public void SetController(IController controller)
-        {
-            _controller = (CipherController)controller;
-        }
+        public void SetController(IController controller) => _controller = (CipherController)controller;
 
-        public void ShowCiphertext(string ciphertext)
-        {
-            Console.WriteLine($"Ciphertext = {ciphertext}");
-        }
+        public void ShowCiphertext(string ciphertext) => Console.WriteLine($"Ciphertext = {ciphertext}");
 
-        public void ShowPlaintext(string plaintext)
-        {
-            Console.WriteLine($"Plaintext = {plaintext}");
-        }
+        public void ShowPlaintext(string plaintext) => Console.WriteLine($"Plaintext = {plaintext}");
 
         public void ShowSettings(ICipherSettingsView settingsView)
         {
@@ -132,9 +123,6 @@ namespace UsefulConsole.UI.Views
             Console.WriteLine($"Encryption mode selected: {_modeSelected}");
         }
 
-        private void DisplayEnterText()
-        {
-            Console.Write($"Enter text to {_modeSelected}: ");
-        }
+        private void DisplayEnterText() => Console.Write($"Enter text to {_modeSelected}: ");
     }
 }

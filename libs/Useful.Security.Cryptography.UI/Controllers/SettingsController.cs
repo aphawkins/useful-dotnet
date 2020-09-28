@@ -39,9 +39,6 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Loads the view.
         /// </summary>
-        public void LoadView()
-        {
-            _view.Initialize();
-        }
+        public void LoadView() => _view.Initialize();
     }
 }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Compile Remove="ViewModels\CaesarSettings.cs" />
+    <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,10 +15,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// Initializes a new instance of the <see cref="CipherService"/> class.
         /// </summary>
         /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherService(IRepository<ICipher> repository)
-        {
-            Repository = repository;
-        }
+        public CipherService(IRepository<ICipher> repository) => Repository = repository;
 
         /// <summary>
         /// Gets or sets the cipher repository.

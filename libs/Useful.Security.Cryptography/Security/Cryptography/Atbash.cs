@@ -16,11 +16,8 @@ namespace Useful.Security.Cryptography
         public string CipherName => "Atbash";
 
         /// <inheritdoc />
-        public string Decrypt(string ciphertext)
-        {
-            // To decipher just need to use the encryption method as the cipher is reversible
-            return Encrypt(ciphertext);
-        }
+        public string Decrypt(string ciphertext) =>
+            Encrypt(ciphertext); // To decipher just need to use the encryption method as the cipher is reversible
 
         /// <inheritdoc />
         public string Encrypt(string plaintext)
@@ -41,10 +38,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return CipherName;
-        }
+        public override string ToString() => CipherName;
 
         private static char Encrypt(char letter)
         {

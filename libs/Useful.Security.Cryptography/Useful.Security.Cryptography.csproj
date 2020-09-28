@@ -36,9 +36,7 @@
     <Compile Remove="Security\Cryptography\EnigmaUINameConverter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaWheel.cs" />
     <Compile Remove="Security\Cryptography\ICipherSettings.cs" />
-    <Compile Remove="Security\Cryptography\MonoAlphabetic.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticKeyGenerator.cs" />
-    <Compile Remove="Security\Cryptography\MonoAlphabeticSettings.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransform.cs" />
     <Compile Remove="Security\Cryptography\Reflector.cs" />
     <Compile Remove="Security\Cryptography\ReflectorKeyGenerator.cs" />

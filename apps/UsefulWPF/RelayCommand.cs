@@ -49,10 +49,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <returns>
         /// true if this command can be executed; otherwise, false.
         /// </returns>
-        public bool CanExecute(object? parameter)
-        {
-            return _canExecute == null || _canExecute((T)parameter!);
-        }
+        public bool CanExecute(object? parameter) => _canExecute == null || _canExecute((T)parameter!);
 
         /// <summary>
         /// Defines the method to be called when the command is invoked.

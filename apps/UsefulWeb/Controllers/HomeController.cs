@@ -13,15 +13,9 @@ namespace UsefulWeb.Controllers
     {
         private readonly CipherService _cipherService;
 
-        public HomeController(CipherService cipherService)
-        {
-            _cipherService = cipherService;
-        }
+        public HomeController(CipherService cipherService) => _cipherService = cipherService;
 
-        public IActionResult Index()
-        {
-            return RedirectToAction("Cryptography");
-        }
+        public IActionResult Index() => RedirectToAction("Cryptography");
 
         public IActionResult Cryptography(CipherModel cipherModel)
         {
@@ -47,9 +41,6 @@ namespace UsefulWeb.Controllers
             return View(cipherModel);
         }
 
-        public IActionResult Error()
-        {
-            return View();
-        }
+        public IActionResult Error() => View();
     }
 }

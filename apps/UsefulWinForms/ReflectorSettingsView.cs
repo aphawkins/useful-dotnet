@@ -18,10 +18,7 @@ namespace UsefulWinForms
         private SettingsController? _controller;
         private ReflectorSettings? _settings;
 
-        public ReflectorSettingsView()
-        {
-            InitializeComponent();
-        }
+        public ReflectorSettingsView() => InitializeComponent();
 
         public void SetController(IController controller)
         {
@@ -83,9 +80,6 @@ namespace UsefulWinForms
             }
         }
 
-        private void ComboChanged(ComboBox sender)
-        {
-            ((ReflectorSettings)_controller!.Settings)[(char)sender.Tag] = (char)sender.SelectedItem;
-        }
+        private void ComboChanged(ComboBox sender) => ((ReflectorSettings)_controller!.Settings)[(char)sender.Tag] = (char)sender.SelectedItem;
     }
 }

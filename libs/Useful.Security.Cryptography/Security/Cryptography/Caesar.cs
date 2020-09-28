@@ -15,10 +15,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
-        public Caesar()
-        {
-            Settings = new CaesarSettings();
-        }
+        public Caesar() => Settings = new CaesarSettings();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
@@ -103,9 +100,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return CipherName;
-        }
+        public override string ToString() => CipherName;
     }
 }

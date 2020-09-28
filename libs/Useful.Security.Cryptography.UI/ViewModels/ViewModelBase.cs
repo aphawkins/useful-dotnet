@@ -21,9 +21,6 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// Used to raise the <see cref="PropertyChanged" /> event.
         /// </summary>
         /// <param name="propertyName">The name of the property that has changed.</param>
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

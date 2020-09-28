@@ -28,10 +28,7 @@ namespace Useful.Security.Cryptography
         /// Adds a new cipher to the repository.
         /// </summary>
         /// <param name="cipher">The new cipher to add.</param>
-        public void Create(ICipher cipher)
-        {
-            _ciphers.Add(cipher);
-        }
+        public void Create(ICipher cipher) => _ciphers.Add(cipher);
 
         /// <summary>
         /// Removes a cipher from the repository.
@@ -65,10 +62,7 @@ namespace Useful.Security.Cryptography
         /// Retrieves all the ciphers.
         /// </summary>
         /// <returns>All the ciphers.</returns>
-        public IEnumerable<ICipher> Read()
-        {
-            return _ciphers;
-        }
+        public IEnumerable<ICipher> Read() => _ciphers;
 
         /// <summary>
         /// Sets the <see cref="CurrentItem" /> according to the match criteria.

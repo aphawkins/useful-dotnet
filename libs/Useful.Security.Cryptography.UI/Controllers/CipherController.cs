@@ -55,10 +55,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Loads the view.
         /// </summary>
-        public void LoadView()
-        {
-            _view.Initialize();
-        }
+        public void LoadView() => _view.Initialize();
 
         /// <summary>
         /// Selects the current cipher.
@@ -90,9 +87,6 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// All of the ciphers.
         /// </summary>
         /// <returns>The cipher names.</returns>
-        public IEnumerable<ICipher> GetCiphers()
-        {
-            return _repository.Read();
-        }
+        public IEnumerable<ICipher> GetCiphers() => _repository.Read();
     }
 }

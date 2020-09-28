@@ -2,73 +2,40 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Linq;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
     /// The MonoAlphabetic cipher.
     /// </summary>
-    public class MonoAlphabetic : ClassicalSymmetricAlgorithm
+    public class MonoAlphabetic : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
-        /// </summary>
-        public MonoAlphabetic()
-            : this(new MonoAlphabeticSettings())
-        {
-        }
+        /////// <summary>
+        /////// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
+        /////// </summary>
+        ////public MonoAlphabetic()
+        ////{
+        ////    Settings = new MonoAlphabeticSettings();
+        ////}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
         /// </summary>
         /// <param name="settings">The cipher's settings.</param>
-        public MonoAlphabetic(MonoAlphabeticSettings settings)
-            : base("MonoAlphabetic", settings)
-        {
-            KeyGenerator = new MonoAlphabeticKeyGenerator();
-        }
+        public MonoAlphabetic(IMonoAlphabeticSettings settings) => Settings = settings;
+
+        /// <inheritdoc/>
+        public string CipherName => "MonoAlphabetic";
+
+        /// <summary>
+        /// Gets or sets settings.
+        /// </summary>
+        public IMonoAlphabeticSettings Settings { get; set; }
 
         /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => Settings.IV.ToArray();
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get => Settings.Key.ToArray();
-
-            set
-            {
-                Settings = new MonoAlphabeticSettings(value);
-                base.Key = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override string Decrypt(string ciphertext)
+        public string Decrypt(string ciphertext)
         {
             if (ciphertext == null)
             {
@@ -79,14 +46,14 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                sb.Append(((MonoAlphabeticSettings)Settings).Reverse(ciphertext[i]));
+                sb.Append(Settings.Reverse(ciphertext[i]));
             }
 
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public override string Encrypt(string plaintext)
+        public string Encrypt(string plaintext)
         {
             if (plaintext == null)
             {
@@ -97,20 +64,17 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                sb.Append(((MonoAlphabeticSettings)Settings)[plaintext[i]]);
+                sb.Append(Settings[plaintext[i]]);
             }
 
             return sb.ToString();
         }
 
-        internal char Decrypt(char ciphertext)
-        {
-            return ((MonoAlphabeticSettings)Settings).Reverse(ciphertext);
-        }
+        /// <inheritdoc/>
+        public override string ToString() => CipherName;
 
-        internal char Encrypt(char plaintext)
-        {
-            return ((MonoAlphabeticSettings)Settings)[plaintext];
-        }
+        internal char Decrypt(char ciphertext) => Settings.Reverse(ciphertext);
+
+        internal char Encrypt(char plaintext) => Settings[plaintext];
     }
 }

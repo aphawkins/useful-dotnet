@@ -27,7 +27,6 @@ Useful.Security.Cryptography.CaesarSettings.RightShift.get -> int
 Useful.Security.Cryptography.CaesarSettings.RightShift.set -> void
 Useful.Security.Cryptography.CaesarSymmetric
 Useful.Security.Cryptography.CaesarSymmetric.CaesarSymmetric() -> void
-Useful.Security.Cryptography.CaesarSymmetric.CaesarSymmetric(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
 Useful.Security.Cryptography.CipherMethods
 Useful.Security.Cryptography.CipherRepository
 Useful.Security.Cryptography.CipherRepository.CipherRepository() -> void
@@ -51,6 +50,33 @@ Useful.Security.Cryptography.ICipher.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.IKeyGenerator
 Useful.Security.Cryptography.IKeyGenerator.RandomIv() -> byte[]!
 Useful.Security.Cryptography.IKeyGenerator.RandomKey() -> byte[]!
+Useful.Security.Cryptography.IMonoAlphabeticSettings
+Useful.Security.Cryptography.IMonoAlphabeticSettings.CharacterSet.get -> string!
+Useful.Security.Cryptography.IMonoAlphabeticSettings.CharacterSet.set -> void
+Useful.Security.Cryptography.IMonoAlphabeticSettings.Reverse(char letter) -> char
+Useful.Security.Cryptography.IMonoAlphabeticSettings.SubstitutionCount.get -> int
+Useful.Security.Cryptography.IMonoAlphabeticSettings.Substitutions.get -> string!
+Useful.Security.Cryptography.IMonoAlphabeticSettings.this[char substitution].get -> char
+Useful.Security.Cryptography.IMonoAlphabeticSettings.this[char substitution].set -> void
+Useful.Security.Cryptography.MonoAlphabetic
+Useful.Security.Cryptography.MonoAlphabetic.CipherName.get -> string!
+Useful.Security.Cryptography.MonoAlphabetic.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.MonoAlphabetic.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.MonoAlphabetic.MonoAlphabetic(Useful.Security.Cryptography.IMonoAlphabeticSettings! settings) -> void
+Useful.Security.Cryptography.MonoAlphabetic.Settings.get -> Useful.Security.Cryptography.IMonoAlphabeticSettings!
+Useful.Security.Cryptography.MonoAlphabetic.Settings.set -> void
+Useful.Security.Cryptography.MonoAlphabeticSettings
+Useful.Security.Cryptography.MonoAlphabeticSettings.CharacterSet.get -> string!
+Useful.Security.Cryptography.MonoAlphabeticSettings.CharacterSet.set -> void
+Useful.Security.Cryptography.MonoAlphabeticSettings.MonoAlphabeticSettings() -> void
+Useful.Security.Cryptography.MonoAlphabeticSettings.MonoAlphabeticSettings(string! characterSet, string! substitutions) -> void
+Useful.Security.Cryptography.MonoAlphabeticSettings.Reverse(char letter) -> char
+Useful.Security.Cryptography.MonoAlphabeticSettings.SubstitutionCount.get -> int
+Useful.Security.Cryptography.MonoAlphabeticSettings.Substitutions.get -> string!
+Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].get -> char
+Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].set -> void
+Useful.Security.Cryptography.MonoAlphabeticSymmetric
+Useful.Security.Cryptography.MonoAlphabeticSymmetric.MonoAlphabeticSymmetric() -> void
 Useful.Security.Cryptography.ROT13
 Useful.Security.Cryptography.ROT13.CipherName.get -> string!
 Useful.Security.Cryptography.ROT13.Decrypt(string! ciphertext) -> string!
@@ -78,6 +104,16 @@ override Useful.Security.Cryptography.CaesarSymmetric.IV.set -> void
 override Useful.Security.Cryptography.CaesarSymmetric.Key.get -> byte[]!
 override Useful.Security.Cryptography.CaesarSymmetric.Key.set -> void
 override Useful.Security.Cryptography.CaesarSymmetric.ToString() -> string!
+override Useful.Security.Cryptography.MonoAlphabetic.ToString() -> string!
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.GenerateIV() -> void
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.GenerateKey() -> void
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.IV.get -> byte[]!
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.IV.set -> void
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.Key.get -> byte[]!
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.Key.set -> void
+override Useful.Security.Cryptography.MonoAlphabeticSymmetric.ToString() -> string!
 override Useful.Security.Cryptography.ROT13.ToString() -> string!
 override Useful.Security.Cryptography.ROT13Symmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
 override Useful.Security.Cryptography.ROT13Symmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!

@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -22,11 +23,11 @@ namespace Useful.Security.Cryptography.Tests
         };
 
         [Theory]
-        [InlineData(7)]
+        [InlineData(1)]
         public void Ctor(int rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            using CaesarSymmetric cipher = new CaesarSymmetric(new CaesarSettings(rightShift));
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             Assert.Equal(key, cipher.Key);
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -38,7 +39,7 @@ namespace Useful.Security.Cryptography.Tests
         public void KeyInRange(int rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
-            using CaesarSymmetric cipher = new CaesarSymmetric
+            using SymmetricAlgorithm cipher = new CaesarSymmetric
             {
                 Key = key,
             };
@@ -53,7 +54,7 @@ namespace Useful.Security.Cryptography.Tests
         public void KeyOutOfRange(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             Assert.Throws<ArgumentOutOfRangeException>("key", () => cipher.Key = key);
         }
 
@@ -63,7 +64,7 @@ namespace Useful.Security.Cryptography.Tests
         public void KeyIncorrectFormat(string rightShift)
         {
             byte[] key = Encoding.Unicode.GetBytes(rightShift);
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             Assert.Throws<ArgumentException>("key", () => cipher.Key = key);
         }
 
@@ -71,7 +72,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string plaintext, string ciphertext, int rightShift)
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric
+            using SymmetricAlgorithm cipher = new CaesarSymmetric
             {
                 Key = Encoding.Unicode.GetBytes($"{rightShift}"),
             };
@@ -82,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Encrypt(string plaintext, string ciphertext, int rightShift)
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric
+            using SymmetricAlgorithm cipher = new CaesarSymmetric
             {
                 Key = Encoding.Unicode.GetBytes($"{rightShift}"),
             };
@@ -92,7 +93,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             cipher.GenerateIV();
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -100,7 +101,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric
+            using SymmetricAlgorithm cipher = new CaesarSymmetric
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
@@ -110,7 +111,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             string keyString;
             for (int i = 0; i < 100; i++)
             {
@@ -126,7 +127,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             bool diff = false;
 
-            using (CaesarSymmetric cipher = new CaesarSymmetric())
+            using (SymmetricAlgorithm cipher = new CaesarSymmetric())
             {
                 byte[] key = Array.Empty<byte>();
                 byte[] newKey;
@@ -155,7 +156,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             byte[] key = Encoding.Unicode.GetBytes("7");
             cipher.Key = key;
             Assert.Equal(key, cipher.Key);
@@ -164,7 +165,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using CaesarSymmetric cipher = new CaesarSymmetric();
+            using SymmetricAlgorithm cipher = new CaesarSymmetric();
             Assert.Equal("Caesar", cipher.ToString());
         }
 
@@ -174,7 +175,12 @@ namespace Useful.Security.Cryptography.Tests
             string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            using CaesarSymmetric cipher = new CaesarSymmetric(new CaesarSettings(7));
+            byte[] key = Encoding.Unicode.GetBytes("7");
+            using SymmetricAlgorithm cipher = new CaesarSymmetric
+            {
+                Key = key,
+            };
+
             Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }

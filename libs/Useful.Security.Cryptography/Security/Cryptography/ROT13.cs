@@ -16,10 +16,7 @@ namespace Useful.Security.Cryptography
         public string CipherName => "ROT13";
 
         /// <inheritdoc />
-        public string Decrypt(string ciphertext)
-        {
-            return Encrypt(ciphertext);
-        }
+        public string Decrypt(string ciphertext) => Encrypt(ciphertext);
 
         /// <inheritdoc />
         public string Encrypt(string plaintext)
@@ -56,9 +53,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc/>
-        public override string ToString()
-        {
-            return CipherName;
-        }
+        public override string ToString() => CipherName;
     }
 }

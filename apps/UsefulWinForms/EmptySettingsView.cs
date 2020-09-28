@@ -10,10 +10,7 @@ namespace UsefulWinForms
 
     public partial class EmptySettingsView : UserControl, ICipherSettingsView
     {
-        public EmptySettingsView()
-        {
-            InitializeComponent();
-        }
+        public EmptySettingsView() => InitializeComponent();
 
         public void SetController(IController controller)
         {

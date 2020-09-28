@@ -5,8 +5,6 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -26,10 +24,7 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData(-1)]
         [InlineData(26)]
-        public void ConstructOutOfRange(int rightShift)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(rightShift), () => new CaesarSettings(rightShift));
-        }
+        public void ConstructOutOfRange(int rightShift) => Assert.Throws<ArgumentOutOfRangeException>(nameof(rightShift), () => new CaesarSettings(rightShift));
 
         [Theory]
         [InlineData(0)]

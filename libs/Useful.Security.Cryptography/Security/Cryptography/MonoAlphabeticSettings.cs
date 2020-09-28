@@ -5,37 +5,14 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    public sealed class MonoAlphabeticSettings : CipherSettings, INotifyCollectionChanged
+    public sealed class MonoAlphabeticSettings : IMonoAlphabeticSettings
     {
-        /// <summary>
-        /// States how many parts there are in the key.
-        /// </summary>
-        private const int KeyParts = 2;
-
-        /// <summary>
-        /// The char that separates part of the key.
-        /// </summary>
-        private const char KeySeperator = '|';
-
-        /// <summary>
-        /// The encoding used by this cipher.
-        /// </summary>
-        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
-
-        /// <summary>
-        /// The current substitutions.
-        /// </summary>
-        private string _substitutions = string.Empty;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
         /// </summary>
@@ -47,28 +24,9 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
         /// </summary>
-        /// <param name="key">The encryption Key.</param>
-        public MonoAlphabeticSettings(byte[] key)
-        {
-            (string characterSet, string substitutions) = ParseKey(key);
-            try
-            {
-                ParseCharacterSet(characterSet);
-                ParseSubstitutions(substitutions);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException("Argument exception.", nameof(key), ex);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
-        /// </summary>
         /// <param name="characterSet">The valid character set.</param>
         /// <param name="substitutions">A substitution for each character.</param>
         public MonoAlphabeticSettings(string characterSet, string substitutions)
-            : base()
         {
             if (characterSet == null)
             {
@@ -85,26 +43,12 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public event NotifyCollectionChangedEventHandler? CollectionChanged = (sender, e) => { };
+        public string Substitutions { get; private set; } = string.Empty;
 
         /// <inheritdoc />
-        public override IEnumerable<byte> Key
-        {
-            get
-            {
-                // CharacterSet|Substitutions
-                StringBuilder key = new StringBuilder(CharacterSet);
-                key.Append(KeySeperator);
-                key.Append(_substitutions);
-                return Encoding.GetBytes(key.ToString()).ToList();
-            }
-        }
+        public string CharacterSet { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        /// <summary>
-        /// Gets the number of substitutions made. One distinct pair swapped equals one substitution.
-        /// </summary>
-        /// <value>The number of distinct substitutions.</value>
-        /// <returns>The number of distinct substitutions made.</returns>
+        /// <inheritdoc />
         public int SubstitutionCount
         {
             get
@@ -113,7 +57,7 @@ namespace Useful.Security.Cryptography
 
                 for (int i = 0; i < CharacterSet.Length; i++)
                 {
-                    if (CharacterSet[i] != _substitutions[i])
+                    if (CharacterSet[i] != Substitutions[i])
                     {
                         count++;
                     }
@@ -123,10 +67,7 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Gets or sets the current substitutions.
-        /// </summary>
-        /// <param name="substitution">The position to set.</param>
+        /// <inheritdoc />
         public char this[char substitution]
         {
             get
@@ -137,7 +78,7 @@ namespace Useful.Security.Cryptography
                     return substitution;
                 }
 
-                return _substitutions[subsIndex];
+                return Substitutions[subsIndex];
             }
 
             set
@@ -160,53 +101,32 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Substitution must be an valid character.", nameof(value));
                 }
 
-                if (_substitutions[fromIndex] == to)
+                if (Substitutions[fromIndex] == to)
                 {
                     // Trying to set the same as already set
                     return;
                 }
 
-                char fromSubs = _substitutions[fromIndex];
-                int toInvIndex = _substitutions.IndexOf(to);
-                char toInv = CharacterSet[toInvIndex];
+                char fromSubs = Substitutions[fromIndex];
+                int toInvIndex = Substitutions.IndexOf(to);
+                //// char toInv = CharacterSet[toInvIndex];
 
-                if (_substitutions[fromIndex] == to)
+                if (Substitutions[fromIndex] == to)
                 {
                     return;
                 }
 
-                char[] temp = _substitutions.ToArray();
+                char[] temp = Substitutions.ToArray();
                 temp[fromIndex] = to;
-                _substitutions = new string(temp);
+                Substitutions = new string(temp);
                 temp[toInvIndex] = fromSubs;
-                _substitutions = new string(temp);
+                Substitutions = new string(temp);
 
-                OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(
-                        NotifyCollectionChangedAction.Replace,
-                        new KeyValuePair<char, char>(from, to),
-                        new KeyValuePair<char, char>(from, fromSubs),
-                        CharacterSet.IndexOf(from)));
-
-                OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(
-                        NotifyCollectionChangedAction.Replace,
-                        new KeyValuePair<char, char>(toInv, fromSubs),
-                        new KeyValuePair<char, char>(toInv, to),
-                        CharacterSet.IndexOf(toInv)));
-
-                Debug.Print($"{string.Join(string.Empty, _substitutions)}");
-
-                NotifyPropertyChanged("Item");
-                NotifyPropertyChanged(nameof(Key));
+                Debug.Print($"{string.Join(string.Empty, Substitutions)}");
             }
         }
 
-        /// <summary>
-        /// Gets the reverse substitution for a letter.
-        /// </summary>
-        /// <param name="letter">The letter to match.</param>
-        /// <returns>The letter that substiutes to this letter.</returns>
+        /// <inheritdoc />
         public char Reverse(char letter)
         {
             if (CharacterSet.IndexOf(letter) < 0)
@@ -214,42 +134,7 @@ namespace Useful.Security.Cryptography
                 return letter;
             }
 
-            return _substitutions.First(x => this[x] == letter);
-        }
-
-        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
-        {
-            // Example:
-            // characterSet|substitutions
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (key.SequenceEqual(Array.Empty<byte>()))
-            {
-                throw new ArgumentException("Invalid format.", nameof(key));
-            }
-
-            string keyString = Encoding.GetString(key);
-
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
-
-            if (parts.Length != KeyParts)
-            {
-                throw new ArgumentException("Incorrect number of key parts.", nameof(key));
-            }
-
-            return (parts[0], parts[1]);
-        }
-
-        /// <summary>
-        /// Used to raise the <see cref="CollectionChanged" /> event.
-        /// </summary>
-        /// <param name="e">Arguments of the event being raised.</param>
-        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            CollectionChanged?.Invoke(this, e);
+            return Substitutions.First(x => this[x] == letter);
         }
 
         private void ParseCharacterSet(string characterSet)
@@ -301,7 +186,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
             }
 
-            _substitutions = substitutions;
+            Substitutions = substitutions;
         }
     }
 }
