@@ -6,7 +6,5 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <NoWarn>1701;1702;1705;1591</NoWarn>
-    <CodeAnalysisRuleSet>..\useful.apps.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
 </Project>

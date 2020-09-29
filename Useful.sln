@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A9F1B7C-7FB4-4292-87EF-C5A0EB53C24B}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		README.md = README.md
 		stylecop.json = stylecop.json
@@ -19,7 +20,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
 	ProjectSection(SolutionItems) = preProject
 		apps\Directory.Build.props = apps\Directory.Build.props
-		apps\useful.apps.ruleset = apps\useful.apps.ruleset
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22E4FF0E-F363-451E-8D59-8F41C560DE57}"
@@ -31,7 +31,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{32EC7DCC-3276-4493-860F-5E58FADEAF64}"
 	ProjectSection(SolutionItems) = preProject
 		libs\Directory.Build.props = libs\Directory.Build.props
-		libs\useful.libs.ruleset = libs\useful.libs.ruleset
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWinForms", "apps\UsefulWinForms\UsefulWinForms.csproj", "{378A54C9-55E7-4C69-8E5D-D5B9676C664B}"
@@ -48,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Security.Cryptograph
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI.Tests", "test\WebAPI.Tests\WebAPI.Tests.csproj", "{45B4FFDE-EC80-4C0E-94C3-FAADBA1E1657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsefulBlazor", "apps\UsefulBlazor\UsefulBlazor.csproj", "{8B02B0BC-27DB-4C02-B481-23E783613E90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulBlazor", "apps\UsefulBlazor\UsefulBlazor.csproj", "{8B02B0BC-27DB-4C02-B481-23E783613E90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

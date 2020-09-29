@@ -88,7 +88,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Value must be a number.", nameof(key));
             }
 
-            if (rightShift < 0 || rightShift > 25)
+            if (rightShift is < 0 or > 25)
             {
                 throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.");
             }

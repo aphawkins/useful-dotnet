@@ -46,13 +46,13 @@ namespace Useful.Security.Cryptography
                 int c = ciphertext[i];
 
                 // Uppercase
-                if (c >= 'A' && c <= 'Z')
+                if (c is >= 'A' and <= 'Z')
                 {
                     sb.Append((char)(((c - 'A' + 26 - ((CaesarSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= 'a' && c <= 'z')
+                else if (c is >= 'a' and <= 'z')
                 {
                     sb.Append((char)(((c - 'a' + 26 - ((CaesarSettings)Settings).RightShift) % 26) + 'a'));
                 }
@@ -80,13 +80,13 @@ namespace Useful.Security.Cryptography
                 int c = plaintext[i];
 
                 // Uppercase
-                if (c >= 'A' && c <= 'Z')
+                if (c is >= 'A' and <= 'Z')
                 {
                     sb.Append((char)(((c - 'A' + ((CaesarSettings)Settings).RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= 'a' && c <= 'z')
+                else if (c is >= 'a' and <= 'z')
                 {
                     sb.Append((char)(((c - 'a' + ((CaesarSettings)Settings).RightShift) % 26) + 'a'));
                 }

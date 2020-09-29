@@ -33,13 +33,13 @@ namespace Useful.Security.Cryptography
                 int c = plaintext[i];
 
                 // Uppercase
-                if (c >= 'A' && c <= 'Z')
+                if (c is >= 'A' and <= 'Z')
                 {
                     sb.Append((char)(((c - 'A' + 13) % 26) + 'A'));
                 }
 
                 // Lowercase
-                else if (c >= 'a' && c <= 'z')
+                else if (c is >= 'a' and <= 'z')
                 {
                     sb.Append((char)(((c - 'a' + 13) % 26) + 'a'));
                 }

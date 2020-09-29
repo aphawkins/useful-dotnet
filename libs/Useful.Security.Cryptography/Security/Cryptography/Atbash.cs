@@ -42,12 +42,12 @@ namespace Useful.Security.Cryptography
 
         private static char Encrypt(char letter)
         {
-            if (letter >= 'A' && letter <= 'Z')
+            if (letter is >= 'A' and <= 'Z')
             {
                 // A=Z, B=Y, C=X, etc
                 return (char)('Z' - (letter % 'A'));
             }
-            else if (letter >= 'a' && letter <= 'z')
+            else if (letter is >= 'a' and <= 'z')
             {
                 return (char)('z' - (letter % 'a'));
             }

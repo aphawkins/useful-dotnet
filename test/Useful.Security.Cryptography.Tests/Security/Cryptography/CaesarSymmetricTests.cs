@@ -118,7 +118,7 @@ namespace Useful.Security.Cryptography.Tests
                 cipher.GenerateKey();
                 keyString = Encoding.Unicode.GetString(cipher.Key);
                 Assert.True(int.TryParse(keyString, out int key));
-                Assert.True(key >= 0 && key < 26);
+                Assert.True(key is >= 0 and < 26);
             }
         }
 

@@ -33,7 +33,7 @@ namespace Useful.Security.Cryptography
         public CaesarSettings(int rightShift)
             : base()
         {
-            if (rightShift < 0 || rightShift > 25)
+            if (rightShift is < 0 or > 25)
             {
                 throw new ArgumentOutOfRangeException(nameof(rightShift), "Value must be between 0 and 25.");
             }
@@ -50,7 +50,7 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                if (value < 0 || value > 25)
+                if (value is < 0 or > 25)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 25.");
                 }
