@@ -18,18 +18,17 @@ namespace Useful.Security.Cryptography.UI.Controllers.Tests
         private readonly Mock<ICipher> _moqCipher;
         private readonly Mock<IRepository<ICipher>> _moqRepository;
         private readonly Mock<ICipherView> _moqView;
-        private readonly Mock<ICipherSettings> _moqSettings;
+        private readonly Mock<object> _moqSettings;
         private readonly Mock<ICipherSettingsView> _moqSettingsView;
         private readonly CipherController _controller;
 
         public CipherControllerTests()
         {
-            _moqSettings = new Mock<ICipherSettings>();
+            _moqSettings = new Mock<object>();
             _moqSettingsView = new Mock<ICipherSettingsView>();
             _moqCipher = new Mock<ICipher>();
             _moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
             _moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
-            _moqCipher.Setup(x => x.Settings).Returns(() => _moqSettings.Object);
             _moqRepository = new Mock<IRepository<ICipher>>();
             _moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { _moqCipher.Object });
             _moqRepository.Setup(x => x.CurrentItem).Returns(() => _moqCipher.Object);
@@ -47,7 +46,7 @@ namespace Useful.Security.Cryptography.UI.Controllers.Tests
         [Fact]
         public void SelectCipher()
         {
-            _controller.SelectCipher(_moqCipher.Object, _moqSettingsView.Object);
+            _controller.SelectCipher(_moqCipher.Object, _moqSettings.Object, _moqSettingsView.Object);
             _moqRepository.Verify(x => x.SetCurrentItem(It.IsAny<Func<ICipher, bool>>()));
         }
 

@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
 	ProjectSection(SolutionItems) = preProject
 		apps\Directory.Build.props = apps\Directory.Build.props
+		apps\useful.apps.ruleset = apps\useful.apps.ruleset
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22E4FF0E-F363-451E-8D59-8F41C560DE57}"
@@ -31,6 +32,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{32EC7DCC-3276-4493-860F-5E58FADEAF64}"
 	ProjectSection(SolutionItems) = preProject
 		libs\Directory.Build.props = libs\Directory.Build.props
+		libs\useful.libs.ruleset = libs\useful.libs.ruleset
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWinForms", "apps\UsefulWinForms\UsefulWinForms.csproj", "{378A54C9-55E7-4C69-8E5D-D5B9676C664B}"

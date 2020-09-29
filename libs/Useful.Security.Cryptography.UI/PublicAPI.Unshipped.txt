@@ -1,18 +1,24 @@
-﻿Useful.Security.Cryptography.UI.Controllers.CipherController
+﻿Useful.Security.Cryptography.CaesarSettingsObservable
+Useful.Security.Cryptography.CaesarSettingsObservable.CaesarSettingsObservable() -> void
+Useful.Security.Cryptography.CaesarSettingsObservable.CaesarSettingsObservable(int rightShift) -> void
+Useful.Security.Cryptography.CaesarSettingsObservable.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Useful.Security.Cryptography.CaesarSettingsObservable.RightShift.get -> int
+Useful.Security.Cryptography.CaesarSettingsObservable.RightShift.set -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController
 Useful.Security.Cryptography.UI.Controllers.CipherController.CipherController(Useful.IRepository<Useful.Security.Cryptography.ICipher!>! repository, Useful.Security.Cryptography.UI.Views.ICipherView! cipherView) -> void
 Useful.Security.Cryptography.UI.Controllers.CipherController.Decrypt(string! ciphertext) -> void
 Useful.Security.Cryptography.UI.Controllers.CipherController.Encrypt(string! plaintext) -> void
 Useful.Security.Cryptography.UI.Controllers.CipherController.GetCiphers() -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.ICipher!>!
 Useful.Security.Cryptography.UI.Controllers.CipherController.LoadView() -> void
-Useful.Security.Cryptography.UI.Controllers.CipherController.SelectCipher(Useful.Security.Cryptography.ICipher! cipher, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! settingsView) -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController.SelectCipher(Useful.Security.Cryptography.ICipher! cipher, object! cipherSettings, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! settingsView) -> void
 Useful.Security.Cryptography.UI.Controllers.IController
 Useful.Security.Cryptography.UI.Controllers.IController.LoadView() -> void
 Useful.Security.Cryptography.UI.Controllers.ISettingsController
-Useful.Security.Cryptography.UI.Controllers.ISettingsController.Settings.get -> Useful.Security.Cryptography.ICipherSettings!
+Useful.Security.Cryptography.UI.Controllers.ISettingsController.Settings.get -> object!
 Useful.Security.Cryptography.UI.Controllers.SettingsController
 Useful.Security.Cryptography.UI.Controllers.SettingsController.LoadView() -> void
-Useful.Security.Cryptography.UI.Controllers.SettingsController.Settings.get -> Useful.Security.Cryptography.ICipherSettings!
-Useful.Security.Cryptography.UI.Controllers.SettingsController.SettingsController(Useful.Security.Cryptography.ICipherSettings! cipherSettings, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! cipherSettingsView) -> void
+Useful.Security.Cryptography.UI.Controllers.SettingsController.Settings.get -> object!
+Useful.Security.Cryptography.UI.Controllers.SettingsController.SettingsController(object! cipherSettings, Useful.Security.Cryptography.UI.Views.ICipherSettingsView! cipherSettingsView) -> void
 Useful.Security.Cryptography.UI.Models.CipherModel
 Useful.Security.Cryptography.UI.Models.CipherModel.CipherModel() -> void
 Useful.Security.Cryptography.UI.Models.CipherModel.Ciphertext.get -> string!

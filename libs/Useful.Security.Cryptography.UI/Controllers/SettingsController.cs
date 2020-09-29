@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// </summary>
         /// <param name="cipherSettings">The cipher's settings.</param>
         /// <param name="cipherSettingsView">The view that is controlled.</param>
-        public SettingsController(ICipherSettings cipherSettings, ICipherSettingsView cipherSettingsView)
+        public SettingsController(object cipherSettings, ICipherSettingsView cipherSettingsView)
         {
             _view = cipherSettingsView ?? throw new ArgumentNullException(nameof(cipherSettingsView));
             Settings = cipherSettings ?? throw new ArgumentNullException(nameof(cipherSettings));
@@ -30,7 +30,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Gets the cipher's settings.
         /// </summary>
-        public ICipherSettings Settings
+        public object Settings
         {
             get;
             private set;

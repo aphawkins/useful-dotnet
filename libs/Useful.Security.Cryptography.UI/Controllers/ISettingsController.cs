@@ -14,7 +14,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Gets the cipher settings.
         /// </summary>
-        ICipherSettings Settings
+        object Settings
         {
             get;
         }

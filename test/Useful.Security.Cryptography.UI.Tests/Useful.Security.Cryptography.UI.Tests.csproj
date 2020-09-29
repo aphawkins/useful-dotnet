@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ViewModels\CaesarCipherSettingsTests.cs" />
     <Compile Remove="ViewModels\CaesarSettings.cs" />
+    <Compile Remove="ViewModels\CaesarSettingsTests.cs" />
     <Compile Remove="ViewModels\CipherViewModelTests.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettingsTests.cs" />
@@ -24,6 +24,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Moq" Version="4.14.5" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
@@ -33,10 +37,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\libs\Useful.Security.Cryptography.UI\Useful.Security.Cryptography.UI.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
