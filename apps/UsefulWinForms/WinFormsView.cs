@@ -8,6 +8,7 @@ namespace UsefulWinForms
     using System.Windows.Forms;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Useful.Security.Cryptography.UI.Views;
 
     public partial class WinFormsView : Form, IDisposableCipherView
@@ -57,26 +58,26 @@ namespace UsefulWinForms
 
             if (cipher is Atbash)
             {
-                _controller!.SelectCipher(cipher, new EmptySettingsView());
+                _controller!.SelectCipher(cipher, new EmptySettingsViewModel(), new EmptySettingsView());
             }
 
-            if (cipher is Caesar)
+            if (cipher is Caesar caesar)
             {
-                _controller!.SelectCipher(cipher, new CaesarSettingsView());
+                _controller!.SelectCipher(cipher, new CaesarSettingsViewModel(caesar.Settings), new CaesarSettingsView());
             }
 
-            if (cipher is MonoAlphabetic)
-            {
-                _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
-            }
+            ////if (cipher is MonoAlphabetic)
+            ////{
+            ////    _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
+            ////}
 
-            if (cipher is Reflector)
-            {
-                _controller!.SelectCipher(cipher, new ReflectorSettingsView());
-            }
+            ////if (cipher is Reflector)
+            ////{
+            ////    _controller!.SelectCipher(cipher, new ReflectorSettingsView());
+            ////}
             else if (cipher is ROT13)
             {
-                _controller!.SelectCipher(cipher, new EmptySettingsView());
+                _controller!.SelectCipher(cipher, new EmptySettingsViewModel(), new EmptySettingsView());
             }
         }
     }

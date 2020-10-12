@@ -8,22 +8,22 @@ namespace UsefulWinForms
     using System.Data;
     using System.Linq;
     using System.Windows.Forms;
-    using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Useful.Security.Cryptography.UI.Views;
 
     internal partial class MonoAlphabeticSettingsView : UserControl, ICipherSettingsView
     {
         private readonly List<ComboBox> _combos = new List<ComboBox>();
         private SettingsController? _controller;
-        private ReflectorSettings? _settings;
+        private MonoAlphabeticSettingsObservable? _settings;
 
         public MonoAlphabeticSettingsView() => InitializeComponent();
 
         public void SetController(IController controller)
         {
             _controller = (SettingsController)controller;
-            _settings = (ReflectorSettings)_controller.Settings;
+            _settings = (MonoAlphabeticSettingsObservable)_controller.Settings;
             _settings.PropertyChanged += (sender, e) => SettingsChanged();
         }
 

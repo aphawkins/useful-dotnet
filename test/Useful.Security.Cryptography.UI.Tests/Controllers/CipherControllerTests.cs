@@ -10,6 +10,7 @@ namespace Useful.Security.Cryptography.UI.Controllers.Tests
     using Useful;
     using Useful.Security.Cryptography;
     using Useful.Security.Cryptography.UI.Controllers;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Useful.Security.Cryptography.UI.Views;
     using Xunit;
 
@@ -18,13 +19,13 @@ namespace Useful.Security.Cryptography.UI.Controllers.Tests
         private readonly Mock<ICipher> _moqCipher;
         private readonly Mock<IRepository<ICipher>> _moqRepository;
         private readonly Mock<ICipherView> _moqView;
-        private readonly Mock<object> _moqSettings;
+        private readonly Mock<ICipherSettingsViewModel> _moqSettings;
         private readonly Mock<ICipherSettingsView> _moqSettingsView;
         private readonly CipherController _controller;
 
         public CipherControllerTests()
         {
-            _moqSettings = new Mock<object>();
+            _moqSettings = new Mock<ICipherSettingsViewModel>();
             _moqSettingsView = new Mock<ICipherSettingsView>();
             _moqCipher = new Mock<ICipher>();
             _moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");

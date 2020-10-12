@@ -7,6 +7,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
     using System;
     using System.Collections.Generic;
     using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Useful.Security.Cryptography.UI.Views;
 
     /// <summary>
@@ -61,9 +62,9 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// Selects the current cipher.
         /// </summary>
         /// <param name="cipher">The cipher to select.</param>
-        /// <param name="cipherSettings">The cipher's settings.</param>
+        /// <param name="cipherSettingsObservable">The cipher's settings.</param>
         /// <param name="settingsView">The view to select.</param>
-        public void SelectCipher(ICipher cipher, object cipherSettings, ICipherSettingsView settingsView)
+        public void SelectCipher(ICipher cipher, ICipherSettingsViewModel cipherSettingsObservable, ICipherSettingsView settingsView)
         {
             if (cipher == null)
             {
@@ -77,7 +78,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
 
             _repository.SetCurrentItem(x => x == cipher);
 
-            _settingsController = new SettingsController(cipherSettings, settingsView);
+            _settingsController = new SettingsController(cipherSettingsObservable, settingsView);
             _settingsController?.LoadView();
 
             // _repository.CurrentItem.Settings = _settingsController?.Settings;

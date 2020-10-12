@@ -4,7 +4,7 @@
 
 namespace Useful.Security.Cryptography.UI.Controllers
 {
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.UI.ViewModels;
 
     /// <summary>
     /// The setting controller.
@@ -14,7 +14,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Gets the cipher settings.
         /// </summary>
-        object Settings
+        ICipherSettingsViewModel Settings
         {
             get;
         }

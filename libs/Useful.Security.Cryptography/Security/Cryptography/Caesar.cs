@@ -48,13 +48,13 @@ namespace Useful.Security.Cryptography
                 // Uppercase
                 if (c is >= 'A' and <= 'Z')
                 {
-                    sb.Append((char)(((c - 'A' + 26 - ((CaesarSettings)Settings).RightShift) % 26) + 'A'));
+                    sb.Append((char)(((c - 'A' + 26 - Settings.RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
                 else if (c is >= 'a' and <= 'z')
                 {
-                    sb.Append((char)(((c - 'a' + 26 - ((CaesarSettings)Settings).RightShift) % 26) + 'a'));
+                    sb.Append((char)(((c - 'a' + 26 - Settings.RightShift) % 26) + 'a'));
                 }
                 else
                 {
@@ -82,13 +82,13 @@ namespace Useful.Security.Cryptography
                 // Uppercase
                 if (c is >= 'A' and <= 'Z')
                 {
-                    sb.Append((char)(((c - 'A' + ((CaesarSettings)Settings).RightShift) % 26) + 'A'));
+                    sb.Append((char)(((c - 'A' + Settings.RightShift) % 26) + 'A'));
                 }
 
                 // Lowercase
                 else if (c is >= 'a' and <= 'z')
                 {
-                    sb.Append((char)(((c - 'a' + ((CaesarSettings)Settings).RightShift) % 26) + 'a'));
+                    sb.Append((char)(((c - 'a' + Settings.RightShift) % 26) + 'a'));
                 }
                 else
                 {

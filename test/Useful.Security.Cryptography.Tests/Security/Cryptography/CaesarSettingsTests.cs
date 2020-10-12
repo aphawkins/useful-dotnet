@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(25)]
         public void Construct(int rightShift)
         {
-            CaesarSettings settings = new CaesarSettings(rightShift);
+            ICaesarSettings settings = new CaesarSettings(rightShift);
 
             Assert.Equal(rightShift, settings.RightShift);
         }
@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(25)]
         public void SetRightShift(int rightShift)
         {
-            CaesarSettings settings = new CaesarSettings
+            ICaesarSettings settings = new CaesarSettings
             {
                 RightShift = rightShift,
             };
@@ -45,7 +45,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(26)]
         public void SetRightShiftOutOfRange(int rightShift)
         {
-            CaesarSettings settings = new CaesarSettings();
+            ICaesarSettings settings = new CaesarSettings();
             Assert.Throws<ArgumentOutOfRangeException>("value", () => settings.RightShift = rightShift);
         }
     }

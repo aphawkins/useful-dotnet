@@ -1,4 +1,4 @@
-﻿// <copyright file="MonoAlphabeticSettings.cs" company="APH Software">
+﻿// <copyright file="MonoAlphabeticObservableSettings.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 

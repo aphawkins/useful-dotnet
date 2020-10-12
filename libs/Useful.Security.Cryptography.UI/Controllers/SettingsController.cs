@@ -5,7 +5,7 @@
 namespace Useful.Security.Cryptography.UI.Controllers
 {
     using System;
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Useful.Security.Cryptography.UI.Views;
 
     /// <summary>
@@ -18,19 +18,19 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsController"/> class.
         /// </summary>
-        /// <param name="cipherSettings">The cipher's settings.</param>
+        /// <param name="cipherSettingsObservable">The cipher's settings.</param>
         /// <param name="cipherSettingsView">The view that is controlled.</param>
-        public SettingsController(object cipherSettings, ICipherSettingsView cipherSettingsView)
+        public SettingsController(ICipherSettingsViewModel cipherSettingsObservable, ICipherSettingsView cipherSettingsView)
         {
             _view = cipherSettingsView ?? throw new ArgumentNullException(nameof(cipherSettingsView));
-            Settings = cipherSettings ?? throw new ArgumentNullException(nameof(cipherSettings));
+            Settings = cipherSettingsObservable ?? throw new ArgumentNullException(nameof(cipherSettingsObservable));
             _view.SetController(this);
         }
 
         /// <summary>
         /// Gets the cipher's settings.
         /// </summary>
-        public object Settings
+        public ICipherSettingsViewModel Settings
         {
             get;
             private set;

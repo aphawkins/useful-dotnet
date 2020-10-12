@@ -1,8 +1,8 @@
-﻿// <copyright file="CaesarSettingsObservable.cs" company="APH Software">
+﻿// <copyright file="CaesarSettingsViewModel.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -10,22 +10,21 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public sealed class CaesarSettingsObservable : ICaesarSettings, INotifyPropertyChanged
+    public sealed class CaesarSettingsViewModel : ICipherSettingsViewModel, INotifyPropertyChanged
     {
-        private readonly CaesarSettings _settings = new CaesarSettings();
+        private readonly ICaesarSettings _settings = new CaesarSettings();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSettingsObservable"/> class.
+        /// Initializes a new instance of the <see cref="CaesarSettingsViewModel"/> class.
         /// </summary>
-        public CaesarSettingsObservable()
-        {
-        }
+        /// <param name="settings">The cipher settings.</param>
+        public CaesarSettingsViewModel(ICaesarSettings settings) => _settings = settings;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CaesarSettingsObservable"/> class.
-        /// </summary>
-        /// <param name="rightShift">The right shift.</param>
-        public CaesarSettingsObservable(int rightShift) => _settings = new CaesarSettings(rightShift);
+        /////// <summary>
+        /////// Initializes a new instance of the <see cref="CaesarSettingsObservable"/> class.
+        /////// </summary>
+        /////// <param name="rightShift">The right shift.</param>
+        ////public CaesarSettingsObservable(int rightShift) => _settings = new CaesarSettings(rightShift);
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
