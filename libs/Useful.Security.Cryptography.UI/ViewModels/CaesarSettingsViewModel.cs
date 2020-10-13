@@ -20,12 +20,6 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <param name="settings">The cipher settings.</param>
         public CaesarSettingsViewModel(ICaesarSettings settings) => _settings = settings;
 
-        /////// <summary>
-        /////// Initializes a new instance of the <see cref="CaesarSettingsObservable"/> class.
-        /////// </summary>
-        /////// <param name="rightShift">The right shift.</param>
-        ////public CaesarSettingsObservable(int rightShift) => _settings = new CaesarSettings(rightShift);
-
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
 

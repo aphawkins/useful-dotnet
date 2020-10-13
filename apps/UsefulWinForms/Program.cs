@@ -24,8 +24,8 @@ namespace UsefulWinForms
 
             IRepository<ICipher> repository = new CipherRepository();
             repository.Create(new Atbash());
-            repository.Create(new Caesar());
-            ////repository.Create(new MonoAlphabetic());
+            repository.Create(new Caesar(new CaesarSettings()));
+            repository.Create(new MonoAlphabetic(new MonoAlphabeticSettings()));
             ////repository.Create(new Reflector());
             repository.Create(new ROT13());
             using IDisposableCipherView view = new WinFormsView();

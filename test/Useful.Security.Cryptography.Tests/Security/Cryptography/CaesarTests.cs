@@ -29,7 +29,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string plaintext, string ciphertext, int rightShift)
         {
-            Caesar cipher = new Caesar();
+            Caesar cipher = new Caesar(new CaesarSettings());
             cipher.Settings.RightShift = rightShift;
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Encrypt(string plaintext, string ciphertext, int rightShift)
         {
-            Caesar cipher = new Caesar();
+            Caesar cipher = new Caesar(new CaesarSettings());
             cipher.Settings.RightShift = rightShift;
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            Caesar cipher = new Caesar();
+            Caesar cipher = new Caesar(new CaesarSettings());
             Assert.Equal("Caesar", cipher.CipherName);
             Assert.Equal("Caesar", cipher.ToString());
         }

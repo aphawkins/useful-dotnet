@@ -15,11 +15,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
         /// </summary>
-        public Caesar() => Settings = new CaesarSettings();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Caesar"/> class.
-        /// </summary>
         /// <param name="settings">Settings.</param>
         public Caesar(ICaesarSettings settings) => Settings = settings;
 

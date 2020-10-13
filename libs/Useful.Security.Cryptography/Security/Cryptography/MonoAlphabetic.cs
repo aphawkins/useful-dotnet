@@ -12,14 +12,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class MonoAlphabetic : ICipher
     {
-        /////// <summary>
-        /////// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
-        /////// </summary>
-        ////public MonoAlphabetic()
-        ////{
-        ////    Settings = new MonoAlphabeticSettings();
-        ////}
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
         /// </summary>

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Compile Remove="ViewModels\CaesarSettings.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticObservableSettings.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
   </ItemGroup>
 
@@ -36,7 +35,8 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    </PackageReference>	
+    <PackageReference Include="System.ObjectModel" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

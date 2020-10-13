@@ -1,4 +1,4 @@
-// <copyright file="CaesarSettingsObservableTests.cs" company="APH Software">
+// <copyright file="CaesarSettingsViewModelTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,7 +8,7 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
-    public class CaesarSettingsObservableTests
+    public class CaesarSettingsViewModelTests
     {
         [Theory]
         [InlineData(0)]

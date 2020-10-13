@@ -1,4 +1,12 @@
-﻿Useful.Security.Cryptography.UI.Controllers.CipherController
+﻿Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.CharacterSet.get -> string!
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.MonoAlphabeticSettingsViewModel(Useful.Security.Cryptography.IMonoAlphabeticSettings! settings) -> void
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.SubstitutionCount.get -> int
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.Substitutions.get -> string!
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.this[char substitution].get -> char
+Useful.Security.Cryptography.MonoAlphabeticSettingsViewModel.this[char substitution].set -> void
+Useful.Security.Cryptography.UI.Controllers.CipherController
 Useful.Security.Cryptography.UI.Controllers.CipherController.CipherController(Useful.IRepository<Useful.Security.Cryptography.ICipher!>! repository, Useful.Security.Cryptography.UI.Views.ICipherView! cipherView) -> void
 Useful.Security.Cryptography.UI.Controllers.CipherController.Decrypt(string! ciphertext) -> void
 Useful.Security.Cryptography.UI.Controllers.CipherController.Encrypt(string! plaintext) -> void

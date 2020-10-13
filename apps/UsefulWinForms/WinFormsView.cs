@@ -66,10 +66,10 @@ namespace UsefulWinForms
                 _controller!.SelectCipher(cipher, new CaesarSettingsViewModel(caesar.Settings), new CaesarSettingsView());
             }
 
-            ////if (cipher is MonoAlphabetic)
-            ////{
-            ////    _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsView());
-            ////}
+            if (cipher is MonoAlphabetic monoAlphabetic)
+            {
+                _controller!.SelectCipher(cipher, new MonoAlphabeticSettingsViewModel(monoAlphabetic.Settings), new MonoAlphabeticSettingsView());
+            }
 
             ////if (cipher is Reflector)
             ////{

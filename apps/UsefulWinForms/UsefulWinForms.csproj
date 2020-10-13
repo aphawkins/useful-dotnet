@@ -10,14 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="MonoAlphabeticSettingsView.cs" />
-    <Compile Remove="MonoAlphabeticSettingsView.Designer.cs" />
     <Compile Remove="ReflectorSettingsView.cs" />
     <Compile Remove="ReflectorSettingsView.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="MonoAlphabeticSettingsView.resx" />
     <EmbeddedResource Remove="ReflectorSettingsView.resx" />
   </ItemGroup>
 

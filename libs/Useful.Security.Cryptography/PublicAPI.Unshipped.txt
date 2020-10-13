@@ -13,7 +13,6 @@ Useful.Security.Cryptography.Atbash.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.AtbashSymmetric
 Useful.Security.Cryptography.AtbashSymmetric.AtbashSymmetric() -> void
 Useful.Security.Cryptography.Caesar
-Useful.Security.Cryptography.Caesar.Caesar() -> void
 Useful.Security.Cryptography.Caesar.Caesar(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
 Useful.Security.Cryptography.Caesar.CipherName.get -> string!
 Useful.Security.Cryptography.Caesar.Decrypt(string! ciphertext) -> string!
