@@ -14,7 +14,6 @@ namespace Useful.Security.Cryptography
     public class CaesarSymmetric : SymmetricAlgorithm
     {
         private readonly Caesar _algorithm;
-        private readonly CaesarKeyGenerator _keyGen = new CaesarKeyGenerator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
@@ -23,7 +22,6 @@ namespace Useful.Security.Cryptography
         {
             Reset();
             _algorithm = new Caesar(new CaesarSettings());
-            _keyGen = new CaesarKeyGenerator();
         }
 
         /// <inheritdoc />
@@ -62,14 +60,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IVValue = _keyGen.RandomIv();
+            IVValue = Array.Empty<byte>();
             IV = IVValue;
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = _keyGen.RandomKey();
+            KeyValue = Encoding.Unicode.GetBytes(CaesarSettingsGenerator.Generate().RightShift.ToString());
             Key = KeyValue;
         }
 

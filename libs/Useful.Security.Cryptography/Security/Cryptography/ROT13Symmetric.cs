@@ -13,7 +13,6 @@ namespace Useful.Security.Cryptography
     public class ROT13Symmetric : SymmetricAlgorithm
     {
         private readonly ROT13 _algorithm;
-        private readonly KeyGenerator _keyGen = new KeyGenerator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ROT13Symmetric"/> class.
@@ -47,14 +46,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IVValue = _keyGen.RandomIv();
+            IVValue = Array.Empty<byte>();
             IV = IVValue;
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = _keyGen.RandomKey();
+            KeyValue = Array.Empty<byte>();
             Key = KeyValue;
         }
 

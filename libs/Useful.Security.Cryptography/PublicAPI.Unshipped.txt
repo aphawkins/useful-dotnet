@@ -46,9 +46,6 @@ Useful.Security.Cryptography.ICipher
 Useful.Security.Cryptography.ICipher.CipherName.get -> string!
 Useful.Security.Cryptography.ICipher.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ICipher.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.IKeyGenerator
-Useful.Security.Cryptography.IKeyGenerator.RandomIv() -> byte[]!
-Useful.Security.Cryptography.IKeyGenerator.RandomKey() -> byte[]!
 Useful.Security.Cryptography.IMonoAlphabeticSettings
 Useful.Security.Cryptography.IMonoAlphabeticSettings.CharacterSet.get -> string!
 Useful.Security.Cryptography.IMonoAlphabeticSettings.CharacterSet.set -> void

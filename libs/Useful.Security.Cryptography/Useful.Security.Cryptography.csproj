@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Security\Cryptography\CaesarKeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\CaesarSettings - Copy.cs" />
     <Compile Remove="Security\Cryptography\CipherSettings.cs" />
     <Compile Remove="Security\Cryptography\ClassicalSymmetricAlgorithm.cs" />
@@ -36,6 +37,8 @@
     <Compile Remove="Security\Cryptography\EnigmaUINameConverter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaWheel.cs" />
     <Compile Remove="Security\Cryptography\ICipherSettings.cs" />
+    <Compile Remove="Security\Cryptography\IKeyGenerator.cs" />
+    <Compile Remove="Security\Cryptography\KeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticKeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransform.cs" />
     <Compile Remove="Security\Cryptography\Reflector.cs" />
