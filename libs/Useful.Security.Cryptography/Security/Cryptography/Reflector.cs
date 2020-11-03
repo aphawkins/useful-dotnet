@@ -2,73 +2,32 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Linq;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
     /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
     /// </summary>
-    public class Reflector : ClassicalSymmetricAlgorithm
+    public class Reflector : ICipher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Reflector"/> class.
         /// </summary>
-        public Reflector()
-            : this(new ReflectorSettings())
-        {
-        }
+        /// <param name="settings">The cipher's settings.</param>
+        public Reflector(IReflectorSettings settings) => Settings = settings;
+
+        /// <inheritdoc/>
+        public string CipherName => "Reflector";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Reflector"/> class.
+        /// Gets or sets settings.
         /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public Reflector(ReflectorSettings settings)
-            : base("Reflector", settings)
-        {
-            KeyGenerator = new ReflectorKeyGenerator();
-        }
+        public IReflectorSettings Settings { get; set; }
 
         /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => Settings.IV.ToArray();
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get => Settings.Key.ToArray();
-
-            set
-            {
-                Settings = new ReflectorSettings(value);
-                base.Key = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Reflector(new ReflectorSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            ICipher cipher = new Reflector(new ReflectorSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override string Decrypt(string ciphertext)
+        public string Decrypt(string ciphertext)
         {
             if (ciphertext == null)
             {
@@ -79,14 +38,14 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                sb.Append(((ReflectorSettings)Settings).Reflect(ciphertext[i]));
+                sb.Append(Settings.Reflect(ciphertext[i]));
             }
 
             return sb.ToString();
         }
 
         /// <inheritdoc />
-        public override string Encrypt(string plaintext)
+        public string Encrypt(string plaintext)
         {
             if (plaintext == null)
             {
@@ -97,20 +56,17 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                sb.Append(((ReflectorSettings)Settings)[plaintext[i]]);
+                sb.Append(Settings[plaintext[i]]);
             }
 
             return sb.ToString();
         }
 
-        internal char Decrypt(char ciphertext)
-        {
-            return ((ReflectorSettings)Settings).Reflect(ciphertext);
-        }
+        /// <inheritdoc/>
+        public override string ToString() => CipherName;
 
-        internal char Encrypt(char plaintext)
-        {
-            return ((ReflectorSettings)Settings)[plaintext];
-        }
+        internal char Decrypt(char ciphertext) => Settings.Reflect(ciphertext);
+
+        internal char Encrypt(char plaintext) => Settings[plaintext];
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="MonoAlphabeticSymmetric.cs" company="APH Software">
+﻿// <copyright file="ReflectorSymmetric.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,9 +10,9 @@ namespace Useful.Security.Cryptography
     using System.Text;
 
     /// <summary>
-    /// The MonoAlphabetic cipher.
+    /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
     /// </summary>
-    public class MonoAlphabeticSymmetric : SymmetricAlgorithm
+    public class ReflectorSymmetric : SymmetricAlgorithm
     {
         /// <summary>
         /// States how many parts there are in the key.
@@ -29,15 +29,15 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
 
-        private readonly MonoAlphabetic _algorithm;
+        private readonly Reflector _algorithm;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSymmetric"/> class.
+        /// Initializes a new instance of the <see cref="ReflectorSymmetric"/> class.
         /// </summary>
-        public MonoAlphabeticSymmetric()
+        public ReflectorSymmetric()
         {
             Reset();
-            _algorithm = new MonoAlphabetic(new MonoAlphabeticSettings());
+            _algorithm = new Reflector(new ReflectorSettings());
         }
 
         /// <inheritdoc />
@@ -56,7 +56,6 @@ namespace Useful.Security.Cryptography
                 StringBuilder key = new StringBuilder(_algorithm.Settings.CharacterSet);
                 key.Append(KeySeperator);
                 key.Append(_algorithm.Settings.Substitutions);
-
                 return Encoding.GetBytes(key.ToString());
             }
 
@@ -66,14 +65,13 @@ namespace Useful.Security.Cryptography
                 try
                 {
                     key = ParseKey(value);
-
-                    _algorithm.Settings = new MonoAlphabeticSettings(key.CharacterSet, key.Substitutions);
                 }
                 catch (ArgumentException ex)
                 {
-                    throw new ArgumentException("Argument exception.", nameof(value), ex);
+                    throw new ArgumentException("Argument exception.", nameof(key), ex);
                 }
 
+                _algorithm.Settings = new ReflectorSettings(key.CharacterSet, key.Substitutions);
                 base.Key = value;
             }
         }
@@ -82,7 +80,7 @@ namespace Useful.Security.Cryptography
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             (string characterSet, string substitutions) = ParseKey(rgbKey);
-            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(characterSet, substitutions));
+            ICipher cipher = new Reflector(new ReflectorSettings(characterSet, substitutions));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
         }
 
@@ -90,7 +88,7 @@ namespace Useful.Security.Cryptography
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             (string characterSet, string substitutions) = ParseKey(rgbKey);
-            ICipher cipher = new MonoAlphabetic(new MonoAlphabeticSettings(characterSet, substitutions));
+            ICipher cipher = new Reflector(new ReflectorSettings(characterSet, substitutions));
             return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
         }
 
@@ -104,7 +102,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            IMonoAlphabeticSettings settings = MonoAlphabeticSettingsGenerator.Generate();
+            IReflectorSettings settings = ReflectorSettingsGenerator.Generate();
             string key = settings.CharacterSet + KeySeperator + settings.Substitutions;
             KeyValue = Encoding.GetBytes(key);
             Key = KeyValue;
@@ -116,7 +114,7 @@ namespace Useful.Security.Cryptography
         private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
         {
             // Example:
-            // characterSet|substitutions
+            // CharacterSet|Substitutions
             if (key == null)
             {
                 throw new ArgumentNullException(nameof(key));
@@ -127,7 +125,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Invalid format.", nameof(key));
             }
 
-            string keyString = Encoding.GetString(key);
+            string keyString = Encoding.Unicode.GetString(key);
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 

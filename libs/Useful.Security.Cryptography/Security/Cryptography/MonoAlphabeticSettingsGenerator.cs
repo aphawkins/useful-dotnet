@@ -14,9 +14,9 @@ namespace Useful.Security.Cryptography
     {
         public static IMonoAlphabeticSettings Generate()
         {
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            List<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
-            List<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings();
+            IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
+            IList<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
 
             Random rnd = new Random();
             int indexFrom;

@@ -38,15 +38,15 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(substitutions));
             }
 
-            ParseCharacterSet(characterSet);
-            ParseSubstitutions(substitutions);
+            CharacterSet = ParseCharacterSet(characterSet);
+            Substitutions = ParseSubstitutions(characterSet, substitutions);
         }
 
         /// <inheritdoc />
         public string Substitutions { get; private set; } = string.Empty;
 
         /// <inheritdoc />
-        public string CharacterSet { get; set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public string CharacterSet { get; private set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         /// <inheritdoc />
         public int SubstitutionCount
@@ -118,7 +118,6 @@ namespace Useful.Security.Cryptography
 
                 char[] temp = Substitutions.ToArray();
                 temp[fromIndex] = to;
-                Substitutions = new string(temp);
                 temp[toInvIndex] = fromSubs;
                 Substitutions = new string(temp);
 
@@ -137,7 +136,7 @@ namespace Useful.Security.Cryptography
             return Substitutions.First(x => this[x] == letter);
         }
 
-        private void ParseCharacterSet(string characterSet)
+        private static string ParseCharacterSet(string characterSet)
         {
             if (string.IsNullOrWhiteSpace(characterSet))
             {
@@ -157,13 +156,13 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet));
             }
 
-            CharacterSet = characterSet;
+            return characterSet;
         }
 
-        private void ParseSubstitutions(string substitutions)
+        private static string ParseSubstitutions(string characterSet, string substitutions)
         {
             if (string.IsNullOrWhiteSpace(substitutions)
-                || substitutions.Length != CharacterSet.Length)
+                || substitutions.Length != characterSet.Length)
             {
                 throw new ArgumentException("Incorrect number of substitutions.", nameof(substitutions));
             }
@@ -181,12 +180,12 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Substitutions must not be duplicated.", nameof(substitutions));
             }
 
-            if (!substitutions.All(x => CharacterSet.Contains(x)))
+            if (!substitutions.All(x => characterSet.Contains(x)))
             {
                 throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
             }
 
-            Substitutions = substitutions;
+            return substitutions;
         }
     }
 }

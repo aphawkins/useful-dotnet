@@ -1,4 +1,4 @@
-﻿// <copyright file="IMonoAlphabeticSettings.cs" company="APH Software">
+﻿// <copyright file="IReflectorSettings.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    public interface IMonoAlphabeticSettings
+    public interface IReflectorSettings
     {
         /// <summary>
         /// Gets substitutions.
@@ -38,6 +38,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="letter">The letter to match.</param>
         /// <returns>The letter that substiutes to this letter.</returns>
-        char Reverse(char letter);
+        char Reflect(char letter);
     }
 }

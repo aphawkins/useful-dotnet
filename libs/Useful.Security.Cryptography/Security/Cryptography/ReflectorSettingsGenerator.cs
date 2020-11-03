@@ -1,4 +1,4 @@
-﻿// <copyright file="ReflectorKeyGenerator.cs" company="APH Software">
+﻿// <copyright file="ReflectorSettingsGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -6,25 +6,17 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Reflector key generator.
     /// </summary>
-    internal class ReflectorKeyGenerator : IKeyGenerator
+    internal class ReflectorSettingsGenerator
     {
-        /// <inheritdoc />
-        public byte[] RandomIv()
+        public static IReflectorSettings Generate()
         {
-            return Array.Empty<byte>();
-        }
-
-        /// <inheritdoc />
-        public byte[] RandomKey()
-        {
-            ReflectorSettings settings = new ReflectorSettings();
-            List<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
-            List<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
+            IReflectorSettings settings = new ReflectorSettings();
+            IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
+            IList<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
 
             Random rnd = new Random();
             int indexFrom;
@@ -60,7 +52,7 @@ namespace Useful.Security.Cryptography
                 settings[from] = to;
             }
 
-            return settings.Key.ToArray();
+            return settings;
         }
     }
 }

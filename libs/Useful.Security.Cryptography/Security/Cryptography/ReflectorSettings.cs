@@ -5,61 +5,20 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// The Reflector algorithm settings.
     /// </summary>
-    public sealed class ReflectorSettings : CipherSettings, INotifyCollectionChanged
+    public sealed class ReflectorSettings : IReflectorSettings
     {
-        /// <summary>
-        /// States how many parts there are in the key.
-        /// </summary>
-        private const int KeyParts = 2;
-
-        /// <summary>
-        /// The char that separates part of the key.
-        /// </summary>
-        private const char KeySeperator = '|';
-
-        /// <summary>
-        /// The char that separates the substitutions.
-        /// </summary>
-        private const char SubstitutionDelimiter = ' ';
-
-        /// <summary>
-        /// The current substitutions.
-        /// </summary>
-        private IList<char> _substitutions = new List<char>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReflectorSettings"/> class.
         /// </summary>
         public ReflectorSettings()
-            : this("ABCDEFGHIJKLMNOPQRSTUVWXYZ", string.Empty)
+            : this("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReflectorSettings"/> class.
-        /// </summary>
-        /// <param name="key">The encryption Key.</param>
-        public ReflectorSettings(byte[] key)
-        {
-            (string characterSet, string substitutions) = ParseKey(key);
-            try
-            {
-                ParseCharacterSet(characterSet);
-                ParseSubstitutions(substitutions);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException("Argument exception.", nameof(key), ex);
-            }
         }
 
         /// <summary>
@@ -68,7 +27,6 @@ namespace Useful.Security.Cryptography
         /// <param name="characterSet">The valid character set.</param>
         /// <param name="substitutions">A substitution for each character.</param>
         public ReflectorSettings(string characterSet, string substitutions)
-            : base()
         {
             if (characterSet == null)
             {
@@ -80,37 +38,51 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(substitutions));
             }
 
-            ParseCharacterSet(characterSet);
-            ParseSubstitutions(substitutions);
-        }
-
-        /// <inheritdoc />
-        public event NotifyCollectionChangedEventHandler? CollectionChanged = (sender, e) => { };
-
-        /// <inheritdoc />
-        public override IEnumerable<byte> Key
-        {
-            get
+            try
             {
-                // CharacterSet|Substitutions
-                StringBuilder key = new StringBuilder(new string(CharacterSet.ToArray()));
-                key.Append(KeySeperator);
-                key.Append(SubstitutionString());
-                return new List<byte>(Encoding.Unicode.GetBytes(key.ToString()));
+                ParseCharacterSet(characterSet);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error parsing character set", nameof(characterSet), ex);
+            }
+
+            try
+            {
+                ParseSubstitutions(characterSet, substitutions);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Error parsing subsititutions", nameof(substitutions), ex);
             }
         }
 
-        /// <summary>
-        /// Gets the number of substitutions made. Each character swapped is one substitution.
-        /// </summary>
-        /// <value>The number of substitutions.</value>
-        /// <returns>The number of substitutions made.</returns>
-        public int SubstitutionCount => Substitutions().Count;
+        /// <inheritdoc />
+        public string Substitutions { get; private set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the current substitutions.
-        /// </summary>
-        /// <param name="substitution">The position to set.</param>
+        /// <inheritdoc />
+        public string CharacterSet { get; private set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        /// <inheritdoc />
+        public int SubstitutionCount
+        {
+            get
+            {
+                int count = 0;
+
+                for (int i = 0; i < CharacterSet.Length; i++)
+                {
+                    if (CharacterSet[i] != Substitutions[i])
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+
+        /// <inheritdoc />
         public char this[char substitution]
         {
             get
@@ -121,7 +93,7 @@ namespace Useful.Security.Cryptography
                     return substitution;
                 }
 
-                return _substitutions[subsIndex];
+                return Substitutions[subsIndex];
             }
 
             set
@@ -144,72 +116,38 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Substitution must be an valid character.", nameof(value));
                 }
 
-                if (_substitutions[fromIndex] == to)
+                if (Substitutions[fromIndex] == to)
                 {
                     // Trying to set the same as already set
                     return;
                 }
 
-                char fromSubs = _substitutions[fromIndex];
+                char fromSubs = Substitutions[fromIndex];
                 int fromSubsIndex = CharacterSet.IndexOf(fromSubs);
 
-                char toSubs = _substitutions[toIndex];
+                char toSubs = Substitutions[toIndex];
                 int toSubsIndex = CharacterSet.IndexOf(toSubs);
 
-                _substitutions[fromIndex] = to;
-                _substitutions[toIndex] = from;
+                char[] temp = Substitutions.ToArray();
+                temp[fromIndex] = to;
+                temp[toIndex] = from;
+                Substitutions = new string(temp);
 
                 if (fromSubs != from)
                 {
-                    _substitutions[fromSubsIndex] = fromSubs;
+                    temp = Substitutions.ToArray();
+                    temp[fromSubsIndex] = fromSubs;
+                    Substitutions = new string(temp);
                 }
 
                 if (toSubs != to)
                 {
-                    _substitutions[toSubsIndex] = toSubs;
+                    temp = Substitutions.ToArray();
+                    temp[toSubsIndex] = toSubs;
+                    Substitutions = new string(temp);
                 }
 
-                OnCollectionChanged(
-                    new NotifyCollectionChangedEventArgs(
-                        NotifyCollectionChangedAction.Replace,
-                        new KeyValuePair<char, char>(from, to),
-                        new KeyValuePair<char, char>(from, fromSubs),
-                        CharacterSet.IndexOf(from)));
-
-                if (from != to)
-                {
-                    OnCollectionChanged(
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Replace,
-                            new KeyValuePair<char, char>(to, from),
-                            new KeyValuePair<char, char>(to, toSubs),
-                            CharacterSet.IndexOf(to)));
-
-                    if (fromSubs != from)
-                    {
-                        OnCollectionChanged(
-                            new NotifyCollectionChangedEventArgs(
-                                NotifyCollectionChangedAction.Replace,
-                                new KeyValuePair<char, char>(fromSubs, fromSubs),
-                                new KeyValuePair<char, char>(fromSubs, from),
-                                CharacterSet.IndexOf(fromSubs)));
-                    }
-                }
-
-                if (toSubs != to)
-                {
-                    OnCollectionChanged(
-                        new NotifyCollectionChangedEventArgs(
-                            NotifyCollectionChangedAction.Replace,
-                            new KeyValuePair<char, char>(toSubs, toSubs),
-                            new KeyValuePair<char, char>(toSubs, to),
-                            CharacterSet.IndexOf(toSubs)));
-                }
-
-                Debug.Print($"{string.Join(string.Empty, _substitutions)}");
-
-                NotifyPropertyChanged("Item");
-                NotifyPropertyChanged(nameof(Key));
+                Debug.Print($"{string.Join(string.Empty, Substitutions)}");
             }
         }
 
@@ -218,171 +156,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="letter">The letter to match.</param>
         /// <returns>The letter that substiutes to this letter.</returns>
-        public char Reflect(char letter)
-        {
-            return this[letter];
-        }
-
-        internal IReadOnlyDictionary<char, char> Substitutions()
-        {
-            Dictionary<char, char> pairsToAdd = new Dictionary<char, char>();
-
-            for (int i = 0; i < CharacterSet.Length; i++)
-            {
-                if (CharacterSet[i] == _substitutions[i])
-                {
-                    continue;
-                }
-
-                if (pairsToAdd.ContainsKey(_substitutions[i])
-                    && pairsToAdd[_substitutions[i]] == CharacterSet[i])
-                {
-                    continue;
-                }
-
-                pairsToAdd.Add(CharacterSet[i], _substitutions[i]);
-            }
-
-            return pairsToAdd;
-        }
-
-        internal string SubstitutionString()
-        {
-            StringBuilder key = new StringBuilder();
-            IReadOnlyDictionary<char, char> substitutions = Substitutions();
-
-            foreach (KeyValuePair<char, char> pair in substitutions)
-            {
-                key.Append(pair.Key);
-                key.Append(pair.Value);
-                key.Append(SubstitutionDelimiter);
-            }
-
-            if (substitutions.Count > 0
-                && key.Length > 0)
-            {
-                key.Remove(key.Length - 1, 1);
-            }
-
-            return key.ToString();
-        }
-
-        /// <summary>
-        /// Ensures that the specified pairs are valid against the character set and the uniqueness.
-        /// </summary>
-        /// <param name="pairs">The pairs to check.</param>
-        /// <param name="characterSet">The letters that the pairs can be formed from.</param>
-        private static void CheckPairs(IDictionary<char, char> pairs, IEnumerable<char> characterSet)
-        {
-            List<char> uniqueLetters = new List<char>();
-
-            foreach (KeyValuePair<char, char> pair in pairs)
-            {
-                if (!characterSet.Contains(pair.Key))
-                {
-                    throw new ArgumentException("Not valid to substitute these letters.");
-                }
-
-                if (!characterSet.Contains(pair.Value))
-                {
-                    throw new ArgumentException("Not valid to substitute these letters.");
-                }
-
-                if (pair.Key == pair.Value)
-                {
-                    throw new ArgumentException("Letters cannot be duplicated in a substitution pair.");
-                }
-
-                if (uniqueLetters.Contains(pair.Key) || uniqueLetters.Contains(pair.Value))
-                {
-                    throw new ArgumentException("Pair letters must be unique.");
-                }
-
-                uniqueLetters.Add(pair.Key);
-                uniqueLetters.Add(pair.Value);
-            }
-        }
-
-        /// <summary>
-        /// Retrieves pairs of substitutions.
-        /// </summary>
-        /// <param name="charaterSet">The letters that the pairs are derived from.</param>
-        /// <param name="substitutions">The string to parse for pairs.</param>
-        /// <param name="delimiter">What separates the pairs in the string.</param>
-        /// <returns>The string value parsed as pairs.</returns>
-        private static IDictionary<char, char> Pairs(IEnumerable<char> charaterSet, string substitutions, char delimiter)
-        {
-            IDictionary<char, char> pairs = new Dictionary<char, char>();
-            string[] rawPairs = substitutions.Split(new char[] { delimiter });
-
-            // No plugs specified
-            if (rawPairs.Length == 1 && rawPairs[0].Length == 0)
-            {
-                return pairs;
-            }
-
-            // Check for plugs made up of pairs
-            foreach (string rawPair in rawPairs)
-            {
-                if (rawPair.Length != 2)
-                {
-                    throw new ArgumentException("Setting must be a pair.", nameof(substitutions));
-                }
-
-                if (pairs.ContainsKey(rawPair[0]))
-                {
-                    throw new ArgumentException("Setting already set.", nameof(substitutions));
-                }
-
-                pairs.Add(rawPair[0], rawPair[1]);
-            }
-
-            try
-            {
-                CheckPairs(pairs, charaterSet);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException("Error checking pairs.", nameof(substitutions), ex);
-            }
-
-            return pairs;
-        }
-
-        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
-        {
-            // Example:
-            // CharacterSet|Substitutions
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (key.SequenceEqual(Array.Empty<byte>()))
-            {
-                throw new ArgumentException("Invalid format.", nameof(key));
-            }
-
-            string keyString = Encoding.Unicode.GetString(key);
-
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
-
-            if (parts.Length != KeyParts)
-            {
-                throw new ArgumentException("Incorrect number of key parts.", nameof(key));
-            }
-
-            return (parts[0], parts[1]);
-        }
-
-        /// <summary>
-        /// Used to raise the <see cref="CollectionChanged" /> event.
-        /// </summary>
-        /// <param name="e">Arguments of the event being raised.</param>
-        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            CollectionChanged?.Invoke(this, e);
-        }
+        public char Reflect(char letter) => this[letter];
 
         private void ParseCharacterSet(string characterSet)
         {
@@ -407,15 +181,28 @@ namespace Useful.Security.Cryptography
             CharacterSet = characterSet;
         }
 
-        private void ParseSubstitutions(string substitutions)
+        private void ParseSubstitutions(string characterSet, string substitutions)
         {
-            _substitutions = CharacterSet.ToList();
-
-            IDictionary<char, char> substitutionPairs = Pairs(CharacterSet, substitutions, SubstitutionDelimiter);
-
-            foreach (KeyValuePair<char, char> substitution in substitutionPairs)
+            if (substitutions.Length > characterSet.Length)
             {
-                this[substitution.Key] = substitution.Value;
+                throw new ArgumentException("Too many substitutions.", nameof(substitutions));
+            }
+
+            if (!substitutions.All(x => characterSet.Contains(x)))
+            {
+                throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
+            }
+
+            Substitutions = characterSet;
+
+            for (int i = 0; i < characterSet.Length; i++)
+            {
+                this[characterSet[i]] = substitutions[i];
+            }
+
+            if (Substitutions != substitutions)
+            {
+                throw new ArgumentException("Not valid to substitute these letters.", nameof(substitutions));
             }
         }
     }

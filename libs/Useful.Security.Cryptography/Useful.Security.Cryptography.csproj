@@ -24,6 +24,8 @@
     <Compile Remove="Security\Cryptography\Enigma.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKey.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKeyGenerator.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaPlugboard.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaPlugboardSettings.cs" />
     <Compile Remove="Security\Cryptography\EnigmaReflector.cs" />
     <Compile Remove="Security\Cryptography\EnigmaReflectorNumber.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotor.cs" />
@@ -41,9 +43,7 @@
     <Compile Remove="Security\Cryptography\KeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticKeyGenerator.cs" />
     <Compile Remove="Security\Cryptography\MonoAlphabeticTransform.cs" />
-    <Compile Remove="Security\Cryptography\Reflector.cs" />
     <Compile Remove="Security\Cryptography\ReflectorKeyGenerator.cs" />
-    <Compile Remove="Security\Cryptography\ReflectorSettings.cs" />
   </ItemGroup>
 
   <ItemGroup>
