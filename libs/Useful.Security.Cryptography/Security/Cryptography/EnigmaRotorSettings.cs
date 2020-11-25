@@ -24,7 +24,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
         /// </summary>
-        public EnigmaRotorSettings() => Rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>
+        public EnigmaRotorSettings() => _rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>
             {
                 { EnigmaRotorPosition.Fastest, new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A') },
                 { EnigmaRotorPosition.Second, new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A') },
@@ -90,7 +90,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The rotor to set in this position.</returns>
         public EnigmaRotor this[EnigmaRotorPosition position]
         {
-            get => Rotors[position];
+            get => _rotors[position];
 
             set
             {
@@ -107,33 +107,33 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void AdvanceRotors()
         {
-            Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+            _rotors[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
-            foreach (char notch in Rotors[EnigmaRotorPosition.Fastest].Notches)
+            foreach (char notch in _rotors[EnigmaRotorPosition.Fastest].Notches)
             {
-                if ((((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
+                if ((((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
                 {
-                    Rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                    _rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
-                    foreach (char notch2 in Rotors[EnigmaRotorPosition.Second].Notches)
+                    foreach (char notch2 in _rotors[EnigmaRotorPosition.Second].Notches)
                     {
-                        if (Rotors[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
+                        if (_rotors[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
                         {
-                            Rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
                 }
 
                 // Doublestep the middle rotor when the right rotor is 2 past a notch and the middle is on a notch
-                if ((((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
+                if ((((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
                 {
-                    foreach (char notch2 in Rotors[EnigmaRotorPosition.Second].Notches)
+                    foreach (char notch2 in _rotors[EnigmaRotorPosition.Second].Notches)
                     {
-                        if (Rotors[EnigmaRotorPosition.Second].CurrentSetting == notch2)
+                        if (_rotors[EnigmaRotorPosition.Second].CurrentSetting == notch2)
                         {
-                            Rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-                            Rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
@@ -151,13 +151,13 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _rotors.Reverse().ToArray())
             {
                 key.Append($"{position.Value.RingPosition:00}");
                 key.Append(KeyDelimiter);
             }
 
-            if (Rotors.Count > 0)
+            if (_rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -173,13 +173,13 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.RotorNumber);
                 key.Append(KeyDelimiter);
             }
 
-            if (Rotors.Count > 0)
+            if (_rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -195,13 +195,13 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.CurrentSetting);
                 key.Append(KeyDelimiter);
             }
 
-            if (Rotors.Count > 0)
+            if (_rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -217,18 +217,18 @@ namespace Useful.Security.Cryptography
         {
             IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
 
-            if (Rotors.Any())
+            if (_rotors.Any())
             {
                 foreach (EnigmaRotorPosition position in RotorPositions)
                 {
-                    if (!Rotors.ContainsKey(position))
+                    if (!_rotors.ContainsKey(position))
                     {
                         continue;
                     }
 
-                    if (availableRotors.Contains(Rotors[position].RotorNumber))
+                    if (availableRotors.Contains(_rotors[position].RotorNumber))
                     {
-                        availableRotors.Remove(Rotors[position].RotorNumber);
+                        availableRotors.Remove(_rotors[position].RotorNumber);
                     }
                 }
             }

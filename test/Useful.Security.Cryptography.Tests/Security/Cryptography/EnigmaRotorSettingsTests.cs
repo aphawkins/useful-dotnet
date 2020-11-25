@@ -47,28 +47,28 @@ namespace Useful.Security.Cryptography.Tests
         public void CurrentSettingDefaults()
         {
             EnigmaRotorSettings settings = new();
-            Assert.Equal('A', settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal('A', settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal('A', settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal('A', settings[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('A', settings[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('A', settings[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact]
         public void CurrentSettingInvalid()
         {
             EnigmaRotorSettings settings = new();
-            Assert.Throws<ArgumentOutOfRangeException>(() => settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = 'Å');
+            Assert.Throws<ArgumentOutOfRangeException>(() => settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'Å');
         }
 
         [Fact]
         public void CurrentSettingSet()
         {
             EnigmaRotorSettings settings = new();
-            settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = 'B';
-            settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting = 'D';
-            settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting = 'E';
-            Assert.Equal('B', settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal('D', settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal('E', settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
+            settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'B';
+            settings[EnigmaRotorPosition.Second].CurrentSetting = 'D';
+            settings[EnigmaRotorPosition.Third].CurrentSetting = 'E';
+            Assert.Equal('B', settings[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('D', settings[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('E', settings[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact]
