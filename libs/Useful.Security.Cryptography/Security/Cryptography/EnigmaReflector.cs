@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// An Enigma reflector.
     /// </summary>
-    public class EnigmaReflector
+    public class EnigmaReflector : IEnigmaReflector
     {
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -28,16 +28,10 @@ namespace Useful.Security.Cryptography
             _wiring = GetWiring(reflectorNumber);
         }
 
-        /// <summary>
-        /// Gets the designation of this reflector.
-        /// </summary>
+        /// <inheritdoc />
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
 
-        /// <summary>
-        /// The letter this reflector encodes to going through it.
-        /// </summary>
-        /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter.</returns>
+        /// <inheritdoc />
         public char Reflect(char letter)
         {
             char newLetter = _wiring.Reflect(letter);

@@ -24,7 +24,7 @@ namespace UsefulAPI.Controllers
         public ITest Encrpyt([FromBody] string plaintext)
         {
             using Atbash cipher = new();
-            ITest test = new TestResponse
+            TestResponse test = new()
             {
                 Ciphertext = cipher.Encrypt(plaintext),
             };

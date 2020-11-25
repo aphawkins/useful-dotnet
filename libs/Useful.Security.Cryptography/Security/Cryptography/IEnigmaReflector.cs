@@ -1,0 +1,24 @@
+﻿// <copyright file="IEnigmaReflector.cs" company="APH Software">
+// Copyright (c) Andrew Hawkins. All rights reserved.
+// </copyright>
+
+namespace Useful.Security.Cryptography
+{
+    /// <summary>
+    /// An Emigma reflector.
+    /// </summary>
+    public interface IEnigmaReflector
+    {
+        /// <summary>
+        /// Gets the designation of this reflector.
+        /// </summary>
+        EnigmaReflectorNumber ReflectorNumber { get; }
+
+        /// <summary>
+        /// The letter this reflector encodes to going through it.
+        /// </summary>
+        /// <param name="letter">The letter to transform.</param>
+        /// <returns>The transformed letter.</returns>
+        char Reflect(char letter);
+    }
+}

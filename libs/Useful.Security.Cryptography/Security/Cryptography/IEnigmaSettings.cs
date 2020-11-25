@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets the reflector being used.
         /// </summary>
-        public EnigmaReflectorNumber ReflectorNumber { get; }
+        public IEnigmaReflector Reflector { get; }
 
         /// <summary>
         /// Gets the rotors.

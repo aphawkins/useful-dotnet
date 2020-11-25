@@ -21,7 +21,7 @@ namespace UsefulConsole.UI.Views
             ICipher selectedCipher;
             bool selected = false;
 
-            IDictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>>()
+            Dictionary<ConsoleKey, Tuple<ICipher, ICipherSettingsView>> settingViews = new()
             {
                 { ConsoleKey.D0, new Tuple<ICipher, ICipherSettingsView>(ciphers[0], new EmptySettingsView()) },
                 { ConsoleKey.D1, new Tuple<ICipher, ICipherSettingsView>(ciphers[1], new CaesarSettingsView()) },

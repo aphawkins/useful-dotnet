@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorDefault()
         {
             EnigmaSettings settings = new();
-            Assert.Equal(EnigmaReflectorNumber.B, settings.ReflectorNumber);
+            Assert.Equal(EnigmaReflectorNumber.B, settings.Reflector.ReflectorNumber);
             Assert.Equal(EnigmaRotorNumber.I, settings.Rotors[EnigmaRotorPosition.Fastest].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.II, settings.Rotors[EnigmaRotorPosition.Second].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.III, settings.Rotors[EnigmaRotorPosition.Third].RotorNumber);

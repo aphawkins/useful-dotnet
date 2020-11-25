@@ -14,12 +14,12 @@ namespace UsefulConsole.UI.Console
     {
         private static void Main()
         {
-            IRepository<ICipher> repository = new CipherRepository();
+            CipherRepository repository = new();
             repository.Create(new Atbash());
             repository.Create(new Caesar());
             repository.Create(new ROT13());
-            ICipherView view = new ConsoleView();
-            IController controller = new CipherController(repository, view);
+            ConsoleView view = new();
+            CipherController controller = new(repository, view);
             controller.LoadView();
         }
     }

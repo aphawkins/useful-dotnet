@@ -14,17 +14,15 @@ namespace Useful.Security.Cryptography
         public static IEnigmaSettings GenerateKey()
         {
             // Reflector
-            EnigmaReflectorNumber reflectorNumber;
-            EnigmaReflector reflector = EnigmaReflectorGenerator.Generate();
-            reflectorNumber = reflector.ReflectorNumber;
+            IEnigmaReflector reflector = EnigmaReflectorGenerator.Generate();
 
             // Rotor Settings
-            IEnigmaRotors rotorSettings = EnigmaRotorGenerator.Generate();
+            IEnigmaRotors rotors = EnigmaRotorGenerator.Generate();
 
             // Plugboard
             IEnigmaPlugboard plugboard = EnigmaPlugboardGenerator.Generate();
 
-            return new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
+            return new EnigmaSettings(reflector, rotors, plugboard);
         }
 
         public static IEnigmaSettings GenerateIV(IEnigmaSettings settings)

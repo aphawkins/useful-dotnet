@@ -75,11 +75,11 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: AV BS CG DL FU HZ IN KM OW RX
             // Message key: BLA
             // Final key: BRS
-            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new();
-            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.V, 12, 'A');
-            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.IV, 21, 'L');
-            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 2, 'B');
+            EnigmaReflector reflector = new(EnigmaReflectorNumber.B);
+            EnigmaRotorSettings rotors = new();
+            rotors[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.V, 12, 'A');
+            rotors[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.IV, 21, 'L');
+            rotors[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 2, 'B');
             IDictionary<char, char> plugs = new Dictionary<char, char>
             {
                 { 'A', 'V' },
@@ -106,19 +106,19 @@ namespace Useful.Security.Cryptography.Tests
 
             string plaintext = sb.ToString();
 
-            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboardSettings);
+            EnigmaSettings settings = new(reflector, rotors, plugboardSettings);
             ICipher cipher = new Enigma(settings);
             string newPlaintext = cipher.Decrypt(ciphertext.ToString());
             Assert.Equal(plaintext.ToString(), newPlaintext);
-            Assert.Equal('S', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal('R', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal('B', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('R', rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('B', rotors[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact]
         public void Name()
         {
-            IEnigmaSettings settings = new EnigmaSettings();
+            EnigmaSettings settings = new();
             ICipher cipher = new Enigma(settings);
             Assert.Equal("Enigma M3", cipher.CipherName);
             Assert.Equal("Enigma M3", cipher.ToString());
@@ -141,12 +141,12 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: PO ML IU KJ NH YT
             // Message key: KJS
             // Final key: KPG
-            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new();
-            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I, 2, 'S');
-            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.V, 15, 'J');
-            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 23, 'K');
-            IDictionary<char, char> plugs = new Dictionary<char, char>
+            EnigmaReflector reflector = new(EnigmaReflectorNumber.B);
+            EnigmaRotorSettings rotors = new();
+            rotors[EnigmaRotorPosition.Fastest] = new(EnigmaRotorNumber.I, 2, 'S');
+            rotors[EnigmaRotorPosition.Second] = new(EnigmaRotorNumber.V, 15, 'J');
+            rotors[EnigmaRotorPosition.Third] = new(EnigmaRotorNumber.II, 23, 'K');
+            Dictionary<char, char> plugs = new()
             {
                 { 'P', 'O' },
                 { 'M', 'L' },
@@ -155,7 +155,7 @@ namespace Useful.Security.Cryptography.Tests
                 { 'N', 'H' },
                 { 'Y', 'T' },
             };
-            IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
+            EnigmaPlugboard plugboard = new(plugs);
 
             StringBuilder plaintext = new();
             plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
@@ -165,13 +165,13 @@ namespace Useful.Security.Cryptography.Tests
             plaintext.Append("ANDITACTUALLYREFERSTOARANGEOFS");
             plaintext.Append("IMILARCIPHERMACHINES");
 
-            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboard);
+            EnigmaSettings settings = new(reflector, rotors, plugboard);
             ICipher cipher = new Enigma(settings);
             string newPlaintext = cipher.Decrypt(ciphertext.ToString());
             Assert.Equal(plaintext.ToString(), newPlaintext);
-            Assert.Equal('G', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal('P', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal('K', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal('G', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('P', rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('K', rotors[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact(Skip = "Settings uncertain.")]
@@ -202,12 +202,12 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: EI AS JN KL MU OT
             // Message key: OUA (?)
             // Final key: BRS (?)
-            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new();
-            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A');
-            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'U');
-            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.III, 1, 'O');
-            IDictionary<char, char> plugs = new Dictionary<char, char>
+            EnigmaReflector reflector = new(EnigmaReflectorNumber.B);
+            EnigmaRotorSettings rotors = new();
+            rotors[EnigmaRotorPosition.Fastest] = new(EnigmaRotorNumber.II, 1, 'A');
+            rotors[EnigmaRotorPosition.Second] = new(EnigmaRotorNumber.I, 1, 'U');
+            rotors[EnigmaRotorPosition.Third] = new(EnigmaRotorNumber.III, 1, 'O');
+            Dictionary<char, char> plugs = new()
             {
                 { 'E', 'I' },
                 { 'A', 'S' },
@@ -216,9 +216,9 @@ namespace Useful.Security.Cryptography.Tests
                 { 'M', 'U' },
                 { 'O', 'T' },
             };
-            IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
+            EnigmaPlugboard plugboard = new(plugs);
 
-            sb = new StringBuilder();
+            sb = new();
             sb.Append("DASXL OESUN GSWOR TXIST XPLUT");
             sb.Append("OXXST UFEXN EUNXE NTHAE LTXEI");
             sb.Append("NEXMI TTEIL UNGXD IEXMI TXDES");
@@ -237,13 +237,13 @@ namespace Useful.Security.Cryptography.Tests
 
             string plaintext = sb.ToString();
 
-            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboard);
+            IEnigmaSettings settings = new EnigmaSettings(reflector, rotors, plugboard);
             ICipher cipher = new Enigma(settings);
             string newPlaintext = cipher.Decrypt(ciphertext.ToString());
             Assert.Equal(plaintext.ToString(), newPlaintext);
-            Assert.Equal('S', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal('R', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal('B', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('R', rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('B', rotors[EnigmaRotorPosition.Third].CurrentSetting);
         }
     }
 }

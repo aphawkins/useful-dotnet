@@ -95,10 +95,10 @@ Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptograp
 Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptography.EnigmaRotorPosition position].set -> void
 Useful.Security.Cryptography.EnigmaSettings
 Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings() -> void
-Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings(Useful.Security.Cryptography.EnigmaReflectorNumber reflector, Useful.Security.Cryptography.IEnigmaRotors! rotorSettings, Useful.Security.Cryptography.IEnigmaPlugboard! plugboard) -> void
+Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings(Useful.Security.Cryptography.IEnigmaReflector! reflector, Useful.Security.Cryptography.IEnigmaRotors! rotors, Useful.Security.Cryptography.IEnigmaPlugboard! plugboard) -> void
 Useful.Security.Cryptography.EnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboard!
 Useful.Security.Cryptography.EnigmaSettings.Plugboard.set -> void
-Useful.Security.Cryptography.EnigmaSettings.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
+Useful.Security.Cryptography.EnigmaSettings.Reflector.get -> Useful.Security.Cryptography.IEnigmaReflector!
 Useful.Security.Cryptography.EnigmaSettings.Rotors.get -> Useful.Security.Cryptography.IEnigmaRotors!
 Useful.Security.Cryptography.EnigmaSymmetric
 Useful.Security.Cryptography.EnigmaSymmetric.EnigmaSymmetric() -> void
@@ -113,6 +113,9 @@ Useful.Security.Cryptography.IEnigmaPlugboard
 Useful.Security.Cryptography.IEnigmaPlugboard.SubstitutionCount.get -> int
 Useful.Security.Cryptography.IEnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
 Useful.Security.Cryptography.IEnigmaPlugboard.this[char letter].get -> char
+Useful.Security.Cryptography.IEnigmaReflector
+Useful.Security.Cryptography.IEnigmaReflector.Reflect(char letter) -> char
+Useful.Security.Cryptography.IEnigmaReflector.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
 Useful.Security.Cryptography.IEnigmaRotors
 Useful.Security.Cryptography.IEnigmaRotors.AdvanceRotors() -> void
 Useful.Security.Cryptography.IEnigmaRotors.GetAvailableRotors() -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
@@ -122,7 +125,7 @@ Useful.Security.Cryptography.IEnigmaRotors.this[Useful.Security.Cryptography.Eni
 Useful.Security.Cryptography.IEnigmaRotors.this[Useful.Security.Cryptography.EnigmaRotorPosition position].set -> void
 Useful.Security.Cryptography.IEnigmaSettings
 Useful.Security.Cryptography.IEnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboard!
-Useful.Security.Cryptography.IEnigmaSettings.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
+Useful.Security.Cryptography.IEnigmaSettings.Reflector.get -> Useful.Security.Cryptography.IEnigmaReflector!
 Useful.Security.Cryptography.IEnigmaSettings.Rotors.get -> Useful.Security.Cryptography.IEnigmaRotors!
 Useful.Security.Cryptography.IMonoAlphabeticSettings
 Useful.Security.Cryptography.IMonoAlphabeticSettings.CharacterSet.get -> string!

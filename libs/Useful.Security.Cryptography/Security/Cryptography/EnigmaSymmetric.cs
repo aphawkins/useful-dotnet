@@ -57,7 +57,7 @@ namespace Useful.Security.Cryptography
                 StringBuilder key = new();
 
                 // Reflector
-                key.Append(_algorithm.Settings.ReflectorNumber.ToString());
+                key.Append(_algorithm.Settings.Reflector.ReflectorNumber.ToString());
                 key.Append(KeySeperator);
 
                 // Rotor order
@@ -143,7 +143,7 @@ namespace Useful.Security.Cryptography
         public override void GenerateKey()
         {
             IEnigmaSettings settings = EnigmaSettingsGenerator.GenerateKey();
-            string key = settings.ReflectorNumber.ToString()
+            string key = settings.Reflector.ReflectorNumber.ToString()
                 + KeySeperator
                 + RotorOrderString(settings.Rotors)
                 + KeySeperator
@@ -167,7 +167,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect number of key parts.", nameof(key));
             }
 
-            EnigmaReflectorNumber reflector = ParseEnigmaReflectorNumber(parts[0]);
+            IEnigmaReflector reflector = ParseEnigmaReflectorNumber(parts[0]);
             IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> rotorNumbers = ParseEnigmaRotorNumbers(parts[1]);
             IDictionary<EnigmaRotorPosition, int> rings = ParseEnigmaRings(parts[2]);
 
@@ -198,7 +198,7 @@ namespace Useful.Security.Cryptography
             return settings;
         }
 
-        private static EnigmaReflectorNumber ParseEnigmaReflectorNumber(string reflector)
+        private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector)
         {
             if (reflector.Length > 1 ||
                 !char.IsLetter(reflector[0]) ||
@@ -207,7 +207,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect reflector.", nameof(reflector));
             }
 
-            return reflectorNumber;
+            return new EnigmaReflector(reflectorNumber);
         }
 
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)

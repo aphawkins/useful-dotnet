@@ -88,8 +88,7 @@ namespace Useful.Security.Cryptography
             newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(newLetter);
 
             // Go thru the relector
-            EnigmaReflector reflector = new(Settings.ReflectorNumber);
-            newLetter = reflector.Reflect(newLetter);
+            newLetter = Settings.Reflector.Reflect(newLetter);
 
             // Go thru the rotors backwards
             newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Backward(newLetter);

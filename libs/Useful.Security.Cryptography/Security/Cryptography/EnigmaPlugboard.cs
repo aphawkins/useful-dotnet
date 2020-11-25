@@ -14,12 +14,12 @@ namespace Useful.Security.Cryptography
     {
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        private readonly IReflectorSettings _reflectorSettings;
+        private readonly ReflectorSettings _reflectorSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
-        public EnigmaPlugboard() => _reflectorSettings = new ReflectorSettings(CharacterSet, CharacterSet);
+        public EnigmaPlugboard() => _reflectorSettings = new(CharacterSet, CharacterSet);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
@@ -29,7 +29,7 @@ namespace Useful.Security.Cryptography
         {
             CheckPairs(pairs);
 
-            _reflectorSettings = new ReflectorSettings(CharacterSet, CharacterSet);
+            _reflectorSettings = new(CharacterSet, CharacterSet);
 
             foreach (KeyValuePair<char, char> pair in pairs)
             {

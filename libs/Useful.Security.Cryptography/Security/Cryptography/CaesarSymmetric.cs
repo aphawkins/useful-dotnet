@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography
         public CaesarSymmetric()
         {
             Reset();
-            _algorithm = new Caesar(new CaesarSettings());
+            _algorithm = new(new CaesarSettings());
         }
 
         /// <inheritdoc />
