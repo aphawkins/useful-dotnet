@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaReflector reflector = new EnigmaReflector(reflectorNumber);
+            EnigmaReflector reflector = new(reflectorNumber);
             Assert.Equal(reflectorNumber, reflector.ReflectorNumber);
 
             for (int i = 0; i < characterSet.Length; i++)

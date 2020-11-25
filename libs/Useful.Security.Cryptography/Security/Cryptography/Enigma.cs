@@ -42,7 +42,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(plaintext));
             }
 
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
             foreach (char inputChar in plaintext.ToCharArray())
             {
                 // Encrypt and Decrypt work the same way
@@ -88,7 +88,7 @@ namespace Useful.Security.Cryptography
             newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(newLetter);
 
             // Go thru the relector
-            EnigmaReflector reflector = new EnigmaReflector(Settings.ReflectorNumber);
+            EnigmaReflector reflector = new(Settings.ReflectorNumber);
             newLetter = reflector.Reflect(newLetter);
 
             // Go thru the rotors backwards

@@ -19,8 +19,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("Å", "", 'A')]
         public void EncryptCtor(string plaintext, string ciphertext, char newFastestRotorPosition)
         {
-            EnigmaSettings settings = new EnigmaSettings();
-            Enigma cipher = new Enigma(settings);
+            EnigmaSettings settings = new();
+            Enigma cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
         }
@@ -58,7 +58,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Enigma_1941_07_07_19_25()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ");
             sb.Append("FKTBZ REZKM LXLVE FGUEY SIOZV ");
             sb.Append("EQMIK UBPMM YLKLT TDEIS MDICA ");
@@ -76,7 +76,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: BLA
             // Final key: BRS
             EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            EnigmaRotorSettings rotorSettings = new();
             rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.V, 12, 'A');
             rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.IV, 21, 'L');
             rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 2, 'B');
@@ -127,7 +127,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void PracticalCryptography()
         {
-            StringBuilder ciphertext = new StringBuilder();
+            StringBuilder ciphertext = new();
             ciphertext.Append("YXBMXADQBDBAAYIMKDODAYIXNBDQZF");
             ciphertext.Append("JKOLFVEEQBCLUUXDFVQYGKEYBVRHON");
             ciphertext.Append("JKPJMKUNLYLZUKBKJOAJTWVWMOMDPG");
@@ -142,7 +142,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: KJS
             // Final key: KPG
             EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            EnigmaRotorSettings rotorSettings = new();
             rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I, 2, 'S');
             rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.V, 15, 'J');
             rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 23, 'K');
@@ -157,7 +157,7 @@ namespace Useful.Security.Cryptography.Tests
             };
             IEnigmaPlugboardSettings plugboardSettings = new EnigmaPlugboardSettings(plugs);
 
-            StringBuilder plaintext = new StringBuilder();
+            StringBuilder plaintext = new();
             plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
             plaintext.Append("USEDBYTHEGERMANSDURINGWORLDWAR");
             plaintext.Append("IITHEENIGMAISONEOFTHEBETTERKNO");
@@ -177,7 +177,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact(Skip = "Settings uncertain.")]
         public void SinghCodeBook()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append("KJQPW CAISR XWQMA SEUPF OCZOQ");
             sb.Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ");
             sb.Append("HRCCF QLVRP CCWLW PUYON FHOGD");
@@ -203,7 +203,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: OUA (?)
             // Final key: BRS (?)
             EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            EnigmaRotorSettings rotorSettings = new();
             rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A');
             rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'U');
             rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.III, 1, 'O');

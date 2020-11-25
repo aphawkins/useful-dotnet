@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class ROT13Tests
     {
-        public static TheoryData<string, string> Data => new TheoryData<string, string>
+        public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
             { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            ROT13 cipher = new ROT13();
+            ROT13 cipher = new();
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -29,14 +29,14 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            ROT13 cipher = new ROT13();
+            ROT13 cipher = new();
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
         [Fact]
         public void Name()
         {
-            ROT13 cipher = new ROT13();
+            ROT13 cipher = new();
             Assert.Equal("ROT13", cipher.CipherName);
             Assert.Equal("ROT13", cipher.ToString());
         }

@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             ICaesarSettings settings = new CaesarSettings(rightShift);
-            CaesarSettingsViewModel settingsViewModel = new CaesarSettingsViewModel(settings);
+            CaesarSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 
             Assert.Equal(rightShift, settingsViewModel.RightShift);
@@ -33,7 +33,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             ICaesarSettings settings = new CaesarSettings();
-            CaesarSettingsViewModel settingsViewModel = new CaesarSettingsViewModel(settings);
+            CaesarSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel.RightShift = rightShift;
 

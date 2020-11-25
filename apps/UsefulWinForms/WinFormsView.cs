@@ -33,7 +33,7 @@ namespace UsefulWinForms
         /// </summary>
         public void Initialize()
         {
-            List<ICipher> ciphers = new List<ICipher>(_controller!.GetCiphers());
+            List<ICipher> ciphers = new(_controller!.GetCiphers());
             comboCiphers.Items.AddRange(ciphers.ToArray());
             comboCiphers.SelectedIndex = 0;
 

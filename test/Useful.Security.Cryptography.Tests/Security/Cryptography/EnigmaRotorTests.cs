@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
     /// </summary>
     public class EnigmaRotorTests
     {
-        public static TheoryData<EnigmaRotorNumber, string, string> Data => new TheoryData<EnigmaRotorNumber, string, string>
+        public static TheoryData<EnigmaRotorNumber, string, string> Data => new()
         {
             { EnigmaRotorNumber.I, "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q" },
             { EnigmaRotorNumber.II, "AJDKSIRUXBLHWTMCQGZNPYFVOE", "E" },
@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography.Tests
             _ = notches;
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaRotor target = new EnigmaRotor(rotorNumber, 1, 'A');
+            EnigmaRotor target = new(rotorNumber, 1, 'A');
 
             Assert.Equal(rotorNumber, target.RotorNumber);
 
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSetting()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A');
+            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A');
 
             // Default
             Assert.Equal('A', target.CurrentSetting);
@@ -57,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSettingInvalid()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
+            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
             {
                 CurrentSetting = 'W',
             };
@@ -68,7 +68,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRing()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
+            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
             {
                 RingPosition = 2,
                 CurrentSetting = 'A',
@@ -83,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPosition()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A');
+            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A');
 
             // Default
             Assert.Equal(1, target.RingPosition);
@@ -94,7 +94,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPositionInvalid()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
+            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
             {
                 RingPosition = 23,
             };

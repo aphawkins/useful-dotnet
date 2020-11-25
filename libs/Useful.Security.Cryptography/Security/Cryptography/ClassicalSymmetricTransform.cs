@@ -79,7 +79,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Input buffer not long enough.", nameof(inputBuffer));
             }
 
-            string inputString = new string(_encoding.GetChars(inputBuffer));
+            string inputString = new(_encoding.GetChars(inputBuffer));
             string outputString;
 
             switch (_transformMode)

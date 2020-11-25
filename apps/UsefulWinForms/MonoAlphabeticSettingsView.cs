@@ -14,7 +14,7 @@ namespace UsefulWinForms
 
     internal partial class MonoAlphabeticSettingsView : UserControl, ICipherSettingsView
     {
-        private readonly List<ComboBox> _combos = new List<ComboBox>();
+        private readonly List<ComboBox> _combos = new();
         private SettingsController? _controller;
         private MonoAlphabeticSettingsViewModel? _settings;
 
@@ -37,7 +37,7 @@ namespace UsefulWinForms
             int i = 0;
             foreach (char c in _settings!.CharacterSet)
             {
-                TextBox textBox = new TextBox
+                TextBox textBox = new()
                 {
                     Location = new System.Drawing.Point(width * i, 3),
                     Name = $"textBox{i}",
@@ -48,7 +48,7 @@ namespace UsefulWinForms
                 };
                 Controls.Add(textBox);
 
-                ComboBox combo = new ComboBox
+                ComboBox combo = new()
                 {
                     FormattingEnabled = true,
                     Location = new System.Drawing.Point(width * i, 23),

@@ -22,7 +22,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryCreate()
         {
-            CipherRepository repository = new CipherRepository();
+            CipherRepository repository = new();
             int count = repository.Read().Count();
             repository.Create(_moqCipher.Object);
             Assert.Equal(count + 1, repository.Read().Count());
@@ -31,14 +31,14 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryRead()
         {
-            CipherRepository repository = new CipherRepository();
+            CipherRepository repository = new();
             Assert.Empty(repository.Read());
         }
 
         [Fact]
         public void RepositoryUpdate()
         {
-            CipherRepository repository = new CipherRepository();
+            CipherRepository repository = new();
             int count = repository.Read().Count();
             repository.Update(_moqCipher.Object);
             Assert.Equal(count, repository.Read().Count());
@@ -47,7 +47,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositoryDelete()
         {
-            CipherRepository repository = new CipherRepository();
+            CipherRepository repository = new();
             repository.Create(_moqCipher.Object);
             int count = repository.Read().Count();
             repository.Delete(repository.Read().ToList()[0]);
@@ -57,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RepositorySetCurrentItem()
         {
-            CipherRepository repository = new CipherRepository();
+            CipherRepository repository = new();
             repository.Create(_moqCipher.Object);
             repository.SetCurrentItem(x => x.CipherName == "MoqCipherName");
             Assert.Equal(repository.CurrentItem, _moqCipher.Object);

@@ -53,7 +53,7 @@ namespace Useful.Security.Cryptography
             get
             {
                 // CharacterSet|Substitutions
-                StringBuilder key = new StringBuilder(_algorithm.Settings.CharacterSet);
+                StringBuilder key = new(_algorithm.Settings.CharacterSet);
                 key.Append(KeySeperator);
                 key.Append(_algorithm.Settings.Substitutions);
                 return Encoding.GetBytes(key.ToString());
@@ -68,7 +68,7 @@ namespace Useful.Security.Cryptography
                 }
                 catch (ArgumentException ex)
                 {
-                    throw new ArgumentException("Argument exception.", nameof(key), ex);
+                    throw new ArgumentException("Argument exception.", nameof(Key), ex);
                 }
 
                 _algorithm.Settings = new ReflectorSettings(key.CharacterSet, key.Substitutions);

@@ -163,7 +163,7 @@ namespace Useful.Security.Cryptography
 
             (string rotorWiring, string notches) = wiring[rotorNumber];
 
-            MonoAlphabeticSettings wiringSettings = new MonoAlphabeticSettings(CharacterSet, rotorWiring);
+            MonoAlphabeticSettings wiringSettings = new(CharacterSet, rotorWiring);
 
             return (wiringSettings, notches);
         }

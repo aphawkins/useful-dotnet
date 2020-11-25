@@ -45,7 +45,7 @@ namespace Useful.Security.Cryptography
 
         private static EnigmaReflector GetRandomReflector()
         {
-            Random rnd = new Random();
+            Random rnd = new();
 
             IList<EnigmaReflectorNumber> reflectors = GetAllowedReflectors();
 
@@ -56,26 +56,26 @@ namespace Useful.Security.Cryptography
 
         private static EnigmaRotor GetRandomRotor(EnigmaRotorNumber rotorNumber)
         {
-            Random rnd = new Random();
+            Random rnd = new();
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaRotor rotor = new EnigmaRotor(rotorNumber, rnd.Next(1, letters.Length), 'A');
+            EnigmaRotor rotor = new(rotorNumber, rnd.Next(1, letters.Length), 'A');
 
             return rotor;
         }
 
         private static char GetRandomRotorCurrentSetting()
         {
-            Random rnd = new Random();
+            Random rnd = new();
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return letters[rnd.Next(0, letters.Length - 1)];
         }
 
         private static EnigmaRotorSettings GetRandomRotorSettings()
         {
-            Random rnd = new Random();
+            Random rnd = new();
             int nextRandomNumber;
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            EnigmaRotorSettings rotorSettings = new();
 
             IList<EnigmaRotorPosition> availableRotorPositions = new List<EnigmaRotorPosition>()
             {

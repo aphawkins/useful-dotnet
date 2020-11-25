@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public class CipherRepository : IRepository<ICipher>
     {
-        private readonly List<ICipher> _ciphers = new List<ICipher>();
+        private readonly List<ICipher> _ciphers = new();
 
         /// <summary>
         /// Gets or sets the current cipher.

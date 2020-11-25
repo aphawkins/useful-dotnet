@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 
             Assert.Throws<ArgumentException>("value", () => settingsViewModel[from] = to);
@@ -29,7 +29,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
 
@@ -44,7 +44,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
 
@@ -59,7 +59,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
 
@@ -74,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
 
@@ -91,7 +91,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 
             Assert.Throws<ArgumentException>("value", () => settingsViewModel[from] = to);
@@ -106,7 +106,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             string propertyChanged = string.Empty;
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabeticSettingsViewModel settingsViewModel = new MonoAlphabeticSettingsViewModel(settings);
+            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
 

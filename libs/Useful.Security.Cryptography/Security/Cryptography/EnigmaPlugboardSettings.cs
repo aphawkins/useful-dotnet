@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public IReadOnlyDictionary<char, char> Substitutions()
         {
-            Dictionary<char, char> pairsToAdd = new Dictionary<char, char>();
+            Dictionary<char, char> pairsToAdd = new();
 
             for (int i = 0; i < CharacterSet.Length; i++)
             {
@@ -71,14 +71,14 @@ namespace Useful.Security.Cryptography
         /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
         /// <param name="pairs">The pairs to check.</param>
-        private void CheckPairs(IDictionary<char, char> pairs)
+        private static void CheckPairs(IDictionary<char, char> pairs)
         {
             if (pairs is null)
             {
                 throw new ArgumentNullException(nameof(pairs));
             }
 
-            List<char> uniqueLetters = new List<char>();
+            List<char> uniqueLetters = new();
 
             foreach (KeyValuePair<char, char> pair in pairs)
             {

@@ -10,7 +10,7 @@ namespace UsefulWeb
     {
         public WebCipherRepository()
         {
-            Atbash cipher = new Atbash();
+            Atbash cipher = new();
             Create(cipher);
             Create(new ROT13());
             CurrentItem = cipher;

@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class AtbashTests
     {
-        public static TheoryData<string, string> Data => new TheoryData<string, string>
+        public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            Atbash cipher = new Atbash();
+            Atbash cipher = new();
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -29,14 +29,14 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            Atbash cipher = new Atbash();
+            Atbash cipher = new();
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
         [Fact]
         public void Name()
         {
-            Atbash cipher = new Atbash();
+            Atbash cipher = new();
             Assert.Equal("Atbash", cipher.CipherName);
             Assert.Equal("Atbash", cipher.ToString());
         }

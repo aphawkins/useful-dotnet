@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class ReflectorTests
     {
-        public static TheoryData<string, string, string, string> Data => new TheoryData<string, string, string, string>
+        public static TheoryData<string, string, string, string> Data => new()
         {
             { "ABC", "ABC", "ABC", "ABC" }, // Default settings
             { "ABC", "BAC", "ABC", "BAC" }, // Simple substitution
@@ -24,7 +24,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
-            Reflector cipher = new Reflector(settings);
+            Reflector cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -33,7 +33,7 @@ namespace Useful.Security.Cryptography.Tests
         public void EncryptCipher(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
-            Reflector cipher = new Reflector(settings);
+            Reflector cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Name()
         {
             IReflectorSettings settings = new ReflectorSettings();
-            Reflector cipher = new Reflector(settings);
+            Reflector cipher = new(settings);
             Assert.Equal("Reflector", cipher.CipherName);
             Assert.Equal("Reflector", cipher.ToString());
         }

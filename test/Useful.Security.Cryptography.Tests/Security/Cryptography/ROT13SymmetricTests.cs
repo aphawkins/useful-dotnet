@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class ROT13SymmetricTests
     {
-        public static TheoryData<string, string> Data => new TheoryData<string, string>
+        public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
             { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },

@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class MonoAlphabeticTests
     {
-        public static TheoryData<string, string, string, string> Data => new TheoryData<string, string, string, string>
+        public static TheoryData<string, string, string, string> Data => new()
         {
             { "ABC", "BAC", "ABC", "BAC" },
             { "ABCD", "BADC", "ABCD", "BADC" },
@@ -27,7 +27,7 @@ namespace Useful.Security.Cryptography.Tests
             string substitutions = "ABC";
 
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal(characterSet, cipher.Settings.CharacterSet);
             Assert.Equal(substitutions, cipher.Settings.Substitutions);
         }
@@ -37,7 +37,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Encrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
@@ -54,7 +54,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Name()
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            MonoAlphabetic cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal("MonoAlphabetic", cipher.CipherName);
             Assert.Equal("MonoAlphabetic", cipher.ToString());
         }
@@ -102,8 +102,8 @@ namespace Useful.Security.Cryptography.Tests
 
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string substitutions = "MFANXIWPBSHGLTCQKVRJUDYZEO";
-            MonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new MonoAlphabetic(settings);
+            MonoAlphabeticSettings settings = new(characterSet, substitutions);
+            MonoAlphabetic cipher = new(settings);
             System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));

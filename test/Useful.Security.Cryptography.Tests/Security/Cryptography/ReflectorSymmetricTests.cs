@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class ReflectorSymmetricTests
     {
-        public static TheoryData<string, string, string> Data => new TheoryData<string, string, string>
+        public static TheoryData<string, string, string> Data => new()
         {
             { "ABC|ABC", "ABC", "ABC" }, // Default settings
             { "ABC|BAC", "ABC", "BAC" }, // Simple substitution
@@ -27,7 +27,7 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorSettings()
         {
             byte[] defaultKey = Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             Assert.Equal(defaultKey, cipher.Key);
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -35,7 +35,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             byte[] key = Encoding.Unicode.GetBytes("ABC|ABC");
             cipher.Key = key;
             Assert.Equal(key, cipher.Key);
@@ -44,7 +44,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             byte[] iv = Encoding.Unicode.GetBytes("A");
             cipher.IV = iv;
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             cipher.GenerateIV();
             Assert.Equal(Array.Empty<byte>(), cipher.IV);
         }
@@ -83,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             string keyString;
             for (int i = 0; i < 100; i++)
             {
@@ -99,7 +99,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             bool diff = false;
 
-            using (ReflectorSymmetric cipher = new ReflectorSymmetric())
+            using (ReflectorSymmetric cipher = new())
             {
                 byte[] key = Array.Empty<byte>();
                 byte[] newKey;
@@ -128,7 +128,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using ReflectorSymmetric cipher = new ReflectorSymmetric();
+            using ReflectorSymmetric cipher = new();
             Assert.Equal("Reflector", cipher.ToString());
         }
     }

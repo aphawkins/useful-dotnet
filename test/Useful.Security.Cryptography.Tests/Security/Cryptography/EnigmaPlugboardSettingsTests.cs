@@ -12,14 +12,14 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaPlugboardSettingsTests
     {
-        public static TheoryData<IDictionary<char, char>> InvalidPairs => new TheoryData<IDictionary<char, char>>
+        public static TheoryData<IDictionary<char, char>> InvalidPairs => new()
         {
             { new Dictionary<char, char>() { { 'A', 'B' }, { 'B', 'A' } } }, // Repeat letters
             { new Dictionary<char, char>() { { 'a', 'B' } } }, // Subs incorrect case
             { new Dictionary<char, char>() { { 'A', 'A' } } }, // Same letter
         };
 
-        public static TheoryData<IDictionary<char, char>, int> ValidPairs => new TheoryData<IDictionary<char, char>, int>
+        public static TheoryData<IDictionary<char, char>, int> ValidPairs => new()
         {
             { new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, 2 },
         };

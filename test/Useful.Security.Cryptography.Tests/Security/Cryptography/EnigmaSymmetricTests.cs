@@ -69,7 +69,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Enigma_1941_07_07_19_25()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ");
             sb.Append("FKTBZ REZKM LXLVE FGUEY SIOZV ");
             sb.Append("EQMIK UBPMM YLKLT TDEIS MDICA ");
@@ -230,7 +230,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void PracticalCryptography()
         {
-            StringBuilder ciphertext = new StringBuilder();
+            StringBuilder ciphertext = new();
             ciphertext.Append("YXBMXADQBDBAAYIMKDODAYIXNBDQZF");
             ciphertext.Append("JKOLFVEEQBCLUUXDFVQYGKEYBVRHON");
             ciphertext.Append("JKPJMKUNLYLZUKBKJOAJTWVWMOMDPG");
@@ -248,7 +248,7 @@ namespace Useful.Security.Cryptography.Tests
             string ivString = "K J S";
             string newIv = "K P G";
 
-            StringBuilder plaintext = new StringBuilder();
+            StringBuilder plaintext = new();
             plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
             plaintext.Append("USEDBYTHEGERMANSDURINGWORLDWAR");
             plaintext.Append("IITHEENIGMAISONEOFTHEBETTERKNO");
@@ -270,7 +270,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact(Skip = "Settings uncertain.")]
         public void SinghCodeBook()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append("KJQPW CAISR XWQMA SEUPF OCZOQ");
             sb.Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ");
             sb.Append("HRCCF QLVRP CCWLW PUYON FHOGD");

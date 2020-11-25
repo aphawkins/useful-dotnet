@@ -86,7 +86,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(' ')] // Space
         public void ReverseInvalid(char letter)
         {
-            ReflectorSettings settings = new ReflectorSettings();
+            ReflectorSettings settings = new();
             Assert.Equal(letter, settings.Reflect(letter));
         }
 
@@ -95,7 +95,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'C', 'A', "CBA", 2)]
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            ReflectorSettings settings = new(characterSet, substitutions);
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -108,7 +108,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "CBA", 'A', 'A', "ABC", 0)]
         public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            ReflectorSettings settings = new(characterSet, substitutions);
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -121,7 +121,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "CBA", 'A', 'C', "CBA", 2)]
         public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            ReflectorSettings settings = new(characterSet, substitutions);
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -135,7 +135,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'Ø', 'A', 0)]
         public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, int substitutionCount)
         {
-            ReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            ReflectorSettings settings = new(characterSet, substitutions);
 
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
             Assert.Equal(characterSet, settings.CharacterSet);

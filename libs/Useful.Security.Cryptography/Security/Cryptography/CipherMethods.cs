@@ -29,11 +29,11 @@ namespace Useful.Security.Cryptography
             }
 
             using ICryptoTransform transformer = GetTransformer(cipher, transformMode);
-            using StreamReader reader = new StreamReader(input, new UnicodeEncoding());
+            using StreamReader reader = new(input, new UnicodeEncoding());
             reader.Peek();
 
             // Create a CryptoStream using the FileStream and the passed key and initialization vector (IV).
-            using CryptoStream crypto = new CryptoStream(output, transformer, CryptoStreamMode.Write);
+            using CryptoStream crypto = new(output, transformer, CryptoStreamMode.Write);
             byte[] bytes;
 
             // The cipher is expecting Unicode
@@ -86,8 +86,8 @@ namespace Useful.Security.Cryptography
             //    throw new NotImplementedException();
 
             // Encrypt the data.
-            using MemoryStream inputStream = new MemoryStream(encoding.GetBytes(input));
-            using MemoryStream outputStream = new MemoryStream();
+            using MemoryStream inputStream = new(encoding.GetBytes(input));
+            using MemoryStream outputStream = new();
             SymmetricTransform(cipher, transformMode, inputStream, outputStream);
 
             // Remove padding on odd length bytes

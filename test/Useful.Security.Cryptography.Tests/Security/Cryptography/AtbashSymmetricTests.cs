@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class AtbashSymmetricTests
     {
-        public static TheoryData<string, string> Data => new TheoryData<string, string>
+        public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },

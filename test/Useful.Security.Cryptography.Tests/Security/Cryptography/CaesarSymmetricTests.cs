@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class CaesarSymmetricTests
     {
-        public static TheoryData<string, string, int> Data => new TheoryData<string, string, int>
+        public static TheoryData<string, string, int> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3 },

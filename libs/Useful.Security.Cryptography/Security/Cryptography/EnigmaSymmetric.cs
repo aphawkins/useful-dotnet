@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
 
@@ -53,7 +54,7 @@ namespace Useful.Security.Cryptography
             // "B|III II I|03 02 01|DN GR IS KC QX TM PV HY FW BJ"
             get
             {
-                StringBuilder key = new StringBuilder();
+                StringBuilder key = new();
 
                 // Reflector
                 key.Append(_algorithm.Settings.ReflectorNumber.ToString());
@@ -174,7 +175,7 @@ namespace Useful.Security.Cryptography
                 { EnigmaRotorPosition.Third, new EnigmaRotor(rotorNumbers[EnigmaRotorPosition.Third], rings[EnigmaRotorPosition.Third], 'A') },
             };
 
-            EnigmaRotorSettings rotors = new EnigmaRotorSettings(list);
+            EnigmaRotorSettings rotors = new(list);
 
             EnigmaPlugboardSettings plugboard = ParsePlugboard(parts[3]);
 
@@ -209,8 +210,9 @@ namespace Useful.Security.Cryptography
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
         {
             int rotorPositionsCount = 3;
-
             string[] rotors = rotorNumbers.Split(new char[] { ' ' });
+            Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = new();
+
             if (rotors.Length <= 0)
             {
                 throw new ArgumentException("No rotors specified.", nameof(rotorNumbers));
@@ -226,8 +228,9 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Too few rotors specified.", nameof(rotorNumbers));
             }
 
-            foreach (string rotor in rotors)
+            for (int i = 0; i < rotors.Length; i++)
             {
+                string rotor = rotors.Reverse().ToList()[i];
                 if (string.IsNullOrEmpty(rotor) || rotor.Contains("\0"))
                 {
                     throw new ArgumentException("Null or empty rotor specified.", nameof(rotorNumbers));
@@ -238,18 +241,11 @@ namespace Useful.Security.Cryptography
                 {
                     throw new ArgumentException($"Invalid rotor number {rotor}.", nameof(rotorNumbers));
                 }
+
+                newRotors.Add((EnigmaRotorPosition)i, rotorNumber);
             }
 
-            Enum.TryParse(rotors[2], out EnigmaRotorNumber rotorNumberFastest);
-            Enum.TryParse(rotors[1], out EnigmaRotorNumber rotorNumberSecond);
-            Enum.TryParse(rotors[0], out EnigmaRotorNumber rotorNumberThird);
-
-            return new Dictionary<EnigmaRotorPosition, EnigmaRotorNumber>
-            {
-                { EnigmaRotorPosition.Fastest, rotorNumberFastest },
-                { EnigmaRotorPosition.Second, rotorNumberSecond },
-                { EnigmaRotorPosition.Third, rotorNumberThird },
-            };
+            return newRotors;
         }
 
         private static IDictionary<EnigmaRotorPosition, int> ParseEnigmaRings(string ringSettings)
@@ -372,7 +368,7 @@ namespace Useful.Security.Cryptography
 
         private static string PlugboardString(IEnigmaPlugboardSettings settings)
         {
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
             IReadOnlyDictionary<char, char> substitutions = settings.Substitutions();
 
             foreach (KeyValuePair<char, char> pair in substitutions)

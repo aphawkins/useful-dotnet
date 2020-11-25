@@ -15,7 +15,7 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public string Decrpyt([FromBody] string ciphertext)
         {
-            using Atbash cipher = new Atbash();
+            using Atbash cipher = new();
             return cipher.Decrypt(ciphertext);
         }
 
@@ -23,7 +23,7 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ITest Encrpyt([FromBody] string plaintext)
         {
-            using Atbash cipher = new Atbash();
+            using Atbash cipher = new();
             ITest test = new TestResponse
             {
                 Ciphertext = cipher.Encrypt(plaintext),

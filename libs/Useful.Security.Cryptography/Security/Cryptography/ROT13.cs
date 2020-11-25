@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(plaintext));
             }
 
-            StringBuilder sb = new StringBuilder(plaintext.Length);
+            StringBuilder sb = new(plaintext.Length);
 
             for (int i = 0; i < plaintext.Length; i++)
             {

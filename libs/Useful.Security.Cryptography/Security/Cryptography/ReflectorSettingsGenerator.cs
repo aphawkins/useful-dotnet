@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
             IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
             IList<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
 
-            Random rnd = new Random();
+            Random rnd = new();
             int indexFrom;
             int indexTo;
 

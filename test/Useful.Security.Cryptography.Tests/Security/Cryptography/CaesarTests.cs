@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class CaesarTests
     {
-        public static TheoryData<string, string, int> Data => new TheoryData<string, string, int>
+        public static TheoryData<string, string, int> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3 },
@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorSettings()
         {
-            Caesar cipher = new Caesar(new CaesarSettings(7));
+            Caesar cipher = new(new CaesarSettings(7));
             Assert.Equal(7, cipher.Settings.RightShift);
         }
 
@@ -29,7 +29,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string plaintext, string ciphertext, int rightShift)
         {
-            Caesar cipher = new Caesar(new CaesarSettings());
+            Caesar cipher = new(new CaesarSettings());
             cipher.Settings.RightShift = rightShift;
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Encrypt(string plaintext, string ciphertext, int rightShift)
         {
-            Caesar cipher = new Caesar(new CaesarSettings());
+            Caesar cipher = new(new CaesarSettings());
             cipher.Settings.RightShift = rightShift;
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            Caesar cipher = new Caesar(new CaesarSettings());
+            Caesar cipher = new(new CaesarSettings());
             Assert.Equal("Caesar", cipher.CipherName);
             Assert.Equal("Caesar", cipher.ToString());
         }
@@ -57,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
             string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            Caesar cipher = new Caesar(new CaesarSettings(7));
+            Caesar cipher = new(new CaesarSettings(7));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }

@@ -149,7 +149,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The ring key.</returns>
         public string RotorRingKey()
         {
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
 
             foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {
@@ -171,7 +171,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The rotor order.</returns>
         public string RotorOrderKey()
         {
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
 
             foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {
@@ -193,7 +193,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The settings key.</returns>
         public string RotorSettingKey()
         {
-            StringBuilder key = new StringBuilder();
+            StringBuilder key = new();
 
             foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {

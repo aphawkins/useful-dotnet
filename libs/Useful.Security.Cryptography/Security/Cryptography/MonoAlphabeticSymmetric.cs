@@ -53,7 +53,7 @@ namespace Useful.Security.Cryptography
             get
             {
                 // CharacterSet|Substitutions
-                StringBuilder key = new StringBuilder(_algorithm.Settings.CharacterSet);
+                StringBuilder key = new(_algorithm.Settings.CharacterSet);
                 key.Append(KeySeperator);
                 key.Append(_algorithm.Settings.Substitutions);
 

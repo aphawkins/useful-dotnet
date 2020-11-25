@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
 
     public class MonoAlphabeticSymmetricTests
     {
-        public static TheoryData<string, string, string> Data => new TheoryData<string, string, string>
+        public static TheoryData<string, string, string> Data => new()
         {
             { "ABC|BAC", "ABC", "BAC" },
             { "ABCD|BADC", "ABCD", "BADC" },
