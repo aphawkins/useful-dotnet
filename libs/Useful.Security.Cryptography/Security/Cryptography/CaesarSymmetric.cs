@@ -46,15 +46,17 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
         {
-            ICipher cipher = new Caesar(GetSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Decrypt);
+            Key = rgbKey;
+            IV = rgbIV ?? Array.Empty<byte>();
+            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
         }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
         {
-            ICipher cipher = new Caesar(GetSettings(rgbKey));
-            return new ClassicalSymmetricTransform(cipher, CipherTransformMode.Encrypt);
+            Key = rgbKey;
+            IV = rgbIV ?? Array.Empty<byte>();
+            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
         }
 
         /// <inheritdoc />
@@ -71,7 +73,7 @@ namespace Useful.Security.Cryptography
             Key = KeyValue;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString() => _algorithm.CipherName;
 
         private static ICaesarSettings GetSettings(byte[] key)

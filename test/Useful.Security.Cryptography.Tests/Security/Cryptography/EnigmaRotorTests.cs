@@ -32,7 +32,8 @@ namespace Useful.Security.Cryptography.Tests
             _ = notches;
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaRotor target = new EnigmaRotor(rotorNumber);
+            EnigmaRotor target = new EnigmaRotor(rotorNumber, 1, 'A');
+
             Assert.Equal(rotorNumber, target.RotorNumber);
 
             for (int i = 0; i < characterSet.Length; i++)
@@ -45,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSetting()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I);
+            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A');
 
             // Default
             Assert.Equal('A', target.CurrentSetting);
@@ -56,7 +57,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSettingInvalid()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I)
+            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
             {
                 CurrentSetting = 'W',
             };
@@ -67,7 +68,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRing()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I)
+            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
             {
                 RingPosition = 2,
                 CurrentSetting = 'A',
@@ -82,7 +83,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPosition()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I);
+            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A');
 
             // Default
             Assert.Equal(1, target.RingPosition);
@@ -93,7 +94,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPositionInvalid()
         {
-            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I)
+            EnigmaRotor target = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A')
             {
                 RingPosition = 23,
             };

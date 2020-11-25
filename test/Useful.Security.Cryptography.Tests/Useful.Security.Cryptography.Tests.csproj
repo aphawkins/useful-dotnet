@@ -6,13 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Security\Cryptography\CipherSettingsTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaPlugboardSettingsTests.cs" />
+    <Compile Remove="Security\Cryptography\EnigmaPlugboardSettingsTests - Copy.cs" />
     <Compile Remove="Security\Cryptography\EnigmaPlugboardTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaReflectorTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorSettingsTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaRotorTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaSettingsTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

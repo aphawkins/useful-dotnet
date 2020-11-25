@@ -2,12 +2,9 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -15,46 +12,48 @@ namespace Useful.Security.Cryptography.Tests
     public class EnigmaTests
     {
         [Theory]
-        [InlineData("", "", "B|III II I|01 01 01|", "A A A")]
-        [InlineData("HELLOWORLD", "MFNCZBBFZM", "B|III II I|01 01 01|", "A A K")]
-        [InlineData("HELLO WORLD", "MFNCZ BBFZM", "B|III II I|01 01 01|", "A A K")]
-        [InlineData("HeLlOwOrLd", "MOQZT", "B|III II I|01 01 01|", "A A F")]
-        [InlineData("Å", "", "B|III II I|01 01 01|", "A A A")]
-        public void EncryptCtor(string plaintext, string ciphertext, string newKey, string newIV)
+        [InlineData("", "", 'A')]
+        [InlineData("HELLOWORLD", "MFNCZBBFZM", 'K')]
+        [InlineData("HELLO WORLD", "MFNCZ BBFZM", 'K')]
+        [InlineData("HeLlOwOrLd", "MOQZT", 'F')]
+        [InlineData("Å", "", 'A')]
+        public void EncryptCtor(string plaintext, string ciphertext, char newFastestRotorPosition)
         {
-            using Enigma target = new Enigma();
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-            Assert.Equal(ciphertext, s);
-            Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
+            EnigmaSettings settings = new EnigmaSettings();
+            Enigma cipher = new Enigma(settings);
+            Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
+            Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
         }
 
-        [Theory]
-        [InlineData("A", "F", "B|III II I|01 01 01|", "A A A", "A A B")] // Default
-        [InlineData("A", "G", "B|III II I|01 01 01|", "A A E", "A A F")] // Change Setting
-        [InlineData("A", "J", "B|III II I|01 01 12|", "A A A", "A A B")] // Change Ring
-        [InlineData("A", "C", "B|III I II|01 01 01|", "A A A", "A A B")] // Change Rotor
-        [InlineData("A", "H", "B|II I III|01 01 01|", "A A A", "A A B")] // Change Rotor
-        [InlineData("A", "P", "B|III II IV|01 01 01|", "A A A", "A A B")] // Change Rotor
-        [InlineData("A", "U", "B|III II V|01 01 01|", "A A A", "A A B")] // Change Rotor
-        [InlineData("A", "W", "B|III II VI|01 01 01|", "A A A", "A A B")] // Change Rotor
-        [InlineData("A", "B", "B|III II V|01 01 12|", "A A A", "A A B")] // Change Rotor + Ring
-        [InlineData("A", "N", "B|III II V|01 01 12|", "A A E", "A A F")] // Change Rotor + Ring + Setting
-        [InlineData("HELLOWORLD", "VKHWQLADBN", "B|III II I|02 02 02|", "A A A", "A A K")]
-        [InlineData("A", "M", "B|III II I|01 01 01|", "K D Q", "K E R")] // Notch - single step
-        [InlineData("A", "H", "B|III II I|01 01 01|", "K E R", "L F S")] // Doublestep the middle rotor here
-        [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
-        [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")] // Complex
-        [InlineData("B", "I", "B|II V I|23 15 02|HN IU JK LM OP TY", "K K R", "K K S")] // Bugfix
-        public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
-        {
-            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using Enigma target = new Enigma(settings);
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
-            Assert.Equal(ciphertext, s);
-        }
+        ////[Fact]
+        ////public void SettingCtor()
+        ////{
+        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
+        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
+        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
+        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new ReflectorSettings());
+        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", target.CharacterSet);
+        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
+        ////}
+
+        ////[Fact]
+        ////public void SettingDefault()
+        ////{
+        ////    EnigmaSettings target = new EnigmaSettings();
+        ////    Assert.Equal(new EnigmaRotorSettings().SettingKey(), target.Rotors.SettingKey());
+        ////}
+
+        ////[Fact]
+        ////public void SettingKeyCtor()
+        ////{
+        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes("C B A"));
+        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
+        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
+        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
+        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
+        ////}
 
         [Fact]
         public void Enigma_1941_07_07_19_25()
@@ -75,9 +74,26 @@ namespace Useful.Security.Cryptography.Tests
             // Ring positions:  02 21 12  (B U L)
             // Plug pairs: AV BS CG DL FU HZ IN KM OW RX
             // Message key: BLA
-            string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
-            string ivString = "B L A";
-            string newIv = "B R S";
+            // Final key: BRS
+            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.V, 12, 'A');
+            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.IV, 21, 'L');
+            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 2, 'B');
+            IDictionary<char, char> plugs = new Dictionary<char, char>
+            {
+                { 'A', 'V' },
+                { 'B', 'S' },
+                { 'C', 'G' },
+                { 'D', 'L' },
+                { 'F', 'U' },
+                { 'H', 'Z' },
+                { 'I', 'N' },
+                { 'K', 'M' },
+                { 'O', 'W' },
+                { 'R', 'X' },
+            };
+            IEnigmaPlugboardSettings plugboardSettings = new EnigmaPlugboardSettings(plugs);
 
             sb = new StringBuilder();
             sb.Append("AUFKL XABTE ILUNG XVONX KURTI ");
@@ -90,128 +106,20 @@ namespace Useful.Security.Cryptography.Tests
 
             string plaintext = sb.ToString();
 
-            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using Enigma target = new Enigma(settings);
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
-            Assert.Equal(plaintext, s);
-            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
-        }
-
-        [Fact]
-        public void IvGenerateCorrectness()
-        {
-            using Enigma cipher = new Enigma();
-            string ivString;
-            for (int i = 0; i < 100; i++)
-            {
-                cipher.GenerateIV();
-                ivString = Encoding.Unicode.GetString(cipher.IV);
-
-                // Test IV correctness here
-            }
-        }
-
-        [Fact]
-        public void IvGenerateRandomness()
-        {
-            bool diff = false;
-
-            using (Enigma cipher = new Enigma())
-            {
-                byte[] iv = Array.Empty<byte>();
-                byte[] newIv;
-
-                cipher.GenerateIV();
-                newIv = cipher.IV;
-                iv = newIv;
-
-                for (int i = 0; i < 10; i++)
-                {
-                    if (!newIv.SequenceEqual(iv))
-                    {
-                        diff = true;
-                        break;
-                    }
-
-                    iv = newIv;
-                    cipher.GenerateIV();
-                    newIv = cipher.IV;
-                }
-            }
-
-            Assert.True(diff);
-        }
-
-        [Fact]
-        public void IvSet()
-        {
-            using Enigma cipher = new Enigma();
-            byte[] iv = Encoding.Unicode.GetBytes("A B C");
-            cipher.IV = iv;
-            Assert.Equal(iv, cipher.Settings.IV.ToArray());
-            Assert.Equal(iv, cipher.IV);
-        }
-
-        [Fact]
-        public void KeyGenerateCorrectness()
-        {
-            using Enigma cipher = new Enigma();
-            string keyString;
-            for (int i = 0; i < 100; i++)
-            {
-                cipher.GenerateKey();
-                keyString = Encoding.Unicode.GetString(cipher.Key);
-
-                // Test key correctness here
-            }
-        }
-
-        [Fact]
-        public void KeyGenerateRandomness()
-        {
-            bool diff = false;
-
-            using (Enigma cipher = new Enigma())
-            {
-                byte[] key = Array.Empty<byte>();
-                byte[] newKey;
-
-                cipher.GenerateKey();
-                newKey = cipher.Key;
-                key = newKey;
-
-                for (int i = 0; i < 10; i++)
-                {
-                    if (!newKey.SequenceEqual(key))
-                    {
-                        diff = true;
-                        break;
-                    }
-
-                    key = newKey;
-                    cipher.GenerateKey();
-                    newKey = cipher.Key;
-                }
-            }
-
-            Assert.True(diff);
-        }
-
-        [Fact]
-        public void KeySet()
-        {
-            using Enigma cipher = new Enigma();
-            byte[] key = Encoding.Unicode.GetBytes("B|I II III|01 02 03|AB CD");
-            cipher.Key = key;
-            Assert.Equal(key, cipher.Settings.Key.ToArray());
-            Assert.Equal(key, cipher.Key);
+            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboardSettings);
+            ICipher cipher = new Enigma(settings);
+            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
+            Assert.Equal(plaintext.ToString(), newPlaintext);
+            Assert.Equal('S', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('R', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('B', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact]
         public void Name()
         {
-            using Enigma cipher = new Enigma();
+            IEnigmaSettings settings = new EnigmaSettings();
+            ICipher cipher = new Enigma(settings);
             Assert.Equal("Enigma M3", cipher.CipherName);
             Assert.Equal("Enigma M3", cipher.ToString());
         }
@@ -232,9 +140,22 @@ namespace Useful.Security.Cryptography.Tests
             // Ring positions:  23 15 02  (W O B)
             // Plug pairs: PO ML IU KJ NH YT
             // Message key: KJS
-            string keyString = "B|II V I|23 15 02|HN IU JK LM OP TY";
-            string ivString = "K J S";
-            string newIv = "K P G";
+            // Final key: KPG
+            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.I, 2, 'S');
+            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.V, 15, 'J');
+            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.II, 23, 'K');
+            IDictionary<char, char> plugs = new Dictionary<char, char>
+            {
+                { 'P', 'O' },
+                { 'M', 'L' },
+                { 'I', 'U' },
+                { 'K', 'J' },
+                { 'N', 'H' },
+                { 'Y', 'T' },
+            };
+            IEnigmaPlugboardSettings plugboardSettings = new EnigmaPlugboardSettings(plugs);
 
             StringBuilder plaintext = new StringBuilder();
             plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
@@ -244,12 +165,13 @@ namespace Useful.Security.Cryptography.Tests
             plaintext.Append("ANDITACTUALLYREFERSTOARANGEOFS");
             plaintext.Append("IMILARCIPHERMACHINES");
 
-            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using Enigma target = new Enigma(settings);
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
-            Assert.Equal(plaintext.ToString(), s);
-            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
+            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboardSettings);
+            ICipher cipher = new Enigma(settings);
+            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
+            Assert.Equal(plaintext.ToString(), newPlaintext);
+            Assert.Equal('G', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('P', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('K', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact(Skip = "Settings uncertain.")]
@@ -278,10 +200,23 @@ namespace Useful.Security.Cryptography.Tests
             // Wheel order: III I II (Possibly III II I)
             // Ring positions: 01 01 01 (A A A) (?)
             // Plug pairs: EI AS JN KL MU OT
-            // Message key:
-            string keyString = "B|III II I|01 01 01|EI AS JN KL MU OT";
-            string ivString = "O U A";
-            string newIv = "B R S";
+            // Message key: OUA (?)
+            // Final key: BRS (?)
+            EnigmaReflectorNumber reflector = EnigmaReflectorNumber.B;
+            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
+            rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A');
+            rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.I, 1, 'U');
+            rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.III, 1, 'O');
+            IDictionary<char, char> plugs = new Dictionary<char, char>
+            {
+                { 'E', 'I' },
+                { 'A', 'S' },
+                { 'J', 'N' },
+                { 'K', 'L' },
+                { 'M', 'U' },
+                { 'O', 'T' },
+            };
+            IEnigmaPlugboardSettings plugboard = new EnigmaPlugboardSettings(plugs);
 
             sb = new StringBuilder();
             sb.Append("DASXL OESUN GSWOR TXIST XPLUT");
@@ -302,12 +237,13 @@ namespace Useful.Security.Cryptography.Tests
 
             string plaintext = sb.ToString();
 
-            EnigmaSettings settings = new EnigmaSettings(Encoding.Unicode.GetBytes(keyString), Encoding.Unicode.GetBytes(ivString));
-            using Enigma target = new Enigma(settings);
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
-            Assert.Equal(plaintext, s);
-            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
-            Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
+            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboard);
+            ICipher cipher = new Enigma(settings);
+            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
+            Assert.Equal(plaintext.ToString(), newPlaintext);
+            Assert.Equal('S', rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal('R', rotorSettings[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal('B', rotorSettings[EnigmaRotorPosition.Third].CurrentSetting);
         }
     }
 }

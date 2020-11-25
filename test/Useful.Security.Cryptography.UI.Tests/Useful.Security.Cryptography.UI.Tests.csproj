@@ -8,6 +8,7 @@
     <Compile Remove="ViewModels\CaesarSettings.cs" />
     <Compile Remove="ViewModels\CaesarSettingsTests.cs" />
     <Compile Remove="ViewModels\CipherViewModelTests.cs" />
+    <Compile Remove="ViewModels\EnigmaPlugboardSettingsTests.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettingsTests.cs" />
     <Compile Remove="ViewModels\ReflectorSettingsTests.cs" />

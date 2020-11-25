@@ -6,165 +6,36 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public class EnigmaRotorSettings : INotifyPropertyChanged
+    public class EnigmaRotorSettings
     {
-        private readonly IDictionary<EnigmaRotorPosition, EnigmaRotor> _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
-        private IList<EnigmaRotorNumber> _availableRotors;
+        /// <summary>
+        /// The seperator between values in a key field.
+        /// </summary>
+        internal const char KeyDelimiter = ' ';
+
+        private IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> _rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
         /// </summary>
-        public EnigmaRotorSettings()
-        {
-            _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
-            int i = 1;
-            foreach (EnigmaRotorPosition position in RotorPositions)
+        public EnigmaRotorSettings() => Rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>
             {
-                _list[position] = new EnigmaRotor((EnigmaRotorNumber)i);
-                i++;
-            }
+                { EnigmaRotorPosition.Fastest, new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A') },
+                { EnigmaRotorPosition.Second, new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A') },
+                { EnigmaRotorPosition.Third, new EnigmaRotor(EnigmaRotorNumber.III, 1, 'A') },
+            };
 
-            _availableRotors = GetAvailableRotors(_list);
-        }
-
-        internal EnigmaRotorSettings(string rotorOrder, string ringSettings, string rotorSettings)
-        {
-            _list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
-            _availableRotors = GetAvailableRotors(_list);
-
-            // Rotor Order
-            string[] rotors = rotorOrder.Split(new char[] { ' ' });
-            if (rotors.Length <= 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
-
-            int rotorPositionsCount = RotorPositions.Count();
-
-            if (rotors.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rotors specified.");
-            }
-
-            if (rotors.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rotors specified.");
-            }
-
-            if (rotors[0].Length == 0)
-            {
-                throw new ArgumentException("No rotors specified.");
-            }
-
-            rotors = rotors.Reverse().ToArray();
-
-            // Ring
-            string[] rings = ringSettings.Split(new char[] { ' ' });
-
-            if (rings.Length <= 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
-
-            if (rings.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rings specified.");
-            }
-
-            if (rings.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rings specified.");
-            }
-
-            if (rings[0].Length == 0)
-            {
-                throw new ArgumentException("No rings specified.");
-            }
-
-            rings = rings.Reverse().ToArray();
-
-            // Rotor Settings
-            string[] rotorSetting = rotorSettings.Split(new char[] { ' ' });
-
-            if (rotorSetting.Length <= 0)
-            {
-                throw new ArgumentException("No rotor settings specified.");
-            }
-
-            if (rotorSetting.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rotor settings specified.");
-            }
-
-            if (rotorSetting.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rotor settings specified.");
-            }
-
-            if (rotorSetting[0].Length == 0)
-            {
-                throw new ArgumentException("No rotor settings specified.");
-            }
-
-            rotorSetting = rotorSetting.Reverse().ToArray();
-
-            for (int i = 0; i < rotors.Length; i++)
-            {
-                if (string.IsNullOrEmpty(rotors[i]) || rotors[i].Contains("\0"))
-                {
-                    throw new ArgumentException("Null or empty rotor specified.");
-                }
-
-                if (!Enum.TryParse<EnigmaRotorPosition>(i.ToString(), out EnigmaRotorPosition rotorPosition))
-                {
-                    throw new ArgumentException($"Invalid rotor position {i}.");
-                }
-
-                if (!Enum.TryParse<EnigmaRotorNumber>(rotors[i], out EnigmaRotorNumber rotorNumber))
-                {
-                    throw new ArgumentException($"Invalid rotor number {rotors[i]}.");
-                }
-
-                if (!AvailableRotors.Contains(rotorNumber))
-                {
-                    throw new ArgumentException("This rotor is already in use.");
-                }
-
-                EnigmaRotor enigmaRotor = new EnigmaRotor(rotorNumber)
-                {
-                    RingPosition = int.Parse(rings[i]),
-                };
-
-                if (rotorSetting[i].Length > 1)
-                {
-                    throw new ArgumentException("Invalid rotor number setting.");
-                }
-
-                enigmaRotor.CurrentSetting = rotorSetting[i][0];
-
-                if (_list.ContainsKey(rotorPosition))
-                {
-                    _list[rotorPosition] = enigmaRotor;
-                }
-                else
-                {
-                    _list.Add(new KeyValuePair<EnigmaRotorPosition, EnigmaRotor>(rotorPosition, enigmaRotor));
-                }
-
-                _availableRotors = GetAvailableRotors(_list);
-            }
-        }
-
-        /// <inheritdoc />
-        public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
+        /// </summary>
+        /// <param name="rotors">The rotors.</param>
+        public EnigmaRotorSettings(IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> rotors) => Rotors = rotors;
 
         /// <summary>
         /// Gets the rotor positions.
@@ -194,16 +65,21 @@ namespace Useful.Security.Cryptography
                 };
 
         /// <summary>
-        /// Gets the available rotors.
+        /// Gets or sets the rotors.
         /// </summary>
-        public IEnumerable<EnigmaRotorNumber> AvailableRotors
+        public IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> Rotors
         {
-            get => _availableRotors;
-
-            private set
+            get => _rotors;
+            set
             {
-                _availableRotors = value.ToList();
-                NotifyPropertyChanged();
+                if (value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Second].RotorNumber
+                    || value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Third].RotorNumber
+                    || value[EnigmaRotorPosition.Second].RotorNumber == value[EnigmaRotorPosition.Third].RotorNumber)
+                {
+                    throw new ArgumentException("This rotor is already in use.", nameof(value));
+                }
+
+                _rotors = value;
             }
         }
 
@@ -214,23 +90,15 @@ namespace Useful.Security.Cryptography
         /// <returns>The rotor to set in this position.</returns>
         public EnigmaRotor this[EnigmaRotorPosition position]
         {
-            get => _list[position];
+            get => Rotors[position];
 
             set
             {
-                if (value == null)
+                IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>(_rotors)
                 {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                if (!AvailableRotors.ToList().Contains(value.RotorNumber))
-                {
-                    throw new ArgumentException("This rotor is already in use.", nameof(value));
-                }
-
-                _list[position] = value;
-                _availableRotors = GetAvailableRotors(_list);
-                NotifyPropertyChanged();
+                    [position] = value,
+                };
+                Rotors = rotors;
             }
         }
 
@@ -239,33 +107,33 @@ namespace Useful.Security.Cryptography
         /// </summary>
         public void AdvanceRotors()
         {
-            _list[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+            Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
-            foreach (char notch in _list[EnigmaRotorPosition.Fastest].Notches)
+            foreach (char notch in Rotors[EnigmaRotorPosition.Fastest].Notches)
             {
-                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
+                if ((((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
                 {
-                    _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                    Rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
-                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    foreach (char notch2 in Rotors[EnigmaRotorPosition.Second].Notches)
                     {
-                        if (_list[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
+                        if (Rotors[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
                         {
-                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            Rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
                 }
 
                 // Doublestep the middle rotor when the right rotor is 2 past a notch and the middle is on a notch
-                if ((((_list[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
+                if ((((Rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 2) % 'A') + 'A') == notch)
                 {
-                    foreach (char notch2 in _list[EnigmaRotorPosition.Second].Notches)
+                    foreach (char notch2 in Rotors[EnigmaRotorPosition.Second].Notches)
                     {
-                        if (_list[EnigmaRotorPosition.Second].CurrentSetting == notch2)
+                        if (Rotors[EnigmaRotorPosition.Second].CurrentSetting == notch2)
                         {
-                            _list[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-                            _list[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_list[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            Rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            Rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((Rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
@@ -279,17 +147,17 @@ namespace Useful.Security.Cryptography
         /// Gets the ring key.
         /// </summary>
         /// <returns>The ring key.</returns>
-        public string RingKey()
+        public string RotorRingKey()
         {
             StringBuilder key = new StringBuilder();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {
                 key.Append($"{position.Value.RingPosition:00}");
-                key.Append(EnigmaSettings.KeyDelimiter);
+                key.Append(KeyDelimiter);
             }
 
-            if (_list.Count > 0)
+            if (Rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -305,13 +173,13 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new StringBuilder();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.RotorNumber);
-                key.Append(EnigmaSettings.KeyDelimiter);
+                key.Append(KeyDelimiter);
             }
 
-            if (_list.Count > 0)
+            if (Rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -323,17 +191,17 @@ namespace Useful.Security.Cryptography
         /// Gets the settings key.
         /// </summary>
         /// <returns>The settings key.</returns>
-        public string SettingKey()
+        public string RotorSettingKey()
         {
             StringBuilder key = new StringBuilder();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in _list.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in Rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.CurrentSetting);
-                key.Append(EnigmaSettings.KeyDelimiter);
+                key.Append(KeyDelimiter);
             }
 
-            if (_list.Count > 0)
+            if (Rotors.Count > 0)
             {
                 key.Remove(key.Length - 1, 1);
             }
@@ -341,40 +209,31 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
-        private static IList<EnigmaRotorNumber> GetAvailableRotors(IDictionary<EnigmaRotorPosition, EnigmaRotor> list)
+        /// <summary>
+        /// Gets the rotors not being used.
+        /// </summary>
+        /// <returns>The rotors not in use.</returns>
+        public IList<EnigmaRotorNumber> GetAvailableRotors()
         {
             IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
 
-            if (list.Any())
+            if (Rotors.Any())
             {
                 foreach (EnigmaRotorPosition position in RotorPositions)
                 {
-                    if (!list.ContainsKey(position))
+                    if (!Rotors.ContainsKey(position))
                     {
                         continue;
                     }
 
-                    if (availableRotors.Contains(list[position].RotorNumber))
+                    if (availableRotors.Contains(Rotors[position].RotorNumber))
                     {
-                        availableRotors.Remove(list[position].RotorNumber);
+                        availableRotors.Remove(Rotors[position].RotorNumber);
                     }
                 }
             }
 
             return availableRotors;
-        }
-
-        // This method is called by the Set accessor of each property.
-        // The CallerMemberName attribute that is applied to the optional propertyName
-        // parameter causes the property name of the caller to be substituted as an argument.
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged == null)
-            {
-                return;
-            }
-
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

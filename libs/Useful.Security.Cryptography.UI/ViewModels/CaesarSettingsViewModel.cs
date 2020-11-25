@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <param name="settings">The cipher settings.</param>
         public CaesarSettingsViewModel(ICaesarSettings settings) => _settings = settings;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
 
         /// <summary>

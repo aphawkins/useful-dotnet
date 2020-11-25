@@ -37,7 +37,7 @@ namespace Useful.Security.Cryptography
             return ciphertext.ToString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString() => CipherName;
 
         private static char Encrypt(char letter)

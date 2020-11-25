@@ -30,22 +30,22 @@ namespace Useful.Security.Cryptography
         IV = 4,
 
         /// <summary>
-        /// Rotor number V
+        /// Rotor number V.
         /// </summary>
         V = 5,
 
         /// <summary>
-        /// Rotor number VI
+        /// Rotor number VI.
         /// </summary>
         VI = 6,
 
         /// <summary>
-        /// Rotor number VII
+        /// Rotor number VII.
         /// </summary>
         VII = 7,
 
         /// <summary>
-        /// Rotor number VIII
+        /// Rotor number VIII.
         /// </summary>
         VIII = 8,
 

@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// <param name="settings">Settings.</param>
         public Caesar(ICaesarSettings settings) => Settings = settings;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public string CipherName => "Caesar";
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString() => CipherName;
     }
 }

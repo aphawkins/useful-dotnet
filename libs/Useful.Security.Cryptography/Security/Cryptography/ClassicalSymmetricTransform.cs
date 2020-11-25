@@ -48,14 +48,14 @@ namespace Useful.Security.Cryptography
             // free native resources if there are any.
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
         {
             if (inputCount <= 0)
@@ -102,7 +102,7 @@ namespace Useful.Security.Cryptography
                     }
             }
 
-            if (outputString == "\0")
+            if (string.IsNullOrEmpty(outputString) || outputString == "\0")
             {
                 return 0;
             }

@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// <param name="settings">The cipher's settings.</param>
         public MonoAlphabetic(IMonoAlphabeticSettings settings) => Settings = settings;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public string CipherName => "MonoAlphabetic";
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString() => CipherName;
 
         internal char Decrypt(char ciphertext) => Settings.Reverse(ciphertext);

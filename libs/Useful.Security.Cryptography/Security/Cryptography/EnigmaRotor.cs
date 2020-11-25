@@ -36,12 +36,14 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="EnigmaRotor"/> class.
         /// </summary>
         /// <param name="rotorNumber">The rotor number.</param>
-        public EnigmaRotor(EnigmaRotorNumber rotorNumber)
+        /// <param name="ringPosition">The ring position.</param>
+        /// <param name="currentSetting">The current Setting.</param>
+        public EnigmaRotor(EnigmaRotorNumber rotorNumber, int ringPosition, char currentSetting)
         {
             RotorNumber = rotorNumber;
             (_wiring, Notches) = GetWiring(rotorNumber);
-            RingPosition = 1;
-            CurrentSetting = 'A';
+            RingPosition = ringPosition;
+            CurrentSetting = currentSetting;
         }
 
         /// <summary>

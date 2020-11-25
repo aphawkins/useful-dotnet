@@ -52,7 +52,7 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override string ToString() => CipherName;
     }
 }

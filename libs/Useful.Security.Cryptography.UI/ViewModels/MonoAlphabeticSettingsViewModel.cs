@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography
         /// <param name="settings">The cipher settings.</param>
         public MonoAlphabeticSettingsViewModel(IMonoAlphabeticSettings settings) => _settings = settings;
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public event PropertyChangedEventHandler? PropertyChanged = (sender, e) => { };
 
         /// <summary>

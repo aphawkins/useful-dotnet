@@ -4,45 +4,16 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// The Enigma algorithm settings.
     /// </summary>
-    public class EnigmaSettings : CipherSettings
+    public class EnigmaSettings : IEnigmaSettings
     {
-        /// <summary>
-        /// The seperator between values in a key field.
-        /// </summary>
-        internal const char KeyDelimiter = ' ';
-
-        /// <summary>
-        /// The number of fields in the key.
-        /// </summary>
-        private const int KeyParts = 4;
-
-        /// <summary>
-        /// The seperator between key fields.
-        /// </summary>
-        private const char KeySeperator = '|';
-
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new ReflectorSettings())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
-        /// </summary>
-        /// <param name="key">The encryption Key.</param>
-        /// <param name="iv">The Initialization Vector.</param>
-        public EnigmaSettings(byte[] key, byte[]? iv)
-            : this(GetSettings(key, iv))
+            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new EnigmaPlugboardSettings())
         {
         }
 
@@ -52,95 +23,20 @@ namespace Useful.Security.Cryptography
         /// <param name="reflector">The reflector.</param>
         /// <param name="rotorSettings">The rotor settings.</param>
         /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, ReflectorSettings plugboard)
-            : base()
+        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, IEnigmaPlugboardSettings plugboard)
         {
             ReflectorNumber = reflector;
             Rotors = rotorSettings;
             Plugboard = plugboard;
         }
 
-        private EnigmaSettings((EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings Plugboard) settings)
-            : this(settings.ReflectorNumber, settings.RotorSettings, settings.Plugboard)
-        {
-        }
+        /// <inheritdoc />
+        public IEnigmaPlugboardSettings Plugboard { get; set; }
 
-        /// <inheritdoc/>
-        public override IEnumerable<byte> IV
-        {
-            get
-            {
-                // Example:
-                // G M Y
-                byte[] result = Encoding.Unicode.GetBytes(Rotors.SettingKey());
-
-                return result;
-            }
-        }
-
-        /// <inheritdoc/>
-        public override IEnumerable<byte> Key
-        {
-            get
-            {
-                // Example:
-                // "reflector|rotors|ring|plugboard"
-                // "B|III II I|03 02 01|DN GR IS KC QX TM PV HY FW BJ"
-                StringBuilder key = new StringBuilder();
-
-                // Reflector
-                key.Append(ReflectorNumber.ToString());
-                key.Append(KeySeperator);
-
-                // Rotor order
-                key.Append(Rotors.RotorOrderKey());
-                key.Append(KeySeperator);
-
-                // Ring setting
-                key.Append(Rotors.RingKey());
-                key.Append(KeySeperator);
-
-                // Plugboard
-                key.Append(Plugboard.SubstitutionString());
-
-                return Encoding.Unicode.GetBytes(key.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the plugboard settings.
-        /// </summary>
-        public ReflectorSettings Plugboard { get; set; }
-
-        /// <summary>
-        /// Gets the reflector being used.
-        /// </summary>
+        /// <inheritdoc />
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
 
-        /// <summary>
-        /// Gets the rotors.
-        /// </summary>
+        /// <inheritdoc />
         public EnigmaRotorSettings Rotors { get; private set; }
-
-        private static (EnigmaReflectorNumber ReflectorNumber, EnigmaRotorSettings RotorSettings, ReflectorSettings ReflectorSettings) GetSettings(byte[] key, byte[]? iv)
-        {
-            string keyString = Encoding.Unicode.GetString(key);
-            string ivString = iv != null ? Encoding.Unicode.GetString(iv) : string.Empty;
-
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
-
-            if (parts.Length != KeyParts)
-            {
-                throw new ArgumentException("Incorrect number of key parts.");
-            }
-
-            EnigmaReflectorNumber reflector = (EnigmaReflectorNumber)Enum.Parse(typeof(EnigmaReflectorNumber), parts[0]);
-
-            EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings(parts[1], parts[2], ivString);
-
-            ReflectorSettings plugboard = new ReflectorSettings(Encoding.Unicode.GetBytes($"ABCDEFGHIJKLMNOPQRSTUVWXYZ|{parts[3]}"));
-
-            return (reflector, rotorSettings, plugboard);
-        }
     }
 }

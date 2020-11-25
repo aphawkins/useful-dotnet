@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaKeyGenerator.cs" company="APH Software">
+﻿// <copyright file="EnigmaSettingsGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -6,32 +6,13 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Enigma key generator.
     /// </summary>
-    internal class EnigmaKeyGenerator : IKeyGenerator
+    internal class EnigmaSettingsGenerator
     {
-        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        /// <inheritdoc />
-        public byte[] RandomIv()
-        {
-            Random rnd = new Random();
-            StringBuilder iv = new StringBuilder();
-            for (int i = 0; i < 3; i++)
-            {
-                int nextRandomNumber = rnd.Next(0, CharacterSet.Length);
-                iv.Append(CharacterSet[nextRandomNumber] + " ");
-            }
-
-            return Encoding.Unicode.GetBytes(iv.ToString().Trim());
-        }
-
-        /// <inheritdoc />
-        public byte[] RandomKey()
+        public static IEnigmaSettings GenerateKey()
         {
             // Reflector
             EnigmaReflectorNumber reflectorNumber;
@@ -42,20 +23,25 @@ namespace Useful.Security.Cryptography
             EnigmaRotorSettings rotorSettings = GetRandomRotorSettings();
 
             // Plugboard
-            ReflectorSettings plugboard = new ReflectorSettings(new ReflectorKeyGenerator().RandomKey());
+            IEnigmaPlugboardSettings plugboard = EnigmaPlugboardSettingsGenerator.Generate();
 
-            EnigmaSettings settings = new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
-            return settings.Key.ToArray();
+            return new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
         }
 
-        private static IList<EnigmaReflectorNumber> GetAllowedReflectors()
+        public static IEnigmaSettings GenerateIV(IEnigmaSettings settings)
         {
-            return new List<EnigmaReflectorNumber>()
+            settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = GetRandomRotorCurrentSetting();
+            settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting = GetRandomRotorCurrentSetting();
+            settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting = GetRandomRotorCurrentSetting();
+
+            return settings;
+        }
+
+        private static IList<EnigmaReflectorNumber> GetAllowedReflectors() => new List<EnigmaReflectorNumber>()
             {
                 EnigmaReflectorNumber.B,
                 EnigmaReflectorNumber.C,
             };
-        }
 
         private static EnigmaReflector GetRandomReflector()
         {
@@ -68,18 +54,21 @@ namespace Useful.Security.Cryptography
             return new EnigmaReflector(reflectors[nextRandomNumber]);
         }
 
-        private static EnigmaRotor GetRandomRotorSettings(EnigmaRotorNumber rotorNumber)
+        private static EnigmaRotor GetRandomRotor(EnigmaRotorNumber rotorNumber)
         {
             Random rnd = new Random();
             string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaRotor rotor = new EnigmaRotor(rotorNumber)
-            {
-                RingPosition = rnd.Next(1, letters.Length),
-                CurrentSetting = letters[rnd.Next(0, letters.Length - 1)],
-            };
+            EnigmaRotor rotor = new EnigmaRotor(rotorNumber, rnd.Next(1, letters.Length), 'A');
 
             return rotor;
+        }
+
+        private static char GetRandomRotorCurrentSetting()
+        {
+            Random rnd = new Random();
+            string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            return letters[rnd.Next(0, letters.Length - 1)];
         }
 
         private static EnigmaRotorSettings GetRandomRotorSettings()
@@ -99,9 +88,9 @@ namespace Useful.Security.Cryptography
 
             foreach (EnigmaRotorPosition rotorPosition in availableRotorPositions)
             {
-                availableRotorNumbers = new List<EnigmaRotorNumber>(rotorSettings.AvailableRotors);
+                availableRotorNumbers = new List<EnigmaRotorNumber>(rotorSettings.GetAvailableRotors());
                 nextRandomNumber = rnd.Next(0, availableRotorNumbers.Count);
-                rotorSettings[rotorPosition] = GetRandomRotorSettings(availableRotorNumbers[nextRandomNumber]);
+                rotorSettings[rotorPosition] = GetRandomRotor(availableRotorNumbers[nextRandomNumber]);
             }
 
             return rotorSettings;

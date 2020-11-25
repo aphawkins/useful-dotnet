@@ -5,7 +5,6 @@
 namespace Useful.Security.Cryptography
 {
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// An Enigma reflector.
@@ -54,36 +53,7 @@ namespace Useful.Security.Cryptography
                 { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL" },
             };
 
-            StringBuilder sb = new StringBuilder();
-            List<char> unique = new List<char>();
-            for (int i = 0; i < CharacterSet.Length; i++)
-            {
-                if (unique.Contains(CharacterSet[i])
-                    || unique.Contains(wiring[reflectorNumber][i]))
-                {
-                    continue;
-                }
-
-                if (CharacterSet[i] < wiring[reflectorNumber][i])
-                {
-                    sb.Append(CharacterSet[i]);
-                    sb.Append(wiring[reflectorNumber][i]);
-                }
-                else
-                {
-                    sb.Append(wiring[reflectorNumber][i]);
-                    sb.Append(CharacterSet[i]);
-                }
-
-                sb.Append(' ');
-
-                unique.Add(CharacterSet[i]);
-                unique.Add(wiring[reflectorNumber][i]);
-            }
-
-            sb.Remove(sb.Length - 1, 1);
-
-            return new ReflectorSettings(CharacterSet, sb.ToString());
+            return new ReflectorSettings(CharacterSet, wiring[reflectorNumber]);
         }
     }
 }
