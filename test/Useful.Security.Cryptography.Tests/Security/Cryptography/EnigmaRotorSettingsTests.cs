@@ -106,7 +106,8 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
             settings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.IV, 1, 'A');
             Assert.Equal(EnigmaRotorNumber.IV, settings[EnigmaRotorPosition.Fastest].RotorNumber);
-            Assert.Equal("III II IV", settings.RotorOrderKey());
+            Assert.Equal(EnigmaRotorNumber.II, settings[EnigmaRotorPosition.Second].RotorNumber);
+            Assert.Equal(EnigmaRotorNumber.III, settings[EnigmaRotorPosition.Third].RotorNumber);
         }
 
         [Fact]
@@ -116,7 +117,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.II, settings[EnigmaRotorPosition.Second].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.III, settings[EnigmaRotorPosition.Third].RotorNumber);
-            Assert.Equal("III II I", settings.RotorOrderKey());
         }
 
         [Fact]

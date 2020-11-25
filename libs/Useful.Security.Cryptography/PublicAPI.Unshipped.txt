@@ -89,11 +89,8 @@ Useful.Security.Cryptography.EnigmaRotorSettings.AdvanceRotors() -> void
 Useful.Security.Cryptography.EnigmaRotorSettings.EnigmaRotorSettings() -> void
 Useful.Security.Cryptography.EnigmaRotorSettings.EnigmaRotorSettings(System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.EnigmaRotor!>! rotors) -> void
 Useful.Security.Cryptography.EnigmaRotorSettings.GetAvailableRotors() -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
-Useful.Security.Cryptography.EnigmaRotorSettings.RotorOrderKey() -> string!
-Useful.Security.Cryptography.EnigmaRotorSettings.RotorRingKey() -> string!
 Useful.Security.Cryptography.EnigmaRotorSettings.Rotors.get -> System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.EnigmaRotor!>!
 Useful.Security.Cryptography.EnigmaRotorSettings.Rotors.set -> void
-Useful.Security.Cryptography.EnigmaRotorSettings.RotorSettingKey() -> string!
 Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptography.EnigmaRotorPosition position].get -> Useful.Security.Cryptography.EnigmaRotor!
 Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptography.EnigmaRotorPosition position].set -> void
 Useful.Security.Cryptography.EnigmaSettings

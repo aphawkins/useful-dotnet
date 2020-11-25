@@ -61,11 +61,11 @@ namespace Useful.Security.Cryptography
                 key.Append(KeySeperator);
 
                 // Rotor order
-                key.Append(_algorithm.Settings.Rotors.RotorOrderKey());
+                key.Append(RotorOrderString(_algorithm.Settings.Rotors));
                 key.Append(KeySeperator);
 
                 // Ring setting
-                key.Append(_algorithm.Settings.Rotors.RotorRingKey());
+                key.Append(RotorRingString(_algorithm.Settings.Rotors));
                 key.Append(KeySeperator);
 
                 // Plugboard
@@ -96,7 +96,7 @@ namespace Useful.Security.Cryptography
             {
                 // Example:
                 // G M Y
-                byte[] result = Encoding.Unicode.GetBytes(_algorithm.Settings.Rotors.RotorSettingKey());
+                byte[] result = Encoding.Unicode.GetBytes(RotorSettingString(_algorithm.Settings.Rotors));
                 return result;
             }
 
@@ -135,7 +135,7 @@ namespace Useful.Security.Cryptography
         public override void GenerateIV()
         {
             IEnigmaSettings settings = EnigmaSettingsGenerator.GenerateIV(_algorithm.Settings);
-            IVValue = Encoding.GetBytes(settings.Rotors.RotorSettingKey());
+            IVValue = Encoding.GetBytes(RotorSettingString(settings.Rotors));
             IV = IVValue;
         }
 
@@ -143,9 +143,12 @@ namespace Useful.Security.Cryptography
         public override void GenerateKey()
         {
             IEnigmaSettings settings = EnigmaSettingsGenerator.GenerateKey();
-            string key = settings.ReflectorNumber.ToString() + KeySeperator
-                + settings.Rotors.RotorOrderKey() + KeySeperator
-                + settings.Rotors.RotorRingKey() + KeySeperator
+            string key = settings.ReflectorNumber.ToString()
+                + KeySeperator
+                + RotorOrderString(settings.Rotors)
+                + KeySeperator
+                + RotorRingString(settings.Rotors)
+                + KeySeperator
                 + PlugboardString(settings.Plugboard);
             KeyValue = Encoding.GetBytes(key);
             Key = KeyValue;
@@ -355,6 +358,60 @@ namespace Useful.Security.Cryptography
             }
 
             return new EnigmaPlugboard(pairs);
+        }
+
+        private static string RotorSettingString(EnigmaRotorSettings settings)
+        {
+            StringBuilder key = new();
+
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            {
+                key.Append(position.Value.CurrentSetting);
+                key.Append(KeyDelimiter);
+            }
+
+            if (settings.Rotors.Count > 0)
+            {
+                key.Remove(key.Length - 1, 1);
+            }
+
+            return key.ToString();
+        }
+
+        private static string RotorOrderString(EnigmaRotorSettings settings)
+        {
+            StringBuilder key = new();
+
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            {
+                key.Append(position.Value.RotorNumber);
+                key.Append(KeyDelimiter);
+            }
+
+            if (settings.Rotors.Count > 0)
+            {
+                key.Remove(key.Length - 1, 1);
+            }
+
+            return key.ToString();
+        }
+
+        private static string RotorRingString(EnigmaRotorSettings settings)
+        {
+            StringBuilder key = new();
+
+            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            {
+                key.Append($"{position.Value.RingPosition:00}");
+                key.Append(KeyDelimiter);
+            }
+
+            if (settings.Rotors.Count > 0)
+            {
+                key.Remove(key.Length - 1, 1);
+            }
+
+            return key.ToString();
         }
 
         private static string PlugboardString(IEnigmaPlugboard plugboard)
