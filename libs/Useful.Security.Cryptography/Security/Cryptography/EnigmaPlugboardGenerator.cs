@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaPlugboardSettingsGenerator.cs" company="APH Software">
+﻿// <copyright file="EnigmaPlugboardGenerator.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,9 +9,9 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma Plugboard settings generator.
     /// </summary>
-    internal class EnigmaPlugboardSettingsGenerator
+    internal class EnigmaPlugboardGenerator
     {
-        public static IEnigmaPlugboardSettings Generate()
+        public static IEnigmaPlugboard Generate()
         {
             IReflectorSettings reflector = ReflectorSettingsGenerator.Generate();
 
@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography
                 }
             }
 
-            return new EnigmaPlugboardSettings(pairs);
+            return new EnigmaPlugboard(pairs);
         }
     }
 }

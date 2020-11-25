@@ -177,7 +177,7 @@ namespace Useful.Security.Cryptography
 
             EnigmaRotorSettings rotors = new(list);
 
-            EnigmaPlugboardSettings plugboard = ParsePlugboard(parts[3]);
+            EnigmaPlugboard plugboard = ParsePlugboard(parts[3]);
 
             return new EnigmaSettings(reflector, rotors, plugboard);
         }
@@ -327,7 +327,7 @@ namespace Useful.Security.Cryptography
             };
         }
 
-        private static EnigmaPlugboardSettings ParsePlugboard(string plugboard)
+        private static EnigmaPlugboard ParsePlugboard(string plugboard)
         {
             IDictionary<char, char> pairs = new Dictionary<char, char>();
             string[] rawPairs = plugboard.Split(new char[] { KeyDelimiter });
@@ -335,7 +335,7 @@ namespace Useful.Security.Cryptography
             // No plugs specified
             if (rawPairs.Length == 1 && rawPairs[0].Length == 0)
             {
-                return new EnigmaPlugboardSettings(pairs);
+                return new EnigmaPlugboard(pairs);
             }
 
             // Check for plugs made up of pairs
@@ -354,22 +354,13 @@ namespace Useful.Security.Cryptography
                 pairs.Add(rawPair[0], rawPair[1]);
             }
 
-            ////try
-            ////{
-            ////    CheckPairs(pairs);
-            ////}
-            ////catch (ArgumentException ex)
-            ////{
-            ////    throw new ArgumentException("Error checking pairs.", nameof(substitutions), ex);
-            ////}
-
-            return new EnigmaPlugboardSettings(pairs);
+            return new EnigmaPlugboard(pairs);
         }
 
-        private static string PlugboardString(IEnigmaPlugboardSettings settings)
+        private static string PlugboardString(IEnigmaPlugboard plugboard)
         {
             StringBuilder key = new();
-            IReadOnlyDictionary<char, char> substitutions = settings.Substitutions();
+            IReadOnlyDictionary<char, char> substitutions = plugboard.Substitutions();
 
             foreach (KeyValuePair<char, char> pair in substitutions)
             {
@@ -398,7 +389,6 @@ namespace Useful.Security.Cryptography
             LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 16);
             LegalKeySizesValue = new KeySizes[1];
             LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
-
             KeyValue = Array.Empty<byte>();
             IVValue = Array.Empty<byte>();
         }

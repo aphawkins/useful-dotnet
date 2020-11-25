@@ -27,7 +27,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorEmpty()
         {
-            IEnigmaPlugboardSettings settings = new EnigmaPlugboardSettings();
+            IEnigmaPlugboard settings = new EnigmaPlugboard();
             Assert.Equal(0, settings.SubstitutionCount);
             Assert.Empty(settings.Substitutions());
             Assert.Equal('A', settings['A']);
@@ -35,19 +35,19 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(InvalidPairs))]
-        public void CtorSubstitutionsInvalid(IDictionary<char, char> pairs) => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboardSettings(pairs));
+        public void CtorSubstitutionsInvalid(IDictionary<char, char> pairs) => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
 
         [Fact]
-        public void CtorSubstitutionsNull() => Assert.Throws<ArgumentNullException>("pairs", () => new EnigmaPlugboardSettings(null));
+        public void CtorSubstitutionsNull() => Assert.Throws<ArgumentNullException>("pairs", () => new EnigmaPlugboard(null));
 
         [Theory]
         [MemberData(nameof(ValidPairs))]
         public void CtorSubstitutionsValid(IDictionary<char, char> pairs, int substitutionCount)
         {
-            IEnigmaPlugboardSettings settings = new EnigmaPlugboardSettings(pairs);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-            Assert.Equal(pairs.Values.ToArray()[0], settings[pairs.Keys.ToArray()[0]]);
-            Assert.Equal(pairs.Keys.ToArray()[0], settings[pairs.Values.ToArray()[0]]);
+            IEnigmaPlugboard plugboard = new EnigmaPlugboard(pairs);
+            Assert.Equal(substitutionCount, plugboard.SubstitutionCount);
+            Assert.Equal(pairs.Values.ToArray()[0], plugboard[pairs.Keys.ToArray()[0]]);
+            Assert.Equal(pairs.Keys.ToArray()[0], plugboard[pairs.Values.ToArray()[0]]);
         }
     }
 }

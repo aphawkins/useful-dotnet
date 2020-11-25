@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography
             EnigmaRotorSettings rotorSettings = GetRandomRotorSettings();
 
             // Plugboard
-            IEnigmaPlugboardSettings plugboard = EnigmaPlugboardSettingsGenerator.Generate();
+            IEnigmaPlugboard plugboard = EnigmaPlugboardGenerator.Generate();
 
             return new EnigmaSettings(reflectorNumber, rotorSettings, plugboard);
         }

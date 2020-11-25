@@ -22,7 +22,6 @@
     <Compile Remove="Security\Cryptography\CipherSettings.cs" />
     <Compile Remove="Security\Cryptography\ClassicalSymmetricAlgorithm.cs" />
     <Compile Remove="Security\Cryptography\EnigmaKey.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaPlugboard.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorNumberSorter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaRotorPositionSorter.cs" />
     <Compile Remove="Security\Cryptography\EnigmaTransform.cs" />

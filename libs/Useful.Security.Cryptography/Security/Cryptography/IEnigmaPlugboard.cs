@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnigmaPlugboardSettings.cs" company="APH Software">
+﻿// <copyright file="IEnigmaPlugboard.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma plugboard settings.
     /// </summary>
-    public interface IEnigmaPlugboardSettings
+    public interface IEnigmaPlugboard
     {
         /// <summary>
         /// Gets the number of substitutions made. One distinct pair swapped equals one substitution.

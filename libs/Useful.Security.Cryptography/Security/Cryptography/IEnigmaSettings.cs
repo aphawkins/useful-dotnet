@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets the plugboard settings.
         /// </summary>
-        public IEnigmaPlugboardSettings Plugboard { get; }
+        public IEnigmaPlugboard Plugboard { get; }
 
         /// <summary>
         /// Gets the reflector being used.

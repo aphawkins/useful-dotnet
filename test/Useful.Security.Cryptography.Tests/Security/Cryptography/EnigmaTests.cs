@@ -93,7 +93,7 @@ namespace Useful.Security.Cryptography.Tests
                 { 'O', 'W' },
                 { 'R', 'X' },
             };
-            IEnigmaPlugboardSettings plugboardSettings = new EnigmaPlugboardSettings(plugs);
+            IEnigmaPlugboard plugboardSettings = new EnigmaPlugboard(plugs);
 
             sb = new StringBuilder();
             sb.Append("AUFKL XABTE ILUNG XVONX KURTI ");
@@ -155,7 +155,7 @@ namespace Useful.Security.Cryptography.Tests
                 { 'N', 'H' },
                 { 'Y', 'T' },
             };
-            IEnigmaPlugboardSettings plugboardSettings = new EnigmaPlugboardSettings(plugs);
+            IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
             StringBuilder plaintext = new();
             plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
@@ -165,7 +165,7 @@ namespace Useful.Security.Cryptography.Tests
             plaintext.Append("ANDITACTUALLYREFERSTOARANGEOFS");
             plaintext.Append("IMILARCIPHERMACHINES");
 
-            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboardSettings);
+            IEnigmaSettings settings = new EnigmaSettings(reflector, rotorSettings, plugboard);
             ICipher cipher = new Enigma(settings);
             string newPlaintext = cipher.Decrypt(ciphertext.ToString());
             Assert.Equal(plaintext.ToString(), newPlaintext);
@@ -216,7 +216,7 @@ namespace Useful.Security.Cryptography.Tests
                 { 'M', 'U' },
                 { 'O', 'T' },
             };
-            IEnigmaPlugboardSettings plugboard = new EnigmaPlugboardSettings(plugs);
+            IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
             sb = new StringBuilder();
             sb.Append("DASXL OESUN GSWOR TXIST XPLUT");

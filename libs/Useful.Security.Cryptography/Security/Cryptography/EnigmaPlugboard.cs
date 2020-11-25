@@ -5,70 +5,106 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Text;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Enigma plugboard cipher. A character encrypts and decrypts back to the same character.
+    /// The Reflector algorithm settings.
     /// </summary>
-    public class EnigmaPlugboard
+    public sealed class EnigmaPlugboard : IEnigmaPlugboard
     {
+        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        private readonly IReflectorSettings _reflectorSettings;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public EnigmaPlugboard(EnigmaPlugboardSettings settings) => Settings = settings;
+        public EnigmaPlugboard() => _reflectorSettings = new ReflectorSettings(CharacterSet, CharacterSet);
 
         /// <summary>
-        /// Gets or sets settings.
+        /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
-        public EnigmaPlugboardSettings Settings { get; set; }
-
-        /// <summary>
-        /// Decrypts a ciphertext string.
-        /// </summary>
-        /// <param name="ciphertext">The text to decrypt.</param>
-        /// <returns>The decrypted text.</returns>
-        public string Decrypt(string ciphertext)
+        /// <param name="pairs">A plugboard pair.</param>
+        public EnigmaPlugboard(IDictionary<char, char> pairs)
         {
-            if (ciphertext == null)
+            CheckPairs(pairs);
+
+            _reflectorSettings = new ReflectorSettings(CharacterSet, CharacterSet);
+
+            foreach (KeyValuePair<char, char> pair in pairs)
             {
-                throw new ArgumentNullException(nameof(ciphertext));
+                _reflectorSettings[pair.Key] = pair.Value;
+            }
+        }
+
+        /// <inheritdoc />
+        public int SubstitutionCount => _reflectorSettings.SubstitutionCount / 2;
+
+        /// <inheritdoc />
+        public char this[char letter] => _reflectorSettings[letter];
+
+        /// <inheritdoc />
+        public IReadOnlyDictionary<char, char> Substitutions()
+        {
+            Dictionary<char, char> pairsToAdd = new();
+
+            for (int i = 0; i < CharacterSet.Length; i++)
+            {
+                if (CharacterSet[i] == _reflectorSettings.Substitutions[i])
+                {
+                    continue;
+                }
+
+                if (pairsToAdd.ContainsKey(_reflectorSettings.Substitutions[i])
+                    && pairsToAdd[_reflectorSettings.Substitutions[i]] == CharacterSet[i])
+                {
+                    continue;
+                }
+
+                pairsToAdd.Add(CharacterSet[i], _reflectorSettings.Substitutions[i]);
             }
 
-            StringBuilder sb = new StringBuilder(ciphertext.Length);
-
-            for (int i = 0; i < ciphertext.Length; i++)
-            {
-                sb.Append(Settings.Reflect(ciphertext[i]));
-            }
-
-            return sb.ToString();
+            return pairsToAdd;
         }
 
         /// <summary>
-        /// Encrypts a plaintext string.
+        /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
-        /// <param name="plaintext">The text to encrypt.</param>
-        /// <returns>The encrypted text.</returns>
-        public string Encrypt(string plaintext)
+        /// <param name="pairs">The pairs to check.</param>
+        private static void CheckPairs(IDictionary<char, char> pairs)
         {
-            if (plaintext == null)
+            if (pairs is null)
             {
-                throw new ArgumentNullException(nameof(plaintext));
+                throw new ArgumentNullException(nameof(pairs));
             }
 
-            StringBuilder sb = new StringBuilder(plaintext.Length);
+            List<char> uniqueLetters = new();
 
-            for (int i = 0; i < plaintext.Length; i++)
+            foreach (KeyValuePair<char, char> pair in pairs)
             {
-                sb.Append(Settings[plaintext[i]]);
-            }
+                if (!CharacterSet.Contains(pair.Key))
+                {
+                    throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
+                }
 
-            return sb.ToString();
+                if (!CharacterSet.Contains(pair.Value))
+                {
+                    throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
+                }
+
+                if (pair.Key == pair.Value)
+                {
+                    throw new ArgumentException("Letters cannot be duplicated in a substitution pair.", nameof(pairs));
+                }
+
+                if (uniqueLetters.Contains(pair.Key) || uniqueLetters.Contains(pair.Value))
+                {
+                    throw new ArgumentException("Pair letters must be unique.", nameof(pairs));
+                }
+
+                uniqueLetters.Add(pair.Key);
+                uniqueLetters.Add(pair.Value);
+            }
         }
-
-        internal char Decrypt(char ciphertext) => Settings.Reflect(ciphertext);
-
-        internal char Encrypt(char plaintext) => Settings[plaintext];
     }
 }

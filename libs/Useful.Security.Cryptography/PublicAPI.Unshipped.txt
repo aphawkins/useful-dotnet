@@ -46,12 +46,12 @@ Useful.Security.Cryptography.Enigma.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.Enigma.Enigma(Useful.Security.Cryptography.IEnigmaSettings! settings) -> void
 Useful.Security.Cryptography.Enigma.Settings.get -> Useful.Security.Cryptography.IEnigmaSettings!
 Useful.Security.Cryptography.Enigma.Settings.set -> void
-Useful.Security.Cryptography.EnigmaPlugboardSettings
-Useful.Security.Cryptography.EnigmaPlugboardSettings.EnigmaPlugboardSettings() -> void
-Useful.Security.Cryptography.EnigmaPlugboardSettings.EnigmaPlugboardSettings(System.Collections.Generic.IDictionary<char, char>! pairs) -> void
-Useful.Security.Cryptography.EnigmaPlugboardSettings.SubstitutionCount.get -> int
-Useful.Security.Cryptography.EnigmaPlugboardSettings.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
-Useful.Security.Cryptography.EnigmaPlugboardSettings.this[char letter].get -> char
+Useful.Security.Cryptography.EnigmaPlugboard
+Useful.Security.Cryptography.EnigmaPlugboard.EnigmaPlugboard() -> void
+Useful.Security.Cryptography.EnigmaPlugboard.EnigmaPlugboard(System.Collections.Generic.IDictionary<char, char>! pairs) -> void
+Useful.Security.Cryptography.EnigmaPlugboard.SubstitutionCount.get -> int
+Useful.Security.Cryptography.EnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
+Useful.Security.Cryptography.EnigmaPlugboard.this[char letter].get -> char
 Useful.Security.Cryptography.EnigmaReflector
 Useful.Security.Cryptography.EnigmaReflector.EnigmaReflector(Useful.Security.Cryptography.EnigmaReflectorNumber reflectorNumber) -> void
 Useful.Security.Cryptography.EnigmaReflector.Reflect(char letter) -> char
@@ -98,8 +98,8 @@ Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptograp
 Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptography.EnigmaRotorPosition position].set -> void
 Useful.Security.Cryptography.EnigmaSettings
 Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings() -> void
-Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings(Useful.Security.Cryptography.EnigmaReflectorNumber reflector, Useful.Security.Cryptography.EnigmaRotorSettings! rotorSettings, Useful.Security.Cryptography.IEnigmaPlugboardSettings! plugboard) -> void
-Useful.Security.Cryptography.EnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboardSettings!
+Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings(Useful.Security.Cryptography.EnigmaReflectorNumber reflector, Useful.Security.Cryptography.EnigmaRotorSettings! rotorSettings, Useful.Security.Cryptography.IEnigmaPlugboard! plugboard) -> void
+Useful.Security.Cryptography.EnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboard!
 Useful.Security.Cryptography.EnigmaSettings.Plugboard.set -> void
 Useful.Security.Cryptography.EnigmaSettings.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
 Useful.Security.Cryptography.EnigmaSettings.Rotors.get -> Useful.Security.Cryptography.EnigmaRotorSettings!
@@ -112,12 +112,12 @@ Useful.Security.Cryptography.ICipher
 Useful.Security.Cryptography.ICipher.CipherName.get -> string!
 Useful.Security.Cryptography.ICipher.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ICipher.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.IEnigmaPlugboardSettings
-Useful.Security.Cryptography.IEnigmaPlugboardSettings.SubstitutionCount.get -> int
-Useful.Security.Cryptography.IEnigmaPlugboardSettings.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
-Useful.Security.Cryptography.IEnigmaPlugboardSettings.this[char letter].get -> char
+Useful.Security.Cryptography.IEnigmaPlugboard
+Useful.Security.Cryptography.IEnigmaPlugboard.SubstitutionCount.get -> int
+Useful.Security.Cryptography.IEnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
+Useful.Security.Cryptography.IEnigmaPlugboard.this[char letter].get -> char
 Useful.Security.Cryptography.IEnigmaSettings
-Useful.Security.Cryptography.IEnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboardSettings!
+Useful.Security.Cryptography.IEnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboard!
 Useful.Security.Cryptography.IEnigmaSettings.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
 Useful.Security.Cryptography.IEnigmaSettings.Rotors.get -> Useful.Security.Cryptography.EnigmaRotorSettings!
 Useful.Security.Cryptography.IMonoAlphabeticSettings

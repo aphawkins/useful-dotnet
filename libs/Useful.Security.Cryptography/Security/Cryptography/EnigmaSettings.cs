@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new EnigmaPlugboardSettings())
+            : this(EnigmaReflectorNumber.B, new EnigmaRotorSettings(), new EnigmaPlugboard())
         {
         }
 
@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography
         /// <param name="reflector">The reflector.</param>
         /// <param name="rotorSettings">The rotor settings.</param>
         /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, IEnigmaPlugboardSettings plugboard)
+        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, IEnigmaPlugboard plugboard)
         {
             ReflectorNumber = reflector;
             Rotors = rotorSettings;
@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public IEnigmaPlugboardSettings Plugboard { get; set; }
+        public IEnigmaPlugboard Plugboard { get; set; }
 
         /// <inheritdoc />
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
