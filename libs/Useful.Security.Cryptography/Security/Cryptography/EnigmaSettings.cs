@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography
         /// <param name="reflector">The reflector.</param>
         /// <param name="rotorSettings">The rotor settings.</param>
         /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(EnigmaReflectorNumber reflector, EnigmaRotorSettings rotorSettings, IEnigmaPlugboard plugboard)
+        public EnigmaSettings(EnigmaReflectorNumber reflector, IEnigmaRotorSettings rotorSettings, IEnigmaPlugboard plugboard)
         {
             ReflectorNumber = reflector;
             Rotors = rotorSettings;
@@ -37,6 +37,6 @@ namespace Useful.Security.Cryptography
         public EnigmaReflectorNumber ReflectorNumber { get; private set; }
 
         /// <inheritdoc />
-        public EnigmaRotorSettings Rotors { get; private set; }
+        public IEnigmaRotorSettings Rotors { get; private set; }
     }
 }

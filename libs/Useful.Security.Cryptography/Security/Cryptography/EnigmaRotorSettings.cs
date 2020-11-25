@@ -7,12 +7,11 @@ namespace Useful.Security.Cryptography
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public class EnigmaRotorSettings
+    public class EnigmaRotorSettings : IEnigmaRotorSettings
     {
         /// <summary>
         /// The seperator between values in a key field.
@@ -64,9 +63,7 @@ namespace Useful.Security.Cryptography
                     EnigmaRotorNumber.VIII,
                 };
 
-        /// <summary>
-        /// Gets or sets the rotors.
-        /// </summary>
+        /// <inheritdoc />
         public IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> Rotors
         {
             get => _rotors;
@@ -83,11 +80,7 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Sets the rotor settings.
-        /// </summary>
-        /// <param name="position">The rotor position to set.</param>
-        /// <returns>The rotor to set in this position.</returns>
+        /// <inheritdoc />
         public EnigmaRotor this[EnigmaRotorPosition position]
         {
             get => _rotors[position];
@@ -102,9 +95,7 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Advances the rotor one setting.
-        /// </summary>
+        /// <inheritdoc />
         public void AdvanceRotors()
         {
             _rotors[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
@@ -143,10 +134,7 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Gets the rotors not being used.
-        /// </summary>
-        /// <returns>The rotors not in use.</returns>
+        /// <inheritdoc />
         public IList<EnigmaRotorNumber> GetAvailableRotors()
         {
             IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();

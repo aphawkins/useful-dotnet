@@ -360,7 +360,7 @@ namespace Useful.Security.Cryptography
             return new EnigmaPlugboard(pairs);
         }
 
-        private static string RotorSettingString(EnigmaRotorSettings settings)
+        private static string RotorSettingString(IEnigmaRotorSettings settings)
         {
             StringBuilder key = new();
 
@@ -378,7 +378,7 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
-        private static string RotorOrderString(EnigmaRotorSettings settings)
+        private static string RotorOrderString(IEnigmaRotorSettings settings)
         {
             StringBuilder key = new();
 
@@ -396,7 +396,7 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
-        private static string RotorRingString(EnigmaRotorSettings settings)
+        private static string RotorRingString(IEnigmaRotorSettings settings)
         {
             StringBuilder key = new();
 

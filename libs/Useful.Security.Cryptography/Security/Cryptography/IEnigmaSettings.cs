@@ -22,6 +22,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets the rotors.
         /// </summary>
-        public EnigmaRotorSettings Rotors { get; }
+        public IEnigmaRotorSettings Rotors { get; }
     }
 }
