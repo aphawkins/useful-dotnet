@@ -1,4 +1,4 @@
-﻿// <copyright file="IEnigmaRotorSettings.cs" company="APH Software">
+﻿// <copyright file="IEnigmaRotors.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public interface IEnigmaRotorSettings
+    public interface IEnigmaRotors
     {
         /// <summary>
         /// Gets or sets the rotors.

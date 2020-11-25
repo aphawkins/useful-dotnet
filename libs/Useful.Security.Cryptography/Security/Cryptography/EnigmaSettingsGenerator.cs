@@ -19,7 +19,7 @@ namespace Useful.Security.Cryptography
             reflectorNumber = reflector.ReflectorNumber;
 
             // Rotor Settings
-            IEnigmaRotorSettings rotorSettings = EnigmaRotorGenerator.Generate();
+            IEnigmaRotors rotorSettings = EnigmaRotorGenerator.Generate();
 
             // Plugboard
             IEnigmaPlugboard plugboard = EnigmaPlugboardGenerator.Generate();

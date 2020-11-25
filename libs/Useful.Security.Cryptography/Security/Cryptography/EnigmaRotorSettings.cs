@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public class EnigmaRotorSettings : IEnigmaRotorSettings
+    public class EnigmaRotorSettings : IEnigmaRotors
     {
         /// <summary>
         /// The seperator between values in a key field.
