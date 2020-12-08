@@ -22,7 +22,7 @@ namespace Useful.Security.Cryptography
             // Plugboard
             IEnigmaPlugboard plugboard = EnigmaPlugboardGenerator.Generate();
 
-            return new EnigmaSettings(reflector, rotors, plugboard);
+            return new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
         }
 
         public static IEnigmaSettings GenerateIV(IEnigmaSettings settings)

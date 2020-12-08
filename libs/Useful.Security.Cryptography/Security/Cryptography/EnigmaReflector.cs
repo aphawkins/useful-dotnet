@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// An Enigma reflector.
     /// </summary>
-    public class EnigmaReflector : IEnigmaReflector
+    public sealed class EnigmaReflector : IEnigmaReflector
     {
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -18,18 +18,27 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private readonly ReflectorSettings _wiring;
 
+        private EnigmaReflectorNumber _reflectorNumber;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaReflector"/> class.
         /// </summary>
-        /// <param name="reflectorNumber">The reflector number.</param>
-        public EnigmaReflector(EnigmaReflectorNumber reflectorNumber)
+        public EnigmaReflector()
         {
-            ReflectorNumber = reflectorNumber;
-            _wiring = GetWiring(reflectorNumber);
+            _reflectorNumber = EnigmaReflectorNumber.B;
+            _wiring = GetWiring(_reflectorNumber);
         }
 
         /// <inheritdoc />
-        public EnigmaReflectorNumber ReflectorNumber { get; private set; }
+        public EnigmaReflectorNumber ReflectorNumber
+        {
+            get => _reflectorNumber;
+            init
+            {
+                _reflectorNumber = value;
+                _wiring = GetWiring(_reflectorNumber);
+            }
+        }
 
         /// <inheritdoc />
         public char Reflect(char letter)
@@ -47,7 +56,7 @@ namespace Useful.Security.Cryptography
                 { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL" },
             };
 
-            return new ReflectorSettings(CharacterSet, wiring[reflectorNumber]);
+            return new() { CharacterSet = CharacterSet, Substitutions = wiring[reflectorNumber] };
         }
     }
 }

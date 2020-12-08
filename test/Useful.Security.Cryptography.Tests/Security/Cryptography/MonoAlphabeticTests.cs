@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
+    using System.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -26,7 +27,7 @@ namespace Useful.Security.Cryptography.Tests
             string characterSet = "ABC";
             string substitutions = "ABC";
 
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabetic cipher = new(settings);
             Assert.Equal(characterSet, cipher.Settings.CharacterSet);
             Assert.Equal(substitutions, cipher.Settings.Substitutions);
@@ -36,8 +37,8 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new(settings);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
+            ICipher cipher = new MonoAlphabetic(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -45,8 +46,8 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Encrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
-            MonoAlphabetic cipher = new(settings);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
+            ICipher cipher = new MonoAlphabetic(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
@@ -54,7 +55,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Name()
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            MonoAlphabetic cipher = new(settings);
+            ICipher cipher = new MonoAlphabetic(settings);
             Assert.Equal("MonoAlphabetic", cipher.CipherName);
             Assert.Equal("MonoAlphabetic", cipher.ToString());
         }
@@ -100,10 +101,9 @@ namespace Useful.Security.Cryptography.Tests
 "NOW LET DANIEL BE CALLED, AND HE WILL SHOW THE INTERPRETATION. " +
 "THE FIRST CODEWORD IS OTHELLO. ";
 
-            string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             string substitutions = "MFANXIWPBSHGLTCQKVRJUDYZEO";
-            MonoAlphabeticSettings settings = new(characterSet, substitutions);
-            MonoAlphabetic cipher = new(settings);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { Substitutions = substitutions };
+            ICipher cipher = new MonoAlphabetic(settings);
             System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));

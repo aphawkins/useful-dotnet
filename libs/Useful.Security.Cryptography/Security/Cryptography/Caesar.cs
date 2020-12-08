@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public class Caesar : ICipher
+    public sealed class Caesar : ICipher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Caesar"/> class.
@@ -22,9 +22,9 @@ namespace Useful.Security.Cryptography
         public string CipherName => "Caesar";
 
         /// <summary>
-        /// Gets or sets settings.
+        /// Gets settings.
         /// </summary>
-        public ICaesarSettings Settings { get; set; }
+        public ICaesarSettings Settings { get; init; }
 
         /// <inheritdoc />
         public string Decrypt(string ciphertext)

@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public class ROT13Symmetric : SymmetricAlgorithm
+    public sealed class ROT13Symmetric : SymmetricAlgorithm
     {
         private readonly ROT13 _algorithm;
 

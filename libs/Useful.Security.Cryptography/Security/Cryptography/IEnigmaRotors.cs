@@ -12,26 +12,20 @@ namespace Useful.Security.Cryptography
     public interface IEnigmaRotors
     {
         /// <summary>
-        /// Gets or sets the rotors.
+        /// Gets the rotors.
         /// </summary>
-        IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> Rotors { get; set; }
+        IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors { get; init; }
 
         /// <summary>
-        /// Sets the rotor settings.
+        /// Gets the rotor settings.
         /// </summary>
-        /// <param name="position">The rotor position to set.</param>
-        /// <returns>The rotor to set in this position.</returns>
-        EnigmaRotor this[EnigmaRotorPosition position] { get; set; }
+        /// <param name="position">The rotor position.</param>
+        /// <returns>The rotor in this position.</returns>
+        IEnigmaRotor this[EnigmaRotorPosition position] { get; }
 
         /// <summary>
         /// Advances the rotor one setting.
         /// </summary>
         void AdvanceRotors();
-
-        /// <summary>
-        /// Gets the rotors not being used.
-        /// </summary>
-        /// <returns>The rotors not in use.</returns>
-        IList<EnigmaRotorNumber> GetAvailableRotors();
     }
 }

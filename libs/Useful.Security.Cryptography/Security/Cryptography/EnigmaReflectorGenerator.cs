@@ -10,9 +10,9 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma Reflector settings generator.
     /// </summary>
-    internal class EnigmaReflectorGenerator
+    internal sealed class EnigmaReflectorGenerator
     {
-        public static EnigmaReflector Generate()
+        public static IEnigmaReflector Generate()
         {
             Random rnd = new();
 
@@ -24,7 +24,7 @@ namespace Useful.Security.Cryptography
 
             int nextRandomNumber = rnd.Next(0, reflectors.Count);
 
-            return new EnigmaReflector(reflectors[nextRandomNumber]);
+            return new EnigmaReflector() { ReflectorNumber = reflectors[nextRandomNumber] };
         }
     }
 }

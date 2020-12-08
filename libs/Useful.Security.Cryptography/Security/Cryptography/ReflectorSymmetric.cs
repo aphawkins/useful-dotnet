@@ -71,7 +71,7 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Argument exception.", nameof(Key), ex);
                 }
 
-                _algorithm.Settings = new ReflectorSettings(key.CharacterSet, key.Substitutions);
+                _algorithm.Settings = new ReflectorSettings() { CharacterSet = key.CharacterSet, Substitutions = key.Substitutions };
                 base.Key = value;
             }
         }

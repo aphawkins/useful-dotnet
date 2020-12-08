@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Caesar key generator.
     /// </summary>
-    internal class CaesarSettingsGenerator
+    internal sealed class CaesarSettingsGenerator
     {
         public static ICaesarSettings Generate()
         {
@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography
             using RNGCryptoServiceProvider rngCsp = new();
             rngCsp.GetBytes(randomNumber);
             int rightShift = randomNumber[0] % 26;
-            return new CaesarSettings(rightShift);
+            return new CaesarSettings() { RightShift = rightShift };
         }
     }
 }

@@ -7,36 +7,25 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Enigma algorithm settings.
     /// </summary>
-    public class EnigmaSettings : IEnigmaSettings
+    public sealed class EnigmaSettings : IEnigmaSettings
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
         /// </summary>
         public EnigmaSettings()
-            : this(new EnigmaReflector(EnigmaReflectorNumber.B), new EnigmaRotorSettings(), new EnigmaPlugboard())
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.
-        /// </summary>
-        /// <param name="reflector">The reflector.</param>
-        /// <param name="rotors">The rotor settings.</param>
-        /// <param name="plugboard">The plugboard.</param>
-        public EnigmaSettings(IEnigmaReflector reflector, IEnigmaRotors rotors, IEnigmaPlugboard plugboard)
-        {
-            Reflector = reflector;
-            Rotors = rotors;
-            Plugboard = plugboard;
+            Reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.B };
+            Rotors = new EnigmaRotorSettings();
+            Plugboard = new EnigmaPlugboard();
         }
 
         /// <inheritdoc />
-        public IEnigmaPlugboard Plugboard { get; set; }
+        public IEnigmaPlugboard Plugboard { get; init; }
 
         /// <inheritdoc />
-        public IEnigmaReflector Reflector { get; private set; }
+        public IEnigmaReflector Reflector { get; init; }
 
         /// <inheritdoc />
-        public IEnigmaRotors Rotors { get; private set; }
+        public IEnigmaRotors Rotors { get; init; }
     }
 }

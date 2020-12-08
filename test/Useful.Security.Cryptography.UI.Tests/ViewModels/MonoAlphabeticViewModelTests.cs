@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.Tests
         public void GetSubstitutionsInvalid(string characterSet, string substitutions, char from, char to)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 
@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography.Tests
         public void GetSubstitutionsValid(string characterSet, string substitutions, char from, char to)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
@@ -43,7 +43,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
@@ -58,7 +58,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
@@ -73,7 +73,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;
@@ -90,7 +90,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 
@@ -105,7 +105,7 @@ namespace Useful.Security.Cryptography.Tests
         public void SetSubstitutionSet(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
         {
             string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
             settingsViewModel[from] = to;

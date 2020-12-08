@@ -24,7 +24,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(" ABCD", "ABCD")] // Character set spacing
         [InlineData("AB CD", "ABCD")] // Character set spacing
         [InlineData("ABCD ", "ABCD")] // Character set spacing
-        public void CtorCharacterSetInvalid(string characterSet, string substitutions) => Assert.Throws<ArgumentException>(nameof(characterSet), () => new ReflectorSettings(characterSet, substitutions));
+        public void CtorCharacterSetInvalid(string characterSet, string substitutions)
+            => Assert.Throws<ArgumentException>(nameof(characterSet), () => new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions });
 
         [Theory]
         [InlineData("ABC", "ABCD")] // Too many subs
@@ -34,7 +35,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCD", "aBCD")] // Subs incorrect case
         [InlineData("ABCD", "AAAA")] // Incorrect subs letters
         [InlineData("ABC", "BCA")] // Subs non-reflective
-        public void CtorSubstitutionsInvalid(string characterSet, string substitutions) => Assert.Throws<ArgumentException>(nameof(substitutions), () => new ReflectorSettings(characterSet, substitutions));
+        public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
+            => Assert.Throws<ArgumentException>(nameof(ReflectorSettings.Substitutions), () => new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions });
 
         [Theory]
         [InlineData("ABC", "ABC", 0)]
@@ -43,7 +45,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ØA", "ØA", 0)]
         public void CtorSettings(string characterSet, string substitutions, int substitutionCount)
         {
-            IReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            ReflectorSettings settings = new() { CharacterSet = characterSet, Substitutions = substitutions };
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutions, settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
@@ -54,8 +56,7 @@ namespace Useful.Security.Cryptography.Tests
         public void GetSubstitutionsInvalid(char from, char to)
         {
             IReflectorSettings settings = new ReflectorSettings();
-
-            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Throws<ArgumentException>("substitution", () => settings[from] = to);
         }
 
         [Theory]
@@ -95,7 +96,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'C', 'A', "CBA", 2)]
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -108,7 +109,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "CBA", 'A', 'A', "ABC", 0)]
         public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -121,7 +122,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "CBA", 'A', 'C', "CBA", 2)]
         public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            ReflectorSettings settings = new(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -135,9 +136,9 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'Ø', 'A', 0)]
         public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, int substitutionCount)
         {
-            ReflectorSettings settings = new(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
 
-            Assert.Throws<ArgumentException>("value", () => settings[from] = to);
+            Assert.Throws<ArgumentException>("substitution", () => settings[from] = to);
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutions, settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);

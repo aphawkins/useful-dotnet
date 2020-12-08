@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// An Enigma Rotor.
     /// </summary>
-    public class EnigmaRotor
+    public sealed class EnigmaRotor : IEnigmaRotor
     {
         /// <summary>
         /// Gets the letters available to this rotor.
@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The cipher for the wiring inside the rotor.
         /// </summary>
-        private readonly MonoAlphabeticSettings _wiring;
+        private MonoAlphabeticSettings _wiring;
 
         /// <summary>
         /// The current offset position of the rotor in relation to the letters.
@@ -32,23 +32,20 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private int _ringPosition;
 
+        private EnigmaRotorNumber _rotorNumber;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotor"/> class.
         /// </summary>
-        /// <param name="rotorNumber">The rotor number.</param>
-        /// <param name="ringPosition">The ring position.</param>
-        /// <param name="currentSetting">The current Setting.</param>
-        public EnigmaRotor(EnigmaRotorNumber rotorNumber, int ringPosition, char currentSetting)
+        public EnigmaRotor()
         {
-            RotorNumber = rotorNumber;
-            (_wiring, Notches) = GetWiring(rotorNumber);
-            RingPosition = ringPosition;
-            CurrentSetting = currentSetting;
+            RotorNumber = EnigmaRotorNumber.I;
+            (_wiring, Notches) = GetWiring(RotorNumber);
+            RingPosition = 1;
+            CurrentSetting = 'A';
         }
 
-        /// <summary>
-        /// Gets or sets the current letter the rotor is set to.
-        /// </summary>
+        /// <inheritdoc />
         public char CurrentSetting
         {
             get => CharacterSet[_currentSetting];
@@ -64,18 +61,14 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Gets the notches.
-        /// </summary>
+        /// <inheritdoc />
         public string Notches
         {
             get;
             private set;
         }
 
-        /// <summary>
-        /// Gets or sets the current letter the rotor's ring is set to.
-        /// </summary>
+        /// <inheritdoc />
         public int RingPosition
         {
             get => _ringPosition;
@@ -91,16 +84,20 @@ namespace Useful.Security.Cryptography
             }
         }
 
-        /// <summary>
-        /// Gets the designation of this rotor.
-        /// </summary>
-        public EnigmaRotorNumber RotorNumber { get; private set; }
+        /// <inheritdoc />
+        public EnigmaRotorNumber RotorNumber
+        {
+            get => _rotorNumber;
+            init
+            {
+                _rotorNumber = value;
+                (_wiring, Notches) = GetWiring(_rotorNumber);
+                RingPosition = 1;
+                CurrentSetting = 'A';
+            }
+        }
 
-        /// <summary>
-        /// The letter this rotor encodes to going backwards through it.
-        /// </summary>
-        /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter.</returns>
+        /// <inheritdoc />
         public char Backward(char letter)
         {
             // Add the offset the current position
@@ -126,11 +123,7 @@ namespace Useful.Security.Cryptography
             return CharacterSet[newLet];
         }
 
-        /// <summary>
-        /// The letter this rotor encodes to going forward through it.
-        /// </summary>
-        /// <param name="letter">The letter to transform.</param>
-        /// <returns>The transformed letter.</returns>
+        /// <inheritdoc />
         public char Forward(char letter)
         {
             // Add the offset the current position
@@ -163,7 +156,7 @@ namespace Useful.Security.Cryptography
 
             (string rotorWiring, string notches) = wiring[rotorNumber];
 
-            MonoAlphabeticSettings wiringSettings = new(CharacterSet, rotorWiring);
+            MonoAlphabeticSettings wiringSettings = new() { CharacterSet = CharacterSet, Substitutions = rotorWiring };
 
             return (wiringSettings, notches);
         }

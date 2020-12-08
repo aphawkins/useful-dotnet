@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Construct(int rightShift)
         {
             string propertyChanged = string.Empty;
-            ICaesarSettings settings = new CaesarSettings(rightShift);
+            ICaesarSettings settings = new CaesarSettings() { RightShift = rightShift };
             CaesarSettingsViewModel settingsViewModel = new(settings);
             settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
 

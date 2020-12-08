@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public class ROT13 : ICipher
+    public sealed class ROT13 : ICipher
     {
         /// <inheritdoc />
         public string CipherName => "ROT13";

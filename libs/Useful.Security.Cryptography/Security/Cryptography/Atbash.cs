@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Atbash cipher.
     /// </summary>
-    public class Atbash : ICipher
+    public sealed class Atbash : ICipher
     {
         /// <inheritdoc />
         public string CipherName => "Atbash";

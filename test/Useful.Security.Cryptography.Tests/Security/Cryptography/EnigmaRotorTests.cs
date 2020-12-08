@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography.Tests
             _ = notches;
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaRotor target = new(rotorNumber, 1, 'A');
+            IEnigmaRotor target = new EnigmaRotor() { RotorNumber = rotorNumber };
 
             Assert.Equal(rotorNumber, target.RotorNumber);
 
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSetting()
         {
-            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A');
+            IEnigmaRotor target = new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.I };
 
             // Default
             Assert.Equal('A', target.CurrentSetting);
@@ -57,8 +57,9 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorCurrentSettingInvalid()
         {
-            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
+            IEnigmaRotor target = new EnigmaRotor()
             {
+                RotorNumber = EnigmaRotorNumber.I,
                 CurrentSetting = 'W',
             };
             Assert.Throws<ArgumentOutOfRangeException>(() => target.CurrentSetting = 'Å');
@@ -68,8 +69,9 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRing()
         {
-            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
+            IEnigmaRotor target = new EnigmaRotor()
             {
+                RotorNumber = EnigmaRotorNumber.I,
                 RingPosition = 2,
                 CurrentSetting = 'A',
             };
@@ -83,7 +85,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPosition()
         {
-            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A');
+            IEnigmaRotor target = new EnigmaRotor()
+            {
+                RotorNumber = EnigmaRotorNumber.I,
+            };
 
             // Default
             Assert.Equal(1, target.RingPosition);
@@ -94,8 +99,9 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRingPositionInvalid()
         {
-            EnigmaRotor target = new(EnigmaRotorNumber.I, 1, 'A')
+            IEnigmaRotor target = new EnigmaRotor()
             {
+                RotorNumber = EnigmaRotorNumber.I,
                 RingPosition = 23,
             };
             Assert.Throws<ArgumentOutOfRangeException>(() => target.RingPosition = 27);

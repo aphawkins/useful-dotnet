@@ -171,18 +171,18 @@ namespace Useful.Security.Cryptography
             IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> rotorNumbers = ParseEnigmaRotorNumbers(parts[1]);
             IDictionary<EnigmaRotorPosition, int> rings = ParseEnigmaRings(parts[2]);
 
-            IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> list = new Dictionary<EnigmaRotorPosition, EnigmaRotor>
+            IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> list = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>
             {
-                { EnigmaRotorPosition.Fastest, new EnigmaRotor(rotorNumbers[EnigmaRotorPosition.Fastest], rings[EnigmaRotorPosition.Fastest], 'A') },
-                { EnigmaRotorPosition.Second, new EnigmaRotor(rotorNumbers[EnigmaRotorPosition.Second], rings[EnigmaRotorPosition.Second], 'A') },
-                { EnigmaRotorPosition.Third, new EnigmaRotor(rotorNumbers[EnigmaRotorPosition.Third], rings[EnigmaRotorPosition.Third], 'A') },
+                { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Fastest], RingPosition = rings[EnigmaRotorPosition.Fastest] } },
+                { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Second], RingPosition = rings[EnigmaRotorPosition.Second] } },
+                { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Third], RingPosition = rings[EnigmaRotorPosition.Third] } },
             };
 
             EnigmaRotorSettings rotors = new(list);
 
             EnigmaPlugboard plugboard = ParsePlugboard(parts[3]);
 
-            return new EnigmaSettings(reflector, rotors, plugboard);
+            return new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
         }
 
         private static IEnigmaSettings GetSettingsIv(IEnigmaSettings settings, byte[] iv)
@@ -207,7 +207,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect reflector.", nameof(reflector));
             }
 
-            return new EnigmaReflector(reflectorNumber);
+            return new EnigmaReflector() { ReflectorNumber = reflectorNumber };
         }
 
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
@@ -364,7 +364,7 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.CurrentSetting);
                 key.Append(KeyDelimiter);
@@ -382,7 +382,7 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
                 key.Append(position.Value.RotorNumber);
                 key.Append(KeyDelimiter);
@@ -400,7 +400,7 @@ namespace Useful.Security.Cryptography
         {
             StringBuilder key = new();
 
-            foreach (KeyValuePair<EnigmaRotorPosition, EnigmaRotor> position in settings.Rotors.Reverse().ToArray())
+            foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
                 key.Append($"{position.Value.RingPosition:00}");
                 key.Append(KeyDelimiter);

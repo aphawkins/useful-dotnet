@@ -13,40 +13,26 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class MonoAlphabeticSettings : IMonoAlphabeticSettings
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
-        /// </summary>
-        public MonoAlphabeticSettings()
-            : this("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        private string _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private string _substitutions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        /// <inheritdoc />
+        public string CharacterSet
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSettings"/> class.
-        /// </summary>
-        /// <param name="characterSet">The valid character set.</param>
-        /// <param name="substitutions">A substitution for each character.</param>
-        public MonoAlphabeticSettings(string characterSet, string substitutions)
-        {
-            if (characterSet == null)
+            get => _characterSet;
+            init
             {
-                throw new ArgumentNullException(nameof(characterSet));
+                _characterSet = ParseCharacterSet(value);
+                _substitutions = _characterSet;
             }
-
-            if (substitutions == null)
-            {
-                throw new ArgumentNullException(nameof(substitutions));
-            }
-
-            CharacterSet = ParseCharacterSet(characterSet);
-            Substitutions = ParseSubstitutions(characterSet, substitutions);
         }
 
         /// <inheritdoc />
-        public string Substitutions { get; private set; } = string.Empty;
-
-        /// <inheritdoc />
-        public string CharacterSet { get; private set; } = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public string Substitutions
+        {
+            get => _substitutions;
+            set => _substitutions = ParseSubstitutions(_characterSet, value);
+        }
 
         /// <inheritdoc />
         public int SubstitutionCount

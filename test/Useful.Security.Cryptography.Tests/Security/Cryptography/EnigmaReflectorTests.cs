@@ -12,16 +12,19 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData(EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT")]
         [InlineData(EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL")]
-        public void Reflect(EnigmaReflectorNumber reflectorNumber, string reflection)
+        public void Reflect(EnigmaReflectorNumber reflectorNumber, string wiring)
         {
             string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            EnigmaReflector reflector = new(reflectorNumber);
+            IEnigmaReflector reflector = new EnigmaReflector()
+            {
+                ReflectorNumber = reflectorNumber,
+            };
             Assert.Equal(reflectorNumber, reflector.ReflectorNumber);
 
             for (int i = 0; i < characterSet.Length; i++)
             {
-                Assert.Equal(reflection[i], reflector.Reflect(characterSet[i]));
+                Assert.Equal(wiring[i], reflector.Reflect(characterSet[i]));
             }
         }
     }

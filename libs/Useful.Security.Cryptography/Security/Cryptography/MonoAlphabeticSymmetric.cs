@@ -67,7 +67,7 @@ namespace Useful.Security.Cryptography
                 {
                     key = ParseKey(value);
 
-                    _algorithm.Settings = new MonoAlphabeticSettings(key.CharacterSet, key.Substitutions);
+                    _algorithm.Settings = new MonoAlphabeticSettings() { CharacterSet = key.CharacterSet, Substitutions = key.Substitutions };
                 }
                 catch (ArgumentException ex)
                 {

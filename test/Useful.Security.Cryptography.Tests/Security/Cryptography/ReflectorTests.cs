@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             Reflector cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IReflectorSettings settings = new ReflectorSettings(characterSet, substitutions);
+            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             Reflector cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }

@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Atbash cipher.
     /// </summary>
-    public class AtbashSymmetric : SymmetricAlgorithm
+    public sealed class AtbashSymmetric : SymmetricAlgorithm
     {
         private readonly Atbash _algorithm;
 

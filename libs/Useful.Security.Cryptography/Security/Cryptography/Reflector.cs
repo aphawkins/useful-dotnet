@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
     /// </summary>
-    public class Reflector : ICipher
+    public sealed class Reflector : ICipher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Reflector"/> class.

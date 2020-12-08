@@ -11,9 +11,9 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public class CaesarSymmetric : SymmetricAlgorithm
+    public sealed class CaesarSymmetric : SymmetricAlgorithm
     {
-        private readonly Caesar _algorithm;
+        private Caesar _algorithm;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarSymmetric"/> class.
@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                _algorithm.Settings = GetSettings(value);
+                _algorithm = new(GetSettings(value));
                 base.Key = value;
             }
         }
@@ -93,7 +93,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.");
             }
 
-            return new CaesarSettings(rightShift);
+            return new CaesarSettings() { RightShift = rightShift };
         }
 
         private void Reset()

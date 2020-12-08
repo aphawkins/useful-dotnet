@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorSettings()
         {
-            Caesar cipher = new(new CaesarSettings(7));
+            Caesar cipher = new(new CaesarSettings() { RightShift = 7 });
             Assert.Equal(7, cipher.Settings.RightShift);
         }
 
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            Caesar cipher = new(new CaesarSettings());
+            ICipher cipher = new Caesar(new CaesarSettings());
             Assert.Equal("Caesar", cipher.CipherName);
             Assert.Equal("Caesar", cipher.ToString());
         }
@@ -57,7 +57,10 @@ namespace Useful.Security.Cryptography.Tests
             string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            Caesar cipher = new(new CaesarSettings(7));
+            Caesar cipher = new(new CaesarSettings()
+            {
+                RightShift = 7,
+            });
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }

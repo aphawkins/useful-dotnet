@@ -24,7 +24,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(" ABCD", "ABCD")] // Character set spacing
         [InlineData("AB CD", "ABCD")] // Character set spacing
         [InlineData("ABCD ", "ABCD")] // Character set spacing
-        public void CtorCharacterSetInvalid(string characterSet, string substitutions) => Assert.Throws<ArgumentException>(nameof(characterSet), () => new MonoAlphabeticSettings(characterSet, substitutions));
+        public void CtorCharacterSetInvalid(string characterSet, string substitutions)
+            => Assert.Throws<ArgumentException>(nameof(characterSet), () => new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions });
 
         [Theory]
         [InlineData("ABC", "")] // No substitutions
@@ -35,7 +36,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCD", "AB CD")] // Subs spacing
         [InlineData("ABCD", "aBCD")] // Subs incorrect case
         [InlineData("ABCD", "AACD")] // Incorrect subs letters
-        public void CtorSubstitutionsInvalid(string characterSet, string substitutions) => Assert.Throws<ArgumentException>(nameof(substitutions), () => new MonoAlphabeticSettings(characterSet, substitutions));
+        public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
+            => Assert.Throws<ArgumentException>(nameof(substitutions), () => new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions });
 
         [Theory]
         [InlineData("ABC", "ABC", 0)]
@@ -44,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ØABC", "BAØC", 2)]
         public void CtorSettings(string characterSet, string substitutions, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(substitutions, settings.Substitutions);
@@ -54,7 +56,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'Ø', 'A')]
         public void GetSubstitutionsInvalid(string characterSet, string substitutions, char from, char to)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
 
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
         }
@@ -63,7 +65,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'A', 'A')]
         public void GetSubstitutionsValid(string characterSet, string substitutions, char from, char to)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -89,7 +91,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "BCA", 'B', 'B', "CBA", 2)]
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -101,7 +103,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "BAC", 'A', 'A', "ABC", 0)]
         public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -113,7 +115,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "BCA", 'C', 'A', "BCA", 3)]
         public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -126,7 +128,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'Ø', 'A', 0)]
         public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
 
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
@@ -137,7 +139,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'A', 'B', "BAC", 2)]
         public void SetSubstitutionSet(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings(characterSet, substitutions);
+            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);

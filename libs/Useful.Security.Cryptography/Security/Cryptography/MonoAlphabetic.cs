@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The MonoAlphabetic cipher.
     /// </summary>
-    public class MonoAlphabetic : ICipher
+    public sealed class MonoAlphabetic : ICipher
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.

@@ -11,30 +11,25 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public class EnigmaRotorSettings : IEnigmaRotors
+    public sealed class EnigmaRotorSettings : IEnigmaRotors
     {
-        /// <summary>
-        /// The seperator between values in a key field.
-        /// </summary>
-        internal const char KeyDelimiter = ' ';
-
-        private IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> _rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>();
+        private IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> _rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
         /// </summary>
-        public EnigmaRotorSettings() => _rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>
+        public EnigmaRotorSettings() => _rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>
             {
-                { EnigmaRotorPosition.Fastest, new EnigmaRotor(EnigmaRotorNumber.I, 1, 'A') },
-                { EnigmaRotorPosition.Second, new EnigmaRotor(EnigmaRotorNumber.II, 1, 'A') },
-                { EnigmaRotorPosition.Third, new EnigmaRotor(EnigmaRotorNumber.III, 1, 'A') },
+                { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.I } },
+                { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.II } },
+                { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.III } },
             };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
         /// </summary>
         /// <param name="rotors">The rotors.</param>
-        public EnigmaRotorSettings(IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> rotors) => Rotors = rotors;
+        public EnigmaRotorSettings(IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> rotors) => Rotors = rotors;
 
         /// <summary>
         /// Gets the rotor positions.
@@ -51,7 +46,7 @@ namespace Useful.Security.Cryptography
         /// Gets all the rotors.
         /// </summary>
         /// <returns>All the rotors.</returns>
-        public static IEnumerable<EnigmaRotorNumber> RotorSet => new List<EnigmaRotorNumber>()
+        public static IList<EnigmaRotorNumber> RotorSet => new List<EnigmaRotorNumber>()
                 {
                     EnigmaRotorNumber.I,
                     EnigmaRotorNumber.II,
@@ -64,10 +59,10 @@ namespace Useful.Security.Cryptography
                 };
 
         /// <inheritdoc />
-        public IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> Rotors
+        public IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors
         {
             get => _rotors;
-            set
+            init
             {
                 if (value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Second].RotorNumber
                     || value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Third].RotorNumber
@@ -81,19 +76,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public EnigmaRotor this[EnigmaRotorPosition position]
-        {
-            get => _rotors[position];
-
-            set
-            {
-                IReadOnlyDictionary<EnigmaRotorPosition, EnigmaRotor> rotors = new Dictionary<EnigmaRotorPosition, EnigmaRotor>(_rotors)
-                {
-                    [position] = value,
-                };
-                Rotors = rotors;
-            }
-        }
+        public IEnigmaRotor this[EnigmaRotorPosition position] => _rotors[position];
 
         /// <inheritdoc />
         public void AdvanceRotors()
@@ -132,30 +115,6 @@ namespace Useful.Security.Cryptography
                     break;
                 }
             }
-        }
-
-        /// <inheritdoc />
-        public IList<EnigmaRotorNumber> GetAvailableRotors()
-        {
-            IList<EnigmaRotorNumber> availableRotors = RotorSet.ToList();
-
-            if (_rotors.Any())
-            {
-                foreach (EnigmaRotorPosition position in RotorPositions)
-                {
-                    if (!_rotors.ContainsKey(position))
-                    {
-                        continue;
-                    }
-
-                    if (availableRotors.Contains(_rotors[position].RotorNumber))
-                    {
-                        availableRotors.Remove(_rotors[position].RotorNumber);
-                    }
-                }
-            }
-
-            return availableRotors;
         }
     }
 }
