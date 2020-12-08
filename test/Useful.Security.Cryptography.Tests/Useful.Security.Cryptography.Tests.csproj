@@ -5,12 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Security\Cryptography\CipherSettingsTests.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaPlugboardSettingsTests - Copy.cs" />
-    <Compile Remove="Security\Cryptography\EnigmaPlugboardTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
+    using System.Collections.Generic;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -12,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorDefault()
         {
-            EnigmaSettings settings = new();
+            IEnigmaSettings settings = new EnigmaSettings();
             Assert.Equal(EnigmaReflectorNumber.B, settings.Reflector.ReflectorNumber);
             Assert.Equal(EnigmaRotorNumber.I, settings.Rotors[EnigmaRotorPosition.Fastest].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.II, settings.Rotors[EnigmaRotorPosition.Second].RotorNumber);
@@ -27,54 +28,28 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Empty(settings.Plugboard.Substitutions());
         }
 
-        ////[Fact]
-        ////public void PlugboardCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new EnigmaPlugboardSettings(Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB")));
-        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|AB", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
-        ////}
+        [Fact]
+        public void Reflector()
+        {
+            IEnigmaSettings settings = new EnigmaSettings()
+            {
+                Reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.C },
+            };
 
-        ////[Fact]
-        ////public void PlugboardDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
-        ////}
+            Assert.Equal(EnigmaReflectorNumber.C, settings.Reflector.ReflectorNumber);
+        }
 
-        ////[Theory]
-        ////[InlineData("B|III II I|01 01 01| AB")]
-        ////public void PlugboardInvalid(string key) => Assert.Throws<ArgumentException>(() => new EnigmaSettings(Encoding.Unicode.GetBytes(key), Encoding.Unicode.GetBytes("A A A")));
+        [Fact]
+        public void Plugboard()
+        {
+            IEnigmaSettings settings = new EnigmaSettings()
+            {
+                Plugboard = new EnigmaPlugboard(new Dictionary<char, char>() { { 'A', 'B' }, }),
+            };
 
-        ////[Fact]
-        ////public void PlugboardKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes("A A A"));
-        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ|", Encoding.Unicode.GetString(target.Plugboard.Key.ToArray()));
-        ////}
-
-        ////[Fact]
-        ////public void ReflectorCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.C, new EnigmaRotorSettings(), new ReflectorSettings());
-        ////    Assert.Equal(EnigmaReflectorNumber.C, target.ReflectorNumber);
-        ////}
-
-        ////[Fact]
-        ////public void ReflectorDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal(EnigmaReflectorNumber.B, target.ReflectorNumber);
-        ////}
-
-        ////[Fact]
-        ////public void ReflectorInvalid() => Assert.Throws<ArgumentException>(() => new EnigmaSettings(Encoding.Unicode.GetBytes("Z|III II I|01 01 01|"), Encoding.Unicode.GetBytes("A A A")));
-
-        ////[Fact]
-        ////public void ReflectorKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("C|III II I|01 01 01|"), Encoding.Unicode.GetBytes("A A A"));
-        ////    Assert.Equal(EnigmaReflectorNumber.C, target.ReflectorNumber);
-        ////}
+            Assert.Equal(1, settings.Plugboard.SubstitutionCount);
+            Assert.Equal('B', settings.Plugboard.Substitutions()['A']);
+        }
 
         ////[Fact]
         ////public void RingCtor()

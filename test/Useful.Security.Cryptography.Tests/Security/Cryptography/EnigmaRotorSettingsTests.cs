@@ -12,37 +12,6 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaRotorSettingsTests
     {
-        ////[Fact]
-        ////public void AvailableRotors()
-        ////{
-        ////    EnigmaRotorSettings target = new();
-        ////    IList<EnigmaRotorNumber> availableRotors = target.GetAvailableRotors();
-        ////    Assert.Equal(5, availableRotors.Count);
-        ////    Assert.Equal(EnigmaRotorNumber.IV, availableRotors[0]);
-        ////    Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
-        ////    Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
-        ////    Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
-        ////    Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
-
-        ////    target[EnigmaRotorPosition.Fastest] = new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV };
-        ////    availableRotors = target.GetAvailableRotors();
-        ////    Assert.Equal(5, availableRotors.Count);
-        ////    Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
-        ////    Assert.Equal(EnigmaRotorNumber.V, availableRotors[1]);
-        ////    Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
-        ////    Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
-        ////    Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
-
-        ////    target[EnigmaRotorPosition.Second] = new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.V };
-        ////    availableRotors = target.GetAvailableRotors();
-        ////    Assert.Equal(5, availableRotors.Count);
-        ////    Assert.Equal(EnigmaRotorNumber.I, availableRotors[0]);
-        ////    Assert.Equal(EnigmaRotorNumber.II, availableRotors[1]);
-        ////    Assert.Equal(EnigmaRotorNumber.VI, availableRotors[2]);
-        ////    Assert.Equal(EnigmaRotorNumber.VII, availableRotors[3]);
-        ////    Assert.Equal(EnigmaRotorNumber.VIII, availableRotors[4]);
-        ////}
-
         [Fact]
         public void CurrentSettingDefaults()
         {
