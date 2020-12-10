@@ -178,7 +178,7 @@ namespace Useful.Security.Cryptography
                 { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Third], RingPosition = rings[EnigmaRotorPosition.Third] } },
             };
 
-            EnigmaRotorSettings rotors = new(list);
+            EnigmaRotors rotors = new(list);
 
             EnigmaPlugboard plugboard = ParsePlugboard(parts[3]);
 

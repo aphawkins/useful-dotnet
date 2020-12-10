@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaRotorSettings.cs" company="APH Software">
+﻿// <copyright file="EnigmaRotors.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -11,14 +11,14 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>
-    public sealed class EnigmaRotorSettings : IEnigmaRotors
+    public sealed class EnigmaRotors : IEnigmaRotors
     {
         private IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> _rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
+        /// Initializes a new instance of the <see cref="EnigmaRotors"/> class.
         /// </summary>
-        public EnigmaRotorSettings() => _rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>
+        public EnigmaRotors() => _rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>
             {
                 { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.I } },
                 { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.II } },
@@ -26,10 +26,10 @@ namespace Useful.Security.Cryptography
             };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaRotorSettings"/> class.
+        /// Initializes a new instance of the <see cref="EnigmaRotors"/> class.
         /// </summary>
         /// <param name="rotors">The rotors.</param>
-        public EnigmaRotorSettings(IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> rotors) => Rotors = rotors;
+        public EnigmaRotors(IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> rotors) => Rotors = rotors;
 
         /// <summary>
         /// Gets the rotor positions.

@@ -1,4 +1,4 @@
-﻿// <copyright file="EnigmaRotorSettingsTests.cs" company="APH Software">
+﻿// <copyright file="EnigmaRotorsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,12 +10,12 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class EnigmaRotorSettingsTests
+    public class EnigmaRotorsTests
     {
         [Fact]
         public void CurrentSettingDefaults()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             Assert.Equal('A', settings[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal('A', settings[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal('A', settings[EnigmaRotorPosition.Third].CurrentSetting);
@@ -24,14 +24,14 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CurrentSettingInvalid()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             Assert.Throws<ArgumentOutOfRangeException>(() => settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'Å');
         }
 
         [Fact]
         public void CurrentSettingSet()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             settings[EnigmaRotorPosition.Fastest].CurrentSetting = 'B';
             settings[EnigmaRotorPosition.Second].CurrentSetting = 'D';
             settings[EnigmaRotorPosition.Third].CurrentSetting = 'E';
@@ -43,7 +43,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RingPosition()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             settings[EnigmaRotorPosition.Fastest].RingPosition = 02;
             settings[EnigmaRotorPosition.Second].RingPosition = 04;
             settings[EnigmaRotorPosition.Third].RingPosition = 05;
@@ -55,7 +55,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RingPositionDefaults()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             Assert.Equal(1, settings[EnigmaRotorPosition.Fastest].RingPosition);
             Assert.Equal(1, settings[EnigmaRotorPosition.Second].RingPosition);
             Assert.Equal(1, settings[EnigmaRotorPosition.Third].RingPosition);
@@ -64,14 +64,14 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RingPositionInvalid()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             Assert.Throws<ArgumentOutOfRangeException>(() => settings[EnigmaRotorPosition.Fastest].RingPosition = 'Å');
         }
 
         [Fact]
         public void RotorOrder()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings()
+            IEnigmaRotors settings = new EnigmaRotors()
             {
                 Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                 {
@@ -89,14 +89,14 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RotorOrderDefaults()
         {
-            IEnigmaRotors settings = new EnigmaRotorSettings();
+            IEnigmaRotors settings = new EnigmaRotors();
             Assert.Equal(EnigmaRotorNumber.I, settings[EnigmaRotorPosition.Fastest].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.II, settings[EnigmaRotorPosition.Second].RotorNumber);
             Assert.Equal(EnigmaRotorNumber.III, settings[EnigmaRotorPosition.Third].RotorNumber);
         }
 
         [Fact]
-        public void RotorOrderInvalid() => Assert.Throws<ArgumentException>(() => new EnigmaRotorSettings()
+        public void RotorOrderInvalid() => Assert.Throws<ArgumentException>(() => new EnigmaRotors()
         {
             Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                     {
@@ -109,7 +109,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RotorPositionsDefaults()
         {
-            IList<EnigmaRotorPosition> positions = EnigmaRotorSettings.RotorPositions.ToList();
+            IList<EnigmaRotorPosition> positions = EnigmaRotors.RotorPositions.ToList();
             Assert.Equal(3, positions.Count);
             Assert.Equal(EnigmaRotorPosition.Fastest, positions[0]);
             Assert.Equal(EnigmaRotorPosition.Second, positions[1]);
@@ -119,7 +119,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RotorSet()
         {
-            IList<EnigmaRotorNumber> rotors = EnigmaRotorSettings.RotorSet.ToList();
+            IList<EnigmaRotorNumber> rotors = EnigmaRotors.RotorSet.ToList();
             Assert.Equal(8, rotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, rotors[0]);
             Assert.Equal(EnigmaRotorNumber.II, rotors[1]);

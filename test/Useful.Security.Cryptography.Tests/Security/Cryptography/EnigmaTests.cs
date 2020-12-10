@@ -77,7 +77,7 @@ namespace Useful.Security.Cryptography.Tests
             // Final key: BRS
             IEnigmaReflector reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.B };
 
-            IEnigmaRotors rotors = new EnigmaRotorSettings()
+            IEnigmaRotors rotors = new EnigmaRotors()
             {
                 Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                 {
@@ -174,7 +174,7 @@ namespace Useful.Security.Cryptography.Tests
             // Final key: KPG
             IEnigmaReflector reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.B };
 
-            IEnigmaRotors rotors = new EnigmaRotorSettings()
+            IEnigmaRotors rotors = new EnigmaRotors()
             {
                 Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                 {
@@ -267,7 +267,7 @@ namespace Useful.Security.Cryptography.Tests
             // Final key: BRS (?)
             IEnigmaReflector reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.B };
 
-            IEnigmaRotors rotors = new EnigmaRotorSettings()
+            IEnigmaRotors rotors = new EnigmaRotors()
             {
                 Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                 {

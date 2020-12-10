@@ -21,11 +21,11 @@ namespace Useful.Security.Cryptography
 
             List<int> usedRotorNumbers = new();
 
-            foreach (EnigmaRotorPosition rotorPosition in EnigmaRotorSettings.RotorPositions)
+            foreach (EnigmaRotorPosition rotorPosition in EnigmaRotors.RotorPositions)
             {
                 while (true)
                 {
-                    nextRandomNumber = rnd.Next(0, EnigmaRotorSettings.RotorSet.Count);
+                    nextRandomNumber = rnd.Next(0, EnigmaRotors.RotorSet.Count);
                     if (!usedRotorNumbers.Contains(nextRandomNumber))
                     {
                         usedRotorNumbers.Add(nextRandomNumber);
@@ -35,12 +35,12 @@ namespace Useful.Security.Cryptography
 
                 rotors[rotorPosition] = new EnigmaRotor()
                 {
-                    RotorNumber = EnigmaRotorSettings.RotorSet[nextRandomNumber],
+                    RotorNumber = EnigmaRotors.RotorSet[nextRandomNumber],
                     RingPosition = new Random().Next(1, 26),
                 };
             }
 
-            return new EnigmaRotorSettings()
+            return new EnigmaRotors()
             {
                 Rotors = rotors,
             };

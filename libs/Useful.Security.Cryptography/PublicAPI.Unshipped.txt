@@ -1,4 +1,5 @@
-﻿static Useful.Security.Cryptography.EnigmaRotorSettings.RotorSet.get -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
+﻿static Useful.Security.Cryptography.EnigmaRotors.RotorPositions.get -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.EnigmaRotorPosition>!
+static Useful.Security.Cryptography.EnigmaRotors.RotorSet.get -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
 Useful.IRepository<T>
 Useful.IRepository<T>.Create(T item) -> void
 Useful.IRepository<T>.CurrentItem.get -> T?
@@ -86,13 +87,13 @@ Useful.Security.Cryptography.EnigmaRotorPosition
 Useful.Security.Cryptography.EnigmaRotorPosition.Fastest = 0 -> Useful.Security.Cryptography.EnigmaRotorPosition
 Useful.Security.Cryptography.EnigmaRotorPosition.Second = 1 -> Useful.Security.Cryptography.EnigmaRotorPosition
 Useful.Security.Cryptography.EnigmaRotorPosition.Third = 2 -> Useful.Security.Cryptography.EnigmaRotorPosition
-Useful.Security.Cryptography.EnigmaRotorSettings
-Useful.Security.Cryptography.EnigmaRotorSettings.AdvanceRotors() -> void
-Useful.Security.Cryptography.EnigmaRotorSettings.EnigmaRotorSettings() -> void
-Useful.Security.Cryptography.EnigmaRotorSettings.EnigmaRotorSettings(System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.IEnigmaRotor!>! rotors) -> void
-Useful.Security.Cryptography.EnigmaRotorSettings.Rotors.get -> System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.IEnigmaRotor!>!
-Useful.Security.Cryptography.EnigmaRotorSettings.Rotors.init -> void
-Useful.Security.Cryptography.EnigmaRotorSettings.this[Useful.Security.Cryptography.EnigmaRotorPosition position].get -> Useful.Security.Cryptography.IEnigmaRotor!
+Useful.Security.Cryptography.EnigmaRotors
+Useful.Security.Cryptography.EnigmaRotors.AdvanceRotors() -> void
+Useful.Security.Cryptography.EnigmaRotors.EnigmaRotors() -> void
+Useful.Security.Cryptography.EnigmaRotors.EnigmaRotors(System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.IEnigmaRotor!>! rotors) -> void
+Useful.Security.Cryptography.EnigmaRotors.Rotors.get -> System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.IEnigmaRotor!>!
+Useful.Security.Cryptography.EnigmaRotors.Rotors.init -> void
+Useful.Security.Cryptography.EnigmaRotors.this[Useful.Security.Cryptography.EnigmaRotorPosition position].get -> Useful.Security.Cryptography.IEnigmaRotor!
 Useful.Security.Cryptography.EnigmaSettings
 Useful.Security.Cryptography.EnigmaSettings.EnigmaSettings() -> void
 Useful.Security.Cryptography.EnigmaSettings.Plugboard.get -> Useful.Security.Cryptography.IEnigmaPlugboard!
@@ -256,4 +257,3 @@ override Useful.Security.Cryptography.ReflectorSymmetric.Key.set -> void
 override Useful.Security.Cryptography.ReflectorSymmetric.ToString() -> string!
 static Useful.Security.Cryptography.CipherMethods.SymmetricTransform(System.Security.Cryptography.SymmetricAlgorithm! cipher, Useful.Security.Cryptography.CipherTransformMode transformMode, System.IO.Stream! input, System.IO.Stream! output) -> void
 static Useful.Security.Cryptography.CipherMethods.SymmetricTransform(System.Security.Cryptography.SymmetricAlgorithm! cipher, Useful.Security.Cryptography.CipherTransformMode transformMode, string! input) -> string!
-static Useful.Security.Cryptography.EnigmaRotorSettings.RotorPositions.get -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.EnigmaRotorPosition>!

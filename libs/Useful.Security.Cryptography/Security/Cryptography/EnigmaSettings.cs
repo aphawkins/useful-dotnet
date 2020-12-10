@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography
         public EnigmaSettings()
         {
             Reflector = new EnigmaReflector() { ReflectorNumber = EnigmaReflectorNumber.B };
-            Rotors = new EnigmaRotorSettings();
+            Rotors = new EnigmaRotors();
             Plugboard = new EnigmaPlugboard();
         }
 
