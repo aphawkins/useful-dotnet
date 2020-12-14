@@ -40,6 +40,37 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void Rotors()
+        {
+            IEnigmaRotors rotors = new EnigmaRotors()
+            {
+                Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
+                {
+                    { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VI, RingPosition = 2, CurrentSetting = 'X' } },
+                    { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VII, RingPosition = 3, CurrentSetting = 'Y' } },
+                    { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VIII, RingPosition = 4, CurrentSetting = 'Z' } },
+                },
+            };
+
+            IEnigmaSettings settings = new EnigmaSettings()
+            {
+                Rotors = rotors,
+            };
+
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Fastest].RotorNumber, settings.Rotors[EnigmaRotorPosition.Fastest].RotorNumber);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].RotorNumber, settings.Rotors[EnigmaRotorPosition.Second].RotorNumber);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].RotorNumber, settings.Rotors[EnigmaRotorPosition.Third].RotorNumber);
+
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Fastest].RingPosition, settings.Rotors[EnigmaRotorPosition.Fastest].RingPosition);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].RingPosition, settings.Rotors[EnigmaRotorPosition.Second].RingPosition);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].RingPosition, settings.Rotors[EnigmaRotorPosition.Third].RingPosition);
+
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
+        }
+
+        [Fact]
         public void Plugboard()
         {
             IEnigmaSettings settings = new EnigmaSettings()
@@ -53,114 +84,5 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(1, settings.Plugboard.SubstitutionCount);
             Assert.Equal('B', settings.Plugboard.Substitutions()['A']);
         }
-
-        ////[Fact]
-        ////public void RingCtor()
-        ////{
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].RingPosition = 4;
-        ////    rotorSettings[EnigmaRotorPosition.Second].RingPosition = 3;
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].RingPosition = 2;
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new EnigmaPlugboardSettings());
-        ////    Assert.Equal(rotorSettings.RingKey(), target.Rotors.RingKey());
-        ////}
-
-        ////[Fact]
-        ////public void RingDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal(new EnigmaRotorSettings().RingKey(), target.Rotors.RingKey());
-        ////}
-
-        ////[Fact]
-        ////public void RingKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|04 03 02|"), Encoding.Unicode.GetBytes("A A A"));
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].RingPosition = 4;
-        ////    rotorSettings[EnigmaRotorPosition.Second].RingPosition = 3;
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].RingPosition = 2;
-        ////    Assert.Equal(rotorSettings.RingKey(), target.Rotors.RingKey());
-        ////}
-
-        ////[Theory]
-        ////[InlineData("B|III II I||")]
-        ////[InlineData("B|III II I|01 01 01 01|")]
-        ////[InlineData("B|III II I| 01 01 01 |")]
-        ////public void RingsInvalid(string key) => Assert.Throws<ArgumentException>(() => new EnigmaSettings(Encoding.Unicode.GetBytes(key), Encoding.Unicode.GetBytes("A A A")));
-
-        ////[Fact]
-        ////public void RotorsCtor()
-        ////{
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.IV);
-        ////    rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III);
-        ////    rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new EnigmaPlugboardSettings());
-        ////    Assert.Equal(rotorSettings.RotorOrderKey(), target.Rotors.RotorOrderKey());
-        ////}
-
-        ////[Fact]
-        ////public void RotorsDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal(new EnigmaRotorSettings().RotorOrderKey(), target.Rotors.RotorOrderKey());
-        ////}
-
-        ////[Theory]
-        ////[InlineData("B||01 01 01|")]
-        ////[InlineData("B|X II I|01 01 01|")]
-        ////[InlineData("B|II I|01 01 01|")]
-        ////[InlineData("B|IV III II I|01 01 01|")]
-        ////[InlineData("B| III II I |01 01 01|")]
-        ////[InlineData("B|I I I|01 01 01|")]
-        ////public void RotorsInvalid(string key) => Assert.Throws<ArgumentException>(() => new EnigmaSettings(Encoding.Unicode.GetBytes(key), Encoding.Unicode.GetBytes("A A A")));
-
-        ////[Fact]
-        ////public void RotorsKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|IV III II|01 01 01|"), Encoding.Unicode.GetBytes("A A A"));
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third] = new EnigmaRotor(EnigmaRotorNumber.IV);
-        ////    rotorSettings[EnigmaRotorPosition.Second] = new EnigmaRotor(EnigmaRotorNumber.III);
-        ////    rotorSettings[EnigmaRotorPosition.Fastest] = new EnigmaRotor(EnigmaRotorNumber.II);
-        ////    Assert.Equal(rotorSettings.RotorOrderKey(), target.Rotors.RotorOrderKey());
-        ////}
-
-        ////[Fact]
-        ////public void SettingCtor()
-        ////{
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
-        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new EnigmaPlugboardSettings());
-        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", target.CharacterSet);
-        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
-        ////}
-
-        ////[Fact]
-        ////public void SettingDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal(new EnigmaRotorSettings().SettingKey(), target.Rotors.SettingKey());
-        ////}
-
-        ////[Theory]
-        ////[InlineData(" A A A ")]
-        ////[InlineData("AA A")]
-        ////[InlineData("AA A A")]
-        ////public void SettingInvalid(string iv) => Assert.Throws<ArgumentException>(() => new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes(iv)));
-
-        ////[Fact]
-        ////public void SettingKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes("C B A"));
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
-        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
-        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
-        ////}
     }
 }
