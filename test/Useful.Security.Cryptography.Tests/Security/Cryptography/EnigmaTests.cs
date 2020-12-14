@@ -111,18 +111,18 @@ namespace Useful.Security.Cryptography.Tests
                 },
             };
 
-            IDictionary<char, char> plugs = new Dictionary<char, char>
+            IList<EnigmaPlugboardPair> plugs = new List<EnigmaPlugboardPair>
             {
-                { 'A', 'V' },
-                { 'B', 'S' },
-                { 'C', 'G' },
-                { 'D', 'L' },
-                { 'F', 'U' },
-                { 'H', 'Z' },
-                { 'I', 'N' },
-                { 'K', 'M' },
-                { 'O', 'W' },
-                { 'R', 'X' },
+                { new EnigmaPlugboardPair() { From = 'A', To = 'V' } },
+                { new EnigmaPlugboardPair() { From = 'B', To = 'S' } },
+                { new EnigmaPlugboardPair() { From = 'C', To = 'G' } },
+                { new EnigmaPlugboardPair() { From = 'D', To = 'L' } },
+                { new EnigmaPlugboardPair() { From = 'F', To = 'U' } },
+                { new EnigmaPlugboardPair() { From = 'H', To = 'Z' } },
+                { new EnigmaPlugboardPair() { From = 'I', To = 'N' } },
+                { new EnigmaPlugboardPair() { From = 'K', To = 'M' } },
+                { new EnigmaPlugboardPair() { From = 'O', To = 'W' } },
+                { new EnigmaPlugboardPair() { From = 'R', To = 'X' } },
             };
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
@@ -208,14 +208,14 @@ namespace Useful.Security.Cryptography.Tests
                 },
             };
 
-            Dictionary<char, char> plugs = new()
+            IList<EnigmaPlugboardPair> plugs = new List<EnigmaPlugboardPair>()
             {
-                { 'P', 'O' },
-                { 'M', 'L' },
-                { 'I', 'U' },
-                { 'K', 'J' },
-                { 'N', 'H' },
-                { 'Y', 'T' },
+                { new EnigmaPlugboardPair() { From = 'P', To = 'O' } },
+                { new EnigmaPlugboardPair() { From = 'M', To = 'L' } },
+                { new EnigmaPlugboardPair() { From = 'I', To = 'U' } },
+                { new EnigmaPlugboardPair() { From = 'K', To = 'J' } },
+                { new EnigmaPlugboardPair() { From = 'N', To = 'H' } },
+                { new EnigmaPlugboardPair() { From = 'Y', To = 'T' } },
             };
 
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
@@ -301,14 +301,14 @@ namespace Useful.Security.Cryptography.Tests
                 },
             };
 
-            Dictionary<char, char> plugs = new()
+            IList<EnigmaPlugboardPair> plugs = new List<EnigmaPlugboardPair>()
             {
-                { 'E', 'I' },
-                { 'A', 'S' },
-                { 'J', 'N' },
-                { 'K', 'L' },
-                { 'M', 'U' },
-                { 'O', 'T' },
+                { new EnigmaPlugboardPair() { From = 'E', To = 'I' } },
+                { new EnigmaPlugboardPair() { From = 'A', To = 'S' } },
+                { new EnigmaPlugboardPair() { From = 'J', To = 'N' } },
+                { new EnigmaPlugboardPair() { From = 'K', To = 'L' } },
+                { new EnigmaPlugboardPair() { From = 'M', To = 'U' } },
+                { new EnigmaPlugboardPair() { From = 'O', To = 'T' } },
             };
 
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);

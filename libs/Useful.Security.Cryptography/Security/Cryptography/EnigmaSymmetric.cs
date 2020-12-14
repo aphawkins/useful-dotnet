@@ -332,7 +332,7 @@ namespace Useful.Security.Cryptography
 
         private static EnigmaPlugboard ParsePlugboard(string plugboard)
         {
-            IDictionary<char, char> pairs = new Dictionary<char, char>();
+            IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
             string[] rawPairs = plugboard.Split(new char[] { KeyDelimiter });
 
             // No plugs specified
@@ -349,12 +349,12 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Setting must be a pair.", nameof(plugboard));
                 }
 
-                if (pairs.ContainsKey(rawPair[0]))
+                if (pairs.Any(pair => pair.From == rawPair[0]))
                 {
                     throw new ArgumentException("Setting already set.", nameof(plugboard));
                 }
 
-                pairs.Add(rawPair[0], rawPair[1]);
+                pairs.Add(new() { From = rawPair[0], To = rawPair[1] });
             }
 
             return new EnigmaPlugboard(pairs);

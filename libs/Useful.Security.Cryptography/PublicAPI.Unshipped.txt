@@ -49,10 +49,15 @@ Useful.Security.Cryptography.Enigma.Settings.get -> Useful.Security.Cryptography
 Useful.Security.Cryptography.Enigma.Settings.set -> void
 Useful.Security.Cryptography.EnigmaPlugboard
 Useful.Security.Cryptography.EnigmaPlugboard.EnigmaPlugboard() -> void
-Useful.Security.Cryptography.EnigmaPlugboard.EnigmaPlugboard(System.Collections.Generic.IDictionary<char, char>! pairs) -> void
+Useful.Security.Cryptography.EnigmaPlugboard.EnigmaPlugboard(System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaPlugboardPair!>! pairs) -> void
 Useful.Security.Cryptography.EnigmaPlugboard.SubstitutionCount.get -> int
 Useful.Security.Cryptography.EnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
 Useful.Security.Cryptography.EnigmaPlugboard.this[char letter].get -> char
+Useful.Security.Cryptography.EnigmaPlugboardPair
+Useful.Security.Cryptography.EnigmaPlugboardPair.From.get -> char
+Useful.Security.Cryptography.EnigmaPlugboardPair.From.set -> void
+Useful.Security.Cryptography.EnigmaPlugboardPair.To.get -> char
+Useful.Security.Cryptography.EnigmaPlugboardPair.To.set -> void
 Useful.Security.Cryptography.EnigmaReflector
 Useful.Security.Cryptography.EnigmaReflector.EnigmaReflector() -> void
 Useful.Security.Cryptography.EnigmaReflector.Reflect(char letter) -> char

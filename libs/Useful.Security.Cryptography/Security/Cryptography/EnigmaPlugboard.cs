@@ -25,15 +25,15 @@ namespace Useful.Security.Cryptography
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
         /// <param name="pairs">A plugboard pair.</param>
-        public EnigmaPlugboard(IDictionary<char, char> pairs)
+        public EnigmaPlugboard(IList<EnigmaPlugboardPair> pairs)
         {
             CheckPairs(pairs);
 
             _reflectorSettings = new() { CharacterSet = CharacterSet, Substitutions = CharacterSet };
 
-            foreach (KeyValuePair<char, char> pair in pairs)
+            foreach (EnigmaPlugboardPair pair in pairs)
             {
-                _reflectorSettings[pair.Key] = pair.Value;
+                _reflectorSettings[pair.From] = pair.To;
             }
         }
 
@@ -71,7 +71,7 @@ namespace Useful.Security.Cryptography
         /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
         /// <param name="pairs">The pairs to check.</param>
-        private static void CheckPairs(IDictionary<char, char> pairs)
+        private static void CheckPairs(IList<EnigmaPlugboardPair> pairs)
         {
             if (pairs is null)
             {
@@ -80,30 +80,30 @@ namespace Useful.Security.Cryptography
 
             List<char> uniqueLetters = new();
 
-            foreach (KeyValuePair<char, char> pair in pairs)
+            foreach (EnigmaPlugboardPair pair in pairs)
             {
-                if (!CharacterSet.Contains(pair.Key))
+                if (!CharacterSet.Contains(pair.From))
                 {
                     throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
                 }
 
-                if (!CharacterSet.Contains(pair.Value))
+                if (!CharacterSet.Contains(pair.To))
                 {
                     throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
                 }
 
-                if (pair.Key == pair.Value)
+                if (pair.From == pair.To)
                 {
                     throw new ArgumentException("Letters cannot be duplicated in a substitution pair.", nameof(pairs));
                 }
 
-                if (uniqueLetters.Contains(pair.Key) || uniqueLetters.Contains(pair.Value))
+                if (uniqueLetters.Contains(pair.From) || uniqueLetters.Contains(pair.To))
                 {
                     throw new ArgumentException("Pair letters must be unique.", nameof(pairs));
                 }
 
-                uniqueLetters.Add(pair.Key);
-                uniqueLetters.Add(pair.Value);
+                uniqueLetters.Add(pair.From);
+                uniqueLetters.Add(pair.To);
             }
         }
     }

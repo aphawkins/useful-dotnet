@@ -12,16 +12,35 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaPlugboardTests
     {
-        public static TheoryData<IDictionary<char, char>> InvalidPairs => new()
+        public static TheoryData<List<EnigmaPlugboardPair>> InvalidPairs => new()
         {
-            { new Dictionary<char, char>() { { 'A', 'B' }, { 'B', 'A' } } }, // Repeat letters
-            { new Dictionary<char, char>() { { 'a', 'B' } } }, // Subs incorrect case
-            { new Dictionary<char, char>() { { 'A', 'A' } } }, // Same letter
+            {
+                new()
+                {
+                    { new EnigmaPlugboardPair() { From = 'A', To = 'B' } },
+                    { new EnigmaPlugboardPair() { From = 'B', To = 'A' } },
+                }
+            }, // Repeat letters
+            {
+                new()
+                { { new EnigmaPlugboardPair() { From = 'a', To = 'B' } }, }
+            }, // Subs incorrect case
+            {
+                new()
+                { { new EnigmaPlugboardPair() { From = 'A', To = 'A' } }, }
+            }, // Same letter
         };
 
-        public static TheoryData<IDictionary<char, char>, int> ValidPairs => new()
+        public static TheoryData<List<EnigmaPlugboardPair>, int> ValidPairs => new()
         {
-            { new Dictionary<char, char>() { { 'A', 'B' }, { 'C', 'D' } }, 2 },
+            {
+                new List<EnigmaPlugboardPair>()
+                {
+                    { new EnigmaPlugboardPair() { From = 'A', To = 'B' } },
+                    { new EnigmaPlugboardPair() { From = 'C', To = 'D' } },
+                },
+                2
+            },
         };
 
         [Fact]
@@ -35,19 +54,19 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(InvalidPairs))]
-        public void CtorSubstitutionsInvalid(IDictionary<char, char> pairs) => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
+        public void CtorSubstitutionsInvalid(IList<EnigmaPlugboardPair> pairs) => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
 
         [Fact]
         public void CtorSubstitutionsNull() => Assert.Throws<ArgumentNullException>("pairs", () => new EnigmaPlugboard(null));
 
         [Theory]
         [MemberData(nameof(ValidPairs))]
-        public void CtorSubstitutionsValid(IDictionary<char, char> pairs, int substitutionCount)
+        public void CtorSubstitutionsValid(IList<EnigmaPlugboardPair> pairs, int substitutionCount)
         {
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(pairs);
             Assert.Equal(substitutionCount, plugboard.SubstitutionCount);
-            Assert.Equal(pairs.Values.ToArray()[0], plugboard[pairs.Keys.ToArray()[0]]);
-            Assert.Equal(pairs.Keys.ToArray()[0], plugboard[pairs.Values.ToArray()[0]]);
+            Assert.Equal(pairs[0].From, plugboard[pairs[0].To]);
+            Assert.Equal(pairs[0].To, plugboard[pairs[0].From]);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography
         {
             IReflectorSettings reflector = ReflectorSettingsGenerator.Generate();
 
-            IDictionary<char, char> pairs = new Dictionary<char, char>();
+            IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
             IList<char> usedLetters = new List<char>();
 
             for (int i = 0; i < reflector.CharacterSet.Length; i++)
@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography
                 {
                     usedLetters.Add(fromLetter);
                     usedLetters.Add(toLetter);
-                    pairs.Add(fromLetter, toLetter);
+                    pairs.Add(new EnigmaPlugboardPair() { From = fromLetter, To = toLetter });
                 }
             }
 
