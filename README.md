@@ -8,21 +8,21 @@ Disclaimer!  The aim of this project is for learning.  As a result, the UIs aren
 ## Cryptography  
 
 ### Usage  
-- All ciphers inherit from SymmetricAlgorithm.  
+- All ciphers have an implementation class and a class that inherits from SymmetricAlgorithm.  
 - All key and iv values are in Unicode.
 
 ### UI & Library support  
 What's working...   
 
-|Cipher|PowerShell|Console|WinForms|RESTApi|ASP.NET|
-|:-----|:--------:|:-----:|:------:|:-----:|:-----:|
+|Cipher|PowerShell|Console|RESTApi|ASP.NET|
+|:-----|:--------:|:-----:|:-----:|:-----:|
 ||Cmdlet|MVC|MVC|Web API|MVC
-|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓|✓|✓|✓
-|[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||✓|✓
-|[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)
-|[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
-|[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)|||✓
-|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓|✓
+|[Atbash](https://en.wikipedia.org/wiki/Atbash)||✓||✓|
+|[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||✓|||
+|[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)|||||
+|[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)|||||
+|[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)|||||
+|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|✓|
 
 #### [Atbash](https://en.wikipedia.org/wiki/Atbash)  
 No settings required.  
@@ -30,22 +30,17 @@ No settings required.
 #### [Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)  
 Settings:  
 ```
-RightShift=[0..25]  
-```
-```
 key={RightShift}  
+iv=  
+```
+Default:  
+```
+key=01  
 iv=  
 ```
 
 #### [Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)  
 Settings:  
-```
-ReflectorNumber=[B|C]  
-Rotors=[I|II|III|IV|V|VI|VII|VIII]
-RingSettings=[0..25]
-RotorSettings=[0..25]
-Plugboard=[{from}{to}]
-```
 ```
 key={reflector number|rotor order|ring setting|plugboard setting}  
 iv={rotor setting}
@@ -63,10 +58,6 @@ key=B|III II I|03 02 01|BJ DN FW GR HY IS KC PV QX TM
 #### [MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)
 Settings:  
 ```
-CharacterSet=[charSet]  
-Substitutions=[substitutedCharSet]
-```
-```
 key={character set|substitutions}  
 iv=  
 ```
@@ -77,27 +68,23 @@ iv=
 ```
 Example: 
 ```
-key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEGHIJKLMNOPQRSTUVWXYZ  
+key=ABCD|BCDA  
 ```
 
 #### [Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)
 Settings:  
 ```
-CharacterSet=[charSet]  
-Substitutions=[substitution pairs]
-```
-```
-key={character set|substitution pairs}  
+key={character set|substitutions}  
 iv=  
 ```
 Default:  
 ```
-key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|  
+key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ
 iv=  
 ```
 Example: 
 ```
-key=ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEGHIJKLMNOPQRSTUVWXYZ  
+key=ABCD|BADC  
 ```
 
 #### [ROT13](https://en.wikipedia.org/wiki/ROT13)
