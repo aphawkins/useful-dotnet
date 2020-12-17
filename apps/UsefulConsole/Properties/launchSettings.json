@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "UsefulConsole": {
-      "commandName": "Project",
-      "commandLineArgs": "\"REVERSE\""
-    }
-  }
-}
