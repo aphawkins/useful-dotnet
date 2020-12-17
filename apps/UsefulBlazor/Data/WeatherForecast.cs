@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace UsefulBlazor
+namespace UsefulBlazor.Data
 {
     using System;
 
@@ -14,6 +14,6 @@ namespace UsefulBlazor
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public string Summary { get; set; } = "Hello";
+        public string Summary { get; set; } = string.Empty;
     }
 }
