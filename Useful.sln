@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulConsole", "apps\UsefulConsole\UsefulConsole.csproj", "{50095CCB-6B34-47A0-A729-884A34F385D9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI", "apps\UsefulAPI\UsefulAPI.csproj", "{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "apps\UsefulWeb\UsefulWeb.csproj", "{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6}"
@@ -53,10 +51,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50095CCB-6B34-47A0-A729-884A34F385D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50095CCB-6B34-47A0-A729-884A34F385D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50095CCB-6B34-47A0-A729-884A34F385D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50095CCB-6B34-47A0-A729-884A34F385D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,7 +88,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{50095CCB-6B34-47A0-A729-884A34F385D9} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 		{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 		{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6} = {DC28570A-292F-4DC5-971E-39CBCA5BC882}
 		{DA378A81-AA3A-4EC9-9AF8-D4A48C81BC7A} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
