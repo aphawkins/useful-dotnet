@@ -27,5 +27,10 @@ namespace Useful.Security.Cryptography
         /// <param name="ciphertext">The text to decrypt.</param>
         /// <returns>The decrypted text.</returns>
         string Decrypt(string ciphertext);
+
+        /// <summary>
+        /// Generates random settings.
+        /// </summary>
+        void GenerateSettings();
     }
 }

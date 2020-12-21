@@ -56,6 +56,9 @@ namespace Useful.Security.Cryptography
             return output.ToString();
         }
 
+        /// <inheritdoc />
+        public void GenerateSettings() => Settings = EnigmaSettingsGenerator.Generate();
+
         /// <summary>
         /// Encrypt a plaintext letter into an enciphered letter.  Decipher works in the same way as encipher.
         /// </summary>

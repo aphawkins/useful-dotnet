@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Enigma Reflector settings generator.
@@ -37,6 +36,7 @@ namespace Useful.Security.Cryptography
                 {
                     RotorNumber = EnigmaRotors.RotorSet[nextRandomNumber],
                     RingPosition = new Random().Next(1, 26),
+                    CurrentSetting = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[new Random().Next(0, 25)],
                 };
             }
 

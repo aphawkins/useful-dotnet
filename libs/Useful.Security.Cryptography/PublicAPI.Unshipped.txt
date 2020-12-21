@@ -12,22 +12,19 @@ Useful.Security.Cryptography.Atbash.Atbash() -> void
 Useful.Security.Cryptography.Atbash.CipherName.get -> string!
 Useful.Security.Cryptography.Atbash.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.Atbash.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.AtbashSymmetric
-Useful.Security.Cryptography.AtbashSymmetric.AtbashSymmetric() -> void
+Useful.Security.Cryptography.Atbash.GenerateSettings() -> void
 Useful.Security.Cryptography.Caesar
 Useful.Security.Cryptography.Caesar.Caesar(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
 Useful.Security.Cryptography.Caesar.CipherName.get -> string!
 Useful.Security.Cryptography.Caesar.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.Caesar.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.Caesar.GenerateSettings() -> void
 Useful.Security.Cryptography.Caesar.Settings.get -> Useful.Security.Cryptography.ICaesarSettings!
-Useful.Security.Cryptography.Caesar.Settings.init -> void
+Useful.Security.Cryptography.Caesar.Settings.set -> void
 Useful.Security.Cryptography.CaesarSettings
 Useful.Security.Cryptography.CaesarSettings.CaesarSettings() -> void
 Useful.Security.Cryptography.CaesarSettings.RightShift.get -> int
 Useful.Security.Cryptography.CaesarSettings.RightShift.set -> void
-Useful.Security.Cryptography.CaesarSymmetric
-Useful.Security.Cryptography.CaesarSymmetric.CaesarSymmetric() -> void
-Useful.Security.Cryptography.CipherMethods
 Useful.Security.Cryptography.CipherRepository
 Useful.Security.Cryptography.CipherRepository.CipherRepository() -> void
 Useful.Security.Cryptography.CipherRepository.Create(Useful.Security.Cryptography.ICipher! cipher) -> void
@@ -37,14 +34,12 @@ Useful.Security.Cryptography.CipherRepository.Delete(Useful.Security.Cryptograph
 Useful.Security.Cryptography.CipherRepository.Read() -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.ICipher!>!
 Useful.Security.Cryptography.CipherRepository.SetCurrentItem(System.Func<Useful.Security.Cryptography.ICipher!, bool>! match) -> void
 Useful.Security.Cryptography.CipherRepository.Update(Useful.Security.Cryptography.ICipher! cipher) -> void
-Useful.Security.Cryptography.CipherTransformMode
-Useful.Security.Cryptography.CipherTransformMode.Decrypt = 1 -> Useful.Security.Cryptography.CipherTransformMode
-Useful.Security.Cryptography.CipherTransformMode.Encrypt = 0 -> Useful.Security.Cryptography.CipherTransformMode
 Useful.Security.Cryptography.Enigma
 Useful.Security.Cryptography.Enigma.CipherName.get -> string!
 Useful.Security.Cryptography.Enigma.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.Enigma.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.Enigma.Enigma(Useful.Security.Cryptography.IEnigmaSettings! settings) -> void
+Useful.Security.Cryptography.Enigma.GenerateSettings() -> void
 Useful.Security.Cryptography.Enigma.Settings.get -> Useful.Security.Cryptography.IEnigmaSettings!
 Useful.Security.Cryptography.Enigma.Settings.set -> void
 Useful.Security.Cryptography.EnigmaPlugboard
@@ -107,8 +102,6 @@ Useful.Security.Cryptography.EnigmaSettings.Reflector.get -> Useful.Security.Cry
 Useful.Security.Cryptography.EnigmaSettings.Reflector.init -> void
 Useful.Security.Cryptography.EnigmaSettings.Rotors.get -> Useful.Security.Cryptography.IEnigmaRotors!
 Useful.Security.Cryptography.EnigmaSettings.Rotors.init -> void
-Useful.Security.Cryptography.EnigmaSymmetric
-Useful.Security.Cryptography.EnigmaSymmetric.EnigmaSymmetric() -> void
 Useful.Security.Cryptography.ICaesarSettings
 Useful.Security.Cryptography.ICaesarSettings.RightShift.get -> int
 Useful.Security.Cryptography.ICaesarSettings.RightShift.set -> void
@@ -116,6 +109,7 @@ Useful.Security.Cryptography.ICipher
 Useful.Security.Cryptography.ICipher.CipherName.get -> string!
 Useful.Security.Cryptography.ICipher.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ICipher.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.ICipher.GenerateSettings() -> void
 Useful.Security.Cryptography.IEnigmaPlugboard
 Useful.Security.Cryptography.IEnigmaPlugboard.SubstitutionCount.get -> int
 Useful.Security.Cryptography.IEnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
@@ -159,6 +153,7 @@ Useful.Security.Cryptography.MonoAlphabetic
 Useful.Security.Cryptography.MonoAlphabetic.CipherName.get -> string!
 Useful.Security.Cryptography.MonoAlphabetic.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.MonoAlphabetic.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.MonoAlphabetic.GenerateSettings() -> void
 Useful.Security.Cryptography.MonoAlphabetic.MonoAlphabetic(Useful.Security.Cryptography.IMonoAlphabeticSettings! settings) -> void
 Useful.Security.Cryptography.MonoAlphabetic.Settings.get -> Useful.Security.Cryptography.IMonoAlphabeticSettings!
 Useful.Security.Cryptography.MonoAlphabetic.Settings.set -> void
@@ -172,8 +167,7 @@ Useful.Security.Cryptography.MonoAlphabeticSettings.Substitutions.get -> string!
 Useful.Security.Cryptography.MonoAlphabeticSettings.Substitutions.set -> void
 Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].get -> char
 Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].set -> void
-Useful.Security.Cryptography.MonoAlphabeticSymmetric
-Useful.Security.Cryptography.MonoAlphabeticSymmetric.MonoAlphabeticSymmetric() -> void
+Useful.Security.Cryptography.Reflector.GenerateSettings() -> void
 Useful.Security.Cryptography.ReflectorSettings.CharacterSet.init -> void
 Useful.Security.Cryptography.ReflectorSettings.ReflectorSettings() -> void
 Useful.Security.Cryptography.ReflectorSettings.Substitutions.set -> void
@@ -181,9 +175,8 @@ Useful.Security.Cryptography.ROT13
 Useful.Security.Cryptography.ROT13.CipherName.get -> string!
 Useful.Security.Cryptography.ROT13.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ROT13.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.ROT13.GenerateSettings() -> void
 Useful.Security.Cryptography.ROT13.ROT13() -> void
-Useful.Security.Cryptography.ROT13Symmetric
-Useful.Security.Cryptography.ROT13Symmetric.ROT13Symmetric() -> void
 Useful.Security.Cryptography.Reflector
 Useful.Security.Cryptography.Reflector.CipherName.get -> string!
 Useful.Security.Cryptography.Reflector.Decrypt(string! ciphertext) -> string!
@@ -198,67 +191,9 @@ Useful.Security.Cryptography.ReflectorSettings.SubstitutionCount.get -> int
 Useful.Security.Cryptography.ReflectorSettings.Substitutions.get -> string!
 Useful.Security.Cryptography.ReflectorSettings.this[char substitution].get -> char
 Useful.Security.Cryptography.ReflectorSettings.this[char substitution].set -> void
-Useful.Security.Cryptography.ReflectorSymmetric
-Useful.Security.Cryptography.ReflectorSymmetric.ReflectorSymmetric() -> void
 override Useful.Security.Cryptography.Atbash.ToString() -> string!
-override Useful.Security.Cryptography.AtbashSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.AtbashSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.AtbashSymmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.AtbashSymmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.AtbashSymmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.AtbashSymmetric.IV.set -> void
-override Useful.Security.Cryptography.AtbashSymmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.AtbashSymmetric.Key.set -> void
-override Useful.Security.Cryptography.AtbashSymmetric.ToString() -> string!
 override Useful.Security.Cryptography.Caesar.ToString() -> string!
-override Useful.Security.Cryptography.CaesarSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.CaesarSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.CaesarSymmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.CaesarSymmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.CaesarSymmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.CaesarSymmetric.IV.set -> void
-override Useful.Security.Cryptography.CaesarSymmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.CaesarSymmetric.Key.set -> void
-override Useful.Security.Cryptography.CaesarSymmetric.ToString() -> string!
 override Useful.Security.Cryptography.Enigma.ToString() -> string!
-override Useful.Security.Cryptography.EnigmaSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.EnigmaSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.EnigmaSymmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.EnigmaSymmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.EnigmaSymmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.EnigmaSymmetric.IV.set -> void
-override Useful.Security.Cryptography.EnigmaSymmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.EnigmaSymmetric.Key.set -> void
-override Useful.Security.Cryptography.EnigmaSymmetric.ToString() -> string!
 override Useful.Security.Cryptography.MonoAlphabetic.ToString() -> string!
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.IV.set -> void
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.Key.set -> void
-override Useful.Security.Cryptography.MonoAlphabeticSymmetric.ToString() -> string!
 override Useful.Security.Cryptography.ROT13.ToString() -> string!
-override Useful.Security.Cryptography.ROT13Symmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.ROT13Symmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.ROT13Symmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.ROT13Symmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.ROT13Symmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.ROT13Symmetric.IV.set -> void
-override Useful.Security.Cryptography.ROT13Symmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.ROT13Symmetric.Key.set -> void
-override Useful.Security.Cryptography.ROT13Symmetric.ToString() -> string!
 override Useful.Security.Cryptography.Reflector.ToString() -> string!
-override Useful.Security.Cryptography.ReflectorSymmetric.CreateDecryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.ReflectorSymmetric.CreateEncryptor(byte[]! rgbKey, byte[]? rgbIV) -> System.Security.Cryptography.ICryptoTransform!
-override Useful.Security.Cryptography.ReflectorSymmetric.GenerateIV() -> void
-override Useful.Security.Cryptography.ReflectorSymmetric.GenerateKey() -> void
-override Useful.Security.Cryptography.ReflectorSymmetric.IV.get -> byte[]!
-override Useful.Security.Cryptography.ReflectorSymmetric.IV.set -> void
-override Useful.Security.Cryptography.ReflectorSymmetric.Key.get -> byte[]!
-override Useful.Security.Cryptography.ReflectorSymmetric.Key.set -> void
-override Useful.Security.Cryptography.ReflectorSymmetric.ToString() -> string!
-static Useful.Security.Cryptography.CipherMethods.SymmetricTransform(System.Security.Cryptography.SymmetricAlgorithm! cipher, Useful.Security.Cryptography.CipherTransformMode transformMode, System.IO.Stream! input, System.IO.Stream! output) -> void
-static Useful.Security.Cryptography.CipherMethods.SymmetricTransform(System.Security.Cryptography.SymmetricAlgorithm! cipher, Useful.Security.Cryptography.CipherTransformMode transformMode, string! input) -> string!

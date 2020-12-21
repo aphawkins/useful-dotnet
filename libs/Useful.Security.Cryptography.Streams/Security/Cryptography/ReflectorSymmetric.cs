@@ -95,17 +95,13 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IVValue = Array.Empty<byte>();
-            IV = IVValue;
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            IReflectorSettings settings = ReflectorSettingsGenerator.Generate();
-            string key = settings.CharacterSet + KeySeperator + settings.Substitutions;
-            KeyValue = Encoding.GetBytes(key);
-            Key = KeyValue;
+            _algorithm.GenerateSettings();
+            KeyValue = Key;
         }
 
         /// <inheritdoc />

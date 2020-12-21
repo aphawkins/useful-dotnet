@@ -30,11 +30,6 @@ namespace Useful.Security.Cryptography
         /// </summary>
         private const char KeySeperator = '|';
 
-        /// <summary>
-        /// The encoding used by this cipher.
-        /// </summary>
-        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
-
         private readonly Enigma _algorithm;
 
         /// <summary>
@@ -134,24 +129,17 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IEnigmaSettings settings = EnigmaSettingsGenerator.GenerateIV(_algorithm.Settings);
-            IVValue = Encoding.GetBytes(RotorSettingString(settings.Rotors));
-            IV = IVValue;
+            _algorithm.Settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = GetRandomRotorCurrentSetting();
+            _algorithm.Settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting = GetRandomRotorCurrentSetting();
+            _algorithm.Settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting = GetRandomRotorCurrentSetting();
+            IVValue = IV;
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            IEnigmaSettings settings = EnigmaSettingsGenerator.GenerateKey();
-            string key = settings.Reflector.ReflectorNumber.ToString()
-                + KeySeperator
-                + RotorOrderString(settings.Rotors)
-                + KeySeperator
-                + RotorRingString(settings.Rotors)
-                + KeySeperator
-                + PlugboardString(settings.Plugboard);
-            KeyValue = Encoding.GetBytes(key);
-            Key = KeyValue;
+            _algorithm.GenerateSettings();
+            KeyValue = Key;
         }
 
         /// <inheritdoc/>
@@ -434,6 +422,8 @@ namespace Useful.Security.Cryptography
 
             return key.ToString();
         }
+
+        private static char GetRandomRotorCurrentSetting() => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[new Random().Next(0, 25)];
 
         private void Reset()
         {

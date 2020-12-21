@@ -22,9 +22,9 @@ namespace Useful.Security.Cryptography
         public string CipherName => "Caesar";
 
         /// <summary>
-        /// Gets settings.
+        /// Gets or sets settings.
         /// </summary>
-        public ICaesarSettings Settings { get; init; }
+        public ICaesarSettings Settings { get; set; }
 
         /// <inheritdoc />
         public string Decrypt(string ciphertext)
@@ -93,6 +93,9 @@ namespace Useful.Security.Cryptography
 
             return sb.ToString();
         }
+
+        /// <inheritdoc />
+        public void GenerateSettings() => Settings = CaesarSettingsGenerator.Generate();
 
         /// <inheritdoc />
         public override string ToString() => CipherName;

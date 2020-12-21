@@ -53,6 +53,11 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
+        public void GenerateSettings()
+        {
+        }
+
+        /// <inheritdoc />
         public override string ToString() => CipherName;
     }
 }

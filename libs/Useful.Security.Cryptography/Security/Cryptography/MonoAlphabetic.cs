@@ -63,6 +63,9 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
+        public void GenerateSettings() => Settings = MonoAlphabeticSettingsGenerator.Generate();
+
+        /// <inheritdoc />
         public override string ToString() => CipherName;
 
         internal char Decrypt(char ciphertext) => Settings.Reverse(ciphertext);

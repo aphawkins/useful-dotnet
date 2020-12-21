@@ -6,9 +6,9 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>0.2.0</Version>
     <Authors>Andy Hawkins</Authors>
-    <Product>Useful Classical Cryptography Library</Product>
-    <Description>Classical Cryptography library. Cipher support of string encryption/decryption.</Description>
-    <PackageId>Useful.Security.Cryptography</PackageId>
+    <Product>Useful Classical Cryptography Stream Library</Product>
+    <Description>Classical Cryptography library. Cipher support of SymmetricAlgorithm.</Description>
+    <PackageId>Useful.Security.Cryptography.Streams</PackageId>
     <Copyright>Andrew Hawkins</Copyright>
     <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
     <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
@@ -53,6 +53,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

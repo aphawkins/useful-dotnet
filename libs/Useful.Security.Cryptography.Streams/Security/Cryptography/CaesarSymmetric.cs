@@ -62,15 +62,13 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override void GenerateIV()
         {
-            IVValue = Array.Empty<byte>();
-            IV = IVValue;
         }
 
         /// <inheritdoc />
         public override void GenerateKey()
         {
-            KeyValue = Encoding.Unicode.GetBytes(CaesarSettingsGenerator.Generate().RightShift.ToString());
-            Key = KeyValue;
+            _algorithm.GenerateSettings();
+            KeyValue = Key;
         }
 
         /// <inheritdoc />
