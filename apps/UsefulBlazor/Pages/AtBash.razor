@@ -1,0 +1,41 @@
+@page "/atbash"
+@using Useful.Security.Cryptography;
+
+<h1>AtBash Cipher</h1>
+
+<table class="table">
+    <tr>
+        <td><label>Plaintext</label></td>
+        <td><label>Ciphertext</label></td>
+    </tr>
+    <tr>
+        <td><input @bind="@plaintext" /></td>
+        <td><input @bind="@ciphertext" /></td>
+    </tr>
+    <tr>
+        <td>
+            <button class=" btn btn-primary" @onclick="Encrypt">Encrypt</button>
+        </td>
+        <td>
+            <button class="btn btn-primary" @onclick="Decrypt">Decrypt</button>
+        </td>
+    </tr>
+</table>
+
+@code {
+
+    Atbash cipher = new Atbash();
+
+    private string plaintext = string.Empty;
+    private string ciphertext = string.Empty;
+
+    private void Encrypt()
+    {
+        ciphertext = cipher.Encrypt(plaintext);
+    }
+
+    private void Decrypt()
+    {
+        plaintext = cipher.Decrypt(ciphertext);
+    }
+}
