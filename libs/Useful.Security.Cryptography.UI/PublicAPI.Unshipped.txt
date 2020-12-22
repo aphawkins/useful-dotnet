@@ -35,6 +35,15 @@ Useful.Security.Cryptography.UI.Services.CipherService.Decrypt(string! ciphertex
 Useful.Security.Cryptography.UI.Services.CipherService.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.UI.Services.CipherService.Repository.get -> Useful.IRepository<Useful.Security.Cryptography.ICipher!>!
 Useful.Security.Cryptography.UI.Services.CipherService.Repository.set -> void
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.AtbashViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.CipherName.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Encrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Plaintext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.CaesarSettingsViewModel(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?

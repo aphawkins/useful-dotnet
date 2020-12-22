@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Security.Cryptography;
     using Useful.Security.Cryptography;
     using Xunit;
 

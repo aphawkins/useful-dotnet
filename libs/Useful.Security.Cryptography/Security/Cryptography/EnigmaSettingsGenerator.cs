@@ -4,8 +4,6 @@
 
 namespace Useful.Security.Cryptography
 {
-    using System;
-
     /// <summary>
     /// Enigma key generator.
     /// </summary>

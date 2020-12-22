@@ -1,7 +1,7 @@
 @page "/atbash"
-@using Useful.Security.Cryptography;
+@using Useful.Security.Cryptography.UI.ViewModels;
 
-<h1>AtBash Cipher</h1>
+<h1>@cipher.CipherName Cipher</h1>
 
 <table class="table">
     <tr>
@@ -9,33 +9,19 @@
         <td><label>Ciphertext</label></td>
     </tr>
     <tr>
-        <td><input @bind="@plaintext" /></td>
-        <td><input @bind="@ciphertext" /></td>
+        <td><input @bind="cipher.Plaintext" /></td>
+        <td><input @bind="cipher.Ciphertext" /></td>
     </tr>
     <tr>
         <td>
-            <button class=" btn btn-primary" @onclick="Encrypt">Encrypt</button>
+            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
         </td>
         <td>
-            <button class="btn btn-primary" @onclick="Decrypt">Decrypt</button>
+            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
         </td>
     </tr>
 </table>
 
 @code {
-
-    Atbash cipher = new Atbash();
-
-    private string plaintext = string.Empty;
-    private string ciphertext = string.Empty;
-
-    private void Encrypt()
-    {
-        ciphertext = cipher.Encrypt(plaintext);
-    }
-
-    private void Decrypt()
-    {
-        plaintext = cipher.Decrypt(ciphertext);
-    }
+    AtbashViewModel cipher = new();
 }

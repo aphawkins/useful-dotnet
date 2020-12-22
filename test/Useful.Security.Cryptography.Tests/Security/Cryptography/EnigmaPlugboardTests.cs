@@ -6,7 +6,6 @@ namespace Useful.Security.Cryptography.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using Useful.Security.Cryptography;
     using Xunit;
 
