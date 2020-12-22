@@ -5,7 +5,7 @@
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     /// <summary>
-    /// Settings for the Caesar cipher.
+    /// ViewModel for the atbash cipher.
     /// </summary>
     public sealed class AtbashViewModel
     {

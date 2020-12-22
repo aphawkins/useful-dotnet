@@ -44,11 +44,18 @@ Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Decrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.AtbashViewModel.Plaintext.set -> void
-Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel
-Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.CaesarSettingsViewModel(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
-Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
-Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.RightShift.get -> int
-Useful.Security.Cryptography.UI.ViewModels.CaesarSettingsViewModel.RightShift.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.CaesarViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.CipherName.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Encrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.get -> int
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Shifts.get -> System.Collections.Generic.IEnumerable<int>!
 Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel.EmptySettingsViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel

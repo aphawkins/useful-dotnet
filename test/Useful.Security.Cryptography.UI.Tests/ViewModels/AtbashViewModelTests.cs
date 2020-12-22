@@ -13,27 +13,27 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("Hello", "Svool")]
         public void Encrypt(string plaintext, string ciphertext)
         {
-            AtbashViewModel atbash = new();
-            atbash.Plaintext = plaintext;
-            atbash.Encrypt();
-            Assert.Equal(ciphertext, atbash.Ciphertext);
+            AtbashViewModel viewmodel = new();
+            viewmodel.Plaintext = plaintext;
+            viewmodel.Encrypt();
+            Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
 
         [Theory]
         [InlineData("Svool", "Hello")]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            AtbashViewModel atbash = new();
-            atbash.Ciphertext = plaintext;
-            atbash.Decrypt();
-            Assert.Equal(ciphertext, atbash.Plaintext);
+            AtbashViewModel viewmodel = new();
+            viewmodel.Ciphertext = plaintext;
+            viewmodel.Decrypt();
+            Assert.Equal(ciphertext, viewmodel.Plaintext);
         }
 
         [Fact]
         public void CipherName()
         {
-            AtbashViewModel atbash = new();
-            Assert.Equal("Atbash", atbash.CipherName);
+            AtbashViewModel viewmodel = new();
+            Assert.Equal("Atbash", viewmodel.CipherName);
         }
     }
 }
