@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
+    using System.Linq;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -44,6 +45,22 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void GenerateSettings()
+        {
+            Caesar cipher = new(new CaesarSettings());
+
+            const int testsCount = 5;
+            int[] shifts = new int[testsCount];
+            for (int i = 0; i < testsCount; i++)
+            {
+                cipher.GenerateSettings();
+                shifts[i] = cipher.Settings.RightShift;
+            }
+
+            Assert.True(shifts.Distinct().Count() > 1);
+        }
+
+        [Fact]
         public void Name()
         {
             ICipher cipher = new Caesar(new CaesarSettings());
@@ -57,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
             string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            Caesar cipher = new(new CaesarSettings()
+            ICipher cipher = new Caesar(new CaesarSettings()
             {
                 RightShift = 7,
             });

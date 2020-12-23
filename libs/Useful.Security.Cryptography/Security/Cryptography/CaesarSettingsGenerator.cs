@@ -14,8 +14,8 @@ namespace Useful.Security.Cryptography
         public static ICaesarSettings Generate()
         {
             byte[] randomNumber = new byte[1];
-            using RNGCryptoServiceProvider rngCsp = new();
-            rngCsp.GetBytes(randomNumber);
+            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
             int rightShift = randomNumber[0] % 26;
             return new CaesarSettings() { RightShift = rightShift };
         }

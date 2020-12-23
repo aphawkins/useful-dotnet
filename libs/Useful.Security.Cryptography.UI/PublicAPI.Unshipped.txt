@@ -53,6 +53,7 @@ Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Decrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Randomize() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.get -> int
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.set -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Shifts.get -> System.Collections.Generic.IEnumerable<int>!
