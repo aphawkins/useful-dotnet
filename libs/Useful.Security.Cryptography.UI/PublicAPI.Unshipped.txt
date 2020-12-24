@@ -60,6 +60,15 @@ Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Shifts.get -> System.
 Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel.EmptySettingsViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.CipherName.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Encrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.ROT13ViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.ViewModelBase
 Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.NotifyPropertyChanged(string! propertyName = "") -> void
 Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
