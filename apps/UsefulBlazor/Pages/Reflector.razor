@@ -13,14 +13,37 @@
         <td><input @bind="cipher.Ciphertext" /></td>
     </tr>
     <tr>
-        <td>
-            <label>Character Set</label>
-            @foreach (char c in cipher.CharacterSet)
-            {
-                <label>@c</label>
-            }
+        <td colspan="2">
+            <table class="table">
+                <tr>
+                    <td>
+                        <label>Character</label>
+                    </td>
+                    @foreach (char c in cipher.CharacterSet)
+                    {
+                        <td>
+                            <label>@c</label>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <label>Reflection</label>
+                    </td>
+                    @foreach (char reflection in cipher.CharacterSet)
+                    {
+                        <td>
+                            <select>
+                                @foreach (char c in cipher.CharacterSet)
+                                {
+                                    <option value="@c">@c</option>
+                                }
+                            </select>
+                        </td>
+                    }
+                </tr>
+            </table>
         </td>
-        <td />
     </tr>
     <tr>
         <td>
