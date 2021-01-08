@@ -4,11 +4,6 @@
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-
     /// <summary>
     /// ViewModel for the reflector cipher.
     /// </summary>
