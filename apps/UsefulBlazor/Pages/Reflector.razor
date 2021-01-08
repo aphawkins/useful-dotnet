@@ -30,10 +30,11 @@
                     <td>
                         <label>Reflection</label>
                     </td>
-                    @foreach (char reflection in cipher.CharacterSet)
+                    @foreach (char sub in cipher.CharacterSet)
                     {
                         <td>
-                            <select>
+                            <select id=@sub
+                                    @bind="@cipher[sub]">
                                 @foreach (char c in cipher.CharacterSet)
                                 {
                                     <option value="@c">@c</option>

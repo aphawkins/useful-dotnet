@@ -6,6 +6,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
@@ -43,7 +44,23 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets the character set.
         /// </summary>
-        public IEnumerable<char> CharacterSet => _cipher.Settings.CharacterSet;
+        public string CharacterSet => _cipher.Settings.CharacterSet;
+
+        /// <summary>
+        /// Gets the character set.
+        /// </summary>
+        public string Substitutions => _cipher.Settings.Substitutions;
+
+        /// <summary>
+        /// Gets or sets the substitution.
+        /// </summary>
+        /// <param name="substitution">The substitution.</param>
+        /// <returns>The setting for the substitution.</returns>
+        public char this[char substitution]
+        {
+            get => _settings[substitution];
+            set => _settings[substitution] = value;
+        }
 
         /// <summary>
         /// Encrypts the plaintext into ciphertext.

@@ -61,7 +61,7 @@ Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel.EmptySettingsViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel
-Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.CharacterSet.get -> System.Collections.Generic.IEnumerable<char>!
+Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.CharacterSet.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.CipherName.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Ciphertext.set -> void
@@ -71,6 +71,9 @@ Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Plaintext.get -> s
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Plaintext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Randomize() -> void
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.ReflectorViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Substitutions.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.this[char substitution].get -> char
+Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.this[char substitution].set -> void
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.CipherName.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Ciphertext.get -> string!
