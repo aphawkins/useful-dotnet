@@ -4,6 +4,9 @@
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// ViewModel for the reflector cipher.
     /// </summary>
@@ -39,12 +42,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets the character set.
         /// </summary>
-        public string CharacterSet => _cipher.Settings.CharacterSet;
+        public IEnumerable<char> CharacterSet => _cipher.Settings.CharacterSet;
 
         /// <summary>
         /// Gets the character set.
         /// </summary>
-        public string Substitutions => _cipher.Settings.Substitutions;
+        public IEnumerable<char> Substitutions => _cipher.Settings.Substitutions;
 
         /// <summary>
         /// Gets or sets the substitution.
