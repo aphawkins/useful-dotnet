@@ -6,30 +6,33 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// The Reflector algorithm settings.
     /// </summary>
     public sealed class EnigmaPlugboard : IEnigmaPlugboard
     {
-        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+        private readonly IList<char> _characterSet;
         private readonly ReflectorSettings _reflectorSettings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
-        public EnigmaPlugboard() => _reflectorSettings = new() { CharacterSet = CharacterSet, Substitutions = CharacterSet };
+        public EnigmaPlugboard()
+        {
+            _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            _reflectorSettings = new() { CharacterSet = _characterSet, Substitutions = _characterSet };
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaPlugboard"/> class.
         /// </summary>
         /// <param name="pairs">A plugboard pair.</param>
         public EnigmaPlugboard(IList<EnigmaPlugboardPair> pairs)
+            : this()
         {
             CheckPairs(pairs);
-
-            _reflectorSettings = new() { CharacterSet = CharacterSet, Substitutions = CharacterSet };
 
             foreach (EnigmaPlugboardPair pair in pairs)
             {
@@ -48,20 +51,20 @@ namespace Useful.Security.Cryptography
         {
             Dictionary<char, char> pairsToAdd = new();
 
-            for (int i = 0; i < CharacterSet.Length; i++)
+            for (int i = 0; i < _characterSet.Count; i++)
             {
-                if (CharacterSet[i] == _reflectorSettings.Substitutions[i])
+                if (_characterSet[i] == _reflectorSettings.Substitutions[i])
                 {
                     continue;
                 }
 
                 if (pairsToAdd.ContainsKey(_reflectorSettings.Substitutions[i])
-                    && pairsToAdd[_reflectorSettings.Substitutions[i]] == CharacterSet[i])
+                    && pairsToAdd[_reflectorSettings.Substitutions[i]] == _characterSet[i])
                 {
                     continue;
                 }
 
-                pairsToAdd.Add(CharacterSet[i], _reflectorSettings.Substitutions[i]);
+                pairsToAdd.Add(_characterSet[i], _reflectorSettings.Substitutions[i]);
             }
 
             return pairsToAdd;
@@ -71,7 +74,7 @@ namespace Useful.Security.Cryptography
         /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
         /// <param name="pairs">The pairs to check.</param>
-        private static void CheckPairs(IList<EnigmaPlugboardPair> pairs)
+        private void CheckPairs(IList<EnigmaPlugboardPair> pairs)
         {
             if (pairs is null)
             {
@@ -82,12 +85,12 @@ namespace Useful.Security.Cryptography
 
             foreach (EnigmaPlugboardPair pair in pairs)
             {
-                if (!CharacterSet.Contains(pair.From))
+                if (!_characterSet.Contains(pair.From))
                 {
                     throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
                 }
 
-                if (!CharacterSet.Contains(pair.To))
+                if (!_characterSet.Contains(pair.To))
                 {
                     throw new ArgumentException("Not valid to substitute these letters.", nameof(pairs));
                 }

@@ -11,8 +11,6 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class EnigmaReflector : IEnigmaReflector
     {
-        private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
         /// <summary>
         /// The substitution of the rotor, effectively the wiring.
         /// </summary>
@@ -50,13 +48,13 @@ namespace Useful.Security.Cryptography
 
         private static ReflectorSettings GetWiring(EnigmaReflectorNumber reflectorNumber)
         {
-            IDictionary<EnigmaReflectorNumber, string> wiring = new Dictionary<EnigmaReflectorNumber, string>
+            IDictionary<EnigmaReflectorNumber, IList<char>> wiring = new Dictionary<EnigmaReflectorNumber, IList<char>>
             {
-                { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT" },
-                { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL" },
+                { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT".ToCharArray() },
+                { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL".ToCharArray() },
             };
 
-            return new() { CharacterSet = CharacterSet, Substitutions = wiring[reflectorNumber] };
+            return new() { CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), Substitutions = wiring[reflectorNumber] };
         }
     }
 }

@@ -4,6 +4,7 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
+    using System.Linq;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -23,7 +24,8 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
+            IReflectorSettings settings = new ReflectorSettings()
+            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
             Reflector cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
@@ -32,9 +34,27 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EncryptCipher(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
-            IReflectorSettings settings = new ReflectorSettings() { CharacterSet = characterSet, Substitutions = substitutions };
+            IReflectorSettings settings = new ReflectorSettings()
+            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
             Reflector cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
+        }
+
+        [Fact]
+        public void GenerateSettings()
+        {
+            Reflector cipher = new(new ReflectorSettings());
+
+            const int testsCount = 5;
+            for (int i = 0; i < testsCount; i++)
+            {
+                cipher.GenerateSettings();
+                Assert.NotEqual(cipher.Settings.CharacterSet, cipher.Settings.Substitutions);
+                foreach (char c in cipher.Settings.CharacterSet)
+                {
+                    Assert.NotEqual(cipher.Settings[c], c);
+                }
+            }
         }
 
         [Fact]

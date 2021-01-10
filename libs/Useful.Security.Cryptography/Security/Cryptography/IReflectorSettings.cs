@@ -4,6 +4,8 @@
 
 namespace Useful.Security.Cryptography
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
@@ -12,13 +14,13 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets substitutions.
         /// </summary>
-        string Substitutions { get; }
+        IList<char> Substitutions { get; }
 
         /// <summary>
         /// Gets the character set.
         /// </summary>
         /// <value>The character set.</value>
-        string CharacterSet { get; }
+        IList<char> CharacterSet { get; }
 
         /// <summary>
         /// Gets the number of substitutions made. One distinct pair swapped equals one substitution.

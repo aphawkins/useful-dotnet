@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -13,11 +14,11 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class ReflectorSettings : IReflectorSettings
     {
-        private string _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private string _substitutions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private IList<char> _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+        private IList<char> _substitutions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
         /// <inheritdoc />
-        public string CharacterSet
+        public IList<char> CharacterSet
         {
             get => _characterSet;
             init
@@ -28,10 +29,10 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public string Substitutions
+        public IList<char> Substitutions
         {
             get => _substitutions;
-            set
+            init
             {
                 try
                 {
@@ -42,12 +43,12 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentException("Error parsing subsititutions", nameof(Substitutions), ex);
                 }
 
-                for (int i = 0; i < _characterSet.Length; i++)
+                for (int i = 0; i < _characterSet.Count; i++)
                 {
                     this[_characterSet[i]] = value[i];
                 }
 
-                if (value != _substitutions)
+                if (!value.SequenceEqual(_substitutions))
                 {
                     throw new ArgumentException("Not valid to substitute these letters.", nameof(Substitutions));
                 }
@@ -61,7 +62,7 @@ namespace Useful.Security.Cryptography
             {
                 int count = 0;
 
-                for (int i = 0; i < _characterSet.Length; i++)
+                for (int i = 0; i < _characterSet.Count; i++)
                 {
                     if (_characterSet[i] != _substitutions[i])
                     {
@@ -122,20 +123,20 @@ namespace Useful.Security.Cryptography
                 char[] temp = _substitutions.ToArray();
                 temp[fromIndex] = to;
                 temp[toIndex] = from;
-                _substitutions = new string(temp);
+                _substitutions = temp;
 
                 if (fromSubs != from)
                 {
                     temp = _substitutions.ToArray();
                     temp[fromSubsIndex] = fromSubs;
-                    _substitutions = new string(temp);
+                    _substitutions = temp;
                 }
 
                 if (toSubs != to)
                 {
                     temp = _substitutions.ToArray();
                     temp[toSubsIndex] = toSubs;
-                    _substitutions = new string(temp);
+                    _substitutions = temp;
                 }
 
                 Debug.Print($"{string.Join(string.Empty, _substitutions)}");
@@ -149,9 +150,9 @@ namespace Useful.Security.Cryptography
         /// <returns>The letter that substiutes to this letter.</returns>
         public char Reflect(char letter) => this[letter];
 
-        private static string ParseCharacterSet(string characterSet)
+        private static IList<char> ParseCharacterSet(IList<char> characterSet)
         {
-            if (string.IsNullOrWhiteSpace(characterSet))
+            if (characterSet == null || characterSet.Count == 0)
             {
                 throw new ArgumentException("Invalid number of characters.", nameof(characterSet));
             }
@@ -164,7 +165,7 @@ namespace Useful.Security.Cryptography
                 }
             }
 
-            if (characterSet.Length != characterSet.Distinct().Count())
+            if (characterSet.Count != characterSet.Distinct().Count())
             {
                 throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet));
             }
@@ -172,9 +173,9 @@ namespace Useful.Security.Cryptography
             return characterSet;
         }
 
-        private static string ParseSubstitutions(string characterSet, string substitutions)
+        private static IList<char> ParseSubstitutions(IList<char> characterSet, IList<char> substitutions)
         {
-            if (substitutions.Length > characterSet.Length)
+            if (substitutions.Count > characterSet.Count)
             {
                 throw new ArgumentException("Too many substitutions.", nameof(substitutions));
             }

@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
             IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
             IList<char> usedLetters = new List<char>();
 
-            for (int i = 0; i < reflector.CharacterSet.Length; i++)
+            for (int i = 0; i < reflector.CharacterSet.Count; i++)
             {
                 char fromLetter = reflector.CharacterSet[i];
                 char toLetter = reflector.Substitutions[i];

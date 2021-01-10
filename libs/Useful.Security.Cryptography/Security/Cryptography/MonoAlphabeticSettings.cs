@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography
         public string Substitutions
         {
             get => _substitutions;
-            set => _substitutions = ParseSubstitutions(_characterSet, value);
+            init => _substitutions = ParseSubstitutions(_characterSet, value);
         }
 
         /// <inheritdoc />
@@ -105,7 +105,7 @@ namespace Useful.Security.Cryptography
                 char[] temp = Substitutions.ToArray();
                 temp[fromIndex] = to;
                 temp[toInvIndex] = fromSubs;
-                Substitutions = new string(temp);
+                _substitutions = new string(temp);
 
                 Debug.Print($"{string.Join(string.Empty, Substitutions)}");
             }

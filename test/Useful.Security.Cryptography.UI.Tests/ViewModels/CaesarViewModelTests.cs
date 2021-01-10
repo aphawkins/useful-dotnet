@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography.Tests
 {
     using System;
+    using System.Linq;
     using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
@@ -22,14 +23,14 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("Mjqqt", "Hello", 5)]
+        [InlineData("Hello", "Mjqqt", 5)]
         public void Decrypt(string plaintext, string ciphertext, int selectedShift)
         {
             CaesarViewModel viewmodel = new();
-            viewmodel.Ciphertext = plaintext;
+            viewmodel.Ciphertext = ciphertext;
             viewmodel.SelectedShift = selectedShift;
             viewmodel.Decrypt();
-            Assert.Equal(ciphertext, viewmodel.Plaintext);
+            Assert.Equal(plaintext, viewmodel.Plaintext);
         }
 
         [Fact]
@@ -46,6 +47,22 @@ namespace Useful.Security.Cryptography.Tests
         {
             CaesarViewModel viewmodel = new();
             Assert.Throws<ArgumentOutOfRangeException>(nameof(CaesarViewModel.SelectedShift), () => viewmodel.SelectedShift = selectedShift);
+        }
+
+        [Fact]
+        public void Randomize()
+        {
+            CaesarViewModel viewmodel = new();
+
+            const int testsCount = 5;
+            int[] shifts = new int[testsCount];
+            for (int i = 0; i < testsCount; i++)
+            {
+                viewmodel.Randomize();
+                shifts[i] = viewmodel.SelectedShift;
+            }
+
+            Assert.True(shifts.Distinct().Count() > 1);
         }
     }
 }

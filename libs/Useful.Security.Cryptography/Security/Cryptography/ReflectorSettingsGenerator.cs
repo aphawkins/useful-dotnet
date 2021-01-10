@@ -14,9 +14,9 @@ namespace Useful.Security.Cryptography
     {
         public static IReflectorSettings Generate()
         {
-            IReflectorSettings settings = new ReflectorSettings();
-            IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
-            IList<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
+            ReflectorSettings settings = new();
+            List<char> allowedLettersCloneFrom = new(settings.CharacterSet);
+            List<char> allowedLettersCloneTo = new(settings.CharacterSet);
 
             Random rnd = new();
             int indexFrom;
@@ -43,11 +43,6 @@ namespace Useful.Security.Cryptography
                 {
                     allowedLettersCloneFrom.Remove(to);
                 }
-
-                ////if (from == to)
-                ////{
-                ////    continue;
-                ////}
 
                 settings[from] = to;
             }

@@ -56,8 +56,8 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <returns>The setting for the substitution.</returns>
         public char this[char substitution]
         {
-            get => _settings[substitution];
-            set => _settings[substitution] = value;
+            get => _cipher.Settings[substitution];
+            set => _cipher.Settings[substitution] = value;
         }
 
         /// <summary>

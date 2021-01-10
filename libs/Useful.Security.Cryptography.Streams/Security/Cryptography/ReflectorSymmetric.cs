@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
@@ -53,15 +54,16 @@ namespace Useful.Security.Cryptography
             get
             {
                 // CharacterSet|Substitutions
-                StringBuilder key = new(_algorithm.Settings.CharacterSet);
+                StringBuilder key = new();
+                key.Append(_algorithm.Settings.CharacterSet.ToArray());
                 key.Append(KeySeperator);
-                key.Append(_algorithm.Settings.Substitutions);
+                key.Append(_algorithm.Settings.Substitutions.ToArray());
                 return Encoding.GetBytes(key.ToString());
             }
 
             set
             {
-                (string CharacterSet, string Substitutions) key;
+                (IList<char> CharacterSet, IList<char> Substitutions) key;
                 try
                 {
                     key = ParseKey(value);
@@ -107,7 +109,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString() => _algorithm.CipherName;
 
-        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
+        private static (IList<char> CharacterSet, IList<char> Substitutions) ParseKey(byte[] key)
         {
             // Example:
             // CharacterSet|Substitutions
@@ -130,7 +132,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Incorrect number of key parts.", nameof(key));
             }
 
-            return (parts[0], parts[1]);
+            return (parts[0].ToCharArray(), parts[1].ToCharArray());
         }
 
         private void Reset()
