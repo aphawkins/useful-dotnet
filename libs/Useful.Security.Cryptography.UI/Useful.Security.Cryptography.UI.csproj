@@ -15,13 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ViewModels\CaesarSettings.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticSettingsViewModel.cs" />
-    <Compile Remove="ViewModels\ReflectorSettingsViewModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -3,17 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ViewModels\CaesarSettings.cs" />
-    <Compile Remove="ViewModels\CaesarSettingsTests.cs" />
-    <Compile Remove="ViewModels\CipherViewModelTests.cs" />
-    <Compile Remove="ViewModels\EnigmaPlugboardSettingsTests.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticSettingsTests.cs" />
-    <Compile Remove="ViewModels\ReflectorSettingsTests.cs" />
-    <Compile Remove="ViewModels\RelayCommandTests.cs" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003">
