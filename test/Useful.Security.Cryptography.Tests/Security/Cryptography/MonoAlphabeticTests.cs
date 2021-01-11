@@ -17,7 +17,6 @@ namespace Useful.Security.Cryptography.Tests
             { "ABC", "ABC", "ABC", "ABC" },
             { "ABCD", "ABCD", "Å", "Å" },
             { "ABCD", "BADC", "AB CD", "BA DC" },
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GeLlOwOrLd" },
         };
 
         [Fact]
@@ -34,6 +33,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "GFLLOWORLC", "HeLlOwOrLd")]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
@@ -43,6 +43,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GFLLOWORLC")]
         public void Encrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };

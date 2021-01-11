@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < ciphertext.Length; i++)
             {
-                sb.Append(Settings.Reflect(ciphertext[i]));
+                sb.Append(Decrypt(ciphertext[i]));
             }
 
             return sb.ToString();
@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                sb.Append(Settings[plaintext[i]]);
+                sb.Append(Encrypt(plaintext[i]));
             }
 
             return sb.ToString();
@@ -68,8 +68,8 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString() => CipherName;
 
-        internal char Decrypt(char ciphertext) => Settings.Reflect(ciphertext);
+        private char Decrypt(char ciphertext) => Settings.Reflect(char.ToUpper(ciphertext));
 
-        internal char Encrypt(char plaintext) => Settings[plaintext];
+        private char Encrypt(char plaintext) => Settings[char.ToUpper(plaintext)];
     }
 }

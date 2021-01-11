@@ -4,14 +4,13 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
     using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
     public class ReflectorViewModelTests
     {
         [Theory]
-        [InlineData("ABC", "BAC", 'A', 'B')]
+        [InlineData("abc", "BAC", 'A', 'B')]
         public void Encrypt(string plaintext, string ciphertext, char from, char to)
         {
             ReflectorViewModel viewmodel = new();
@@ -22,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("ABC", "BAC", 'A', 'B')]
+        [InlineData("ABC", "bac", 'A', 'B')]
         public void Decrypt(string plaintext, string ciphertext, char from, char to)
         {
             ReflectorViewModel viewmodel = new();

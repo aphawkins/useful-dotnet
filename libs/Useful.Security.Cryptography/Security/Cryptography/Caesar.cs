@@ -72,23 +72,7 @@ namespace Useful.Security.Cryptography
 
             for (int i = 0; i < plaintext.Length; i++)
             {
-                int c = plaintext[i];
-
-                // Uppercase
-                if (c is >= 'A' and <= 'Z')
-                {
-                    sb.Append((char)(((c - 'A' + Settings.RightShift) % 26) + 'A'));
-                }
-
-                // Lowercase
-                else if (c is >= 'a' and <= 'z')
-                {
-                    sb.Append((char)(((c - 'a' + Settings.RightShift) % 26) + 'a'));
-                }
-                else
-                {
-                    sb.Append((char)c);
-                }
+                sb.Append(Encrypt(plaintext[i]));
             }
 
             return sb.ToString();
@@ -99,5 +83,24 @@ namespace Useful.Security.Cryptography
 
         /// <inheritdoc />
         public override string ToString() => CipherName;
+
+        private char Encrypt(char letter)
+        {
+            // Uppercase
+            if (letter is >= 'A' and <= 'Z')
+            {
+                return (char)(((letter - 'A' + Settings.RightShift) % 26) + 'A');
+            }
+
+            // Lowercase
+            else if (letter is >= 'a' and <= 'z')
+            {
+                return (char)(((letter - 'a' + Settings.RightShift) % 26) + 'a');
+            }
+            else
+            {
+                return letter;
+            }
+        }
     }
 }

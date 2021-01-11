@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Linq;
     using Useful.Security.Cryptography;
     using Xunit;
 
@@ -17,11 +16,11 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCD", "BADC", "ABCD", "BADC" }, // All characters subtituted
             { "ABC", "ABC", "Å", "Å" }, // Invalid character
             { "ABC", "BAC", "AB C", "BA C" }, // Space
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GeLlOwOrLd" }, // Complex
         };
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HELLOWORLD", "GfLlOwOrLc")]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IReflectorSettings settings = new ReflectorSettings()
@@ -32,6 +31,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GFLLOWORLC")]
         public void EncryptCipher(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IReflectorSettings settings = new ReflectorSettings()

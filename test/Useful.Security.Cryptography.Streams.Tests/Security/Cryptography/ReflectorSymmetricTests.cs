@@ -20,7 +20,6 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCD|BADC", "ABCD", "BADC" }, // All characters subtituted
             { "ABC|ABC", "Å", "Å" }, // Invalid character
             { "ABC|BAC", "AB C", "BA C" }, // Space
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GeLlOwOrLd" }, // Complex
         };
 
         [Fact]
@@ -52,6 +51,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HELLOWORLD", "GfLlOwOrLc")]
         public void Decrypt(string key, string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new ReflectorSymmetric
@@ -63,6 +63,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GFLLOWORLC")]
         public void Encrypt(string key, string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new ReflectorSymmetric

@@ -21,7 +21,6 @@ namespace Useful.Security.Cryptography.Tests
             { "ABC|ABC", "ABC", "ABC" },
             { "ABCD|ABCD", "Å", "Å" },
             { "ABCD|BADC", "AB CD", "BA DC" },
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GeLlOwOrLd" },
         };
 
         [Theory]
@@ -65,6 +64,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HELLOWORLD", "GfLlOwOrLc")]
         public void Decrypt(string key, string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new MonoAlphabeticSymmetric
@@ -77,7 +77,8 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
-        public void EncryptSymmetric(string key, string plaintext, string ciphertext)
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ|BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GFLLOWORLC")]
+        public void Encrypt(string key, string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new MonoAlphabeticSymmetric
             {
