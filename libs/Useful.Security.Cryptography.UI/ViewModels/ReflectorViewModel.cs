@@ -12,17 +12,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// </summary>
     public sealed class ReflectorViewModel
     {
-        private readonly ReflectorSettings _settings;
         private readonly Reflector _cipher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReflectorViewModel"/> class.
         /// </summary>
-        public ReflectorViewModel()
-        {
-            _settings = new();
-            _cipher = new(_settings);
-        }
+        public ReflectorViewModel() => _cipher = new(new ReflectorSettings());
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
