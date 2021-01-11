@@ -52,6 +52,28 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
+        public void GenerateSettings()
+        {
+            MonoAlphabetic cipher = new(new MonoAlphabeticSettings());
+
+            const int testsCount = 5;
+            for (int i = 0; i < testsCount; i++)
+            {
+                cipher.GenerateSettings();
+                Assert.NotEqual(cipher.Settings.CharacterSet, cipher.Settings.Substitutions);
+                char previous = 'A';
+                bool isSequential = true;
+                foreach (char c in cipher.Settings.CharacterSet)
+                {
+                    isSequential &= previous < cipher.Settings[c];
+                    previous = cipher.Settings[c];
+                }
+
+                Assert.False(isSequential);
+            }
+        }
+
+        [Fact]
         public void Name()
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings();

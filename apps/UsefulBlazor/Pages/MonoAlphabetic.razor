@@ -1,0 +1,67 @@
+@page "/monoalphabetic"
+@using Useful.Security.Cryptography.UI.ViewModels;
+
+<h1>@cipher.CipherName Cipher</h1>
+
+<table class="table">
+    <tr>
+        <td><label>Plaintext</label></td>
+        <td><label>Ciphertext</label></td>
+    </tr>
+    <tr>
+        <td><input @bind="cipher.Plaintext" /></td>
+        <td><input @bind="cipher.Ciphertext" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table class="table">
+                <tr>
+                    <td>
+                        <label>Character</label>
+                    </td>
+                    @foreach (char c in cipher.CharacterSet)
+                    {
+                        <td>
+                            <label>@c</label>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <label>Reflection</label>
+                    </td>
+                    @foreach (char sub in cipher.CharacterSet)
+                    {
+                        <td>
+                            <select id=@sub
+                                    @bind="@cipher[sub]">
+                                @foreach (char c in cipher.CharacterSet)
+                                {
+                                    <option value="@c">@c</option>
+                                }
+                            </select>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
+        </td>
+        <td />
+    </tr>
+    <tr>
+        <td>
+            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
+        </td>
+        <td>
+            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
+        </td>
+    </tr>
+</table>
+
+@code {
+    MonoAlphabeticViewModel cipher = new();
+}

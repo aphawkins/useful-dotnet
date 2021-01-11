@@ -11,7 +11,6 @@
     <Compile Remove="ViewModels\EnigmaPlugboardSettingsTests.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettings.cs" />
     <Compile Remove="ViewModels\MonoAlphabeticSettingsTests.cs" />
-    <Compile Remove="ViewModels\MonoAlphabeticViewModelTests.cs" />
     <Compile Remove="ViewModels\ReflectorSettingsTests.cs" />
     <Compile Remove="ViewModels\RelayCommandTests.cs" />
   </ItemGroup>

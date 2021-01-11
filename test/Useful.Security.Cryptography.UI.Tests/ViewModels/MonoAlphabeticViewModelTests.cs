@@ -1,118 +1,63 @@
-﻿// <copyright file="MonoAlphabeticViewModelTests.cs" company="APH Software">
+// <copyright file="MonoAlphabeticViewModelTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
-    using Useful.Security.Cryptography;
+    using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
     public class MonoAlphabeticViewModelTests
     {
         [Theory]
-        [InlineData("ABC", "ABC", 'Ø', 'A')]
-        public void GetSubstitutionsInvalid(string characterSet, string substitutions, char from, char to)
+        [InlineData("abc", "BAC", 'A', 'B')]
+        public void Encrypt(string plaintext, string ciphertext, char from, char to)
         {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-
-            Assert.Throws<ArgumentException>("value", () => settingsViewModel[from] = to);
-            Assert.Equal(string.Empty, propertyChanged);
+            MonoAlphabeticViewModel viewmodel = new();
+            viewmodel.Plaintext = plaintext;
+            viewmodel[from] = to;
+            viewmodel.Encrypt();
+            Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
 
         [Theory]
-        [InlineData("ABC", "ABC", 'A', 'A')]
-        public void GetSubstitutionsValid(string characterSet, string substitutions, char from, char to)
+        [InlineData("ABC", "bac", 'A', 'B')]
+        public void Decrypt(string plaintext, string ciphertext, char from, char to)
         {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-            settingsViewModel[from] = to;
-
-            Assert.Equal(to, settingsViewModel[from]);
-            Assert.Equal(string.Empty, propertyChanged);
+            MonoAlphabeticViewModel viewmodel = new();
+            viewmodel.Ciphertext = ciphertext;
+            viewmodel[from] = to;
+            viewmodel.Decrypt();
+            Assert.Equal(plaintext, viewmodel.Plaintext);
         }
 
-        [Theory]
-        [InlineData("ABC", "BAC", 'A', 'C', "CAB", 3)]
-        [InlineData("ABC", "BCA", 'B', 'B', "CBA", 2)]
-        public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
+        [Fact]
+        public void CipherName()
         {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-            settingsViewModel[from] = to;
-
-            Assert.Equal(to, settingsViewModel[from]);
-            Assert.Equal(subsCount, settingsViewModel.SubstitutionCount);
-            Assert.Equal(newSubs, settingsViewModel.Substitutions);
+            MonoAlphabeticViewModel viewmodel = new();
+            Assert.Equal("MonoAlphabetic", viewmodel.CipherName);
         }
 
-        [Theory]
-        [InlineData("ABC", "BAC", 'A', 'A', "ABC", 0)]
-        public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
+        [Fact]
+        public void Randomize()
         {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-            settingsViewModel[from] = to;
+            MonoAlphabeticViewModel viewmodel = new();
 
-            Assert.Equal(to, settingsViewModel[from]);
-            Assert.Equal(subsCount, settingsViewModel.SubstitutionCount);
-            Assert.Equal(newSubs, settingsViewModel.Substitutions);
-        }
+            const int testsCount = 5;
+            for (int i = 0; i < testsCount; i++)
+            {
+                viewmodel.Randomize();
+                Assert.NotEqual(viewmodel.CharacterSet, viewmodel.Substitutions);
+                char previous = 'A';
+                bool isSequential = true;
+                foreach (char c in viewmodel.CharacterSet)
+                {
+                    isSequential &= previous < viewmodel[c];
+                    previous = viewmodel[c];
+                }
 
-        [Theory]
-        [InlineData("ABC", "BCA", 'C', 'A', "BCA", 3)]
-        public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
-        {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-            settingsViewModel[from] = to;
-
-            Assert.Equal(to, settingsViewModel[from]);
-            Assert.Equal(subsCount, settingsViewModel.SubstitutionCount);
-            Assert.Equal(newSubs, settingsViewModel.Substitutions);
-            Assert.Equal(string.Empty, propertyChanged);
-        }
-
-        [Theory]
-        [InlineData("ABC", "ABC", 'A', 'Ø', "ABC", 0)]
-        [InlineData("ABC", "ABC", 'Ø', 'A', "ABC", 0)]
-        public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
-        {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-
-            Assert.Throws<ArgumentException>("value", () => settingsViewModel[from] = to);
-            Assert.Equal(subsCount, settingsViewModel.SubstitutionCount);
-            Assert.Equal(newSubs, settingsViewModel.Substitutions);
-            Assert.Equal(string.Empty, propertyChanged);
-        }
-
-        [Theory]
-        [InlineData("ABC", "ABC", 'A', 'B', "BAC", 2)]
-        public void SetSubstitutionSet(string characterSet, string substitutions, char from, char to, string newSubs, int subsCount)
-        {
-            string propertyChanged = string.Empty;
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            MonoAlphabeticSettingsViewModel settingsViewModel = new(settings);
-            settingsViewModel.PropertyChanged += (sender, e) => propertyChanged += e.PropertyName;
-            settingsViewModel[from] = to;
-
-            Assert.Equal(to, settingsViewModel[from]);
-            Assert.Equal(subsCount, settingsViewModel.SubstitutionCount);
-            Assert.Equal(newSubs, settingsViewModel.Substitutions);
+                Assert.False(isSequential);
+            }
         }
     }
 }
