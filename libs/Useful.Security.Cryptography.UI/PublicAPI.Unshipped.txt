@@ -60,8 +60,12 @@ Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Plaintext.get -> stri
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Plaintext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Randomize() -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Reflectors.get -> System.Collections.Generic.IEnumerable<string!>!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorPositions.get -> System.Collections.Generic.IEnumerable<string!>!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Rotors.get -> System.Collections.Generic.IEnumerable<string!>!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedReflector.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedReflector.set -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedRotors.get -> System.Collections.Generic.IDictionary<string!, string!>!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedRotors.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.CharacterSet.get -> System.Collections.Generic.IEnumerable<char>!

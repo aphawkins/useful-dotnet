@@ -25,6 +25,39 @@
         <td />
     </tr>
     <tr>
+        <td colspan="2">
+            <table class="table">
+                <tr>
+                    <td>
+                        <label>Rotor Position</label>
+                    </td>
+                    @foreach (string position in cipher.RotorPositions)
+                    {
+                        <td>
+                            <label>@position</label>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <label>Rotor</label>
+                    </td>
+                    @foreach (string position in cipher.RotorPositions)
+                    {
+                        <td>
+                            <select id=@position @bind="cipher.SelectedRotors[position]">
+                                @foreach (string rotor in cipher.Rotors)
+                                {
+                                    <option value="@rotor">@rotor</option>
+                                }
+                            </select>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
         <td>
             <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
         </td>

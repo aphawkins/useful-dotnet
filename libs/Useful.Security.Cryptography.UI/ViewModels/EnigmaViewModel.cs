@@ -2,10 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+#pragma warning disable CA1822 // Mark members as static
+
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// ViewModel for the reflector cipher.
@@ -46,6 +49,34 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         {
             get => _cipher.Settings.Reflector.ReflectorNumber.ToString();
             set => _cipher.Settings.Reflector.ReflectorNumber = Enum.Parse<EnigmaReflectorNumber>(value);
+        }
+
+        /// <summary>
+        /// Gets all the rotors.
+        /// </summary>
+        public IEnumerable<string> RotorPositions => Array.ConvertAll(Enum.GetValues<EnigmaRotorPosition>(), x => x.ToString()).Reverse();
+
+        /// <summary>
+        /// Gets all the rotors.
+        /// </summary>
+        public IEnumerable<string> Rotors => Array.ConvertAll(Enum.GetValues<EnigmaRotorNumber>(), x => x.ToString());
+
+        /// <summary>
+        /// Gets or sets the current rotors.
+        /// </summary>
+        public IDictionary<string, string> SelectedRotors
+        {
+            get
+            {
+                Dictionary<string, string> selected = new();
+                foreach (EnigmaRotorPosition position in Enum.GetValues<EnigmaRotorPosition>().Reverse())
+                {
+                    selected.Add(position.ToString(), _cipher.Settings.Rotors[position].RotorNumber.ToString());
+                }
+
+                return selected;
+            }
+            set => _ = value;
         }
 
         /// <summary>
