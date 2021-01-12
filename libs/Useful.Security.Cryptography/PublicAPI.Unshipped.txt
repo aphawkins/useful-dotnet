@@ -57,7 +57,7 @@ Useful.Security.Cryptography.EnigmaReflector
 Useful.Security.Cryptography.EnigmaReflector.EnigmaReflector() -> void
 Useful.Security.Cryptography.EnigmaReflector.Reflect(char letter) -> char
 Useful.Security.Cryptography.EnigmaReflector.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
-Useful.Security.Cryptography.EnigmaReflector.ReflectorNumber.init -> void
+Useful.Security.Cryptography.EnigmaReflector.ReflectorNumber.set -> void
 Useful.Security.Cryptography.EnigmaReflectorNumber
 Useful.Security.Cryptography.EnigmaReflectorNumber.B = 0 -> Useful.Security.Cryptography.EnigmaReflectorNumber
 Useful.Security.Cryptography.EnigmaReflectorNumber.C = 1 -> Useful.Security.Cryptography.EnigmaReflectorNumber
@@ -117,6 +117,7 @@ Useful.Security.Cryptography.IEnigmaPlugboard.this[char letter].get -> char
 Useful.Security.Cryptography.IEnigmaReflector
 Useful.Security.Cryptography.IEnigmaReflector.Reflect(char letter) -> char
 Useful.Security.Cryptography.IEnigmaReflector.ReflectorNumber.get -> Useful.Security.Cryptography.EnigmaReflectorNumber
+Useful.Security.Cryptography.IEnigmaReflector.ReflectorNumber.set -> void
 Useful.Security.Cryptography.IEnigmaRotor
 Useful.Security.Cryptography.IEnigmaRotor.Backward(char letter) -> char
 Useful.Security.Cryptography.IEnigmaRotor.CurrentSetting.get -> char

@@ -14,7 +14,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The substitution of the rotor, effectively the wiring.
         /// </summary>
-        private readonly ReflectorSettings _wiring;
+        private ReflectorSettings _wiring;
 
         private EnigmaReflectorNumber _reflectorNumber;
 
@@ -31,7 +31,7 @@ namespace Useful.Security.Cryptography
         public EnigmaReflectorNumber ReflectorNumber
         {
             get => _reflectorNumber;
-            init
+            set
             {
                 _reflectorNumber = value;
                 _wiring = GetWiring(_reflectorNumber);

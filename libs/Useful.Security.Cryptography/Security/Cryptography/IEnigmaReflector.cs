@@ -10,9 +10,9 @@ namespace Useful.Security.Cryptography
     public interface IEnigmaReflector
     {
         /// <summary>
-        /// Gets the designation of this reflector.
+        /// Gets or sets the designation of this reflector.
         /// </summary>
-        EnigmaReflectorNumber ReflectorNumber { get; }
+        EnigmaReflectorNumber ReflectorNumber { get; set; }
 
         /// <summary>
         /// The letter this reflector encodes to going through it.

@@ -49,8 +49,19 @@ Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Randomize() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.get -> int
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.SelectedShift.set -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Shifts.get -> System.Collections.Generic.IEnumerable<int>!
-Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel
-Useful.Security.Cryptography.UI.ViewModels.EmptySettingsViewModel.EmptySettingsViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.CipherName.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Encrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.EnigmaViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Randomize() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Reflectors.get -> System.Collections.Generic.IEnumerable<string!>!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedReflector.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.SelectedReflector.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.CharacterSet.get -> System.Collections.Generic.IEnumerable<char>!

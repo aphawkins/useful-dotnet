@@ -9,6 +9,13 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaReflectorTests
     {
+        [Fact]
+        public void Defaults()
+        {
+            IEnigmaReflector reflector = new EnigmaReflector();
+            Assert.Equal(EnigmaReflectorNumber.B, reflector.ReflectorNumber);
+        }
+
         [Theory]
         [InlineData(EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT")]
         [InlineData(EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL")]
