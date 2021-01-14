@@ -25,9 +25,9 @@ namespace Useful.Security.Cryptography
         int RingPosition { get; set; }
 
         /// <summary>
-        /// Gets the designation of this rotor.
+        /// Gets or sets the designation of this rotor.
         /// </summary>
-        EnigmaRotorNumber RotorNumber { get; }
+        EnigmaRotorNumber RotorNumber { get; set; }
 
         /// <summary>
         /// The letter this rotor encodes to going backwards through it.

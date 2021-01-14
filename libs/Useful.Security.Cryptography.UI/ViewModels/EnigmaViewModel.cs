@@ -20,7 +20,11 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaViewModel"/> class.
         /// </summary>
-        public EnigmaViewModel() => _cipher = new(new EnigmaSettings());
+        public EnigmaViewModel()
+        {
+            _cipher = new(new EnigmaSettings());
+            RotorNumbers = new(_cipher.Settings);
+        }
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
@@ -62,21 +66,11 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public IEnumerable<string> Rotors => Array.ConvertAll(Enum.GetValues<EnigmaRotorNumber>(), x => x.ToString());
 
         /// <summary>
-        /// Gets or sets the current rotors.
+        /// Gets the rotor numbers.
         /// </summary>
-        public IDictionary<string, string> SelectedRotors
+        public EnigmaRotorNumberViewModel RotorNumbers
         {
-            get
-            {
-                Dictionary<string, string> selected = new();
-                foreach (EnigmaRotorPosition position in Enum.GetValues<EnigmaRotorPosition>().Reverse())
-                {
-                    selected.Add(position.ToString(), _cipher.Settings.Rotors[position].RotorNumber.ToString());
-                }
-
-                return selected;
-            }
-            set => _ = value;
+            get;
         }
 
         /// <summary>

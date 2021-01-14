@@ -42,10 +42,10 @@
                     <td>
                         <label>Rotor</label>
                     </td>
-                    @foreach (string position in cipher.RotorPositions)
+                    @foreach (string positionA in cipher.RotorPositions)
                     {
                         <td>
-                            <select id=@position @bind="cipher.SelectedRotors[position]">
+                            <select id=@positionA @bind="cipher.RotorNumbers[positionA]">
                                 @foreach (string rotor in cipher.Rotors)
                                 {
                                     <option value="@rotor">@rotor</option>

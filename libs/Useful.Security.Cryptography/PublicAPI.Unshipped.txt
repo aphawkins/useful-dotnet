@@ -71,7 +71,7 @@ Useful.Security.Cryptography.EnigmaRotor.Notches.get -> string!
 Useful.Security.Cryptography.EnigmaRotor.RingPosition.get -> int
 Useful.Security.Cryptography.EnigmaRotor.RingPosition.set -> void
 Useful.Security.Cryptography.EnigmaRotor.RotorNumber.get -> Useful.Security.Cryptography.EnigmaRotorNumber
-Useful.Security.Cryptography.EnigmaRotor.RotorNumber.init -> void
+Useful.Security.Cryptography.EnigmaRotor.RotorNumber.set -> void
 Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotorNumber.Beta = 9 -> Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotorNumber.Gamma = 10 -> Useful.Security.Cryptography.EnigmaRotorNumber
@@ -127,6 +127,7 @@ Useful.Security.Cryptography.IEnigmaRotor.Notches.get -> string!
 Useful.Security.Cryptography.IEnigmaRotor.RingPosition.get -> int
 Useful.Security.Cryptography.IEnigmaRotor.RingPosition.set -> void
 Useful.Security.Cryptography.IEnigmaRotor.RotorNumber.get -> Useful.Security.Cryptography.EnigmaRotorNumber
+Useful.Security.Cryptography.IEnigmaRotor.RotorNumber.set -> void
 Useful.Security.Cryptography.IEnigmaRotors
 Useful.Security.Cryptography.IEnigmaRotors.AdvanceRotors() -> void
 Useful.Security.Cryptography.IEnigmaRotors.Rotors.get -> System.Collections.Generic.IReadOnlyDictionary<Useful.Security.Cryptography.EnigmaRotorPosition, Useful.Security.Cryptography.IEnigmaRotor!>!

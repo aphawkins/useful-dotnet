@@ -88,7 +88,7 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorNumber RotorNumber
         {
             get => _rotorNumber;
-            init
+            set
             {
                 _rotorNumber = value;
                 (_wiring, Notches) = GetWiring(_rotorNumber);
