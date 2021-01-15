@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     using System;
 
     /// <summary>
-    /// ViewModel for the enigma rotor number cipher.
+    /// ViewModel for the enigma rotor number.
     /// </summary>
     public sealed class EnigmaRotorNumberViewModel
     {

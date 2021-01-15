@@ -70,6 +70,22 @@
                         </td>
                     }
                 </tr>
+                <tr>
+                    <td>
+                        <label>Setting</label>
+                    </td>
+                    @foreach (string position in cipher.RotorPositions)
+                    {
+                        <td>
+                            <select id="setting_@position" @bind="cipher.RotorSetting[position]">
+                                @foreach (char setting in cipher.RotorSettings)
+                                {
+                                    <option value="@setting">@setting</option>
+                                }
+                            </select>
+                        </td>
+                    }
+                </tr>
             </table>
         </td>
     </tr>

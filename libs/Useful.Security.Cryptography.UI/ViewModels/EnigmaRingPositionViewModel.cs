@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaRingPositionViewModel"/> class.
         /// </summary>
-        /// <param name="settings">The enigma ring position.</param>
+        /// <param name="settings">The enigma settings.</param>
         public EnigmaRingPositionViewModel(IEnigmaSettings settings) => _settings = settings;
 
         /// <summary>

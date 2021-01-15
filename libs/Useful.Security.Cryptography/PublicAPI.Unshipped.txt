@@ -73,8 +73,6 @@ Useful.Security.Cryptography.EnigmaRotor.RingPosition.set -> void
 Useful.Security.Cryptography.EnigmaRotor.RotorNumber.get -> Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotor.RotorNumber.set -> void
 Useful.Security.Cryptography.EnigmaRotorNumber
-Useful.Security.Cryptography.EnigmaRotorNumber.Beta = 9 -> Useful.Security.Cryptography.EnigmaRotorNumber
-Useful.Security.Cryptography.EnigmaRotorNumber.Gamma = 10 -> Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotorNumber.I = 1 -> Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotorNumber.II = 2 -> Useful.Security.Cryptography.EnigmaRotorNumber
 Useful.Security.Cryptography.EnigmaRotorNumber.III = 3 -> Useful.Security.Cryptography.EnigmaRotorNumber

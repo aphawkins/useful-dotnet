@@ -20,12 +20,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaViewModel"/> class.
         /// </summary>
-        public EnigmaViewModel()
-        {
-            _cipher = new(new EnigmaSettings());
-            RotorNumber = new(_cipher.Settings);
-            RingPosition = new(_cipher.Settings);
-        }
+        public EnigmaViewModel() => _cipher = new(new EnigmaSettings());
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.
@@ -69,10 +64,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets the rotor number.
         /// </summary>
-        public EnigmaRotorNumberViewModel RotorNumber
-        {
-            get;
-        }
+        public EnigmaRotorNumberViewModel RotorNumber => new(_cipher.Settings);
 
         /// <summary>
         /// Gets all the ring positions.
@@ -82,10 +74,17 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets the ring position.
         /// </summary>
-        public EnigmaRingPositionViewModel RingPosition
-        {
-            get;
-        }
+        public EnigmaRingPositionViewModel RingPosition => new(_cipher.Settings);
+
+        /// <summary>
+        /// Gets all the rotor settings.
+        /// </summary>
+        public IEnumerable<char> RotorSettings => "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+
+        /// <summary>
+        /// Gets the rotor setting.
+        /// </summary>
+        public EnigmaRotorSettingViewModel RotorSetting => new(_cipher.Settings);
 
         /// <summary>
         /// Encrypts the plaintext into ciphertext.

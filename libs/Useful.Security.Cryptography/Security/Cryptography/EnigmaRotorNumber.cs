@@ -48,15 +48,5 @@ namespace Useful.Security.Cryptography
         /// Rotor number VIII.
         /// </summary>
         VIII = 8,
-
-        /// <summary>
-        /// Rotor number Beta.
-        /// </summary>
-        Beta = 9,
-
-        /// <summary>
-        /// Rotor number Gamma.
-        /// </summary>
-        Gamma = 10,
     }
 }

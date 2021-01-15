@@ -57,6 +57,10 @@ Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorNumberViewModel
 Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorNumberViewModel.EnigmaRotorNumberViewModel(Useful.Security.Cryptography.IEnigmaSettings! settings) -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorNumberViewModel.this[string! position].get -> string!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorNumberViewModel.this[string! position].set -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorSettingViewModel
+Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorSettingViewModel.EnigmaRotorSettingViewModel(Useful.Security.Cryptography.IEnigmaSettings! settings) -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorSettingViewModel.this[string! position].get -> char
+Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorSettingViewModel.this[string! position].set -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.CipherName.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Ciphertext.get -> string!
@@ -75,6 +79,8 @@ Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RingPositions.get -> 
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorNumber.get -> Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorNumberViewModel!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorNumbers.get -> System.Collections.Generic.IEnumerable<string!>!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorPositions.get -> System.Collections.Generic.IEnumerable<string!>!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorSetting.get -> Useful.Security.Cryptography.UI.ViewModels.EnigmaRotorSettingViewModel!
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.RotorSettings.get -> System.Collections.Generic.IEnumerable<char>!
 Useful.Security.Cryptography.UI.ViewModels.ICipherSettingsViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.CharacterSet.get -> System.Collections.Generic.IEnumerable<char>!
