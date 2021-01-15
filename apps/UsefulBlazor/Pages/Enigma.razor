@@ -15,7 +15,7 @@
     <tr>
         <td>
             <label>Reflector</label>
-            <select @bind="cipher.SelectedReflector">
+            <select @bind="cipher.ReflectorNumber">
                 @foreach (string reflector in cipher.Reflectors)
                 {
                     <option value="@reflector">@reflector</option>
@@ -42,13 +42,29 @@
                     <td>
                         <label>Rotor</label>
                     </td>
-                    @foreach (string positionA in cipher.RotorPositions)
+                    @foreach (string position in cipher.RotorPositions)
                     {
                         <td>
-                            <select id=@positionA @bind="cipher.RotorNumbers[positionA]">
-                                @foreach (string rotor in cipher.Rotors)
+                            <select id="rotor_@position" @bind="cipher.RotorNumber[position]">
+                                @foreach (string rotor in cipher.RotorNumbers)
                                 {
                                     <option value="@rotor">@rotor</option>
+                                }
+                            </select>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <label>Ring</label>
+                    </td>
+                    @foreach (string position in cipher.RotorPositions)
+                    {
+                        <td>
+                            <select id="ring_@position" @bind="cipher.RingPosition[position]">
+                                @foreach (int ring in cipher.RingPositions)
+                                {
+                                    <option value="@ring">@ring</option>
                                 }
                             </select>
                         </td>

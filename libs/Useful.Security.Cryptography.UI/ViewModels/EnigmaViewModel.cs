@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     using System.Linq;
 
     /// <summary>
-    /// ViewModel for the reflector cipher.
+    /// ViewModel for the enigma cipher.
     /// </summary>
     public sealed class EnigmaViewModel
     {
@@ -23,7 +23,8 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public EnigmaViewModel()
         {
             _cipher = new(new EnigmaSettings());
-            RotorNumbers = new(_cipher.Settings);
+            RotorNumber = new(_cipher.Settings);
+            RingPosition = new(_cipher.Settings);
         }
 
         /// <summary>
@@ -49,26 +50,39 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets or sets the current reflector.
         /// </summary>
-        public string SelectedReflector
+        public string ReflectorNumber
         {
             get => _cipher.Settings.Reflector.ReflectorNumber.ToString();
             set => _cipher.Settings.Reflector.ReflectorNumber = Enum.Parse<EnigmaReflectorNumber>(value);
         }
 
         /// <summary>
-        /// Gets all the rotors.
+        /// Gets all the rotor positions.
         /// </summary>
         public IEnumerable<string> RotorPositions => Array.ConvertAll(Enum.GetValues<EnigmaRotorPosition>(), x => x.ToString()).Reverse();
 
         /// <summary>
-        /// Gets all the rotors.
+        /// Gets all the rotor numbers.
         /// </summary>
-        public IEnumerable<string> Rotors => Array.ConvertAll(Enum.GetValues<EnigmaRotorNumber>(), x => x.ToString());
+        public IEnumerable<string> RotorNumbers => Array.ConvertAll(Enum.GetValues<EnigmaRotorNumber>(), x => x.ToString());
 
         /// <summary>
-        /// Gets the rotor numbers.
+        /// Gets the rotor number.
         /// </summary>
-        public EnigmaRotorNumberViewModel RotorNumbers
+        public EnigmaRotorNumberViewModel RotorNumber
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets all the ring positions.
+        /// </summary>
+        public IEnumerable<int> RingPositions => Enumerable.Range(1, 26);
+
+        /// <summary>
+        /// Gets the ring position.
+        /// </summary>
+        public EnigmaRingPositionViewModel RingPosition
         {
             get;
         }
