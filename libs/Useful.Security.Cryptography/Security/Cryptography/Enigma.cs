@@ -45,11 +45,13 @@ namespace Useful.Security.Cryptography
             StringBuilder output = new();
             foreach (char inputChar in plaintext.ToCharArray())
             {
-                // Encrypt and Decrypt work the same way
-                char cipherChar = Encrypt(inputChar);
-                if (cipherChar != '\0')
+                if (inputChar == ' ')
                 {
-                    output.Append(cipherChar);
+                    output.Append(' ');
+                }
+                else if (CharacterSet.Contains(char.ToUpper(inputChar)))
+                {
+                    output.Append(Encrypt(char.ToUpper(inputChar)));
                 }
             }
 
@@ -66,43 +68,30 @@ namespace Useful.Security.Cryptography
         /// <returns>The encrypted letter.</returns>
         private char Encrypt(char letter)
         {
-            char newLetter;
-
-            if (letter == ' ')
-            {
-                return letter;
-            }
-            else if (!CharacterSet.Contains(letter))
-            {
-                return '\0';
-            }
-
-            newLetter = letter;
-
             // Advance the rotors one position
             Settings.Rotors.AdvanceRotors();
 
             // Plugboard
-            newLetter = Settings.Plugboard[newLetter];
+            letter = Settings.Plugboard[letter];
 
             // Go thru the rotors forwards
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Forward(newLetter);
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Second].Forward(newLetter);
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(newLetter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Fastest].Forward(letter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Second].Forward(letter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(letter);
 
             // Go thru the relector
-            newLetter = Settings.Reflector.Reflect(newLetter);
+            letter = Settings.Reflector.Reflect(letter);
 
             // Go thru the rotors backwards
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Backward(newLetter);
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Second].Backward(newLetter);
-            newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Backward(newLetter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Third].Backward(letter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Second].Backward(letter);
+            letter = Settings.Rotors[EnigmaRotorPosition.Fastest].Backward(letter);
 
-            newLetter = Settings.Plugboard[newLetter];
+            letter = Settings.Plugboard[letter];
 
             // Letter cannot encrypt to itself.
             // Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");
-            return newLetter;
+            return letter;
         }
     }
 }

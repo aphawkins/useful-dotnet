@@ -25,13 +25,28 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("", "", "B|III II I|01 01 01|", "A A A")]
         [InlineData("HELLOWORLD", "MFNCZBBFZM", "B|III II I|01 01 01|", "A A K")]
         [InlineData("HELLO WORLD", "MFNCZ BBFZM", "B|III II I|01 01 01|", "A A K")]
-        [InlineData("HeLlOwOrLd", "MOQZT", "B|III II I|01 01 01|", "A A F")]
+        [InlineData("HeLlOwOrLd", "MFNCZBBFZM", "B|III II I|01 01 01|", "A A K")]
         [InlineData("Å", "", "B|III II I|01 01 01|", "A A A")]
         public void EncryptCtor(string plaintext, string ciphertext, string newKey, string newIV)
         {
             using SymmetricAlgorithm target = new EnigmaSymmetric();
             string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
             Assert.Equal(ciphertext, s);
+            Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
+        }
+
+        [Theory]
+        [InlineData("", "", "B|III II I|01 01 01|", "A A A")]
+        [InlineData("HELLOWORLD", "MFNCZBBFZM", "B|III II I|01 01 01|", "A A K")]
+        [InlineData("HELLO WORLD", "MFNCZ BBFZM", "B|III II I|01 01 01|", "A A K")]
+        [InlineData("HELLOWORLD", "MfNcZbBfZm", "B|III II I|01 01 01|", "A A K")]
+        [InlineData("", "Å", "B|III II I|01 01 01|", "A A A")]
+        public void DecryptCtor(string plaintext, string ciphertext, string newKey, string newIV)
+        {
+            using SymmetricAlgorithm target = new EnigmaSymmetric();
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
+            Assert.Equal(plaintext, s);
             Assert.Equal(newKey, Encoding.Unicode.GetString(target.Key));
             Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
         }

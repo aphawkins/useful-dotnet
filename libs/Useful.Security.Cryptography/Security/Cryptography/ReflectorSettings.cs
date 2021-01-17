@@ -90,8 +90,6 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                Debug.Print($"[{substitution},{value}]");
-
                 char from = substitution;
                 int fromIndex = _characterSet.IndexOf(from);
 
@@ -138,8 +136,6 @@ namespace Useful.Security.Cryptography
                     temp[toSubsIndex] = toSubs;
                     _substitutions = temp;
                 }
-
-                Debug.Print($"{string.Join(string.Empty, _substitutions)}");
             }
         }
 

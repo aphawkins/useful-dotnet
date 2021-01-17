@@ -15,9 +15,9 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("", "", 'A')]
         [InlineData("HELLOWORLD", "MFNCZBBFZM", 'K')]
         [InlineData("HELLO WORLD", "MFNCZ BBFZM", 'K')]
-        [InlineData("HeLlOwOrLd", "MOQZT", 'F')]
+        [InlineData("HeLlOwOrLd", "MFNCZBBFZM", 'K')]
         [InlineData("Å", "", 'A')]
-        public void EncryptCtor(string plaintext, string ciphertext, char newFastestRotorPosition)
+        public void Encrypt(string plaintext, string ciphertext, char newFastestRotorPosition)
         {
             IEnigmaSettings settings = new EnigmaSettings();
             ICipher cipher = new Enigma(settings);
@@ -25,35 +25,19 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
         }
 
-        ////[Fact]
-        ////public void SettingCtor()
-        ////{
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
-        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
-        ////    EnigmaSettings target = new EnigmaSettings(EnigmaReflectorNumber.B, rotorSettings, new ReflectorSettings());
-        ////    Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", target.CharacterSet);
-        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
-        ////}
-
-        ////[Fact]
-        ////public void SettingDefault()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings();
-        ////    Assert.Equal(new EnigmaRotorSettings().SettingKey(), target.Rotors.SettingKey());
-        ////}
-
-        ////[Fact]
-        ////public void SettingKeyCtor()
-        ////{
-        ////    EnigmaSettings target = new EnigmaSettings(Encoding.Unicode.GetBytes("B|III II I|01 01 01|"), Encoding.Unicode.GetBytes("C B A"));
-        ////    EnigmaRotorSettings rotorSettings = new EnigmaRotorSettings();
-        ////    rotorSettings[EnigmaRotorPosition.Third].CurrentSetting = 'C';
-        ////    rotorSettings[EnigmaRotorPosition.Second].CurrentSetting = 'B';
-        ////    rotorSettings[EnigmaRotorPosition.Fastest].CurrentSetting = 'A';
-        ////    Assert.Equal(rotorSettings.SettingKey(), target.Rotors.SettingKey());
-        ////}
+        [Theory]
+        [InlineData("", "", 'A')]
+        [InlineData("HELLOWORLD", "MFNCZBBFZM", 'K')]
+        [InlineData("HELLO WORLD", "MFNCZ BBFZM", 'K')]
+        [InlineData("HELLOWORLD", "MfNcZbBfZm", 'K')]
+        [InlineData("", "Å", 'A')]
+        public void Decrypt(string plaintext, string ciphertext, char newFastestRotorPosition)
+        {
+            IEnigmaSettings settings = new EnigmaSettings();
+            ICipher cipher = new Enigma(settings);
+            Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
+            Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+        }
 
         [Fact]
         public void Enigma_1941_07_07_19_25()
