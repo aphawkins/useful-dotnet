@@ -119,10 +119,6 @@ Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.ROT13ViewModel() -> void
-Useful.Security.Cryptography.UI.ViewModels.ViewModelBase
-Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.NotifyPropertyChanged(string! propertyName = "") -> void
-Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
-Useful.Security.Cryptography.UI.ViewModels.ViewModelBase.ViewModelBase() -> void
 Useful.Security.Cryptography.UI.Views.ICipherSettingsView
 Useful.Security.Cryptography.UI.Views.ICipherView
 Useful.Security.Cryptography.UI.Views.ICipherView.ShowCiphertext(string! ciphertext) -> void
