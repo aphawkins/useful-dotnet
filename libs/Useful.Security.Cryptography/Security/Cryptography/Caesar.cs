@@ -79,11 +79,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Generates default settings.
-        /// </summary>
-        public void DefaultSettings() => Settings = new CaesarSettings() with { };
-
-        /// <summary>
         /// Generates random settings.
         /// </summary>
         public void GenerateSettings() => Settings = CaesarSettingsGenerator.Generate() with { };

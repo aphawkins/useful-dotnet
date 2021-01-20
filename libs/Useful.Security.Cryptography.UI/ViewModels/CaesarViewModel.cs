@@ -79,7 +79,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Defaults the settings.
         /// </summary>
-        public void Defaults() => _cipher.DefaultSettings();
+        public void Defaults() => _cipher.Settings = new CaesarSettings() with { };
 
         /// <summary>
         /// Randomizes the settings.

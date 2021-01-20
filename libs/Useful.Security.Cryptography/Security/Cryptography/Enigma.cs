@@ -59,11 +59,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Generates default settings.
-        /// </summary>
-        public void DefaultSettings() => Settings = new EnigmaSettings() with { };
-
-        /// <summary>
         /// Generates random settings.
         /// </summary>
         public void GenerateSettings() => Settings = EnigmaSettingsGenerator.Generate() with { };

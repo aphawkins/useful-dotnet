@@ -11,6 +11,15 @@ namespace Useful.Security.Cryptography.Tests
 
     public class EnigmaTests
     {
+        [Fact]
+        public void Name()
+        {
+            IEnigmaSettings settings = new EnigmaSettings();
+            ICipher cipher = new Enigma(settings);
+            Assert.Equal("Enigma M3", cipher.CipherName);
+            Assert.Equal("Enigma M3", cipher.ToString());
+        }
+
         [Theory]
         [InlineData("", "", 'A')]
         [InlineData("HELLOWORLD", "MFNCZBBFZM", 'K')]
@@ -128,15 +137,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal('R', rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal('B', rotors[EnigmaRotorPosition.Third].CurrentSetting);
-        }
-
-        [Fact]
-        public void Name()
-        {
-            IEnigmaSettings settings = new EnigmaSettings();
-            ICipher cipher = new Enigma(settings);
-            Assert.Equal("Enigma M3", cipher.CipherName);
-            Assert.Equal("Enigma M3", cipher.ToString());
         }
 
         [Fact]

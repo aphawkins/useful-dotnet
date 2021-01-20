@@ -63,11 +63,6 @@ namespace Useful.Security.Cryptography
         }
 
         /// <summary>
-        /// Generate default settings.
-        /// </summary>
-        public void DefaultSettings() => Settings = new ReflectorSettings() with { };
-
-        /// <summary>
         /// Generate random settings.
         /// </summary>
         public void GenerateSettings() => Settings = ReflectorSettingsGenerator.Generate() with { };
