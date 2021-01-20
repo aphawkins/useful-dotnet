@@ -6,13 +6,12 @@ namespace Useful.Security.Cryptography
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// The Reflector algorithm settings.
     /// </summary>
-    public sealed class ReflectorSettings : IReflectorSettings
+    public sealed record ReflectorSettings : IReflectorSettings
     {
         private IList<char> _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         private IList<char> _substitutions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();

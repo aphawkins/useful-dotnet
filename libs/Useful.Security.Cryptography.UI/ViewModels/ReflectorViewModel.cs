@@ -65,6 +65,11 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public void Decrypt() => Plaintext = _cipher.Decrypt(Ciphertext);
 
         /// <summary>
+        /// Defaults the settings.
+        /// </summary>
+        public void Defaults() => _cipher.DefaultSettings();
+
+        /// <summary>
         /// Randomizes the settings.
         /// </summary>
         public void Randomize() => _cipher.GenerateSettings();

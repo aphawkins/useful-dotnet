@@ -12,11 +12,11 @@ Useful.Security.Cryptography.Atbash.Atbash() -> void
 Useful.Security.Cryptography.Atbash.CipherName.get -> string!
 Useful.Security.Cryptography.Atbash.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.Atbash.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.Atbash.GenerateSettings() -> void
 Useful.Security.Cryptography.Caesar
 Useful.Security.Cryptography.Caesar.Caesar(Useful.Security.Cryptography.ICaesarSettings! settings) -> void
 Useful.Security.Cryptography.Caesar.CipherName.get -> string!
 Useful.Security.Cryptography.Caesar.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.Caesar.DefaultSettings() -> void
 Useful.Security.Cryptography.Caesar.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.Caesar.GenerateSettings() -> void
 Useful.Security.Cryptography.Caesar.Settings.get -> Useful.Security.Cryptography.ICaesarSettings!
@@ -37,6 +37,7 @@ Useful.Security.Cryptography.CipherRepository.Update(Useful.Security.Cryptograph
 Useful.Security.Cryptography.Enigma
 Useful.Security.Cryptography.Enigma.CipherName.get -> string!
 Useful.Security.Cryptography.Enigma.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.Enigma.DefaultSettings() -> void
 Useful.Security.Cryptography.Enigma.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.Enigma.Enigma(Useful.Security.Cryptography.IEnigmaSettings! settings) -> void
 Useful.Security.Cryptography.Enigma.GenerateSettings() -> void
@@ -107,7 +108,6 @@ Useful.Security.Cryptography.ICipher
 Useful.Security.Cryptography.ICipher.CipherName.get -> string!
 Useful.Security.Cryptography.ICipher.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ICipher.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.ICipher.GenerateSettings() -> void
 Useful.Security.Cryptography.IEnigmaPlugboard
 Useful.Security.Cryptography.IEnigmaPlugboard.SubstitutionCount.get -> int
 Useful.Security.Cryptography.IEnigmaPlugboard.Substitutions() -> System.Collections.Generic.IReadOnlyDictionary<char, char>!
@@ -152,6 +152,7 @@ Useful.Security.Cryptography.IReflectorSettings.this[char substitution].set -> v
 Useful.Security.Cryptography.MonoAlphabetic
 Useful.Security.Cryptography.MonoAlphabetic.CipherName.get -> string!
 Useful.Security.Cryptography.MonoAlphabetic.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.MonoAlphabetic.DefaultSettings() -> void
 Useful.Security.Cryptography.MonoAlphabetic.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.MonoAlphabetic.GenerateSettings() -> void
 Useful.Security.Cryptography.MonoAlphabetic.MonoAlphabetic(Useful.Security.Cryptography.IMonoAlphabeticSettings! settings) -> void
@@ -160,24 +161,22 @@ Useful.Security.Cryptography.MonoAlphabetic.Settings.set -> void
 Useful.Security.Cryptography.MonoAlphabeticSettings
 Useful.Security.Cryptography.MonoAlphabeticSettings.CharacterSet.get -> string!
 Useful.Security.Cryptography.MonoAlphabeticSettings.CharacterSet.init -> void
-Useful.Security.Cryptography.MonoAlphabeticSettings.MonoAlphabeticSettings() -> void
 Useful.Security.Cryptography.MonoAlphabeticSettings.Reverse(char letter) -> char
 Useful.Security.Cryptography.MonoAlphabeticSettings.SubstitutionCount.get -> int
 Useful.Security.Cryptography.MonoAlphabeticSettings.Substitutions.get -> string!
 Useful.Security.Cryptography.MonoAlphabeticSettings.Substitutions.init -> void
 Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].get -> char
 Useful.Security.Cryptography.MonoAlphabeticSettings.this[char substitution].set -> void
+Useful.Security.Cryptography.Reflector.DefaultSettings() -> void
 Useful.Security.Cryptography.Reflector.GenerateSettings() -> void
 Useful.Security.Cryptography.ReflectorSettings.CharacterSet.get -> System.Collections.Generic.IList<char>!
 Useful.Security.Cryptography.ReflectorSettings.CharacterSet.init -> void
-Useful.Security.Cryptography.ReflectorSettings.ReflectorSettings() -> void
 Useful.Security.Cryptography.ReflectorSettings.Substitutions.get -> System.Collections.Generic.IList<char>!
 Useful.Security.Cryptography.ReflectorSettings.Substitutions.init -> void
 Useful.Security.Cryptography.ROT13
 Useful.Security.Cryptography.ROT13.CipherName.get -> string!
 Useful.Security.Cryptography.ROT13.Decrypt(string! ciphertext) -> string!
 Useful.Security.Cryptography.ROT13.Encrypt(string! plaintext) -> string!
-Useful.Security.Cryptography.ROT13.GenerateSettings() -> void
 Useful.Security.Cryptography.ROT13.ROT13() -> void
 Useful.Security.Cryptography.Reflector
 Useful.Security.Cryptography.Reflector.CipherName.get -> string!

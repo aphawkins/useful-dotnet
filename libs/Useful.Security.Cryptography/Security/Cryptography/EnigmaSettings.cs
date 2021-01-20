@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Enigma algorithm settings.
     /// </summary>
-    public sealed class EnigmaSettings : IEnigmaSettings
+    public sealed record EnigmaSettings : IEnigmaSettings
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EnigmaSettings"/> class.

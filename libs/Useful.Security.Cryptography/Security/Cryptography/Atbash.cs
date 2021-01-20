@@ -40,11 +40,6 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString() => CipherName;
 
-        /// <inheritdoc />
-        public void GenerateSettings()
-        {
-        }
-
         private static char Encrypt(char letter)
         {
             if (letter is >= 'A' and <= 'Z')

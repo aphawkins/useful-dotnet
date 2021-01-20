@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Settings for the Caesar cipher.
     /// </summary>
-    public sealed class CaesarSettings : ICaesarSettings
+    public sealed record CaesarSettings : ICaesarSettings
     {
         /// <summary>
         /// The right shift.

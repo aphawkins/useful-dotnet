@@ -62,8 +62,15 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <inheritdoc />
-        public void GenerateSettings() => Settings = MonoAlphabeticSettingsGenerator.Generate();
+        /// <summary>
+        /// Generate default settings.
+        /// </summary>
+        public void DefaultSettings() => Settings = new MonoAlphabeticSettings() with { };
+
+        /// <summary>
+        /// Generate random settings.
+        /// </summary>
+        public void GenerateSettings() => Settings = MonoAlphabeticSettingsGenerator.Generate() with { };
 
         /// <inheritdoc />
         public override string ToString() => CipherName;

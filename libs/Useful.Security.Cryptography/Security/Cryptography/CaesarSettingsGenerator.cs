@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     internal sealed class CaesarSettingsGenerator
     {
-        public static ICaesarSettings Generate()
+        public static CaesarSettings Generate()
         {
             byte[] randomNumber = new byte[1];
             using RandomNumberGenerator rng = RandomNumberGenerator.Create();

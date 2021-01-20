@@ -5,13 +5,12 @@
 namespace Useful.Security.Cryptography
 {
     using System;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>
-    public sealed class MonoAlphabeticSettings : IMonoAlphabeticSettings
+    public sealed record MonoAlphabeticSettings : IMonoAlphabeticSettings
     {
         private string _characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private string _substitutions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

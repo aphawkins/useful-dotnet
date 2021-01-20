@@ -42,6 +42,7 @@ Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.CipherName.get -> str
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Defaults() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Plaintext.set -> void
@@ -66,6 +67,7 @@ Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.CipherName.get -> str
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Ciphertext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Defaults() -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.EnigmaViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.EnigmaViewModel.Plaintext.get -> string!
@@ -88,6 +90,7 @@ Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.CipherName.ge
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Ciphertext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Defaults() -> void
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.MonoAlphabeticViewModel() -> void
 Useful.Security.Cryptography.UI.ViewModels.MonoAlphabeticViewModel.Plaintext.get -> string!
@@ -102,6 +105,7 @@ Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.CipherName.get -> 
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Ciphertext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Defaults() -> void
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ReflectorViewModel.Plaintext.set -> void

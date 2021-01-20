@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     internal class ReflectorSettingsGenerator
     {
-        public static IReflectorSettings Generate()
+        public static ReflectorSettings Generate()
         {
             ReflectorSettings settings = new();
             List<char> allowedLettersCloneFrom = new(settings.CharacterSet);

@@ -78,8 +78,15 @@ namespace Useful.Security.Cryptography
             return sb.ToString();
         }
 
-        /// <inheritdoc />
-        public void GenerateSettings() => Settings = CaesarSettingsGenerator.Generate();
+        /// <summary>
+        /// Generates default settings.
+        /// </summary>
+        public void DefaultSettings() => Settings = new CaesarSettings() with { };
+
+        /// <summary>
+        /// Generates random settings.
+        /// </summary>
+        public void GenerateSettings() => Settings = CaesarSettingsGenerator.Generate() with { };
 
         /// <inheritdoc />
         public override string ToString() => CipherName;

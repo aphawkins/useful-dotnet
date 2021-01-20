@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     internal sealed class MonoAlphabeticSettingsGenerator
     {
-        public static IMonoAlphabeticSettings Generate()
+        public static MonoAlphabeticSettings Generate()
         {
             MonoAlphabeticSettings settings = new();
             IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
