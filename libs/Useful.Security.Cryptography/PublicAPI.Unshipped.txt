@@ -1,4 +1,5 @@
-﻿static Useful.Security.Cryptography.EnigmaRotors.RotorPositions.get -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.EnigmaRotorPosition>!
+﻿override Useful.Security.Cryptography.Vigenere.ToString() -> string!
+static Useful.Security.Cryptography.EnigmaRotors.RotorPositions.get -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.EnigmaRotorPosition>!
 static Useful.Security.Cryptography.EnigmaRotors.RotorSet.get -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
 Useful.IRepository<T>
 Useful.IRepository<T>.Create(T item) -> void
@@ -147,6 +148,9 @@ Useful.Security.Cryptography.IReflectorSettings.SubstitutionCount.get -> int
 Useful.Security.Cryptography.IReflectorSettings.Substitutions.get -> System.Collections.Generic.IList<char>!
 Useful.Security.Cryptography.IReflectorSettings.this[char substitution].get -> char
 Useful.Security.Cryptography.IReflectorSettings.this[char substitution].set -> void
+Useful.Security.Cryptography.IVigenereSettings
+Useful.Security.Cryptography.IVigenereSettings.Keyword.get -> string!
+Useful.Security.Cryptography.IVigenereSettings.Keyword.set -> void
 Useful.Security.Cryptography.MonoAlphabetic
 Useful.Security.Cryptography.MonoAlphabetic.CipherName.get -> string!
 Useful.Security.Cryptography.MonoAlphabetic.Decrypt(string! ciphertext) -> string!
@@ -192,3 +196,13 @@ override Useful.Security.Cryptography.Enigma.ToString() -> string!
 override Useful.Security.Cryptography.MonoAlphabetic.ToString() -> string!
 override Useful.Security.Cryptography.ROT13.ToString() -> string!
 override Useful.Security.Cryptography.Reflector.ToString() -> string!
+Useful.Security.Cryptography.Vigenere
+Useful.Security.Cryptography.Vigenere.CipherName.get -> string!
+Useful.Security.Cryptography.Vigenere.Decrypt(string! ciphertext) -> string!
+Useful.Security.Cryptography.Vigenere.Encrypt(string! plaintext) -> string!
+Useful.Security.Cryptography.Vigenere.Settings.get -> Useful.Security.Cryptography.IVigenereSettings!
+Useful.Security.Cryptography.Vigenere.Settings.set -> void
+Useful.Security.Cryptography.Vigenere.Vigenere(Useful.Security.Cryptography.IVigenereSettings! settings) -> void
+Useful.Security.Cryptography.VigenereSettings
+Useful.Security.Cryptography.VigenereSettings.Keyword.get -> string!
+Useful.Security.Cryptography.VigenereSettings.Keyword.set -> void

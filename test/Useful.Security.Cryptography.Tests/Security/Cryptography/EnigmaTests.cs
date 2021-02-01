@@ -51,16 +51,15 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Enigma_1941_07_07_19_25()
         {
-            StringBuilder sb = new();
-            sb.Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ");
-            sb.Append("FKTBZ REZKM LXLVE FGUEY SIOZV ");
-            sb.Append("EQMIK UBPMM YLKLT TDEIS MDICA ");
-            sb.Append("GYKUA CTCDO MOHWX MUUIA UBSTS ");
-            sb.Append("LRNBZ SZWNR FXWFY SSXJZ VIJHI ");
-            sb.Append("DISHP RKLKA YUPAD TXQSP INQMA ");
-            sb.Append("TLPIF SVKDA SCTAC DPBOP VHJK");
-
-            string ciphertext = sb.ToString();
+            string ciphertext = new StringBuilder()
+                .Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ")
+                .Append("FKTBZ REZKM LXLVE FGUEY SIOZV ")
+                .Append("EQMIK UBPMM YLKLT TDEIS MDICA ")
+                .Append("GYKUA CTCDO MOHWX MUUIA UBSTS ")
+                .Append("LRNBZ SZWNR FXWFY SSXJZ VIJHI ")
+                .Append("DISHP RKLKA YUPAD TXQSP INQMA ")
+                .Append("TLPIF SVKDA SCTAC DPBOP VHJK")
+                .ToString();
 
             // Reflector: B
             // Wheel order: II IV V
@@ -119,16 +118,15 @@ namespace Useful.Security.Cryptography.Tests
             };
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
-            sb = new StringBuilder();
-            sb.Append("AUFKL XABTE ILUNG XVONX KURTI ");
-            sb.Append("NOWAX KURTI NOWAX NORDW ESTLX ");
-            sb.Append("SEBEZ XSEBE ZXUAF FLIEG ERSTR ");
-            sb.Append("ASZER IQTUN GXDUB ROWKI XDUBR ");
-            sb.Append("OWKIX OPOTS CHKAX OPOTS CHKAX ");
-            sb.Append("UMXEI NSAQT DREIN ULLXU HRANG ");
-            sb.Append("ETRET ENXAN GRIFF XINFX RGTX");
-
-            string plaintext = sb.ToString();
+            string plaintext = new StringBuilder()
+                .Append("AUFKL XABTE ILUNG XVONX KURTI ")
+                .Append("NOWAX KURTI NOWAX NORDW ESTLX ")
+                .Append("SEBEZ XSEBE ZXUAF FLIEG ERSTR ")
+                .Append("ASZER IQTUN GXDUB ROWKI XDUBR ")
+                .Append("OWKIX OPOTS CHKAX OPOTS CHKAX ")
+                .Append("UMXEI NSAQT DREIN ULLXU HRANG ")
+                .Append("ETRET ENXAN GRIFF XINFX RGTX")
+                .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
@@ -142,13 +140,14 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void PracticalCryptography()
         {
-            StringBuilder ciphertext = new();
-            ciphertext.Append("YXBMXADQBDBAAYIMKDODAYIXNBDQZF");
-            ciphertext.Append("JKOLFVEEQBCLUUXDFVQYGKEYBVRHON");
-            ciphertext.Append("JKPJMKUNLYLZUKBKJOAJTWVWMOMDPG");
-            ciphertext.Append("VXEPUKXBVSGHROFOSBCNKEHEHAKWKO");
-            ciphertext.Append("GWTBZFXSYCGSUUPPIZTRTFVCXZVCXT");
-            ciphertext.Append("FLMTPTAQVMREGWSBFZBM");
+            string ciphertext = new StringBuilder()
+                .Append("YXBMXADQBDBAAYIMKDODAYIXNBDQZF")
+                .Append("JKOLFVEEQBCLUUXDFVQYGKEYBVRHON")
+                .Append("JKPJMKUNLYLZUKBKJOAJTWVWMOMDPG")
+                .Append("VXEPUKXBVSGHROFOSBCNKEHEHAKWKO")
+                .Append("GWTBZFXSYCGSUUPPIZTRTFVCXZVCXT")
+                .Append("FLMTPTAQVMREGWSBFZBM")
+                .ToString();
 
             // Reflector: B
             // Wheel order: II V I
@@ -204,13 +203,14 @@ namespace Useful.Security.Cryptography.Tests
 
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
-            StringBuilder plaintext = new();
-            plaintext.Append("THEENIGMACIPHERWASAFIELDCIPHER");
-            plaintext.Append("USEDBYTHEGERMANSDURINGWORLDWAR");
-            plaintext.Append("IITHEENIGMAISONEOFTHEBETTERKNO");
-            plaintext.Append("WNHISTORICALENCRYPTIONMACHINES");
-            plaintext.Append("ANDITACTUALLYREFERSTOARANGEOFS");
-            plaintext.Append("IMILARCIPHERMACHINES");
+            string plaintext = new StringBuilder()
+                .Append("THEENIGMACIPHERWASAFIELDCIPHER")
+                .Append("USEDBYTHEGERMANSDURINGWORLDWAR")
+                .Append("IITHEENIGMAISONEOFTHEBETTERKNO")
+                .Append("WNHISTORICALENCRYPTIONMACHINES")
+                .Append("ANDITACTUALLYREFERSTOARANGEOFS")
+                .Append("IMILARCIPHERMACHINES")
+                .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
@@ -224,24 +224,23 @@ namespace Useful.Security.Cryptography.Tests
         [Fact(Skip = "Settings uncertain.")]
         public void SinghCodeBook()
         {
-            StringBuilder sb = new();
-            sb.Append("KJQPW CAISR XWQMA SEUPF OCZOQ");
-            sb.Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ");
-            sb.Append("HRCCF QLVRP CCWLW PUYON FHOGD");
-            sb.Append("DMOJX GGBHW WUXNJ EZAXF UMEYS");
-            sb.Append("ECSMA ZFXNN ASSZG WRBDD MAPGM");
-            sb.Append("RWTGX XZAXL BXCPH ZBOUY VRRVF");
-            sb.Append("DKHXM QOGYL YYCUW QBTAD RLBOZ");
-            sb.Append("KYXQP WUUAF MIZTC EAXBC REDHZ");
-            sb.Append("JDOPS QTNLI HIQHN MJZUH SMVAH");
-            sb.Append("HQJLI JRRXQ ZNFKH UIINZ PMPAF");
-            sb.Append("LHYON MRMDA DFOXT YOPEW EJGEC");
-            sb.Append("AHPYF VMCIX AQDYI AGZXL DTFJW");
-            sb.Append("JQZMG BSNER MIPCK POVLT HZOTU");
-            sb.Append("XQLRS RZNQL DHXHL GHYDN ZKVBF");
-            sb.Append("DMXRZ BROMD PRUXH MFSHJ");
-
-            string ciphertext = sb.ToString();
+            string ciphertext = new StringBuilder()
+                .Append("KJQPW CAISR XWQMA SEUPF OCZOQ")
+                .Append("ZVGZG WWKYE ZVTEM TPZHV NOTKZ")
+                .Append("HRCCF QLVRP CCWLW PUYON FHOGD")
+                .Append("DMOJX GGBHW WUXNJ EZAXF UMEYS")
+                .Append("ECSMA ZFXNN ASSZG WRBDD MAPGM")
+                .Append("RWTGX XZAXL BXCPH ZBOUY VRRVF")
+                .Append("DKHXM QOGYL YYCUW QBTAD RLBOZ")
+                .Append("KYXQP WUUAF MIZTC EAXBC REDHZ")
+                .Append("JDOPS QTNLI HIQHN MJZUH SMVAH")
+                .Append("HQJLI JRRXQ ZNFKH UIINZ PMPAF")
+                .Append("LHYON MRMDA DFOXT YOPEW EJGEC")
+                .Append("AHPYF VMCIX AQDYI AGZXL DTFJW")
+                .Append("JQZMG BSNER MIPCK POVLT HZOTU")
+                .Append("XQLRS RZNQL DHXHL GHYDN ZKVBF")
+                .Append("DMXRZ BROMD PRUXH MFSHJ")
+                .ToString();
 
             // Reflector: B
             // Wheel order: III I II (Possibly III II I)
@@ -297,24 +296,23 @@ namespace Useful.Security.Cryptography.Tests
 
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(plugs);
 
-            sb = new();
-            sb.Append("DASXL OESUN GSWOR TXIST XPLUT");
-            sb.Append("OXXST UFEXN EUNXE NTHAE LTXEI");
-            sb.Append("NEXMI TTEIL UNGXD IEXMI TXDES");
-            sb.Append("XENTK ODIER TXIST XXICH XHABE");
-            sb.Append("XDASX LINKS STEHE NDEXB YTEXD");
-            sb.Append("ESXSC HLUES SELSX ENTDE CKTXX");
-            sb.Append("ESXIS TXEIN SXEIN SXZER OXEIN");
-            sb.Append("SXZER OXZER OXEIN SXEIN SXEIN");
-            sb.Append("SXXIC HXPRO GRAMM IERTE XDESX");
-            sb.Append("UNDXE NTDEC KTEXD ASSXD ASXWO");
-            sb.Append("RTXDE BUGGE RXWEN NXESX MITXD");
-            sb.Append("EMXUN TENST EHEND ENXSC HLUES");
-            sb.Append("SELXE NTKOD IERTX WIRDX ALSXR");
-            sb.Append("ESULT ATXDI EXUNT ENSTE HENDE");
-            sb.Append("NXSCH RIFTZ EICHE NXHAT");
-
-            string plaintext = sb.ToString();
+            string plaintext = new StringBuilder()
+                .Append("DASXL OESUN GSWOR TXIST XPLUT")
+                .Append("OXXST UFEXN EUNXE NTHAE LTXEI")
+                .Append("NEXMI TTEIL UNGXD IEXMI TXDES")
+                .Append("XENTK ODIER TXIST XXICH XHABE")
+                .Append("XDASX LINKS STEHE NDEXB YTEXD")
+                .Append("ESXSC HLUES SELSX ENTDE CKTXX")
+                .Append("ESXIS TXEIN SXEIN SXZER OXEIN")
+                .Append("SXZER OXZER OXEIN SXEIN SXEIN")
+                .Append("SXXIC HXPRO GRAMM IERTE XDESX")
+                .Append("UNDXE NTDEC KTEXD ASSXD ASXWO")
+                .Append("RTXDE BUGGE RXWEN NXESX MITXD")
+                .Append("EMXUN TENST EHEND ENXSC HLUES")
+                .Append("SELXE NTKOD IERTX WIRDX ALSXR")
+                .Append("ESULT ATXDI EXUNT ENSTE HENDE")
+                .Append("NXSCH RIFTZ EICHE NXHAT")
+                .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
