@@ -34,15 +34,19 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(plaintext));
             }
 
+            if (string.IsNullOrEmpty(Settings.Keyword))
+            {
+                return plaintext.ToUpper();
+            }
+
             CaesarSettings caesarSettings = new CaesarSettings();
             Caesar caesar = new Caesar(caesarSettings);
             StringBuilder ciphertext = new StringBuilder();
             int i = 0;
 
-            foreach (char letter in plaintext)
+            foreach (char letter in plaintext.ToUpper())
             {
-                if (letter is (>= 'A' and <= 'Z')
-                    or (>= 'a' and <= 'z'))
+                if (letter is >= 'A' and <= 'Z')
                 {
                     caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
                     ciphertext.Append(caesar.Encrypt(letter));
@@ -65,15 +69,19 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(ciphertext));
             }
 
+            if (string.IsNullOrEmpty(Settings.Keyword))
+            {
+                return ciphertext.ToUpper();
+            }
+
             CaesarSettings caesarSettings = new CaesarSettings();
             Caesar caesar = new Caesar(caesarSettings);
             StringBuilder plaintext = new StringBuilder();
             int i = 0;
 
-            foreach (char letter in ciphertext)
+            foreach (char letter in ciphertext.ToUpper())
             {
-                if (letter is (>= 'A' and <= 'Z')
-                    or (>= 'a' and <= 'z'))
+                if (letter is >= 'A' and <= 'Z')
                 {
                     caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
                     plaintext.Append(caesar.Decrypt(letter));

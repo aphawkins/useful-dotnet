@@ -123,6 +123,18 @@ Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Encrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.Plaintext.set -> void
 Useful.Security.Cryptography.UI.ViewModels.ROT13ViewModel.ROT13ViewModel() -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.CipherName.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Ciphertext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Decrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Defaults() -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Encrypt() -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Keyword.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Keyword.set -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Plaintext.get -> string!
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.Plaintext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.VigenereViewModel.VigenereViewModel() -> void
 Useful.Security.Cryptography.UI.Views.ICipherSettingsView
 Useful.Security.Cryptography.UI.Views.ICipherView
 Useful.Security.Cryptography.UI.Views.ICipherView.ShowCiphertext(string! ciphertext) -> void

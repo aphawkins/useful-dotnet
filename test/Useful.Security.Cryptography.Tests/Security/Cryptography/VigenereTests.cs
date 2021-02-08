@@ -4,7 +4,6 @@
 
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Linq;
     using System.Text;
     using Useful.Security.Cryptography;
     using Xunit;
@@ -25,6 +24,8 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ATTACKATDAWN", "LxFoPvEfRnHr", "LEMON")]
+        [InlineData("ATTACKATDAWN", "ATTACKatDAWN", "")]
         public void Decrypt(string plaintext, string ciphertext, string keyword)
         {
             Vigenere cipher = new(new VigenereSettings());
@@ -34,6 +35,8 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("AtTaCkAtDaWn", "LXFOPVEFRNHR", "LEMON")]
+        [InlineData("ATTACKatDAWN", "ATTACKATDAWN", "")]
         public void Encrypt(string plaintext, string ciphertext, string keyword)
         {
             Vigenere cipher = new(new VigenereSettings());
