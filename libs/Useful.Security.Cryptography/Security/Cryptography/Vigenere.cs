@@ -39,9 +39,9 @@ namespace Useful.Security.Cryptography
                 return plaintext.ToUpper();
             }
 
-            CaesarSettings caesarSettings = new CaesarSettings();
-            Caesar caesar = new Caesar(caesarSettings);
-            StringBuilder ciphertext = new StringBuilder();
+            CaesarSettings caesarSettings = new();
+            Caesar caesar = new(caesarSettings);
+            StringBuilder ciphertext = new();
             int i = 0;
 
             foreach (char letter in plaintext.ToUpper())
@@ -74,9 +74,9 @@ namespace Useful.Security.Cryptography
                 return ciphertext.ToUpper();
             }
 
-            CaesarSettings caesarSettings = new CaesarSettings();
-            Caesar caesar = new Caesar(caesarSettings);
-            StringBuilder plaintext = new StringBuilder();
+            CaesarSettings caesarSettings = new();
+            Caesar caesar = new(caesarSettings);
+            StringBuilder plaintext = new();
             int i = 0;
 
             foreach (char letter in ciphertext.ToUpper())
