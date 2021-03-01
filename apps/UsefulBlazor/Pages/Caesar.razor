@@ -3,43 +3,35 @@
 
 <h1>@cipher.CipherName Cipher</h1>
 
-<table class="table">
-    <tr>
-        <td><label>Plaintext</label></td>
-        <td><label>Ciphertext</label></td>
-    </tr>
-    <tr>
-        <td><input @bind="cipher.Plaintext" /></td>
-        <td><input @bind="cipher.Ciphertext" /></td>
-    </tr>
-    <tr>
-        <td>
-            <label>Shift</label>
-            <select @bind="cipher.SelectedShift">
-                @foreach (int shift in cipher.Shifts)
-                {
-                    <option value="@shift">@shift</option>
-                }
-            </select>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button>
+<div class="container">
+    <div class="row">
+        <div class="left">Plainttext</div>
+        <div class="right">Ciphertext</div>
+    </div>
+    <div class="row">
+        <div class="left"><input @bind="cipher.Plaintext" /></div>
+        <div class="right"><input @bind="cipher.Ciphertext" /></div>
+    </div>
+    <div class="row">
+        <div>Shift</div>
+        <select @bind="cipher.SelectedShift">
+            @foreach (int shift in cipher.Shifts)
+            {
+                <option value="@shift">@shift</option>
+            }
+        </select>
+    </div>
+    <div class="row">
+        <div><button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button></div>
+        <div>
             <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
-        </td>
-        <td>
-            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="left"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
+        <div class="right"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
+    </div>
+</div>
 
 @code {
     CaesarViewModel cipher = new();

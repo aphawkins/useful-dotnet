@@ -1,0 +1,20 @@
+﻿.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+    .row > div {
+        margin: 5px;
+    }
+
+.left {
+    width: 300px;
+}
+
+.right {
+    width: 300px;
+}
