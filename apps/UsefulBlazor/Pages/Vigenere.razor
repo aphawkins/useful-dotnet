@@ -3,37 +3,27 @@
 
 <h1>@cipher.CipherName Cipher</h1>
 
-<table class="table">
-    <tr>
-        <td><label>Plaintext</label></td>
-        <td><label>Ciphertext</label></td>
-    </tr>
-    <tr>
-        <td><input @bind="cipher.Plaintext" /></td>
-        <td><input @bind="cipher.Ciphertext" /></td>
-    </tr>
-    <tr>
-        <td>
-            <label>Keyword</label>
-            <input @bind="cipher.Keyword" />
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
-        </td>
-        <td>
-            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
-        </td>
-    </tr>
-</table>
+<div class="cipher_container">
+    <div class="cipher_row">
+        <div class="cipher_half_width">Plaintext</div>
+        <div class="cipher_half_width">Ciphertext</div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
+        <div class="cipher_half_width"><input @bind="cipher.Ciphertext" /></div>
+    </div>
+    <div class="cipher_row">
+        <div>Keyword</div>
+        <input @bind="cipher.Keyword" />
+    </div>
+    <div class="cipher_row">
+        <div><button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button></div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
+        <div class="cipher_half_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
+    </div>
+</div>
 
 @code {
     VigenereViewModel cipher = new();

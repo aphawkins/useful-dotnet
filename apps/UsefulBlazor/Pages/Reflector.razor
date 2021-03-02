@@ -3,65 +3,48 @@
 
 <h1>@cipher.CipherName Cipher</h1>
 
-<table class="table">
-    <tr>
-        <td><label>Plaintext</label></td>
-        <td><label>Ciphertext</label></td>
-    </tr>
-    <tr>
-        <td><input @bind="cipher.Plaintext" /></td>
-        <td><input @bind="cipher.Ciphertext" /></td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <table class="table">
-                <tr>
-                    <td>
-                        <label>Character</label>
-                    </td>
+<div class="cipher_container">
+    <div class="cipher_row">
+        <div class="cipher_half_width">Plaintext</div>
+        <div class="cipher_half_width">Ciphertext</div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
+        <div class="cipher_half_width"><input @bind="cipher.Ciphertext" /></div>
+    </div>
+    <div class="cipher_row">
+        @foreach (char c in cipher.CharacterSet)
+        {
+            <div class="cipher_alphabet_width">
+                @c
+            </div>
+        }
+    </div>
+    <div class="cipher_row">
+        @foreach (char sub in cipher.CharacterSet)
+        {
+            <div class="cipher_alphabet_width">
+                <select id=@sub
+                        @bind="@cipher[sub]">
                     @foreach (char c in cipher.CharacterSet)
                     {
-                        <td>
-                            <label>@c</label>
-                        </td>
+                        <option value="@c">@c</option>
                     }
-                </tr>
-                <tr>
-                    <td>
-                        <label>Reflection</label>
-                    </td>
-                    @foreach (char sub in cipher.CharacterSet)
-                    {
-                        <td>
-                            <select id=@sub
-                                    @bind="@cipher[sub]">
-                                @foreach (char c in cipher.CharacterSet)
-                                {
-                                    <option value="@c">@c</option>
-                                }
-                            </select>
-                        </td>
-                    }
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button>
+                </select>
+            </div>
+        }
+    </div>
+    <div class="cipher_row">
+        <div><button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button></div>
+        <div>
             <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
-        </td>
-        <td>
-            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
+        <div class="cipher_half_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
+    </div>
+</div>
 
 @code {
     ReflectorViewModel cipher = new();

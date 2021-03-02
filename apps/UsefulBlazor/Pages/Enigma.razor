@@ -3,108 +3,89 @@
 
 <h1>@cipher.CipherName Cipher</h1>
 
-<table class="table">
-    <tr>
-        <td><label>Plaintext</label></td>
-        <td><label>Ciphertext</label></td>
-    </tr>
-    <tr>
-        <td><input @bind="cipher.Plaintext" /></td>
-        <td><input @bind="cipher.Ciphertext" /></td>
-    </tr>
-    <tr>
-        <td>
-            <label>Reflector</label>
+<div class="cipher_container">
+    <div class="cipher_row">
+        <div class="cipher_half_width">Plaintext</div>
+        <div class="cipher_half_width">Ciphertext</div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
+        <div class="cipher_half_width"><input @bind="cipher.Ciphertext" /></div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_quarter_width">Reflector</div>
+        <div class="cipher_quarter_width">
             <select @bind="cipher.ReflectorNumber">
+
                 @foreach (string reflector in cipher.Reflectors)
                 {
+
                     <option value="@reflector">@reflector</option>
+
                 }
             </select>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td colspan="2">
-            <table class="table">
-                <tr>
-                    <td>
-                        <label>Rotor Position</label>
-                    </td>
-                    @foreach (string position in cipher.RotorPositions)
+        </div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_quarter_width">Rotor Position</div>
+        @foreach (string position in cipher.RotorPositions)
+        {
+            <div class="cipher_quarter_width">@position</div>
+        }
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_quarter_width">Rotor</div>
+        @foreach (string position in cipher.RotorPositions)
+        {
+            <div class="cipher_quarter_width">
+                <select id="rotor_@position" @bind="cipher.RotorNumber[position]">
+                    @foreach (string rotor in cipher.RotorNumbers)
                     {
-                        <td>
-                            <label>@position</label>
-                        </td>
+                        <option value="@rotor">@rotor</option>
                     }
-                </tr>
-                <tr>
-                    <td>
-                        <label>Rotor</label>
-                    </td>
-                    @foreach (string position in cipher.RotorPositions)
+                </select>
+            </div>
+        }
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_quarter_width">Ring</div>
+        @foreach (string position in cipher.RotorPositions)
+        {
+            <div class="cipher_quarter_width">
+                <select id="ring_@position" @bind="cipher.RingPosition[position]">
+                    @foreach (int ring in cipher.RingPositions)
                     {
-                        <td>
-                            <select id="rotor_@position" @bind="cipher.RotorNumber[position]">
-                                @foreach (string rotor in cipher.RotorNumbers)
-                                {
-                                    <option value="@rotor">@rotor</option>
-                                }
-                            </select>
-                        </td>
+                        <option value="@ring">@ring</option>
                     }
-                </tr>
-                <tr>
-                    <td>
-                        <label>Ring</label>
-                    </td>
-                    @foreach (string position in cipher.RotorPositions)
+                </select>
+            </div>
+        }
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_quarter_width">Setting</div>
+        @foreach (string position in cipher.RotorPositions)
+        {
+            <div class="cipher_quarter_width">
+                <select id="setting_@position" @bind="cipher.RotorSetting[position]">
+                    @foreach (char setting in cipher.RotorSettings)
                     {
-                        <td>
-                            <select id="ring_@position" @bind="cipher.RingPosition[position]">
-                                @foreach (int ring in cipher.RingPositions)
-                                {
-                                    <option value="@ring">@ring</option>
-                                }
-                            </select>
-                        </td>
+                        <option value="@setting">@setting</option>
                     }
-                </tr>
-                <tr>
-                    <td>
-                        <label>Setting</label>
-                    </td>
-                    @foreach (string position in cipher.RotorPositions)
-                    {
-                        <td>
-                            <select id="setting_@position" @bind="cipher.RotorSetting[position]">
-                                @foreach (char setting in cipher.RotorSettings)
-                                {
-                                    <option value="@setting">@setting</option>
-                                }
-                            </select>
-                        </td>
-                    }
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button>
+                </select>
+            </div>
+        }
+    </div>
+    <div class="cipher_row">
+        <div><button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button></div>
+        <div>
             <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
-        </td>
-        <td />
-    </tr>
-    <tr>
-        <td>
-            <button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button>
-        </td>
-        <td>
-            <button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+    <div class="cipher_row">
+        <div class="cipher_half_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
+        <div class="cipher_half_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
+    </div>
+</div>
 
 @code {
     EnigmaViewModel cipher = new();
