@@ -49,7 +49,7 @@ namespace Useful.Security.Cryptography
             }
             else if (letter is >= 'a' and <= 'z')
             {
-                return (char)('z' - (letter % 'a'));
+                return (char)('Z' - (letter % 'a'));
             }
             else
             {

@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography.Tests
     public class AtbashViewModelTests
     {
         [Theory]
-        [InlineData("Hello", "Svool")]
+        [InlineData("Hello", "SVOOL")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             AtbashViewModel viewmodel = new();
@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("Svool", "Hello")]
+        [InlineData("SVOOL", "Hello")]
         public void Decrypt(string plaintext, string ciphertext)
         {
             AtbashViewModel viewmodel = new();

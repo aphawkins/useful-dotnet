@@ -12,13 +12,13 @@ namespace Useful.Security.Cryptography.Tests
         public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
-            { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", ">?@ [\\]" },
             { "Å", "Å" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
             Atbash cipher = new();
@@ -27,6 +27,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
             Atbash cipher = new();

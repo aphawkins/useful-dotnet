@@ -15,7 +15,6 @@ namespace Useful.Security.Cryptography.Tests
         public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
-            { "abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba" },
             { ">?@ [\\]", ">?@ [\\]" },
             { "Å", "Å" },
         };
@@ -30,6 +29,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         public void Decrypt(string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new AtbashSymmetric();
@@ -38,6 +38,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new AtbashSymmetric();
