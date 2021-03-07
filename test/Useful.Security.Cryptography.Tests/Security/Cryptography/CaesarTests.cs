@@ -14,7 +14,6 @@ namespace Useful.Security.Cryptography.Tests
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3 },
-            { "abcdefghijklmnopqrstuvwxyz", "defghijklmnopqrstuvwxyzabc", 3 },
             { ">?@ [\\]", ">?@ [\\]", 3 },
             { "Å", "Å", 3 },
         };
@@ -28,6 +27,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "defghijklmnopqrstuvwxyzabc", 3)]
         public void Decrypt(string plaintext, string ciphertext, int rightShift)
         {
             Caesar cipher = new(new CaesarSettings());
@@ -37,6 +37,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3)]
         public void Encrypt(string plaintext, string ciphertext, int rightShift)
         {
             Caesar cipher = new(new CaesarSettings());

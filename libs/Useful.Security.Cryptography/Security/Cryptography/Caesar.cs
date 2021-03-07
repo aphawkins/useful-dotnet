@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography
             // Lowercase
             else if (letter is >= 'a' and <= 'z')
             {
-                return (char)(((letter - 'a' + Settings.RightShift) % 26) + 'a');
+                return (char)(((letter - 'a' + Settings.RightShift) % 26) + 'A');
             }
             else
             {
@@ -100,7 +100,7 @@ namespace Useful.Security.Cryptography
             // Lowercase
             else if (letter is >= 'a' and <= 'z')
             {
-                return (char)(((letter - 'a' + 26 - Settings.RightShift) % 26) + 'a');
+                return (char)(((letter - 'a' + 26 - Settings.RightShift) % 26) + 'A');
             }
             else
             {

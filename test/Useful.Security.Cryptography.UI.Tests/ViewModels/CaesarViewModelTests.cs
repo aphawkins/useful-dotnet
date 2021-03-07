@@ -12,7 +12,7 @@ namespace Useful.Security.Cryptography.Tests
     public class CaesarViewModelTests
     {
         [Theory]
-        [InlineData("Hello", "Mjqqt", 5)]
+        [InlineData("Hello", "MJQQT", 5)]
         public void Encrypt(string plaintext, string ciphertext, int selectedShift)
         {
             CaesarViewModel viewmodel = new();
@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("Hello", "Mjqqt", 5)]
+        [InlineData("HELLO", "Mjqqt", 5)]
         public void Decrypt(string plaintext, string ciphertext, int selectedShift)
         {
             CaesarViewModel viewmodel = new();
