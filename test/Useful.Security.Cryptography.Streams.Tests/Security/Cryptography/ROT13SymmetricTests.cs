@@ -15,7 +15,6 @@ namespace Useful.Security.Cryptography.Tests
         public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
-            { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
             { ">?@ [\\]", ">?@ [\\]" },
             { "Å", "Å" },
         };
@@ -30,14 +29,16 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "nopqrstuvwxyzabcdefghijklm")]
         public void Decrypt(string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new ROT13Symmetric();
-            Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, plaintext));
+            Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             using SymmetricAlgorithm cipher = new ROT13Symmetric();

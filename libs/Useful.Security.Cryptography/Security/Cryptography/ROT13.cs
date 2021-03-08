@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography
                 // Lowercase
                 else if (c is >= 'a' and <= 'z')
                 {
-                    sb.Append((char)(((c - 'a' + 13) % 26) + 'a'));
+                    sb.Append((char)(((c - 'a' + 13) % 26) + 'A'));
                 }
                 else
                 {

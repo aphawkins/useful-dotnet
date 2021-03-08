@@ -12,13 +12,13 @@ namespace Useful.Security.Cryptography.Tests
         public static TheoryData<string, string> Data => new()
         {
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
-            { "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm" },
             { ">?@ [\\]", ">?@ [\\]" },
             { "Å", "Å" },
         };
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "nopqrstuvwxyzabcdefghijklm")]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
             ROT13 cipher = new();
@@ -27,6 +27,7 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(Data))]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
             ROT13 cipher = new();

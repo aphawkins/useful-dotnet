@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography.Tests
     public class ROT13ViewModelTests
     {
         [Theory]
-        [InlineData("Hello", "Uryyb")]
+        [InlineData("Hello", "URYYB")]
         public void Encrypt(string plaintext, string ciphertext)
         {
             ROT13ViewModel viewmodel = new();
@@ -20,7 +20,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Theory]
-        [InlineData("Uryyb", "Hello")]
+        [InlineData("URYYB", "Hello")]
         public void Decrypt(string plaintext, string ciphertext)
         {
             ROT13ViewModel viewmodel = new();
