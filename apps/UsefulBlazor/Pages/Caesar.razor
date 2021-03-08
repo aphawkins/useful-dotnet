@@ -5,11 +5,13 @@
 
 <div class="cipher_container">
     <div class="cipher_row">
-        <div class="cipher_half_width">Plaintext</div>
-        <div class="cipher_half_width">Ciphertext</div>
+        <div class="cipher_fixed_width">Plaintext</div>
+        <div class="cipher_fixed_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
+        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
     </div>
     <div class="cipher_row">
-        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
+        <div class="cipher_fixed_width">Ciphertext</div>
+        <div class="cipher_fixed_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
         <div class="cipher_half_width"><input @bind="cipher.Ciphertext" /></div>
     </div>
     <div class="cipher_row">
@@ -26,11 +28,16 @@
         <div>
             <button class=" btn btn-primary" @onclick="cipher.Randomize">Randomise</button>
         </div>
+        <div>
+            <button class=" btn btn-primary" @onclick="cipher.Crack">Crack</button>
+        </div>
     </div>
-    <div class="cipher_row">
-        <div class="cipher_half_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
-        <div class="cipher_half_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
-    </div>
+    @foreach (var crack in cipher.Cracks)
+    {
+        <div class="cipher_row">
+            <div>@crack.Key</div><div>@crack.Value</div>
+        </div>
+    }
 </div>
 
 @code {

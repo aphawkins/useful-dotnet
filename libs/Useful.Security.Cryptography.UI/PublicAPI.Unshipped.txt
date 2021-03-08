@@ -41,6 +41,8 @@ Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.CaesarViewModel() -> 
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.CipherName.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.get -> string!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Ciphertext.set -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Crack() -> void
+Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Cracks.get -> System.Collections.Generic.IDictionary<int, string!>!
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Decrypt() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Defaults() -> void
 Useful.Security.Cryptography.UI.ViewModels.CaesarViewModel.Encrypt() -> void

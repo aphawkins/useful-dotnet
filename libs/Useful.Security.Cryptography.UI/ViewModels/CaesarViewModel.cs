@@ -48,6 +48,11 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public IEnumerable<int> Shifts => Enumerable.Range(0, 26);
 
         /// <summary>
+        /// Gets results of the crack.
+        /// </summary>
+        public IDictionary<int, string> Cracks { get; private set; } = new Dictionary<int, string>();
+
+        /// <summary>
         /// Gets or sets the selected shift.
         /// </summary>
         public int SelectedShift
@@ -85,5 +90,16 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// Randomizes the settings.
         /// </summary>
         public void Randomize() => _cipher.GenerateSettings();
+
+        /// <summary>
+        /// Cracks the cipher.
+        /// </summary>
+        public void Crack()
+        {
+            (int bestShift, IDictionary<int, string> allDecryptions) = CaesarCrack.Crack(Ciphertext);
+            SelectedShift = bestShift;
+            Cracks = new Dictionary<int, string>(allDecryptions);
+            Plaintext = Cracks[bestShift];
+        }
     }
 }

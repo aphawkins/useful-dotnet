@@ -22,3 +22,7 @@
 .cipher_alphabet_width {
     width: calc(800px / 26);
 }
+
+.cipher_fixed_width {
+    width: 100px;
+}

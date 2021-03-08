@@ -1,4 +1,5 @@
 ﻿override Useful.Security.Cryptography.Vigenere.ToString() -> string!
+static Useful.Security.Cryptography.CaesarCrack.Crack(string! ciphertext) -> (int BestShift, System.Collections.Generic.IDictionary<int, string!>! AllDecryptions)
 static Useful.Security.Cryptography.EnigmaRotors.RotorPositions.get -> System.Collections.Generic.IEnumerable<Useful.Security.Cryptography.EnigmaRotorPosition>!
 static Useful.Security.Cryptography.EnigmaRotors.RotorSet.get -> System.Collections.Generic.IList<Useful.Security.Cryptography.EnigmaRotorNumber>!
 Useful.IRepository<T>
@@ -21,6 +22,7 @@ Useful.Security.Cryptography.Caesar.Encrypt(string! plaintext) -> string!
 Useful.Security.Cryptography.Caesar.GenerateSettings() -> void
 Useful.Security.Cryptography.Caesar.Settings.get -> Useful.Security.Cryptography.ICaesarSettings!
 Useful.Security.Cryptography.Caesar.Settings.set -> void
+Useful.Security.Cryptography.CaesarCrack
 Useful.Security.Cryptography.CaesarSettings
 Useful.Security.Cryptography.CaesarSettings.CaesarSettings() -> void
 Useful.Security.Cryptography.CaesarSettings.RightShift.get -> int
