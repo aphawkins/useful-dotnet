@@ -5,6 +5,7 @@
 
 .cipher_row {
     display: flex;
+    align-items: center;
 }
 
     .cipher_row > div {
