@@ -15,7 +15,7 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public string Decrpyt([FromBody] string ciphertext)
         {
-            using ROT13 cipher = new();
+            ROT13 cipher = new();
             return cipher.Decrypt(ciphertext);
         }
 
@@ -23,7 +23,7 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public string Encrpyt([FromBody] string plaintext)
         {
-            using ROT13 cipher = new();
+            ROT13 cipher = new();
             return cipher.Encrypt(plaintext);
         }
     }
