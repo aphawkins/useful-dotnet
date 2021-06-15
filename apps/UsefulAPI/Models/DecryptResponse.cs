@@ -1,12 +1,12 @@
-﻿// <copyright file="TestResponse.cs" company="APH Software">
+﻿// <copyright file="DecryptResponse.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
 namespace UsefulAPI
 {
-    public class TestResponse : ITest
+    public class DecryptResponse
     {
-        public string? Ciphertext
+        public string? Plaintext
         {
             get;
             set;

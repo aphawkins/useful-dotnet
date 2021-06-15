@@ -13,18 +13,24 @@ namespace UsefulAPI.Controllers
     {
         // POST api/v1/rot13/decrypt
         [HttpPost]
-        public string Decrpyt([FromBody] string ciphertext)
+        public ActionResult<DecryptResponse> Decrypt([FromBody] string ciphertext)
         {
             ROT13 cipher = new();
-            return cipher.Decrypt(ciphertext);
+            return new DecryptResponse()
+            {
+                Plaintext = cipher.Decrypt(ciphertext),
+            };
         }
 
         // POST api/v1/rot13/encrypt
         [HttpPost]
-        public string Encrpyt([FromBody] string plaintext)
+        public ActionResult<EncryptResponse> Encrypt([FromBody] string plaintext)
         {
             ROT13 cipher = new();
-            return cipher.Encrypt(plaintext);
+            return new EncryptResponse()
+            {
+                Ciphertext = cipher.Encrypt(plaintext),
+            };
         }
     }
 }
