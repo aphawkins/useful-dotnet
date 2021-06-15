@@ -1,4 +1,4 @@
-﻿// <copyright file="CaesarCrack.cs" company="APH Software">
+﻿// <copyright file="CaesarCryptanalysis.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,9 +8,9 @@ namespace Useful.Security.Cryptography
     using System.Collections.Generic;
 
     /// <summary>
-    /// The Caesar cipher cracker.
+    /// The Caesar cipher cryptanalysis.
     /// </summary>
-    public static class CaesarCrack
+    public static class CaesarCryptanalysis
     {
         private static readonly double[] LetterFrequencies = new double[26] { 8.2, 1.5, 2.8, 4.3, 13.0, 2.2, 2.0, 6.1, 7.0, 0.15, 0.77, 4.0, 2.4, 6.7, 7.5, 1.9, 0.095, 6.0, 9.3, 9.1, 2.8, 0.98, 2.4, 0.15, 2.0, 0.074 };
 

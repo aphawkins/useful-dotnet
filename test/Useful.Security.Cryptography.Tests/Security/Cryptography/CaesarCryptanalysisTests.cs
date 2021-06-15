@@ -1,4 +1,4 @@
-// <copyright file="CaesarCrackTests.cs" company="APH Software">
+// <copyright file="CaesarCryptanalysisTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -8,7 +8,7 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography;
     using Xunit;
 
-    public class CaesarCrackTests
+    public class CaesarCryptanalysisTests
     {
         [Theory]
         [InlineData("AAAAAAAABBCCCDDDDEEEEEEEEEEEEEFFGGHHHHHHIIIIIIIKLLLLMMNNNNNNNOOOOOOOOPPRRRRRRSSSSSSSSSTTTTTTTTTUUUVWWYY", 0)]
@@ -17,7 +17,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("QFM", 12)]
         public void Crack(string ciphertext, int shift)
         {
-            (int bestShift, IDictionary<int, string> _) = CaesarCrack.Crack(ciphertext);
+            (int bestShift, IDictionary<int, string> _) = CaesarCryptanalysis.Crack(ciphertext);
             Assert.Equal(shift, bestShift);
         }
     }

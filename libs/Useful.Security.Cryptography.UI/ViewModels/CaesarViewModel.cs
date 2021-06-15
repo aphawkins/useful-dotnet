@@ -96,7 +96,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public void Crack()
         {
-            (int bestShift, IDictionary<int, string> allDecryptions) = CaesarCrack.Crack(Ciphertext);
+            (int bestShift, IDictionary<int, string> allDecryptions) = CaesarCryptanalysis.Crack(Ciphertext);
             SelectedShift = bestShift;
             Cracks = new Dictionary<int, string>(allDecryptions);
             Plaintext = Cracks[bestShift];

@@ -12,8 +12,6 @@ namespace UsefulBlazor
 
     public class Program
     {
-#pragma warning disable UseAsyncSuffix // Use Async suffix
-
         public static async Task Main(string[] args)
         {
             WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,7 +21,5 @@ namespace UsefulBlazor
 
             await builder.Build().RunAsync().ConfigureAwait(false);
         }
-
-#pragma warning restore UseAsyncSuffix // Use Async suffix
     }
 }
