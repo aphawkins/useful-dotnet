@@ -1,4 +1,4 @@
-﻿// <copyright file="EncryptResponse.cs" company="APH Software">
+﻿// <copyright file="EncryptRequest.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -6,9 +6,9 @@
 
 namespace UsefulAPI
 {
-    public class EncryptResponse
+    public class EncryptRequest
     {
-        public string Ciphertext
+        public string Plaintext
         {
             get;
             set;

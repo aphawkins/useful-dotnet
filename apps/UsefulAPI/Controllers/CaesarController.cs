@@ -1,4 +1,4 @@
-﻿// <copyright file="AtBashController.cs" company="APH Software">
+﻿// <copyright file="CaesarController.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,24 +9,24 @@ namespace UsefulAPI.Controllers
 
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
-    public class AtBashController : ControllerBase
+    public class CaesarController : ControllerBase
     {
-        // POST api/v1/atbash/decrypt
+        // POST api/v1/caesar/decrypt
         [HttpPost]
-        public ActionResult<DecryptResponse> Decrypt(DecryptRequest request)
+        public ActionResult<DecryptResponse> Decrypt(CaesarDecryptRequest request)
         {
-            Atbash cipher = new();
+            Caesar cipher = new(new CaesarSettings() { RightShift = request.RightShift });
             return new DecryptResponse()
             {
                 Plaintext = cipher.Decrypt(request.Ciphertext),
             };
         }
 
-        // POST api/v1/atbash/encrypt
+        // POST api/v1/caesar/encrypt
         [HttpPost]
-        public ActionResult<EncryptResponse> Encrypt(EncryptRequest request)
+        public ActionResult<EncryptResponse> Encrypt(CaesarEncryptRequest request)
         {
-            Atbash cipher = new();
+            Caesar cipher = new(new CaesarSettings() { RightShift = request.RightShift });
             return new EncryptResponse()
             {
                 Ciphertext = cipher.Encrypt(request.Plaintext),
