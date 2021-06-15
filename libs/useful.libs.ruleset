@@ -17,4 +17,9 @@
   <Rules AnalyzerId="xunit.analyzers" RuleNamespace="xunit.analyzers">
     <Rule Id="xUnit1004" Action="None" /> <!-- Test methods should not be skipped -->
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.PublicApiAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.PublicApiAnalyzers">
+	<Rule Id="RS0016" Action="None" /> <!-- Add public types and members to the declared API -->
+	<Rule Id="RS0037" Action="None" /> <!-- Enable tracking of nullability of reference types in the declared API -->
+    <Rule Id="RS0048" Action="None" /> <!-- Missing shipped or unshipped public API file -->
+  </Rules>
 </RuleSet>
