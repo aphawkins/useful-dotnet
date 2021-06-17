@@ -1,14 +1,12 @@
 ﻿@model Useful.Security.Cryptography.UI.Models.CipherModel
 @inject Useful.Security.Cryptography.UI.Services.CipherService CipherService
-<h2>Cryptography</h2>
+<h2>AtBash</h2>
+
 <form method="post" class="form-group">
     <fieldset>
         <div class="row">
             <div class="col-md-4">
-                <label for="CurrentCipherName">Cipher</label>
-            </div>
-            <div class="col-md-4">
-                @Html.DropDownList("CurrentCipherName", new SelectList(@CipherService.Repository.Read(), @CipherService.Repository.CurrentItem!.CipherName), new { @class = "form-control" })
+                <label for="CurrentCipherName">AtBash Cipher</label>
             </div>
         </div>
         <div class="row">
