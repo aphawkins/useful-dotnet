@@ -1,0 +1,29 @@
+﻿.cipher_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.cipher_row {
+    display: flex;
+    align-items: center;
+}
+
+    .cipher_row > div {
+        margin: 5px;
+    }
+
+.cipher_half_width {
+    width: calc(800px / 2);
+}
+
+.cipher_quarter_width {
+    width: calc(800px / 4);
+}
+
+.cipher_alphabet_width {
+    width: calc(800px / 26);
+}
+
+.cipher_fixed_width {
+    width: 100px;
+}

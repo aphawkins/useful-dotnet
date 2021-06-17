@@ -29,7 +29,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// <returns>The encrypted text.</returns>
         public string Encrypt(string plaintext)
         {
-            if (Repository.CurrentItem == null)
+            if (Repository.CurrentItem == null || string.IsNullOrEmpty(plaintext))
             {
                 return string.Empty;
             }
@@ -44,7 +44,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// <returns>The decrypted text.</returns>
         public string Decrypt(string ciphertext)
         {
-            if (Repository.CurrentItem == null)
+            if (Repository.CurrentItem == null || string.IsNullOrEmpty(ciphertext))
             {
                 return string.Empty;
             }
