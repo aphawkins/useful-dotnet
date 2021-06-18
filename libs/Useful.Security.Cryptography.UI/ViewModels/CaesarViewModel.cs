@@ -15,17 +15,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// </summary>
     public sealed class CaesarViewModel
     {
-        private readonly CaesarSettings _settings;
         private readonly Caesar _cipher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CaesarViewModel"/> class.
         /// </summary>
-        public CaesarViewModel()
-        {
-            _settings = new();
-            _cipher = new(_settings);
-        }
+        public CaesarViewModel() => _cipher = new(new CaesarSettings());
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.

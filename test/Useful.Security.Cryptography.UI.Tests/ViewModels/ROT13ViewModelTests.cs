@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("Hello", "URYYB")]
         public void Encrypt(string plaintext, string ciphertext)
         {
-            ROT13ViewModel viewmodel = new();
+            Rot13ViewModel viewmodel = new();
             viewmodel.Plaintext = plaintext;
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("URYYB", "Hello")]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            ROT13ViewModel viewmodel = new();
+            Rot13ViewModel viewmodel = new();
             viewmodel.Ciphertext = ciphertext;
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
@@ -32,7 +32,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CipherName()
         {
-            ROT13ViewModel viewmodel = new();
+            Rot13ViewModel viewmodel = new();
             Assert.Equal("ROT13", viewmodel.CipherName);
         }
     }

@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Caesar key generator.
     /// </summary>
-    internal sealed class CaesarSettingsGenerator
+    internal static class CaesarSettingsGenerator
     {
         public static CaesarSettings Generate()
         {

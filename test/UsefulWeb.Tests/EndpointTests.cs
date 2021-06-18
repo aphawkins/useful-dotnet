@@ -19,7 +19,7 @@ namespace WebApp.Tests
         [Theory]
         [InlineData("/")]
         [InlineData("/Home")]
-        [InlineData("/Home/Cryptography")]
+        [InlineData("/Cryptography")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange

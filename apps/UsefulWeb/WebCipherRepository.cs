@@ -12,7 +12,7 @@ namespace UsefulWeb
         {
             Atbash cipher = new();
             Create(cipher);
-            Create(new ROT13());
+            Create(new Rot13());
             CurrentItem = cipher;
         }
     }

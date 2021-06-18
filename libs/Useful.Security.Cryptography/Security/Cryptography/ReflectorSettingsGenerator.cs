@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Reflector key generator.
     /// </summary>
-    internal class ReflectorSettingsGenerator
+    internal static class ReflectorSettingsGenerator
     {
         public static ReflectorSettings Generate()
         {

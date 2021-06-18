@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma Reflector settings generator.
     /// </summary>
-    internal sealed class EnigmaReflectorGenerator
+    internal static class EnigmaReflectorGenerator
     {
         public static IEnigmaReflector Generate()
         {

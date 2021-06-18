@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13ViewModel.cs" company="APH Software">
+﻿// <copyright file="Rot13ViewModel.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -7,9 +7,9 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// ViewModel for the ROT13 cipher.
     /// </summary>
-    public sealed class ROT13ViewModel
+    public sealed class Rot13ViewModel
     {
-        private readonly ROT13 _cipher = new();
+        private readonly Rot13 _cipher = new();
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.

@@ -105,7 +105,7 @@ namespace Useful.Security.Cryptography
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
             if (newLet < 0 || newLet >= CharacterSet.Length)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(letter));
             }
 
             char newLetter = CharacterSet[newLet];
@@ -117,7 +117,7 @@ namespace Useful.Security.Cryptography
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
             if (newLet < 0 || newLet >= CharacterSet.Length)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(letter));
             }
 
             return CharacterSet[newLet];

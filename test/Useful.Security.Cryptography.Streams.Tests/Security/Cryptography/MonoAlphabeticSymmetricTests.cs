@@ -116,6 +116,7 @@ namespace Useful.Security.Cryptography.Tests
                 keyString = Encoding.Unicode.GetString(cipher.Key);
 
                 // How to test for correctness?
+                Assert.NotNull(keyString);
             }
         }
 
@@ -126,7 +127,7 @@ namespace Useful.Security.Cryptography.Tests
 
             using (SymmetricAlgorithm cipher = new MonoAlphabeticSymmetric())
             {
-                byte[] key = Array.Empty<byte>();
+                byte[] key;
                 byte[] newKey;
 
                 cipher.GenerateKey();

@@ -136,6 +136,7 @@ namespace Useful.Security.Cryptography.Tests
                 ivString = Encoding.Unicode.GetString(cipher.IV);
 
                 // Test IV correctness here
+                Assert.NotNull(ivString);
             }
         }
 
@@ -146,7 +147,7 @@ namespace Useful.Security.Cryptography.Tests
 
             using (SymmetricAlgorithm cipher = new EnigmaSymmetric())
             {
-                byte[] iv = Array.Empty<byte>();
+                byte[] iv;
                 byte[] newIv;
 
                 cipher.GenerateIV();
@@ -190,6 +191,7 @@ namespace Useful.Security.Cryptography.Tests
                 keyString = Encoding.Unicode.GetString(cipher.Key);
 
                 // Test key correctness here
+                Assert.NotNull(keyString);
             }
         }
 
@@ -200,7 +202,7 @@ namespace Useful.Security.Cryptography.Tests
 
             using (SymmetricAlgorithm cipher = new EnigmaSymmetric())
             {
-                byte[] key = Array.Empty<byte>();
+                byte[] key;
                 byte[] newKey;
 
                 cipher.GenerateKey();

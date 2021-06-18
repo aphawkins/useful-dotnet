@@ -27,9 +27,18 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("B|I I I|01 01 01|")] // Repeat rotors
         [InlineData("B|III II X|01 01 01|")] // Invalid rotor
         [InlineData("B|III II 1|01 01 01|")] // Rotor as number
-        [InlineData("B| III II I |01 01 01|")] // Spacing
-        [InlineData("B|III  II  I|01 01 01|")] // Spacing
-        public void RotorsInvalid(string key)
+        [InlineData("B| III II I |01 01 01|")] // Rotor spacing
+        [InlineData("B|III  II  I|01 01 01|")] // Rotor spacing
+        [InlineData("B|III II I||")] // Rings missing
+        [InlineData("B|III II I|01 01|")] // Too few rings
+        [InlineData("B|III II I|01 01 01 01|")] // Too many rings
+        [InlineData("B|III II I|01 01 1|")] // Rings number padding
+        [InlineData("B|III II I|01 01 00|")] // Rings number too small
+        [InlineData("B|III II I|01 01 27|")] // Rings number too large
+        [InlineData("B|III II I|01 01 0A|")] // Rings nmber as letter
+        [InlineData("B|III II I| 01 01 01 |")] // Rings spacing
+        [InlineData("B|III II I|01  01  01|")] // Rings spacing
+        public void RotorsOrRingsInvalid(string key)
         {
             using SymmetricAlgorithm cipher = new EnigmaSymmetric();
             Assert.Throws<ArgumentException>(nameof(cipher.Key), () => cipher.Key = Encoding.Unicode.GetBytes(key));
@@ -39,35 +48,8 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("B|III II I|01 01 01|")]
         [InlineData("B|I II III|01 01 01|")]
         [InlineData("B|V IV III|01 01 01|")]
-        public void RotorsValid(string key)
-        {
-            using SymmetricAlgorithm cipher = new EnigmaSymmetric()
-            {
-                Key = Encoding.Unicode.GetBytes(key),
-            };
-            Assert.Equal(Encoding.Unicode.GetBytes(key), cipher.Key);
-            Assert.Equal(Encoding.Unicode.GetBytes("A A A"), cipher.IV);
-        }
-
-        [Theory]
-        [InlineData("B|III II I||")] // Rings missing
-        [InlineData("B|III II I|01 01|")] // Too few rings
-        [InlineData("B|III II I|01 01 01 01|")] // Too many rings
-        [InlineData("B|III II I|01 01 1|")] // Number padding
-        [InlineData("B|III II I|01 01 00|")] // Number too small
-        [InlineData("B|III II I|01 01 27|")] // Number too large
-        [InlineData("B|III II I|01 01 0A|")] // Number as letter
-        [InlineData("B|III II I| 01 01 01 |")] // Spacing
-        [InlineData("B|III II I|01  01  01|")] // Spacing
-        public void RingsInvalid(string key)
-        {
-            using SymmetricAlgorithm cipher = new EnigmaSymmetric();
-            Assert.Throws<ArgumentException>(nameof(cipher.Key), () => cipher.Key = Encoding.Unicode.GetBytes(key));
-        }
-
-        [Theory]
         [InlineData("B|III II I|26 13 01|")]
-        public void RingsValid(string key)
+        public void RotorsOrRingsValid(string key)
         {
             using SymmetricAlgorithm cipher = new EnigmaSymmetric()
             {

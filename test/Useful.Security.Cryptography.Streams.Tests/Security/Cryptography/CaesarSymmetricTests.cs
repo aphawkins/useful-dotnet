@@ -130,7 +130,7 @@ namespace Useful.Security.Cryptography.Tests
 
             using (SymmetricAlgorithm cipher = new CaesarSymmetric())
             {
-                byte[] key = Array.Empty<byte>();
+                byte[] key;
                 byte[] newKey;
 
                 cipher.GenerateKey();

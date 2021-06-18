@@ -10,7 +10,7 @@ namespace UsefulBlazor
     using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {

@@ -96,35 +96,9 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData("ABC", "ABC", 'A', 'C', "CBA", 2)]
         [InlineData("ABC", "ABC", 'C', 'A', "CBA", 2)]
+        [InlineData("ABC", "CBA", 'A', 'A', "ABC", 0)] // Clear
+        [InlineData("ABC", "CBA", 'A', 'C', "CBA", 2)] // Existing
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
-        {
-            IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(characterSet, settings.CharacterSet);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-        }
-
-        [Theory]
-        [InlineData("ABC", "CBA", 'A', 'A', "ABC", 0)]
-        public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
-        {
-            IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(characterSet, settings.CharacterSet);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-        }
-
-        [Theory]
-        [InlineData("ABC", "CBA", 'A', 'C', "CBA", 2)]
-        public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
             IReflectorSettings settings = new ReflectorSettings()
             { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };

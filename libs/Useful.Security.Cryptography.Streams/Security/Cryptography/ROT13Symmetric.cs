@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13Symmetric.cs" company="APH Software">
+﻿// <copyright file="Rot13Symmetric.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,17 +10,17 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public sealed class ROT13Symmetric : SymmetricAlgorithm
+    public sealed class Rot13Symmetric : SymmetricAlgorithm
     {
-        private readonly ROT13 _algorithm;
+        private readonly Rot13 _algorithm;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ROT13Symmetric"/> class.
+        /// Initializes a new instance of the <see cref="Rot13Symmetric"/> class.
         /// </summary>
-        public ROT13Symmetric()
+        public Rot13Symmetric()
         {
             Reset();
-            _algorithm = new ROT13();
+            _algorithm = new Rot13();
         }
 
         /// <inheritdoc />
@@ -30,12 +30,7 @@ namespace Useful.Security.Cryptography
         public override byte[] Key { get => Array.Empty<byte>(); set => _ = value; }
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? Array.Empty<byte>();
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
-        }
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV) => CreateEncryptor(rgbKey, rgbIV);
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)

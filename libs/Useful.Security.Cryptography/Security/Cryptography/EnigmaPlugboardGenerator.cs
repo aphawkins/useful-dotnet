@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma Plugboard settings generator.
     /// </summary>
-    internal sealed class EnigmaPlugboardGenerator
+    internal static class EnigmaPlugboardGenerator
     {
         public static IEnigmaPlugboard Generate()
         {

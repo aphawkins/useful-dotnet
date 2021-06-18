@@ -92,6 +92,7 @@ namespace Useful.Security.Cryptography.Tests
                 keyString = Encoding.Unicode.GetString(cipher.Key);
 
                 // How to test for correctness?
+                Assert.NotNull(keyString);
             }
         }
 

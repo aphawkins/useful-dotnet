@@ -9,17 +9,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// </summary>
     public sealed class VigenereViewModel
     {
-        private readonly VigenereSettings _settings;
         private readonly Vigenere _cipher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VigenereViewModel"/> class.
         /// </summary>
-        public VigenereViewModel()
-        {
-            _settings = new();
-            _cipher = new(_settings);
-        }
+        public VigenereViewModel() => _cipher = new(new VigenereSettings());
 
         /// <summary>
         /// Gets or sets the encrypted ciphertext.

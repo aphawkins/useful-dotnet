@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13.cs" company="APH Software">
+﻿// <copyright file="Rot13.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>
-    public sealed class ROT13 : ICipher
+    public sealed class Rot13 : ICipher
     {
         /// <inheritdoc />
         public string CipherName => "ROT13";

@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13Controller.cs" company="APH Software">
+﻿// <copyright file="Rot13Controller.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,13 +9,13 @@ namespace UsefulAPI.Controllers
 
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
-    public class ROT13Controller : ControllerBase
+    public class Rot13Controller : ControllerBase
     {
         // POST api/v1/rot13/decrypt
         [HttpPost]
         public ActionResult<DecryptResponse> Decrypt([FromBody] DecryptRequest request)
         {
-            ROT13 cipher = new();
+            Rot13 cipher = new();
             return new DecryptResponse()
             {
                 Plaintext = cipher.Decrypt(request.Ciphertext),
@@ -26,7 +26,7 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<EncryptResponse> Encrypt([FromBody] EncryptRequest request)
         {
-            ROT13 cipher = new();
+            Rot13 cipher = new();
             return new EncryptResponse()
             {
                 Ciphertext = cipher.Encrypt(request.Plaintext),

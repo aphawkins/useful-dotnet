@@ -42,14 +42,6 @@ namespace Useful.Security.Cryptography
                 bytes = reader.CurrentEncoding.GetBytes(new char[] { (char)reader.Read() });
                 crypto.Write(bytes, 0, bytes.Length);
             }
-
-            /*
-            if (transformer is ClassicalSymmetricTransform classicalTransform)
-            {
-                cipher.Key = classicalTransform.Cipher.Settings.Key.ToArray();
-                cipher.IV = classicalTransform.Cipher.Settings.IV.ToArray();
-            }
-            */
         }
 
         /// <summary>
@@ -71,19 +63,6 @@ namespace Useful.Security.Cryptography
             Encoding encoding = new UnicodeEncoding();
 
             using ICryptoTransform cryptoTransform = GetTransformer(cipher, transformMode);
-
-            // if (cryptoTransform is IUsefulCryptoTransform usefulCryptoTransform)
-            // {
-            //    string output = usefulCryptoTransform.TransformString(input);
-
-            // usefulCryptoTransform.Key.CopyTo(cipher.Key, 0);
-            //    usefulCryptoTransform.IV.CopyTo(cipher.IV, 0);
-
-            // return output;
-            // }
-            // else
-            // {
-            //    throw new NotImplementedException();
 
             // Encrypt the data.
             using MemoryStream inputStream = new(encoding.GetBytes(input));

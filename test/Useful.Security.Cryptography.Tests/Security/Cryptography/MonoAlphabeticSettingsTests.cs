@@ -89,31 +89,10 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData("ABC", "BAC", 'A', 'C', "CAB", 3)]
         [InlineData("ABC", "BCA", 'B', 'B', "CBA", 2)]
+        [InlineData("ABC", "BAC", 'A', 'A', "ABC", 0)] // Reset
+        [InlineData("ABC", "BCA", 'C', 'A', "BCA", 3)] // Existing
+        [InlineData("ABC", "ABC", 'A', 'B', "BAC", 2)]
         public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
-        {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-        }
-
-        [Theory]
-        [InlineData("ABC", "BAC", 'A', 'A', "ABC", 0)]
-        public void SetSubstitutionClear(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
-        {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
-        }
-
-        [Theory]
-        [InlineData("ABC", "BCA", 'C', 'A', "BCA", 3)]
-        public void SetSubstitutionExisting(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;
@@ -133,18 +112,6 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Throws<ArgumentException>("value", () => settings[from] = to);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(substitutions, settings.Substitutions);
-        }
-
-        [Theory]
-        [InlineData("ABC", "ABC", 'A', 'B', "BAC", 2)]
-        public void SetSubstitutionSet(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
-        {
-            IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            settings[from] = to;
-
-            Assert.Equal(to, settings[from]);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
-            Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
     }
 }

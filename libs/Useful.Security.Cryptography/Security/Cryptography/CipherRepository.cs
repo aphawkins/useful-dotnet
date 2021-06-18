@@ -27,25 +27,25 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Adds a new cipher to the repository.
         /// </summary>
-        /// <param name="cipher">The new cipher to add.</param>
-        public void Create(ICipher cipher) => _ciphers.Add(cipher);
+        /// <param name="item">The new cipher to add.</param>
+        public void Create(ICipher item) => _ciphers.Add(item);
 
         /// <summary>
         /// Removes a cipher from the repository.
         /// </summary>
-        /// <param name="cipher">The cipher to delete.</param>
-        public void Delete(ICipher cipher)
+        /// <param name="item">The cipher to delete.</param>
+        public void Delete(ICipher item)
         {
-            if (cipher == null)
+            if (item == null)
             {
-                throw new ArgumentNullException(nameof(cipher));
+                throw new ArgumentNullException(nameof(item));
             }
 
             int removeAt = -1;
 
             for (int i = 0; i < _ciphers.Count; i++)
             {
-                if (_ciphers[i].CipherName == cipher.CipherName)
+                if (_ciphers[i].CipherName == item.CipherName)
                 {
                     removeAt = i;
                     break;
@@ -81,19 +81,19 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Updates a cipher in the repository.
         /// </summary>
-        /// <param name="cipher">The cipher to update.</param>
-        public void Update(ICipher cipher)
+        /// <param name="item">The cipher to update.</param>
+        public void Update(ICipher item)
         {
-            if (cipher == null)
+            if (item == null)
             {
-                throw new ArgumentNullException(nameof(cipher));
+                throw new ArgumentNullException(nameof(item));
             }
 
             for (int i = 0; i < _ciphers.Count; i++)
             {
-                if (_ciphers[i].CipherName == cipher.CipherName)
+                if (_ciphers[i].CipherName == item.CipherName)
                 {
-                    _ciphers[i] = cipher;
+                    _ciphers[i] = item;
                 }
             }
         }

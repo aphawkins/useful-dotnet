@@ -5,6 +5,7 @@
 namespace Useful.Security.Cryptography
 {
     using System;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
@@ -43,7 +44,7 @@ namespace Useful.Security.Cryptography
             }
 
             StringBuilder output = new();
-            foreach (char inputChar in plaintext.ToCharArray())
+            foreach (char inputChar in plaintext)
             {
                 if (inputChar == ' ')
                 {
@@ -74,26 +75,26 @@ namespace Useful.Security.Cryptography
             Settings.Rotors.AdvanceRotors();
 
             // Plugboard
-            letter = Settings.Plugboard[letter];
+            char newLetter = Settings.Plugboard[letter];
 
             // Go thru the rotors forwards
-            letter = Settings.Rotors[EnigmaRotorPosition.Fastest].Forward(letter);
-            letter = Settings.Rotors[EnigmaRotorPosition.Second].Forward(letter);
-            letter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(letter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Forward(newLetter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Second].Forward(newLetter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Forward(newLetter);
 
             // Go thru the relector
-            letter = Settings.Reflector.Reflect(letter);
+            newLetter = Settings.Reflector.Reflect(newLetter);
 
             // Go thru the rotors backwards
-            letter = Settings.Rotors[EnigmaRotorPosition.Third].Backward(letter);
-            letter = Settings.Rotors[EnigmaRotorPosition.Second].Backward(letter);
-            letter = Settings.Rotors[EnigmaRotorPosition.Fastest].Backward(letter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Third].Backward(newLetter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Second].Backward(newLetter);
+            newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Backward(newLetter);
 
-            letter = Settings.Plugboard[letter];
+            newLetter = Settings.Plugboard[newLetter];
 
             // Letter cannot encrypt to itself.
-            // Debug.Assert(Letters.Clean(this.settings.AllowedLetters, letter) != Letters.Clean(this.settings.AllowedLetters, newLetter), "Letter cannot encrypt to itself.");
-            return letter;
+            Debug.Assert(letter != newLetter, "Letter cannot encrypt to itself.");
+            return newLetter;
         }
     }
 }

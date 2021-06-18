@@ -10,7 +10,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// MonoAlphabetic settings generator.
     /// </summary>
-    internal sealed class MonoAlphabeticSettingsGenerator
+    internal static class MonoAlphabeticSettingsGenerator
     {
         public static MonoAlphabeticSettings Generate()
         {

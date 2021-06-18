@@ -21,7 +21,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "nopqrstuvwxyzabcdefghijklm")]
         public void DecryptCipher(string plaintext, string ciphertext)
         {
-            ROT13 cipher = new();
+            Rot13 cipher = new();
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -30,14 +30,14 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("abcdefghijklmnopqrstuvwxyz", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
         public void EncryptCipher(string plaintext, string ciphertext)
         {
-            ROT13 cipher = new();
+            Rot13 cipher = new();
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
         [Fact]
         public void Name()
         {
-            ROT13 cipher = new();
+            Rot13 cipher = new();
             Assert.Equal("ROT13", cipher.CipherName);
             Assert.Equal("ROT13", cipher.ToString());
         }

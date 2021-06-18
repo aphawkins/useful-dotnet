@@ -17,7 +17,6 @@ namespace Useful.Security.Cryptography.UI.Controllers
     {
         private readonly IRepository<ICipher> _repository;
         private readonly ICipherView _view;
-        private ISettingsController? _settingsController;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CipherController"/> class.
@@ -78,10 +77,9 @@ namespace Useful.Security.Cryptography.UI.Controllers
 
             _repository.SetCurrentItem(x => x == cipher);
 
-            _settingsController = new SettingsController(cipherSettingsObservable, settingsView);
-            _settingsController?.LoadView();
+            ISettingsController settingsController = new SettingsController(cipherSettingsObservable, settingsView);
+            settingsController?.LoadView();
 
-            // _repository.CurrentItem.Settings = _settingsController?.Settings;
             _view.ShowSettings(settingsView);
         }
 

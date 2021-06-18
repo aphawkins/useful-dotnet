@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Enigma key generator.
     /// </summary>
-    internal class EnigmaSettingsGenerator
+    internal static class EnigmaSettingsGenerator
     {
         public static EnigmaSettings Generate()
         {
