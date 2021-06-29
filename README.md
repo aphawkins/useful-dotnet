@@ -8,21 +8,8 @@ Disclaimer!  The aim of this project is for learning.  As a result, the UIs aren
 ## Cryptography  
 
 ### Usage  
-- All ciphers have an implementation class and a class that inherits from SymmetricAlgorithm.  
-- All key and iv values are in Unicode.
-
-### UI & Library support  
-What's working...   
-
-|Cipher|PowerShell|RESTApi|ASP.NET|
-|:-----|:--------:|:-----:|:-----:|
-||Cmdlet|MVC|MVC|Web API|MVC
-|[Atbash](https://en.wikipedia.org/wiki/Atbash)|||✓|
-|[Caesar](https://en.wikipedia.org/wiki/Caesar_cipher)||||
-|[Enigma M3](https://en.wikipedia.org/wiki/Enigma_machine)||||
-|[MonoAlphabetic](https://en.wikipedia.org/wiki/Substitution_cipher)||||
-|[Reflector](https://en.wikipedia.org/wiki/Substitution_cipher)||||
-|[ROT13](https://en.wikipedia.org/wiki/ROT13)||✓|✓|
+- Ciphers have an implementation class and a class that inherits from SymmetricAlgorithm.  
+- Key and IV values are in Unicode.
 
 #### [Atbash](https://en.wikipedia.org/wiki/Atbash)  
 No settings required.  
@@ -89,12 +76,3 @@ key=ABCD|BADC
 
 #### [ROT13](https://en.wikipedia.org/wiki/ROT13)
 No settings required.  
-
-## Languages & Frameworks  
-
-* C#  
-* NuGet  
-* Roslyn Analyzers  
-* Code Coverage  
-* xUnit  
-* Moq  
