@@ -2,7 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-namespace WebApp.Tests
+namespace UsefulWeb.Tests
 {
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -10,11 +10,11 @@ namespace WebApp.Tests
     using Xunit;
 
     [Collection("Sequential")]
-    public class EndpointTests : IClassFixture<WebApplicationFactory<UsefulWeb.Startup>>
+    public class EndpointTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<UsefulWeb.Startup> _factory;
+        private readonly WebApplicationFactory<Startup> _factory;
 
-        public EndpointTests(WebApplicationFactory<UsefulWeb.Startup> factory) => _factory = factory;
+        public EndpointTests(WebApplicationFactory<Startup> factory) => _factory = factory;
 
         [Theory]
         [InlineData("/")]
