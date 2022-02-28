@@ -1,4 +1,4 @@
-﻿// <copyright file="ROT13.cs" company="APH Software">
+﻿// <copyright file="Rot13.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 

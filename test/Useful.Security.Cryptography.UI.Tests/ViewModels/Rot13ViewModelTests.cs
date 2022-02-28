@@ -1,4 +1,4 @@
-// <copyright file="ROT13ViewModelTests.cs" company="APH Software">
+// <copyright file="Rot13ViewModelTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
