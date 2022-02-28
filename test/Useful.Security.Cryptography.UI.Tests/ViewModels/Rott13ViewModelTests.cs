@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
-    public class ROT13ViewModelTests
+    public class Rot13ViewModelTests
     {
         [Theory]
         [InlineData("Hello", "URYYB")]
