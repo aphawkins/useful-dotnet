@@ -7,33 +7,32 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// ViewModel for the ROT13 cipher.
     /// </summary>
-    public sealed class Rot13ViewModel
+    public sealed class Rot13ViewModel : ICipherViewModel
     {
         private readonly Rot13 _cipher = new();
 
-        /// <summary>
-        /// Gets or sets the encrypted ciphertext.
-        /// </summary>
+        /// <inheritdoc />
         public string Ciphertext { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets the cipher's name.
-        /// </summary>
+        /// <inheritdoc />
         public string CipherName => _cipher.CipherName;
 
-        /// <summary>
-        /// Gets or sets the unencrypted plaintext.
-        /// </summary>
+        /// <inheritdoc />
         public string Plaintext { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Encrypts the plaintext into ciphertext.
-        /// </summary>
+        /// <inheritdoc />
         public void Encrypt() => Ciphertext = _cipher.Encrypt(Plaintext);
 
-        /// <summary>
-        /// Decrypts the ciphertext into plaintext.
-        /// </summary>
+        /// <inheritdoc />
         public void Decrypt() => Plaintext = _cipher.Decrypt(Ciphertext);
+
+        /// <inheritdoc />
+        public void Defaults() => throw new System.NotImplementedException();
+
+        /// <inheritdoc />
+        public void Randomize() => throw new System.NotImplementedException();
+
+        /// <inheritdoc />
+        public void Crack() => throw new System.NotImplementedException();
     }
 }

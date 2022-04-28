@@ -4,24 +4,14 @@
 <h1>@cipher.CipherName Cipher</h1>
 
 <div class="cipher_container">
-    <div class="cipher_row">
-        <div class="cipher_half_width">Plaintext</div>
-        <div class="cipher_half_width">Ciphertext</div>
-    </div>
-    <div class="cipher_row">
-        <div class="cipher_half_width"><input @bind="cipher.Plaintext" /></div>
-        <div class="cipher_half_width"><input @bind="cipher.Ciphertext" /></div>
-    </div>
+    <Cipher CipherVM=cipher />
+
     <div class="cipher_row">
         <div>Keyword</div>
         <input @bind="cipher.Keyword" />
     </div>
     <div class="cipher_row">
         <div><button class=" btn btn-primary" @onclick="cipher.Defaults">Defaults</button></div>
-    </div>
-    <div class="cipher_row">
-        <div class="cipher_half_width"><button class=" btn btn-primary" @onclick="cipher.Encrypt">Encrypt</button></div>
-        <div class="cipher_half_width"><button class="btn btn-primary" @onclick="cipher.Decrypt">Decrypt</button></div>
     </div>
 </div>
 

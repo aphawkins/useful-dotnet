@@ -9,7 +9,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// ViewModel for the reflector cipher.
     /// </summary>
-    public sealed class ReflectorViewModel
+    public sealed class ReflectorViewModel : ICipherViewModel
     {
         private readonly Reflector _cipher;
 
@@ -18,19 +18,13 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// </summary>
         public ReflectorViewModel() => _cipher = new(new ReflectorSettings());
 
-        /// <summary>
-        /// Gets or sets the encrypted ciphertext.
-        /// </summary>
+        /// <inheritdoc />
         public string Ciphertext { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets the cipher's name.
-        /// </summary>
+        /// <inheritdoc />
         public string CipherName => _cipher.CipherName;
 
-        /// <summary>
-        /// Gets or sets the unencrypted plaintext.
-        /// </summary>
+        /// <inheritdoc />
         public string Plaintext { get; set; } = string.Empty;
 
         /// <summary>
@@ -54,24 +48,19 @@ namespace Useful.Security.Cryptography.UI.ViewModels
             set => _cipher.Settings[substitution] = value;
         }
 
-        /// <summary>
-        /// Encrypts the plaintext into ciphertext.
-        /// </summary>
+        /// <inheritdoc />
         public void Encrypt() => Ciphertext = _cipher.Encrypt(Plaintext);
 
-        /// <summary>
-        /// Decrypts the ciphertext into plaintext.
-        /// </summary>
+        /// <inheritdoc />
         public void Decrypt() => Plaintext = _cipher.Decrypt(Ciphertext);
 
-        /// <summary>
-        /// Defaults the settings.
-        /// </summary>
+        /// <inheritdoc />
         public void Defaults() => _cipher.Settings = new ReflectorSettings() with { };
 
-        /// <summary>
-        /// Randomizes the settings.
-        /// </summary>
+        /// <inheritdoc />
         public void Randomize() => _cipher.GenerateSettings();
+
+        /// <inheritdoc />
+        public void Crack() => throw new System.NotImplementedException();
     }
 }
