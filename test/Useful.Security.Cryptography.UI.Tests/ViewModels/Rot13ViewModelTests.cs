@@ -1,4 +1,4 @@
-// <copyright file="ROT13ViewModelTests.cs" company="APH Software">
+// <copyright file="Rot13ViewModelTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography.Tests
     using Useful.Security.Cryptography.UI.ViewModels;
     using Xunit;
 
-    public class ROT13ViewModelTests
+    public class Rot13ViewModelTests
     {
         [Theory]
         [InlineData("Hello", "URYYB")]
