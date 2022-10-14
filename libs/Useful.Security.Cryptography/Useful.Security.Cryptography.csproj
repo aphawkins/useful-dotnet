@@ -10,11 +10,13 @@
     <Description>Classical Cryptography library. Cipher support of string encryption/decryption.</Description>
     <PackageId>Useful.Security.Cryptography</PackageId>
     <Copyright>Andrew Hawkins</Copyright>
-    <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/aphawkins/useful-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aphawkins/useful-dotnet</RepositoryUrl>
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Useful</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Title>Useful Classical Cryptography Library</Title>
   </PropertyGroup>
 
   <ItemGroup>

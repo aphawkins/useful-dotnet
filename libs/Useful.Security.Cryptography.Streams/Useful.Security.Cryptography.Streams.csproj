@@ -15,6 +15,7 @@
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Useful</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
