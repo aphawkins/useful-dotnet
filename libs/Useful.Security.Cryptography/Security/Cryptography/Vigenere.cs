@@ -9,13 +9,12 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Accesses the Vigenere algorithm.
     /// </summary>
-    public sealed class Vigenere : ICipher
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Vigenere"/> class.
+    /// </remarks>
+    /// <param name="settings">Settings.</param>
+    public sealed class Vigenere(IVigenereSettings settings) : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vigenere"/> class.
-        /// </summary>
-        /// <param name="settings">Settings.</param>
-        public Vigenere(IVigenereSettings settings) => Settings = settings;
 
         /// <inheritdoc />
         public string CipherName => "Vigenere";
@@ -23,7 +22,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets settings.
         /// </summary>
-        public IVigenereSettings Settings { get; set; }
+        public IVigenereSettings Settings { get; set; } = settings;
 
         /// <inheritdoc />
         public string Encrypt(string plaintext)

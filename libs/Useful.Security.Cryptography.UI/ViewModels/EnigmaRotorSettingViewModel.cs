@@ -7,15 +7,13 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// ViewModel for the enigma rotor setting.
     /// </summary>
-    public sealed class EnigmaRotorSettingViewModel
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="EnigmaRotorSettingViewModel"/> class.
+    /// </remarks>
+    /// <param name="settings">The enigma settings.</param>
+    public sealed class EnigmaRotorSettingViewModel(IEnigmaSettings settings)
     {
-        private readonly IEnigmaSettings _settings;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaRotorSettingViewModel"/> class.
-        /// </summary>
-        /// <param name="settings">The enigma settings.</param>
-        public EnigmaRotorSettingViewModel(IEnigmaSettings settings) => _settings = settings;
+        private readonly IEnigmaSettings _settings = settings;
 
         /// <summary>
         /// Gets or sets the rotor setting.

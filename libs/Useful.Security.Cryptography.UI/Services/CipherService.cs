@@ -7,18 +7,17 @@ namespace Useful.Security.Cryptography.UI.Services
     /// <summary>
     /// A viewmodel for ciphers.
     /// </summary>
-    public class CipherService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="CipherService"/> class.
+    /// </remarks>
+    /// <param name="repository">The repository holding the ciphers.</param>
+    public class CipherService(IRepository<ICipher> repository)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CipherService"/> class.
-        /// </summary>
-        /// <param name="repository">The repository holding the ciphers.</param>
-        public CipherService(IRepository<ICipher> repository) => Repository = repository;
 
         /// <summary>
         /// Gets or sets the cipher repository.
         /// </summary>
-        public IRepository<ICipher> Repository { get; set; }
+        public IRepository<ICipher> Repository { get; set; } = repository;
 
         /// <summary>
         /// Used to encrypt the Plaintext into Ciphertext.

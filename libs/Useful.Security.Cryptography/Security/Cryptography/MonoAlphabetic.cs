@@ -9,13 +9,12 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The MonoAlphabetic cipher.
     /// </summary>
-    public sealed class MonoAlphabetic : ICipher
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
+    /// </remarks>
+    /// <param name="settings">The cipher's settings.</param>
+    public sealed class MonoAlphabetic(IMonoAlphabeticSettings settings) : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabetic"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public MonoAlphabetic(IMonoAlphabeticSettings settings) => Settings = settings;
 
         /// <inheritdoc />
         public string CipherName => "MonoAlphabetic";
@@ -23,7 +22,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets settings.
         /// </summary>
-        public IMonoAlphabeticSettings Settings { get; set; }
+        public IMonoAlphabeticSettings Settings { get; set; } = settings;
 
         /// <inheritdoc />
         public string Decrypt(string ciphertext)

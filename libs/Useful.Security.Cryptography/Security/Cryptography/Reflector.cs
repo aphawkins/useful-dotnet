@@ -9,13 +9,12 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
     /// </summary>
-    public sealed class Reflector : ICipher
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Reflector"/> class.
+    /// </remarks>
+    /// <param name="settings">The cipher's settings.</param>
+    public sealed class Reflector(IReflectorSettings settings) : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Reflector"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public Reflector(IReflectorSettings settings) => Settings = settings;
 
         /// <inheritdoc />
         public string CipherName => "Reflector";
@@ -23,7 +22,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets settings.
         /// </summary>
-        public IReflectorSettings Settings { get; set; }
+        public IReflectorSettings Settings { get; set; } = settings;
 
         /// <inheritdoc />
         public string Decrypt(string ciphertext)

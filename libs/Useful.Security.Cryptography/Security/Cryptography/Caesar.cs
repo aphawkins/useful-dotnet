@@ -1,4 +1,4 @@
-﻿// <copyright file="Caesar.cs" company="APH Software">
+// <copyright file="Caesar.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -9,13 +9,12 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// The Caesar cipher.
     /// </summary>
-    public sealed class Caesar : ICipher
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Caesar"/> class.
+    /// </remarks>
+    /// <param name="settings">Settings.</param>
+    public sealed class Caesar(ICaesarSettings settings) : ICipher
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Caesar"/> class.
-        /// </summary>
-        /// <param name="settings">Settings.</param>
-        public Caesar(ICaesarSettings settings) => Settings = settings;
 
         /// <inheritdoc />
         public string CipherName => "Caesar";
@@ -23,7 +22,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets settings.
         /// </summary>
-        public ICaesarSettings Settings { get; set; }
+        public ICaesarSettings Settings { get; set; } = settings;
 
         /// <inheritdoc />
         public string Decrypt(string ciphertext)

@@ -10,15 +10,13 @@ namespace Useful.Security.Cryptography
     /// <summary>
     /// Simulates the Enigma encoding machine.
     /// </summary>
-    public sealed class Enigma : ICipher
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Enigma"/> class.
+    /// </remarks>
+    /// <param name="settings">The cipher's settings.</param>
+    public sealed class Enigma(IEnigmaSettings settings) : ICipher
     {
         private const string CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Enigma"/> class.
-        /// </summary>
-        /// <param name="settings">The cipher's settings.</param>
-        public Enigma(IEnigmaSettings settings) => Settings = settings;
 
         /// <inheritdoc />
         public string CipherName => "Enigma M3";
@@ -26,7 +24,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets settings.
         /// </summary>
-        public IEnigmaSettings Settings { get; set; }
+        public IEnigmaSettings Settings { get; set; } = settings;
 
         /// <inheritdoc />
         public override string ToString() => CipherName;

@@ -8,11 +8,9 @@ using Xunit;
 namespace UsefulWeb.Tests
 {
     [Collection("Sequential")]
-    public class EndpointTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class EndpointTests(WebApplicationFactory<Startup> factory) : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
-
-        public EndpointTests(WebApplicationFactory<Startup> factory) => _factory = factory;
+        private readonly WebApplicationFactory<Startup> _factory = factory;
 
         [Theory]
         [InlineData("/")]

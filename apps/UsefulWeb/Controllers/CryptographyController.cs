@@ -8,11 +8,9 @@ using Useful.Security.Cryptography.UI.Services;
 
 namespace UsefulWeb.Controllers
 {
-    public class CryptographyController : Controller
+    public class CryptographyController(CipherService cipherService) : Controller
     {
-        private readonly CipherService _cipherService;
-
-        public CryptographyController(CipherService cipherService) => _cipherService = cipherService;
+        private readonly CipherService _cipherService = cipherService;
 
         public IActionResult Index() => RedirectToAction("Cryptography");
 
