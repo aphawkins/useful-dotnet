@@ -1,6 +1,4 @@
-// <copyright file="ReflectorViewModelTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using Useful.Security.Cryptography.UI.ViewModels;
 using Xunit;

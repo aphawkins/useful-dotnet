@@ -1,6 +1,4 @@
-﻿// <copyright file="CaesarEncryptRequest.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace UsefulAPI
 {

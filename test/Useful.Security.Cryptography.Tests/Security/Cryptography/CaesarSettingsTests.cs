@@ -1,6 +1,4 @@
-// <copyright file="CaesarSettingsTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using Xunit;
 

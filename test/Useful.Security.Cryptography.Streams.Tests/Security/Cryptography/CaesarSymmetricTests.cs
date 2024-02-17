@@ -1,6 +1,4 @@
-// <copyright file="CaesarSymmetricTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using System.Security.Cryptography;
 using System.Text;

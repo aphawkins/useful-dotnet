@@ -1,6 +1,4 @@
-﻿// <copyright file="IView.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Useful.Security.Cryptography.UI.Controllers;
 

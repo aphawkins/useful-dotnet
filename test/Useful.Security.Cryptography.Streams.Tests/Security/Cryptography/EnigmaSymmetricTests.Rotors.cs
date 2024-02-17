@@ -1,6 +1,4 @@
-﻿// <copyright file="EnigmaSymmetricTests.Rotors.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 using System.Text;

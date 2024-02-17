@@ -1,6 +1,4 @@
-﻿// <copyright file="CaesarViewModel.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Andrew Hawkins. All rights reserved.
 
 #pragma warning disable CA1822 // Mark members as static
 

@@ -1,6 +1,4 @@
-﻿// <copyright file="WebCipherRepository.cs" company="APH Software">
-// Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
+﻿// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Useful.Security.Cryptography;
 

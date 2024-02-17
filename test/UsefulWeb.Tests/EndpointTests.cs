@@ -1,6 +1,4 @@
-// <copyright file="EndpointTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;

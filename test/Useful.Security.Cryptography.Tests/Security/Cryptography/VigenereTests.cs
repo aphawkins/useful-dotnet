@@ -1,6 +1,4 @@
-// <copyright file="VigenereTests.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using System.Text;
 using Xunit;

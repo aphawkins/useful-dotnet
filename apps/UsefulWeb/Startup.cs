@@ -1,6 +1,4 @@
-// <copyright file="Startup.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using Useful;
 using Useful.Security.Cryptography;

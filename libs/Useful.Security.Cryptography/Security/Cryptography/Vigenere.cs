@@ -1,6 +1,4 @@
-// <copyright file="Vigenere.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
-// </copyright>
 
 using System.Text;
 
