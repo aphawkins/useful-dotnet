@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
