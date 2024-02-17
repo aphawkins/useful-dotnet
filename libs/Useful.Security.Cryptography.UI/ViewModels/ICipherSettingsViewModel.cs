@@ -5,7 +5,5 @@ namespace Useful.Security.Cryptography.UI.ViewModels
     /// <summary>
     /// Cipher settings for the View Model.
     /// </summary>
-    public interface ICipherSettingsViewModel
-    {
-    }
+    public interface ICipherSettingsViewModel;
 }

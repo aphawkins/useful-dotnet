@@ -5,7 +5,5 @@ namespace Useful.Security.Cryptography.UI.Views
     /// <summary>
     /// An interface that all disposable cipher views should implement.
     /// </summary>
-    public interface IDisposableCipherView : ICipherView, IDisposable
-    {
-    }
+    public interface IDisposableCipherView : ICipherView, IDisposable;
 }
