@@ -196,7 +196,7 @@ namespace Useful.Security.Cryptography
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
         {
             int rotorPositionsCount = 3;
-            string[] rotors = rotorNumbers.Split(new char[] { ' ' });
+            string[] rotors = rotorNumbers.Split([' ']);
             Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = new();
 
             if (rotors.Length <= 0)
@@ -237,7 +237,7 @@ namespace Useful.Security.Cryptography
         private static IDictionary<EnigmaRotorPosition, int> ParseEnigmaRings(string ringSettings)
         {
             int rotorPositionsCount = 3;
-            string[] rings = ringSettings.Split(new char[] { ' ' });
+            string[] rings = ringSettings.Split([' ']);
 
             if (rings.Length <= 0)
             {
@@ -283,7 +283,7 @@ namespace Useful.Security.Cryptography
         private static IDictionary<EnigmaRotorPosition, char> ParseEnigmaRotorSettings(string rotorSettings)
         {
             int rotorPositionsCount = 3;
-            string[] rotorSetting = rotorSettings.Split(new char[] { ' ' });
+            string[] rotorSetting = rotorSettings.Split([' ']);
 
             if (rotorSetting.Length <= 0)
             {
@@ -316,7 +316,7 @@ namespace Useful.Security.Cryptography
         private static EnigmaPlugboard ParsePlugboard(string plugboard)
         {
             IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
-            string[] rawPairs = plugboard.Split(new char[] { KeyDelimiter });
+            string[] rawPairs = plugboard.Split([KeyDelimiter]);
 
             // No plugs specified
             if (rawPairs.Length == 1 && rawPairs[0].Length == 0)
