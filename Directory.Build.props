@@ -16,10 +16,4 @@
     <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
     <!-- Fix for IDE0005 end -->
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)elite.ico" Pack="true" PackagePath="/">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 </Project>
