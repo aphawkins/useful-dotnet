@@ -1,6 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
-
-#pragma warning disable CA1822 // Mark members as static
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
