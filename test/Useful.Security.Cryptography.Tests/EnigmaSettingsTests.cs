@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -42,9 +42,33 @@ namespace Useful.Security.Cryptography.Tests
             {
                 Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                 {
-                    { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VI, RingPosition = 2, CurrentSetting = 'X' } },
-                    { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VII, RingPosition = 3, CurrentSetting = 'Y' } },
-                    { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.VIII, RingPosition = 4, CurrentSetting = 'Z' } },
+                    {
+                        EnigmaRotorPosition.Fastest,
+                        new EnigmaRotor()
+                            {
+                                RotorNumber = EnigmaRotorNumber.VI,
+                                RingPosition = 2,
+                                CurrentSetting = 'X',
+                            }
+                    },
+                    {
+                        EnigmaRotorPosition.Second,
+                        new EnigmaRotor()
+                            {
+                                RotorNumber = EnigmaRotorNumber.VII,
+                                RingPosition = 3,
+                                CurrentSetting = 'Y',
+                            }
+                    },
+                    {
+                        EnigmaRotorPosition.Third,
+                        new EnigmaRotor()
+                            {
+                                RotorNumber = EnigmaRotorNumber.VIII,
+                                RingPosition = 4,
+                                CurrentSetting = 'Z',
+                            }
+                    },
                 },
             };
 
@@ -57,13 +81,25 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].RotorNumber, settings.Rotors[EnigmaRotorPosition.Second].RotorNumber);
             Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].RotorNumber, settings.Rotors[EnigmaRotorPosition.Third].RotorNumber);
 
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Fastest].RingPosition, settings.Rotors[EnigmaRotorPosition.Fastest].RingPosition);
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].RingPosition, settings.Rotors[EnigmaRotorPosition.Second].RingPosition);
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].RingPosition, settings.Rotors[EnigmaRotorPosition.Third].RingPosition);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Fastest].RingPosition,
+                settings.Rotors[EnigmaRotorPosition.Fastest].RingPosition);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Second].RingPosition,
+                settings.Rotors[EnigmaRotorPosition.Second].RingPosition);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Third].RingPosition,
+                settings.Rotors[EnigmaRotorPosition.Third].RingPosition);
 
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Second].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
-            Assert.Equal(rotors.Rotors[EnigmaRotorPosition.Third].CurrentSetting, settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting,
+                settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Second].CurrentSetting,
+                settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting);
+            Assert.Equal(
+                rotors.Rotors[EnigmaRotorPosition.Third].CurrentSetting,
+                settings.Rotors[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
         [Fact]

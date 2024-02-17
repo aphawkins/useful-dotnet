@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -48,7 +48,8 @@ namespace Useful.Security.Cryptography.Tests
 
         [Theory]
         [MemberData(nameof(InvalidPairs))]
-        public void CtorSubstitutionsInvalid(IList<EnigmaPlugboardPair> pairs) => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
+        public void CtorSubstitutionsInvalid(IList<EnigmaPlugboardPair> pairs)
+            => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
 
         [Fact]
         public void CtorSubstitutionsNull() => Assert.Throws<ArgumentNullException>("pairs", () => new EnigmaPlugboard(null));

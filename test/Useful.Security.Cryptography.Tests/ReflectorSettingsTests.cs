@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -98,7 +98,13 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'C', 'A', "CBA", 2)]
         [InlineData("ABC", "CBA", 'A', 'A', "ABC", 0)] // Clear
         [InlineData("ABC", "CBA", 'A', 'C', "CBA", 2)] // Existing
-        public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
+        public void SetSubstitutionChange(
+            string characterSet,
+            string substitutions,
+            char from,
+            char to,
+            string newSubstitutions,
+            int substitutionCount)
         {
             IReflectorSettings settings = new ReflectorSettings()
             { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };

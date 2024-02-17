@@ -63,7 +63,11 @@ namespace Useful.Security.Cryptography
                 {
                     key = ParseKey(value);
 
-                    _algorithm.Settings = new MonoAlphabeticSettings() { CharacterSet = key.CharacterSet, Substitutions = key.Substitutions };
+                    _algorithm.Settings = new MonoAlphabeticSettings()
+                    {
+                        CharacterSet = key.CharacterSet,
+                        Substitutions = key.Substitutions,
+                    };
                 }
                 catch (ArgumentException ex)
                 {
@@ -123,7 +127,9 @@ namespace Useful.Security.Cryptography
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 
-            return parts.Length != KeyParts ? throw new ArgumentException("Incorrect number of key parts.", nameof(key)) : ((string CharacterSet, string Substitutions))(parts[0], parts[1]);
+            return parts.Length != KeyParts
+                ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
+                : ((string CharacterSet, string Substitutions))(parts[0], parts[1]);
         }
 
         private void Reset()

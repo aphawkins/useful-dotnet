@@ -107,7 +107,8 @@ namespace Useful.Security.Cryptography
             // Undo offset the current position
             currentPosition = CharacterSet.IndexOf(newLetter);
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
-            return newLet < 0 || newLet >= CharacterSet.Length ? throw new ArgumentOutOfRangeException(nameof(letter)) : CharacterSet[newLet];
+            return newLet < 0 || newLet >= CharacterSet.Length
+                ? throw new ArgumentOutOfRangeException(nameof(letter)) : CharacterSet[newLet];
         }
 
         /// <inheritdoc />
@@ -129,7 +130,8 @@ namespace Useful.Security.Cryptography
 
         private static (MonoAlphabeticSettings WiringSettings, string Notches) GetWiring(EnigmaRotorNumber rotorNumber)
         {
-            IDictionary<EnigmaRotorNumber, (string RotorWiring, string Notches)> wiring = new Dictionary<EnigmaRotorNumber, (string, string)>()
+            IDictionary<EnigmaRotorNumber, (string RotorWiring, string Notches)> wiring
+                = new Dictionary<EnigmaRotorNumber, (string, string)>()
             {
                 { EnigmaRotorNumber.I, ("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q") },
                 { EnigmaRotorNumber.II, ("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E") },

@@ -156,9 +156,21 @@ namespace Useful.Security.Cryptography
 
             IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> list = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>
             {
-                { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Fastest], RingPosition = rings[EnigmaRotorPosition.Fastest] } },
-                { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Second], RingPosition = rings[EnigmaRotorPosition.Second] } },
-                { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = rotorNumbers[EnigmaRotorPosition.Third], RingPosition = rings[EnigmaRotorPosition.Third] } },
+                {
+                    EnigmaRotorPosition.Fastest,
+                    new EnigmaRotor()
+                        { RotorNumber = rotorNumbers[EnigmaRotorPosition.Fastest], RingPosition = rings[EnigmaRotorPosition.Fastest] }
+                },
+                {
+                    EnigmaRotorPosition.Second,
+                    new EnigmaRotor()
+                        { RotorNumber = rotorNumbers[EnigmaRotorPosition.Second], RingPosition = rings[EnigmaRotorPosition.Second] }
+                },
+                {
+                    EnigmaRotorPosition.Third,
+                    new EnigmaRotor()
+                        { RotorNumber = rotorNumbers[EnigmaRotorPosition.Third], RingPosition = rings[EnigmaRotorPosition.Third] }
+                },
             };
 
             EnigmaRotors rotors = new(list);

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -21,7 +21,13 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("AB CD", "ABCD")] // Character set spacing
         [InlineData("ABCD ", "ABCD")] // Character set spacing
         public void CtorCharacterSetInvalid(string characterSet, string substitutions)
-            => Assert.Throws<ArgumentException>(nameof(characterSet), () => new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions });
+            => Assert.Throws<ArgumentException>(
+                nameof(characterSet),
+                () => new MonoAlphabeticSettings()
+                {
+                    CharacterSet = characterSet,
+                    Substitutions = substitutions,
+                });
 
         [Theory]
         [InlineData("ABC", "")] // No substitutions
@@ -33,7 +39,13 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCD", "aBCD")] // Subs incorrect case
         [InlineData("ABCD", "AACD")] // Incorrect subs letters
         public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
-            => Assert.Throws<ArgumentException>(nameof(substitutions), () => new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions });
+            => Assert.Throws<ArgumentException>(
+                nameof(substitutions),
+                () => new MonoAlphabeticSettings()
+                {
+                    CharacterSet = characterSet,
+                    Substitutions = substitutions,
+                });
 
         [Theory]
         [InlineData("ABC", "ABC", 0)]
@@ -88,7 +100,13 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "BAC", 'A', 'A', "ABC", 0)] // Reset
         [InlineData("ABC", "BCA", 'C', 'A', "BCA", 3)] // Existing
         [InlineData("ABC", "ABC", 'A', 'B', "BAC", 2)]
-        public void SetSubstitutionChange(string characterSet, string substitutions, char from, char to, string newSubstitutions, int substitutionCount)
+        public void SetSubstitutionChange(
+            string characterSet,
+            string substitutions,
+            char from,
+            char to,
+            string newSubstitutions,
+            int substitutionCount)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             settings[from] = to;

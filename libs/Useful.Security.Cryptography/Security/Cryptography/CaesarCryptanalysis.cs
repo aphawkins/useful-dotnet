@@ -7,7 +7,33 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public static class CaesarCryptanalysis
     {
-        private static readonly double[] s_letterFrequencies = [8.2, 1.5, 2.8, 4.3, 13.0, 2.2, 2.0, 6.1, 7.0, 0.15, 0.77, 4.0, 2.4, 6.7, 7.5, 1.9, 0.095, 6.0, 9.3, 9.1, 2.8, 0.98, 2.4, 0.15, 2.0, 0.074];
+        private static readonly double[] s_letterFrequencies
+            = [8.2,
+                1.5,
+                2.8,
+                4.3,
+                13.0,
+                2.2,
+                2.0,
+                6.1,
+                7.0,
+                0.15,
+                0.77,
+                4.0,
+                2.4,
+                6.7,
+                7.5,
+                1.9,
+                0.095,
+                6.0,
+                9.3,
+                9.1,
+                2.8,
+                0.98,
+                2.4,
+                0.15,
+                2.0,
+                0.074];
 
         /// <summary>
         /// Calculates the optimal settings.

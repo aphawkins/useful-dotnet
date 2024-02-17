@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -76,19 +76,22 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public void AdvanceRotors()
         {
-            _rotors[EnigmaRotorPosition.Fastest].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+            _rotors[EnigmaRotorPosition.Fastest].CurrentSetting
+                = (char)(((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
             foreach (char notch in _rotors[EnigmaRotorPosition.Fastest].Notches)
             {
                 if ((((_rotors[EnigmaRotorPosition.Fastest].CurrentSetting - 1 - 'A' + 26) % 26) + 'A') == notch)
                 {
-                    _rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                    _rotors[EnigmaRotorPosition.Second].CurrentSetting
+                        = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
 
                     foreach (char notch2 in _rotors[EnigmaRotorPosition.Second].Notches)
                     {
                         if (_rotors[EnigmaRotorPosition.Second].CurrentSetting - 1 == notch2)
                         {
-                            _rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Third].CurrentSetting
+                                = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }
@@ -101,8 +104,10 @@ namespace Useful.Security.Cryptography
                     {
                         if (_rotors[EnigmaRotorPosition.Second].CurrentSetting == notch2)
                         {
-                            _rotors[EnigmaRotorPosition.Second].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
-                            _rotors[EnigmaRotorPosition.Third].CurrentSetting = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Second].CurrentSetting
+                                = (char)(((_rotors[EnigmaRotorPosition.Second].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
+                            _rotors[EnigmaRotorPosition.Third].CurrentSetting
+                                = (char)(((_rotors[EnigmaRotorPosition.Third].CurrentSetting + 1 - 'A' + 26) % 26) + 'A');
                             break;
                         }
                     }

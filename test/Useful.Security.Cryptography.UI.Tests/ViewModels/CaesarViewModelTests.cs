@@ -46,7 +46,9 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         public void SetShiftOutOfRange(int selectedShift)
         {
             CaesarViewModel viewmodel = new();
-            Assert.Throws<ArgumentOutOfRangeException>(nameof(CaesarViewModel.SelectedShift), () => viewmodel.SelectedShift = selectedShift);
+            Assert.Throws<ArgumentOutOfRangeException>(
+                nameof(CaesarViewModel.SelectedShift),
+                () => viewmodel.SelectedShift = selectedShift);
         }
 
         [Fact]

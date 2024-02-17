@@ -20,7 +20,13 @@ namespace Useful.Security.Cryptography.Tests
         [Theory]
         [InlineData(-1)]
         [InlineData(26)]
-        public void ConstructOutOfRange(int rightShift) => Assert.Throws<ArgumentOutOfRangeException>(nameof(CaesarSettings.RightShift), () => new CaesarSettings() { RightShift = rightShift });
+        public void ConstructOutOfRange(int rightShift)
+            => Assert.Throws<ArgumentOutOfRangeException>(
+                nameof(CaesarSettings.RightShift),
+                () => new CaesarSettings()
+                {
+                    RightShift = rightShift,
+                });
 
         [Theory]
         [InlineData(0)]
