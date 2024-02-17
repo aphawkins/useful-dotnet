@@ -93,7 +93,7 @@ namespace Useful.Security.Cryptography
                     return;
                 }
 
-                char[] temp = Substitutions.ToArray();
+                char[] temp = [.. Substitutions];
                 temp[fromIndex] = to;
                 temp[toInvIndex] = fromSubs;
                 _substitutions = new string(temp);

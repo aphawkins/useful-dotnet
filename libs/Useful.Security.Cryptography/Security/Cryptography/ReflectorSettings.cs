@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -111,21 +111,21 @@ namespace Useful.Security.Cryptography
                 char toSubs = _substitutions[toIndex];
                 int toSubsIndex = _characterSet.IndexOf(toSubs);
 
-                char[] temp = _substitutions.ToArray();
+                char[] temp = [.. _substitutions];
                 temp[fromIndex] = to;
                 temp[toIndex] = from;
                 _substitutions = temp;
 
                 if (fromSubs != from)
                 {
-                    temp = _substitutions.ToArray();
+                    temp = [.. _substitutions];
                     temp[fromSubsIndex] = fromSubs;
                     _substitutions = temp;
                 }
 
                 if (toSubs != to)
                 {
-                    temp = _substitutions.ToArray();
+                    temp = [.. _substitutions];
                     temp[toSubsIndex] = toSubs;
                     _substitutions = temp;
                 }
