@@ -11,8 +11,10 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("abc", "BAC", 'A', 'B')]
         public void Encrypt(string plaintext, string ciphertext, char from, char to)
         {
-            ReflectorViewModel viewmodel = new();
-            viewmodel.Plaintext = plaintext;
+            ReflectorViewModel viewmodel = new()
+            {
+                Plaintext = plaintext
+            };
             viewmodel[from] = to;
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
@@ -22,8 +24,10 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("ABC", "bac", 'A', 'B')]
         public void Decrypt(string plaintext, string ciphertext, char from, char to)
         {
-            ReflectorViewModel viewmodel = new();
-            viewmodel.Ciphertext = ciphertext;
+            ReflectorViewModel viewmodel = new()
+            {
+                Ciphertext = ciphertext
+            };
             viewmodel[from] = to;
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);

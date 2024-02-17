@@ -11,9 +11,11 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("Hello", "MJQQT", 5)]
         public void Encrypt(string plaintext, string ciphertext, int selectedShift)
         {
-            CaesarViewModel viewmodel = new();
-            viewmodel.Plaintext = plaintext;
-            viewmodel.SelectedShift = selectedShift;
+            CaesarViewModel viewmodel = new()
+            {
+                Plaintext = plaintext,
+                SelectedShift = selectedShift
+            };
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
@@ -22,9 +24,11 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("HELLO", "Mjqqt", 5)]
         public void Decrypt(string plaintext, string ciphertext, int selectedShift)
         {
-            CaesarViewModel viewmodel = new();
-            viewmodel.Ciphertext = ciphertext;
-            viewmodel.SelectedShift = selectedShift;
+            CaesarViewModel viewmodel = new()
+            {
+                Ciphertext = ciphertext,
+                SelectedShift = selectedShift
+            };
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
         }

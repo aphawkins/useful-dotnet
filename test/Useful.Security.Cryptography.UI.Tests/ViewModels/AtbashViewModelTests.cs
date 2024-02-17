@@ -11,8 +11,10 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("Hello", "SVOOL")]
         public void Encrypt(string plaintext, string ciphertext)
         {
-            AtbashViewModel viewmodel = new();
-            viewmodel.Plaintext = plaintext;
+            AtbashViewModel viewmodel = new()
+            {
+                Plaintext = plaintext
+            };
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
@@ -21,8 +23,10 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         [InlineData("SVOOL", "Hello")]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            AtbashViewModel viewmodel = new();
-            viewmodel.Ciphertext = ciphertext;
+            AtbashViewModel viewmodel = new()
+            {
+                Ciphertext = ciphertext
+            };
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
         }
