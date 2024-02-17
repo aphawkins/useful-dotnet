@@ -60,15 +60,9 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <param name="settingsView">The view to select.</param>
         public void SelectCipher(ICipher cipher, ICipherSettingsViewModel cipherSettingsObservable, ICipherSettingsView settingsView)
         {
-            if (cipher == null)
-            {
-                throw new ArgumentNullException(nameof(cipher));
-            }
+            ArgumentNullException.ThrowIfNull(cipher);
 
-            if (settingsView == null)
-            {
-                throw new ArgumentNullException(nameof(settingsView));
-            }
+            ArgumentNullException.ThrowIfNull(settingsView);
 
             _repository.SetCurrentItem(x => x == cipher);
 

@@ -108,10 +108,7 @@ namespace Useful.Security.Cryptography
         {
             // Example:
             // CharacterSet|Substitutions
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentNullException.ThrowIfNull(key);
 
             if (key.SequenceEqual(Array.Empty<byte>()))
             {

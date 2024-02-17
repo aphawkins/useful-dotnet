@@ -24,10 +24,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public string Decrypt(string ciphertext)
         {
-            if (ciphertext == null)
-            {
-                throw new ArgumentNullException(nameof(ciphertext));
-            }
+            ArgumentNullException.ThrowIfNull(ciphertext);
 
             StringBuilder sb = new(ciphertext.Length);
 
@@ -42,10 +39,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public string Encrypt(string plaintext)
         {
-            if (plaintext == null)
-            {
-                throw new ArgumentNullException(nameof(plaintext));
-            }
+            ArgumentNullException.ThrowIfNull(plaintext);
 
             StringBuilder sb = new(plaintext.Length);
 

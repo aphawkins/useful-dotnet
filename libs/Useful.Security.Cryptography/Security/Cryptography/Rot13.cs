@@ -18,10 +18,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public string Encrypt(string plaintext)
         {
-            if (plaintext == null)
-            {
-                throw new ArgumentNullException(nameof(plaintext));
-            }
+            ArgumentNullException.ThrowIfNull(plaintext);
 
             StringBuilder sb = new(plaintext.Length);
 

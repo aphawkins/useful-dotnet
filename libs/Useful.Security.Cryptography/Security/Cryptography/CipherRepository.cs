@@ -26,10 +26,7 @@ namespace Useful.Security.Cryptography
         /// <param name="item">The cipher to delete.</param>
         public void Delete(ICipher item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            ArgumentNullException.ThrowIfNull(item);
 
             int removeAt = -1;
 
@@ -74,10 +71,7 @@ namespace Useful.Security.Cryptography
         /// <param name="item">The cipher to update.</param>
         public void Update(ICipher item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+            ArgumentNullException.ThrowIfNull(item);
 
             for (int i = 0; i < _ciphers.Count; i++)
             {

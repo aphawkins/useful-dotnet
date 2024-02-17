@@ -57,15 +57,9 @@ namespace Useful.Security.Cryptography
                 return 0;
             }
 
-            if (inputBuffer == null)
-            {
-                throw new ArgumentNullException(nameof(inputBuffer));
-            }
+            ArgumentNullException.ThrowIfNull(inputBuffer);
 
-            if (outputBuffer == null)
-            {
-                throw new ArgumentNullException(nameof(outputBuffer));
-            }
+            ArgumentNullException.ThrowIfNull(outputBuffer);
 
             if (inputBuffer.Length < (inputOffset + inputCount))
             {

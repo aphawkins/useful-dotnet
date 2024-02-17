@@ -16,10 +16,7 @@ namespace UsefulWeb.Controllers
 
         public IActionResult AtBash(CipherModel cipherModel)
         {
-            if (cipherModel == null)
-            {
-                throw new ArgumentNullException(nameof(cipherModel));
-            }
+            ArgumentNullException.ThrowIfNull(cipherModel);
 
             if (Request.ContentLength.HasValue)
             {
@@ -40,10 +37,7 @@ namespace UsefulWeb.Controllers
 
         public IActionResult ROT13(CipherModel cipherModel)
         {
-            if (cipherModel == null)
-            {
-                throw new ArgumentNullException(nameof(cipherModel));
-            }
+            ArgumentNullException.ThrowIfNull(cipherModel);
 
             if (Request.ContentLength.HasValue)
             {

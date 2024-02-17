@@ -19,10 +19,7 @@ namespace Useful.Security.Cryptography
         /// <param name="output">The output stream.</param>
         public static void SymmetricTransform(SymmetricAlgorithm cipher, CipherTransformMode transformMode, Stream input, Stream output)
         {
-            if (cipher == null)
-            {
-                throw new ArgumentNullException(nameof(cipher));
-            }
+            ArgumentNullException.ThrowIfNull(cipher);
 
             using ICryptoTransform transformer = GetTransformer(cipher, transformMode);
             using StreamReader reader = new(input, new UnicodeEncoding());
@@ -51,10 +48,7 @@ namespace Useful.Security.Cryptography
         /// <exception cref="NotImplementedException"> Thrown sometimes.</exception>
         public static string SymmetricTransform(SymmetricAlgorithm cipher, CipherTransformMode transformMode, string input)
         {
-            if (cipher == null)
-            {
-                throw new ArgumentNullException(nameof(cipher));
-            }
+            ArgumentNullException.ThrowIfNull(cipher);
 
             Encoding encoding = new UnicodeEncoding();
 

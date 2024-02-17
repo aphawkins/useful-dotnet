@@ -70,10 +70,7 @@ namespace Useful.Security.Cryptography
         /// <param name="pairs">The pairs to check.</param>
         private void CheckPairs(IList<EnigmaPlugboardPair> pairs)
         {
-            if (pairs is null)
-            {
-                throw new ArgumentNullException(nameof(pairs));
-            }
+            ArgumentNullException.ThrowIfNull(pairs);
 
             List<char> uniqueLetters = [];
 
