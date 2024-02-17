@@ -1,11 +1,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Moq;
+using Useful.Security.Cryptography.UI.Controllers;
 using Useful.Security.Cryptography.UI.ViewModels;
 using Useful.Security.Cryptography.UI.Views;
 using Xunit;
 
-namespace Useful.Security.Cryptography.UI.Controllers.Tests
+namespace Useful.Security.Cryptography.UI.Tests.Controllers
 {
     public class CipherControllerTests
     {

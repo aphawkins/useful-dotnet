@@ -1,10 +1,10 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 
-namespace Useful.Security.Cryptography.Tests
+namespace Useful.Security.Cryptography.Streams.Tests
 {
     public class MonoAlphabeticSymmetricTests
     {

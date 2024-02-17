@@ -3,7 +3,7 @@
 using Useful.Security.Cryptography.UI.ViewModels;
 using Xunit;
 
-namespace Useful.Security.Cryptography.Tests
+namespace Useful.Security.Cryptography.UI.Tests.ViewModels
 {
     public class AtbashViewModelTests
     {

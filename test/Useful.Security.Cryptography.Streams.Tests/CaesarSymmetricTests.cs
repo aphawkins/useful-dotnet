@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 
-namespace Useful.Security.Cryptography.Tests
+namespace Useful.Security.Cryptography.Streams.Tests
 {
     public class CaesarSymmetricTests
     {
@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.Tests
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
             { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "DEFGHIJKLMNOPQRSTUVWXYZABC", 3 },
             { ">?@ [\\]", ">?@ [\\]", 3 },
-            { "Å", "Å", 3 },
+            { "Ã…", "Ã…", 3 },
         };
 
         [Theory]

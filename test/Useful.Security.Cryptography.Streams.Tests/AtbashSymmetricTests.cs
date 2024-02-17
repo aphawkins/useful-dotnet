@@ -1,16 +1,16 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 
-namespace Useful.Security.Cryptography.Tests
+namespace Useful.Security.Cryptography.Streams.Tests
 {
-    public class Rot13SymmetricTests
+    public class AtbashSymmetricTests
     {
         public static TheoryData<string, string> Data => new()
         {
-            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "NOPQRSTUVWXYZABCDEFGHIJKLM" },
+            { "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "ZYXWVUTSRQPONMLKJIHGFEDCBA" },
             { ">?@ [\\]", ">?@ [\\]" },
             { "Å", "Å" },
         };
@@ -18,33 +18,33 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Ctor()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal([], cipher.Key);
             Assert.Equal([], cipher.IV);
         }
 
         [Theory]
         [MemberData(nameof(Data))]
-        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "nopqrstuvwxyzabcdefghijklm")]
+        [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "zyxwvutsrqponmlkjihgfedcba")]
         public void Decrypt(string plaintext, string ciphertext)
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal(plaintext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Decrypt, ciphertext));
         }
 
         [Theory]
         [MemberData(nameof(Data))]
-        [InlineData("abcdefghijklmnopqrstuvwxyz", "NOPQRSTUVWXYZABCDEFGHIJKLM")]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "ZYXWVUTSRQPONMLKJIHGFEDCBA")]
         public void Encrypt(string plaintext, string ciphertext)
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             Assert.Equal(ciphertext, CipherMethods.SymmetricTransform(cipher, CipherTransformMode.Encrypt, plaintext));
         }
 
         [Fact]
         public void IvGenerateCorrectness()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             cipher.GenerateIV();
             Assert.Equal([], cipher.IV);
         }
@@ -52,7 +52,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void IvSet()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric
+            using SymmetricAlgorithm cipher = new AtbashSymmetric
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
@@ -62,7 +62,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeyGenerateCorrectness()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
             cipher.GenerateKey();
             Assert.Equal([], cipher.Key);
         }
@@ -70,7 +70,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void KeySet()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric
+            using SymmetricAlgorithm cipher = new AtbashSymmetric
             {
                 Key = Encoding.Unicode.GetBytes("A"),
             };
@@ -80,8 +80,8 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            using SymmetricAlgorithm cipher = new Rot13Symmetric();
-            Assert.Equal("ROT13", cipher.ToString());
+            using SymmetricAlgorithm cipher = new AtbashSymmetric();
+            Assert.Equal("Atbash", cipher.ToString());
         }
     }
 }

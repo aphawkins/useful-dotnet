@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Useful.Security.Cryptography;
+using UsefulAPI.Models;
 
 namespace UsefulAPI.Controllers
 {

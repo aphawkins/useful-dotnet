@@ -1,6 +1,6 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace UsefulAPI
+namespace UsefulAPI.Models
 {
     public class CaesarDecryptRequest : DecryptRequest
     {
