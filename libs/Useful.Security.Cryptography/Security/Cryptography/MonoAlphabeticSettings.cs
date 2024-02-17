@@ -14,6 +14,7 @@ namespace Useful.Security.Cryptography
         public string CharacterSet
         {
             get => _characterSet;
+
             init
             {
                 _characterSet = ParseCharacterSet(value);

@@ -27,6 +27,7 @@ namespace Useful.Security.Cryptography
         public EnigmaReflectorNumber ReflectorNumber
         {
             get => _reflectorNumber;
+
             set
             {
                 _reflectorNumber = value;

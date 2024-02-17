@@ -83,6 +83,7 @@ namespace Useful.Security.Cryptography
         public EnigmaRotorNumber RotorNumber
         {
             get => _rotorNumber;
+
             set
             {
                 _rotorNumber = value;

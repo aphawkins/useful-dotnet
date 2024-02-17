@@ -14,6 +14,7 @@ namespace Useful.Security.Cryptography
         public IList<char> CharacterSet
         {
             get => _characterSet;
+
             init
             {
                 _characterSet = ParseCharacterSet(value);
@@ -25,6 +26,7 @@ namespace Useful.Security.Cryptography
         public IList<char> Substitutions
         {
             get => _substitutions;
+
             init
             {
                 try

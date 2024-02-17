@@ -56,6 +56,7 @@ namespace Useful.Security.Cryptography
         public IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors
         {
             get => _rotors;
+
             init
             {
                 if (value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Second].RotorNumber

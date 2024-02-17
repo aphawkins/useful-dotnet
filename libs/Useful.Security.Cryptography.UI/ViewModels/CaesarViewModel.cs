@@ -39,6 +39,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public int SelectedShift
         {
             get => _cipher.Settings.RightShift;
+
             set
             {
                 try
