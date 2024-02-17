@@ -21,8 +21,10 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("AB CD", "ABCD")] // Character set spacing
         [InlineData("ABCD ", "ABCD")] // Character set spacing
         public void CtorCharacterSetInvalid(string characterSet, string substitutions)
-            => Assert.Throws<ArgumentException>(nameof(characterSet), () => new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
+            => Assert.Throws<ArgumentException>(
+                nameof(characterSet),
+                () => new ReflectorSettings()
+                    { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
 
         [Theory]
         [InlineData("ABC", "ABCD")] // Too many subs
@@ -33,8 +35,10 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCD", "AAAA")] // Incorrect subs letters
         [InlineData("ABC", "BCA")] // Subs non-reflective
         public void CtorSubstitutionsInvalid(string characterSet, string substitutions)
-            => Assert.Throws<ArgumentException>(nameof(ReflectorSettings.Substitutions), () => new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
+            => Assert.Throws<ArgumentException>(
+                nameof(ReflectorSettings.Substitutions),
+                () => new ReflectorSettings()
+                    { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
 
         [Theory]
         [InlineData("ABC", "ABC", 0)]

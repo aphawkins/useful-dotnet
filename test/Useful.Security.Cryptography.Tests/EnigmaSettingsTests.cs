@@ -72,9 +72,9 @@ namespace Useful.Security.Cryptography.Tests
             IEnigmaSettings settings = new EnigmaSettings()
             {
                 Plugboard = new EnigmaPlugboard(new List<EnigmaPlugboardPair>()
-                {
-                    { new EnigmaPlugboardPair() { From = 'A', To = 'B' } },
-                }),
+                    {
+                        { new EnigmaPlugboardPair() { From = 'A', To = 'B' } },
+                    }),
             };
 
             Assert.Equal(1, settings.Plugboard.SubstitutionCount);

@@ -91,14 +91,14 @@ namespace Useful.Security.Cryptography.Tests
 
         [Fact]
         public void RotorOrderInvalid() => Assert.Throws<ArgumentException>(() => new EnigmaRotors()
-        {
-            Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
-                    {
-                        { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
-                        { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
-                        { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.III } },
-                    },
-        });
+            {
+                Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
+                        {
+                            { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
+                            { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
+                            { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.III } },
+                        },
+            });
 
         [Fact]
         public void RotorPositionsDefaults()
