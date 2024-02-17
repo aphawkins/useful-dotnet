@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography
 
             if (string.IsNullOrEmpty(Settings.Keyword))
             {
-                return plaintext.ToUpper();
+                return plaintext.ToUpperInvariant();
             }
 
             CaesarSettings caesarSettings = new();
@@ -36,7 +36,7 @@ namespace Useful.Security.Cryptography
             StringBuilder ciphertext = new();
             int i = 0;
 
-            foreach (char letter in plaintext.ToUpper())
+            foreach (char letter in plaintext.ToUpperInvariant())
             {
                 if (letter is >= 'A' and <= 'Z')
                 {
@@ -60,7 +60,7 @@ namespace Useful.Security.Cryptography
 
             if (string.IsNullOrEmpty(Settings.Keyword))
             {
-                return ciphertext.ToUpper();
+                return ciphertext.ToUpperInvariant();
             }
 
             CaesarSettings caesarSettings = new();
@@ -68,7 +68,7 @@ namespace Useful.Security.Cryptography
             StringBuilder plaintext = new();
             int i = 0;
 
-            foreach (char letter in ciphertext.ToUpper())
+            foreach (char letter in ciphertext.ToUpperInvariant())
             {
                 if (letter is >= 'A' and <= 'Z')
                 {

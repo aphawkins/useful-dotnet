@@ -53,7 +53,7 @@ namespace Useful.Security.Cryptography
                 shifts.Add(i, cipher.Decrypt(ciphertext));
             }
 
-            return (BestShift(ciphertext.ToUpper()), shifts);
+            return (BestShift(ciphertext.ToUpperInvariant()), shifts);
         }
 
         private static int BestShift(string ciphertext)

@@ -42,9 +42,9 @@ namespace Useful.Security.Cryptography
                 {
                     output.Append(' ');
                 }
-                else if (CharacterSet.Contains(char.ToUpper(inputChar)))
+                else if (CharacterSet.Contains(char.ToUpperInvariant(inputChar)))
                 {
-                    output.Append(Encrypt(char.ToUpper(inputChar)));
+                    output.Append(Encrypt(char.ToUpperInvariant(inputChar)));
                 }
             }
 

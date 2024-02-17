@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography
                     throw new ArgumentOutOfRangeException(nameof(Keyword), "Length must be between 0 and 26 letters.");
                 }
 
-                _keyword = value.ToUpper();
+                _keyword = value.ToUpperInvariant();
             }
         }
     }

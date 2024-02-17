@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Text;
 
@@ -59,8 +59,8 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString() => CipherName;
 
-        private char Decrypt(char ciphertext) => Settings.Reflect(char.ToUpper(ciphertext));
+        private char Decrypt(char ciphertext) => Settings.Reflect(char.ToUpperInvariant(ciphertext));
 
-        private char Encrypt(char plaintext) => Settings[char.ToUpper(plaintext)];
+        private char Encrypt(char plaintext) => Settings[char.ToUpperInvariant(plaintext)];
     }
 }
