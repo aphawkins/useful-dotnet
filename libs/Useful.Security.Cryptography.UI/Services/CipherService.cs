@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography.UI.Services
 {
@@ -22,19 +22,13 @@ namespace Useful.Security.Cryptography.UI.Services
         /// </summary>
         /// <param name="plaintext">The text to encrypt.</param>
         /// <returns>The encrypted text.</returns>
-        public string Encrypt(string plaintext)
-        {
-            return Repository.CurrentItem == null || string.IsNullOrEmpty(plaintext) ? string.Empty : Repository.CurrentItem.Encrypt(plaintext);
-        }
+        public string Encrypt(string plaintext) => Repository.CurrentItem == null || string.IsNullOrEmpty(plaintext) ? string.Empty : Repository.CurrentItem.Encrypt(plaintext);
 
         /// <summary>
         /// Used to decrypt the Ciphertext into Plaintext.
         /// </summary>
         /// <param name="ciphertext">The text to decrypt.</param>
         /// <returns>The decrypted text.</returns>
-        public string Decrypt(string ciphertext)
-        {
-            return Repository.CurrentItem == null || string.IsNullOrEmpty(ciphertext) ? string.Empty : Repository.CurrentItem.Decrypt(ciphertext);
-        }
+        public string Decrypt(string ciphertext) => Repository.CurrentItem == null || string.IsNullOrEmpty(ciphertext) ? string.Empty : Repository.CurrentItem.Decrypt(ciphertext);
     }
 }

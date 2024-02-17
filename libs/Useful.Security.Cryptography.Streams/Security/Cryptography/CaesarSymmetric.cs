@@ -71,16 +71,13 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override string ToString() => _algorithm.CipherName;
 
-        private static ICaesarSettings GetSettings(byte[] key)
-        {
-            return key == null
+        private static ICaesarSettings GetSettings(byte[] key) => key == null
                 ? throw new ArgumentNullException(nameof(key))
                 : !int.TryParse(Encoding.Unicode.GetString(key), out int rightShift)
                 ? throw new ArgumentException("Value must be a number.", nameof(key))
                 : rightShift is < 0 or > 25
                 ? throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.")
                 : (ICaesarSettings)new CaesarSettings() { RightShift = rightShift };
-        }
 
         private void Reset()
         {

@@ -96,10 +96,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public char Reverse(char letter)
-        {
-            return CharacterSet.IndexOf(letter) < 0 ? letter : Substitutions.First(x => this[x] == letter);
-        }
+        public char Reverse(char letter) => CharacterSet.IndexOf(letter) < 0 ? letter : Substitutions.First(x => this[x] == letter);
 
         private static string ParseCharacterSet(string characterSet)
         {

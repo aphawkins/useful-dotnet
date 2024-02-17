@@ -154,13 +154,10 @@ namespace Useful.Security.Cryptography
                 : characterSet;
         }
 
-        private static IList<char> ParseSubstitutions(IList<char> characterSet, IList<char> substitutions)
-        {
-            return substitutions.Count > characterSet.Count
+        private static IList<char> ParseSubstitutions(IList<char> characterSet, IList<char> substitutions) => substitutions.Count > characterSet.Count
                 ? throw new ArgumentException("Too many substitutions.", nameof(substitutions))
                 : !substitutions.All(characterSet.Contains)
                 ? throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions))
                 : characterSet;
-        }
     }
 }

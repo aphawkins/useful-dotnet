@@ -181,14 +181,11 @@ namespace Useful.Security.Cryptography
             return settings;
         }
 
-        private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector)
-        {
-            return reflector.Length > 1 ||
+        private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector) => reflector.Length > 1 ||
                 !char.IsLetter(reflector[0]) ||
                 !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber)
                 ? throw new ArgumentException("Incorrect reflector.", nameof(reflector))
                 : (IEnigmaReflector)new EnigmaReflector() { ReflectorNumber = reflectorNumber };
-        }
 
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
         {
