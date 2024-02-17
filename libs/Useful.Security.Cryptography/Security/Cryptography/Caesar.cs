@@ -60,13 +60,11 @@ namespace Useful.Security.Cryptography
         public override string ToString() => CipherName;
 
         internal char Encrypt(char letter)
-            // Uppercase
             => letter is >= 'A' and <= 'Z'
                 ? (char)(((letter - 'A' + Settings.RightShift) % 26) + 'A')
                 : letter is >= 'a' and <= 'z' ? (char)(((letter - 'a' + Settings.RightShift) % 26) + 'A') : letter;
 
         internal char Decrypt(char letter)
-            // Uppercase
             => letter is >= 'A' and <= 'Z'
                 ? (char)(((letter - 'A' + 26 - Settings.RightShift) % 26) + 'A')
                 : letter is >= 'a' and <= 'z' ? (char)(((letter - 'a' + 26 - Settings.RightShift) % 26) + 'A') : letter;
