@@ -76,12 +76,8 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override byte[] IV
         {
-            get
-            {
-                // Example:
-                // G M Y
-                return Encoding.Unicode.GetBytes(RotorSettingString(_algorithm.Settings.Rotors));
-            }
+            // Example: G M Y
+            get => Encoding.Unicode.GetBytes(RotorSettingString(_algorithm.Settings.Rotors));
 
             set
             {
