@@ -1,4 +1,4 @@
-﻿// <copyright file="SettingsController.cs" company="APH Software">
+// <copyright file="SettingsController.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -32,7 +32,6 @@ namespace Useful.Security.Cryptography.UI.Controllers
         public ICipherSettingsViewModel Settings
         {
             get;
-            private set;
         }
 
         /// <summary>
