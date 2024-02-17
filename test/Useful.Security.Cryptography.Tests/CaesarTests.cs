@@ -72,9 +72,9 @@ namespace Useful.Security.Cryptography.Tests
             string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
             ICipher cipher = new Caesar(new CaesarSettings()
-                {
-                    RightShift = 7,
-                });
+            {
+                RightShift = 7,
+            });
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }

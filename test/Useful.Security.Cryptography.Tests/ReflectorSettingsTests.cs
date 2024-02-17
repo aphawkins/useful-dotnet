@@ -24,7 +24,7 @@ namespace Useful.Security.Cryptography.Tests
             => Assert.Throws<ArgumentException>(
                 nameof(characterSet),
                 () => new ReflectorSettings()
-                    { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
+                { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
 
         [Theory]
         [InlineData("ABC", "ABCD")] // Too many subs
@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography.Tests
             => Assert.Throws<ArgumentException>(
                 nameof(ReflectorSettings.Substitutions),
                 () => new ReflectorSettings()
-                    { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
+                { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() });
 
         [Theory]
         [InlineData("ABC", "ABC", 0)]

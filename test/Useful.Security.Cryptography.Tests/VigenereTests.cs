@@ -111,9 +111,9 @@ namespace Useful.Security.Cryptography.Tests
                 .ToString();
 
             ICipher cipher = new Vigenere(new VigenereSettings()
-                {
-                    Keyword = "SCUBA",
-                });
+            {
+                Keyword = "SCUBA",
+            });
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
