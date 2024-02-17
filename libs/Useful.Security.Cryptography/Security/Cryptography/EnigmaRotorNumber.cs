@@ -9,6 +9,8 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public enum EnigmaRotorNumber
     {
+        None = 0,
+
         /// <summary>
         /// Rotor number I.
         /// </summary>
