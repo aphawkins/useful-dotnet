@@ -169,7 +169,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Too many substitutions.", nameof(substitutions));
             }
 
-            if (!substitutions.All(x => characterSet.Contains(x)))
+            if (!substitutions.All(characterSet.Contains))
             {
                 throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
             }

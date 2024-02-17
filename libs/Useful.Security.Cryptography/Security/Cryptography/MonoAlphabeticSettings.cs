@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -155,7 +155,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Substitutions must not be duplicated.", nameof(substitutions));
             }
 
-            if (!substitutions.All(x => characterSet.Contains(x)))
+            if (!substitutions.All(characterSet.Contains))
             {
                 throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
             }
