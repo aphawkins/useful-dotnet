@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -90,15 +90,16 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void RotorOrderInvalid() => Assert.Throws<ArgumentException>(() => new EnigmaRotors()
-        {
-            Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
+        public void RotorOrderInvalid() => Assert.Throws<ArgumentException>(
+            () => new EnigmaRotors()
+            {
+                Rotors = new Dictionary<EnigmaRotorPosition, IEnigmaRotor>()
                         {
                             { EnigmaRotorPosition.Fastest, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
                             { EnigmaRotorPosition.Second, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.IV } },
                             { EnigmaRotorPosition.Third, new EnigmaRotor() { RotorNumber = EnigmaRotorNumber.III } },
                         },
-        });
+            });
 
         [Fact]
         public void RotorPositionsDefaults()

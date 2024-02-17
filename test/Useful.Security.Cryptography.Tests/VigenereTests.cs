@@ -110,10 +110,11 @@ namespace Useful.Security.Cryptography.Tests
                 .Append("SES AILES DEGEANT LEMPECHENT DE MARCHER")
                 .ToString();
 
-            ICipher cipher = new Vigenere(new VigenereSettings()
-            {
-                Keyword = "SCUBA",
-            });
+            ICipher cipher = new Vigenere(
+                new VigenereSettings()
+                {
+                    Keyword = "SCUBA",
+                });
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
