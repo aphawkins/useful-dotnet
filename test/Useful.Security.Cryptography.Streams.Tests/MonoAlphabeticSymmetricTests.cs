@@ -156,7 +156,7 @@ namespace Useful.Security.Cryptography.Streams.Tests
         [Fact]
         public void SinghCodeBook()
         {
-            string ciphertext =
+            const string ciphertext =
                 @"BT JPX RMLX PCUV AMLX ICVJP IBTWXVR CI M LMT'R PMTN, " +
                     "MTN YVCJX CDXV MWMBTRJ JPX AMTNGXRJBAH UQCT JPX QGMRJXV CI JPX YMGG CI JPX HBTW'R QMGMAX; " +
                     "MTN JPX HBTW RMY JPX QMVJ CI JPX PMTN JPMJ YVCJX. " +
@@ -182,7 +182,7 @@ namespace Useful.Security.Cryptography.Streams.Tests
                     "TCY GXJ NMTBXG FX AMGGXN, MTN PX YBGG RPCY JPX BTJXVQVXJMJBCT. " +
                     "JPX IBVRJ ACNXYCVN BR CJPXGGC. ";
 
-            string plaintext =
+            const string plaintext =
                 @"IN THE SAME HOUR CAME FORTH FINGERS OF A MAN'S HAND, " +
                     "AND WROTE OVER AGAINST THE CANDLESTICK UPON THE PLASTER OF THE WALL OF THE KING'S PALACE; " +
                     "AND THE KING SAW THE PART OF THE HAND THAT WROTE. " +

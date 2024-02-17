@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography.Tests
         public void EnigmaRotor(EnigmaRotorNumber rotorNumber, string reflection, string notches)
         {
             _ = notches;
-            string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             IEnigmaRotor target = new EnigmaRotor() { RotorNumber = rotorNumber };
 

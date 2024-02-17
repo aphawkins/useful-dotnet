@@ -201,7 +201,7 @@ namespace Useful.Security.Cryptography
 
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
         {
-            int rotorPositionsCount = 3;
+            const int rotorPositionsCount = 3;
             string[] rotors = rotorNumbers.Split([' ']);
             Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = [];
 
@@ -242,7 +242,7 @@ namespace Useful.Security.Cryptography
 
         private static IDictionary<EnigmaRotorPosition, int> ParseEnigmaRings(string ringSettings)
         {
-            int rotorPositionsCount = 3;
+            const int rotorPositionsCount = 3;
             string[] rings = ringSettings.Split([' ']);
 
             if (rings.Length <= 0)
@@ -288,7 +288,7 @@ namespace Useful.Security.Cryptography
 
         private static IDictionary<EnigmaRotorPosition, char> ParseEnigmaRotorSettings(string rotorSettings)
         {
-            int rotorPositionsCount = 3;
+            const int rotorPositionsCount = 3;
             string[] rotorSetting = rotorSettings.Split([' ']);
 
             return rotorSetting.Length <= 0

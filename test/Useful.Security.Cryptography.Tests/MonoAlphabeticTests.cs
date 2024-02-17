@@ -19,8 +19,8 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Ctor()
         {
-            string characterSet = "ABC";
-            string substitutions = "ABC";
+            const string characterSet = "ABC";
+            const string substitutions = "ABC";
 
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
             MonoAlphabetic cipher = new(settings);
@@ -82,7 +82,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void SinghCodeBook()
         {
-            string ciphertext =
+            const string ciphertext =
                 "BT JPX RMLX PCUV AMLX ICVJP IBTWXVR CI M LMT'R PMTN, " +
                     "MTN YVCJX CDXV MWMBTRJ JPX AMTNGXRJBAH UQCT JPX QGMRJXV CI JPX YMGG CI JPX HBTW'R QMGMAX; " +
                     "MTN JPX HBTW RMY JPX QMVJ CI JPX PMTN JPMJ YVCJX. " +
@@ -110,7 +110,7 @@ namespace Useful.Security.Cryptography.Tests
                     "TCY GXJ NMTBXG FX AMGGXN, MTN PX YBGG RPCY JPX BTJXVQVXJMJBCT. " +
                     "JPX IBVRJ ACNXYCVN BR CJPXGGC. ";
 
-            string plaintext =
+            const string plaintext =
                 "IN THE SAME HOUR CAME FORTH FINGERS OF A MAN'S HAND, " +
                     "AND WROTE OVER AGAINST THE CANDLESTICK UPON THE PLASTER OF THE WALL OF THE KING'S PALACE; " +
                     "AND THE KING SAW THE PART OF THE HAND THAT WROTE. " +
@@ -138,7 +138,7 @@ namespace Useful.Security.Cryptography.Tests
                     "NOW LET DANIEL BE CALLED, AND HE WILL SHOW THE INTERPRETATION. " +
                     "THE FIRST CODEWORD IS OTHELLO. ";
 
-            string substitutions = "MFANXIWPBSHGLTCQKVRJUDYZEO";
+            const string substitutions = "MFANXIWPBSHGLTCQKVRJUDYZEO";
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { Substitutions = substitutions };
             ICipher cipher = new MonoAlphabetic(settings);
             System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));

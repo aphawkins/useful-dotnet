@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData(EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL")]
         public void Reflect(EnigmaReflectorNumber reflectorNumber, string wiring)
         {
-            string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             IEnigmaReflector reflector = new EnigmaReflector()
             {

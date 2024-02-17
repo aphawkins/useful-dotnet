@@ -95,9 +95,9 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: AV BS CG DL FU HZ IN KM OW RX
             // Message key: BLA
             // Final key: BRS
-            string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
-            string initVector = "B L A";
-            string newIv = "B R S";
+            const string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
+            const string initVector = "B L A";
+            const string newIv = "B R S";
 
             string plaintext = new StringBuilder()
                 .Append("AUFKL XABTE ILUNG XVONX KURTI ")
@@ -255,9 +255,9 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: PO ML IU KJ NH YT
             // Message key: KJS
             // Final key: KPG
-            string keyString = "B|II V I|23 15 02|HN IU JK LM OP TY";
-            string initVector = "K J S";
-            string newIv = "K P G";
+            const string keyString = "B|II V I|23 15 02|HN IU JK LM OP TY";
+            const string initVector = "K J S";
+            const string newIv = "K P G";
 
             string plaintext = new StringBuilder()
                 .Append("THEENIGMACIPHERWASAFIELDCIPHER")
@@ -306,9 +306,9 @@ namespace Useful.Security.Cryptography.Tests
             // Plug pairs: EI AS JN KL MU OT
             // Message key: OUA (?)
             // FInal key: BRS (?)
-            string keyString = "B|III II I|01 01 01|EI AS JN KL MU OT";
-            string initVector = "O U A";
-            string newIv = "B R S";
+            const string keyString = "B|III II I|01 01 01|EI AS JN KL MU OT";
+            const string initVector = "O U A";
+            const string newIv = "B R S";
 
             string plaintext = new StringBuilder()
                 .Append("DASXL OESUN GSWOR TXIST XPLUT")
