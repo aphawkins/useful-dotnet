@@ -63,15 +63,15 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("A", "J", "B|III II I|01 01 01|", "L F S", "L F T")] // Notch - single step
         [InlineData("HELLOWORLD", "ZFZEFSQZDU", "B|III II I|01 01 01|AB CD EF GH IJ KL MN OP QR ST UV WX YZ", "A A A", "A A K")] // Complex
         [InlineData("B", "I", "B|II V I|23 15 02|HN IU JK LM OP TY", "K K R", "K K S")] // Bugfix
-        public void EncryptSettings(string plaintext, string ciphertext, string keyString, string ivString, string newIV)
+        public void EncryptSettings(string plaintext, string ciphertext, string key, string iv, string newIV)
         {
             using SymmetricAlgorithm target = new EnigmaSymmetric
             {
-                Key = Encoding.Unicode.GetBytes(keyString),
-                IV = Encoding.Unicode.GetBytes(ivString),
+                Key = Encoding.Unicode.GetBytes(key),
+                IV = Encoding.Unicode.GetBytes(iv),
             };
             string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Encrypt, plaintext);
-            Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
+            Assert.Equal(key, Encoding.Unicode.GetString(target.Key));
             Assert.Equal(newIV, Encoding.Unicode.GetString(target.IV));
             Assert.Equal(ciphertext, s);
         }
