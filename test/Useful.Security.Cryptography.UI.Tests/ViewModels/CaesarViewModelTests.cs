@@ -14,7 +14,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             CaesarViewModel viewmodel = new()
             {
                 Plaintext = plaintext,
-                SelectedShift = selectedShift
+                SelectedShift = selectedShift,
             };
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
@@ -27,7 +27,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             CaesarViewModel viewmodel = new()
             {
                 Ciphertext = ciphertext,
-                SelectedShift = selectedShift
+                SelectedShift = selectedShift,
             };
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);

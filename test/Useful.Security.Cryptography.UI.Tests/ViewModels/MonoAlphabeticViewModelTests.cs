@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         {
             MonoAlphabeticViewModel viewmodel = new()
             {
-                Plaintext = plaintext
+                Plaintext = plaintext,
             };
             viewmodel[from] = to;
             viewmodel.Encrypt();
@@ -26,7 +26,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         {
             MonoAlphabeticViewModel viewmodel = new()
             {
-                Ciphertext = ciphertext
+                Ciphertext = ciphertext,
             };
             viewmodel[from] = to;
             viewmodel.Decrypt();

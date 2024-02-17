@@ -13,7 +13,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         {
             AtbashViewModel viewmodel = new()
             {
-                Plaintext = plaintext
+                Plaintext = plaintext,
             };
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
         {
             AtbashViewModel viewmodel = new()
             {
-                Ciphertext = ciphertext
+                Ciphertext = ciphertext,
             };
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
