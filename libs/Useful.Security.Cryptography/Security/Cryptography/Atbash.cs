@@ -13,8 +13,8 @@ namespace Useful.Security.Cryptography
         public string CipherName => "Atbash";
 
         /// <inheritdoc />
-        public string Decrypt(string ciphertext) =>
-            Encrypt(ciphertext); // To decipher just need to use the encryption method as the cipher is reversible
+        public string Decrypt(string ciphertext)
+            => Encrypt(ciphertext); // To decipher just need to use the encryption method as the cipher is reversible
 
         /// <inheritdoc />
         public string Encrypt(string plaintext)

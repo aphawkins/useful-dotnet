@@ -27,7 +27,7 @@ namespace Useful.Drawing.Tests
         [InlineData(0xFF0000AA, 2)]
         [InlineData(0xFF0000FF, 3)]
         [InlineData(0xFF4848AA, 74)]
-        public void Convert8BitToARGBColorTests(uint argb, byte rrrgggbb) =>
-            Assert.Equal(unchecked((int)argb), ColourConverter.Convert8BitToARGBColor(rrrgggbb));
+        public void Convert8BitToARGBColorTests(uint argb, byte rrrgggbb)
+            => Assert.Equal(unchecked((int)argb), ColourConverter.Convert8BitToARGBColor(rrrgggbb));
     }
 }
