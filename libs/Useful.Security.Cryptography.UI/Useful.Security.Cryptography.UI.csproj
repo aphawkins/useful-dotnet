@@ -12,7 +12,6 @@
     <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
     <PackageTags>Classical Cryptography</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

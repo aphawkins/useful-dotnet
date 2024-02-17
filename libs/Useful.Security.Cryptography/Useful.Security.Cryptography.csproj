@@ -15,9 +15,14 @@
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Useful</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Title>Useful Classical Cryptography Library</Title>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="3.3.3">

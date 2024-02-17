@@ -1,130 +1,329 @@
-# Remove the line below if you want to inherit .editorconfig settings from higher directories
+# editorconfig.org
+
+# top-most EditorConfig file
 root = true
 
-# C# files
-[*.cs]
-
-#### Core EditorConfig Options ####
-
-# Indentation and spacing
-indent_size = 4
+####################
+# Default Settings #
+####################
+[*]
+insert_final_newline = true
 indent_style = space
-tab_width = 4
+indent_size = 4
+trim_trailing_whitespace = true
 
-# New line preferences
-end_of_line = crlf
-insert_final_newline = false
+# License header
+file_header_template = 'Elite - The Sharp Kind' - Andy Hawkins 2023.\n'Elite - The New Kind' - C.J.Pinder 1999-2001.\nElite (C) I.Bell & D.Braben 1984.
 
-#### .NET Coding Conventions ####
+#################
+# Code Analysis #
+#################
 
-# Organize usings
-dotnet_separate_import_directive_groups = false
-dotnet_sort_system_directives_first = true
-file_header_template = unset
+# IDE0001: Simplify name
 
-# this. and Me. preferences
-dotnet_style_qualification_for_event = false:warning
+# IDE0002: Simplify member access
+
+# IDE0003: Remove this or Me qualification
+# IDE0009: Add this or Me qualification
 dotnet_style_qualification_for_field = false:warning
-dotnet_style_qualification_for_method = false:warning
 dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
 
-# Language keywords vs BCL types preferences
+# IDE0004: Remove Unnecessary Cast
+
+# IDE0005: Using directive is unnecessary.
+
+# IDE0007: Use implicit type
+# IDE0008: Use explicit type
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = false:warning
+csharp_style_var_elsewhere = false:warning
+
+# IDE0010: Add missing cases
+
+# IDE0011: Add braces
+csharp_prefer_braces = true:warning
+
+# IDE0016: Use 'throw' expression
+csharp_style_throw_expression = true:warning
+
+# IDE0017: Simplify object initialization
+dotnet_style_object_initializer = true:warning
+
+# IDE0018: Inline variable declaration
+csharp_style_inlined_variable_declaration = true:warning
+
+# IDE0019: Use pattern matching to avoid as followed by a null check
+# IDE0260	Use pattern matching
+csharp_style_pattern_matching_over_as_with_null_check = true:warning
+
+# IDE0020: Use pattern matching to avoid is check followed by a cast (with variable)
+# IDE0038	Use pattern matching to avoid is check followed by a cast (without variable)
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+
+# IDE0021: Use expression body for constructors
+csharp_style_expression_bodied_constructors = true:warning
+
+# IDE0022: Use expression body for methods
+csharp_style_expression_bodied_methods = true:warning
+
+# IDE0023: Use expression body for operators
+# IDE0024: Use expression body for operators
+csharp_style_expression_bodied_operators = true:warning
+
+# IDE0025: Use expression body for properties
+csharp_style_expression_bodied_properties = true:warning
+
+# IDE0026: Use expression body for indexers
+csharp_style_expression_bodied_indexers = true:warning
+
+# IDE0027: Use expression body for accessors
+csharp_style_expression_bodied_accessors = true:warning
+
+# IDE0028: Simplify collection initialization
+dotnet_style_collection_initializer = true:warning
+
+# IDE0029: Use coalesce expression
+# IDE0030: Use coalesce expression
+# IDE0270	Null check can be simplified
+dotnet_style_coalesce_expression = true:warning
+
+# IDE0031: Use null propagation
+dotnet_style_null_propagation = true:warning
+
+# IDE0032: Use auto property
+dotnet_style_prefer_auto_properties = true:warning
+
+# IDE0033: Use explicitly provided tuple name
+dotnet_style_explicit_tuple_names = true:warning
+
+# IDE0034: Simplify 'default' expression
+csharp_prefer_simple_default_expression = true:warning
+
+# IDE0035: Remove unreachable code
+
+# IDE0036: Order modifiers
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:warning
+# visual_basic_preferred_modifier_order
+
+# IDE0037: Use inferred member name
+dotnet_style_prefer_inferred_tuple_names = true:warning
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
+
+# IDE0038: => IDE0020
+
+# IDE0039: Use local function
+csharp_style_prefer_local_over_anonymous_function = true:warning
+
+# IDE0040: Add accessibility modifiers
+dotnet_style_require_accessibility_modifiers = always:warning
+
+# IDE0041: Use 'is null' check
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+
+# IDE0042: Deconstruct variable declaration
+csharp_style_deconstructed_variable_declaration = true:warning
+
+# IDE0044: Add readonly modifier
+dotnet_style_readonly_field = true:warning
+
+# IDE0045: Use conditional expression for assignment
+dotnet_style_prefer_conditional_expression_over_assignment = true:warning
+
+# IDE0046: Use conditional expression for return
+dotnet_style_prefer_conditional_expression_over_return = true:warning
+
+# IDE0047: Remove unnecessary parentheses
+# IDE0048: Add parentheses for clarity
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:warning
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:warning
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:warning
+dotnet_style_parentheses_in_other_operators = always_for_clarity:warning
+
+# IDE0049: Use language keywords instead of framework type names for type references
 dotnet_style_predefined_type_for_locals_parameters_members = true:warning
 dotnet_style_predefined_type_for_member_access = true:warning
 
-# Parentheses preferences
-dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:warning
-dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:warning
-dotnet_style_parentheses_in_other_operators = never_if_unnecessary:warning
-dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:warning
+# IDE0050: Convert anonymous type to tuple
 
-# Modifier preferences
-dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+# IDE0051: Remove unused private members
 
-# Expression-level preferences
-dotnet_style_coalesce_expression = true:warning
-dotnet_style_collection_initializer = true:warning
-dotnet_style_explicit_tuple_names = true:warning
-dotnet_style_null_propagation = true:warning
-dotnet_style_object_initializer = true:warning
-dotnet_style_operator_placement_when_wrapping = beginning_of_line
-dotnet_style_prefer_auto_properties = true:warning
+# IDE0052: Remove unread private members
+
+# IDE0053: Use expression body for lambdas
+csharp_style_expression_bodied_lambdas = true:warning
+
+# IDE0054: Use compound assignment
+# IDE0074: Use compound assignment
 dotnet_style_prefer_compound_assignment = true:warning
-dotnet_style_prefer_conditional_expression_over_assignment = true:warning
-dotnet_style_prefer_conditional_expression_over_return = false:warning
-dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
-dotnet_style_prefer_inferred_tuple_names = true:warning
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
-dotnet_style_prefer_simplified_boolean_expressions = true:warning
-dotnet_style_prefer_simplified_interpolation = true:suggestion
 
-# Field preferences
-dotnet_style_readonly_field = true:warning
+# IDE0055: Fix formatting
+# (Too many to list here. See .NET formatting options and C# formatting options.)
 
-# Parameter preferences
+# IDE0056: Use index operator
+csharp_style_prefer_index_operator = true:warning
+
+# IDE0057: Use range operator
+csharp_style_prefer_range_operator = true:warning
+
+# IDE0058: Expression value is never used
+csharp_style_unused_value_expression_statement_preference = unused_local_variable:none
+# visual_basic_style_unused_value_expression_statement_preference
+
+# IDE0059: Unnecessary assignment of a value
+csharp_style_unused_value_assignment_preference = unused_local_variable:warning
+# visual_basic_style_unused_value_assignment_preference
+
+# IDE0060: Remove unused parameter
 dotnet_code_quality_unused_parameters = all:warning
 
-# Suppression preferences
-dotnet_remove_unnecessary_suppression_exclusions = none
+# IDE0061: Use expression body for local functions
+csharp_style_expression_bodied_local_functions = true:warning
 
-#### C# Coding Conventions ####
-
-# var preferences
-csharp_style_var_elsewhere = false:warning
-csharp_style_var_for_built_in_types = false:warning
-csharp_style_var_when_type_is_apparent = false:warning
-
-# Expression-bodied members
-csharp_style_expression_bodied_accessors = true:warning
-csharp_style_expression_bodied_constructors = true:warning
-csharp_style_expression_bodied_indexers = true:warning
-csharp_style_expression_bodied_lambdas = true:warning
-csharp_style_expression_bodied_local_functions = false:warning
-csharp_style_expression_bodied_methods = true:warning
-csharp_style_expression_bodied_operators = false:warning
-csharp_style_expression_bodied_properties = true:warning
-
-# Pattern matching preferences
-csharp_style_pattern_matching_over_as_with_null_check = true:warning
-csharp_style_pattern_matching_over_is_with_cast_check = true:warning
-csharp_style_prefer_not_pattern = true:warning
-csharp_style_prefer_pattern_matching = true:warning
-csharp_style_prefer_switch_expression = true:warning
-
-# Null-checking preferences
-csharp_style_conditional_delegate_call = true:warning
-
-# Modifier preferences
+# IDE0062: Make local function 'static'
 csharp_prefer_static_local_function = true:warning
-csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:silent
 
-# Code-block preferences
-csharp_prefer_braces = true:warning
+# IDE0063: Use simple 'using' statement
 csharp_prefer_simple_using_statement = true:warning
 
-# Expression-level preferences
-csharp_prefer_simple_default_expression = true:warning
-csharp_style_deconstructed_variable_declaration = true:warning
-csharp_style_inlined_variable_declaration = true:warning
-csharp_style_pattern_local_over_anonymous_function = true:warning
-csharp_style_prefer_index_operator = true:warning
-csharp_style_prefer_range_operator = true:warning
-csharp_style_throw_expression = true:warning
-csharp_style_unused_value_assignment_preference = discard_variable:warning
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+# IDE0064: Make readonly fields writable
 
-# 'using' directive preferences
-csharp_using_directive_placement = inside_namespace:warning
+# IDE0065: Misplaced using directive
+csharp_using_directive_placement = outside_namespace:warning
 
-#### C# Formatting Rules ####
+# IDE0066: Convert switch statement to expression
+csharp_style_prefer_switch_expression = true:warning
+
+# IDE0070: Use 'System.HashCode'
+
+# IDE0071: Simplify interpolation
+dotnet_style_prefer_simplified_interpolation = true:warning
+
+# IDE0072: Add missing cases
+
+# IDE0073: => IDE0054
+
+# IDE0075: Simplify conditional expression
+dotnet_style_prefer_simplified_boolean_expressions = true:warning
+
+# IDE0076: Invalid global 'SuppressMessageAttribute'
+
+# IDE0077: Avoid legacy format target in 'SuppressMessageAttribute'
+
+# IDE0078: Use pattern matching
+csharp_style_prefer_pattern_matching = true:warning
+
+# IDE0079: Remove unnecessary suppression
+dotnet_remove_unnecessary_suppression_exclusions = none:warning
+
+# IDE0080: Remove unnecessary suppression operator
+
+# IDE0081: Remove unnecessary suppression operator
+
+# IDE0082: 'typeof' can be converted  to 'nameof'
+
+# IDE0083: Use pattern matching
+csharp_style_prefer_not_pattern = true:warning
+
+# IDE0084: Use pattern matching (IsNot operator)
+# visual_basic_style_prefer_isnot_expression
+
+# IDE0090: Use 'new(...)'
+csharp_style_implicit_object_creation_when_type_is_apparent = true:warning
+
+# IDE0100: Remove redundant equality
+
+# IDE0110: Remove unnecessary discard
+
+# IDE0120: Simplify LINQ expression
+
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = true:warning
+
+# IDE0140: Simplify object creation
+# visual_basic_style_prefer_simplified_object_creation
+
+# IDE0150: Prefer 'null' check over type check
+csharp_style_prefer_null_check_over_type_check = true:warning
+
+# IDE0160: Convert to block scoped namespace
+# IDE0161: Convert to file-scoped namespace
+csharp_style_namespace_declarations = block_scoped:warning
+
+# IDE0170: Simplify property pattern
+csharp_style_prefer_extended_property_pattern = true:warning
+
+# IDE0180: Use tuple swap
+csharp_style_prefer_tuple_swap = true:warning
+
+# IDE0200: Remove unnecessary lambda expression
+csharp_style_prefer_method_group_conversion = true:warning
+
+# IDE0210: Use top-level statements
+# IDE0211: Use program main
+csharp_style_prefer_top_level_statements = true:warning
+
+# IDE0220: foreach cast
+dotnet_style_prefer_foreach_explicit_cast_in_source = always:warrning
+
+# IDE0230: Use UTF8 string literal
+csharp_style_prefer_utf8_string_literals = true:warning
+
+# IDE0240: Remove redundant nullable directive
+
+# IDE0241: Remove unnecessary nullable directive
+
+# IDE0250: Make struct readonly
+csharp_style_prefer_readonly_struct = true:warning
+
+# IDE0251: Member can be made 'readonly'
+csharp_style_prefer_readonly_struct_member = true:warning
+
+# IDE0260: Use pattern matching
+
+# IDE0270: => IDE0029 => IDE0030
+
+# IDE0280: Use 'nameof'
+
+# IDE1005: Delegate invocation can be simplified.
+csharp_style_conditional_delegate_call = true:warning
+
+# IDE1006: Naming styles
+
+# IDE2000: Allow multiple blank lines
+dotnet_style_allow_multiple_blank_lines_experimental = false:warning
+
+# IDE2001: Embedded statements must be on their own line
+csharp_style_allow_embedded_statements_on_same_line_experimental = false:warning
+
+# IDE2002: Consecutive braces must not have blank line between them
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:warning
+
+# IDE2003: Allow statement immediately after block
+dotnet_style_allow_statement_immediately_after_block_experimental = false:warning
+
+# IDE2004: Blank line not allowed after constructor initializer colon
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false:warning
+
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = false:warning
+
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = false:warning
+
+# Roslynator
+# Set severity for all analyzers that are enabled by default (https://docs.microsoft.com/en-us/visualstudio/code-quality/use-roslyn-analyzers?view=vs-2022#set-rule-severity-of-multiple-analyzer-rules-at-once-in-an-editorconfig-file)
+dotnet_analyzer_diagnostic.category-roslynator.severity = warning
+roslynator_refactorings.enabled = true
+roslynator_compiler_diagnostic_fixes.enabled = true
+roslynator_accessor_braces_style = single_line_when_expression_is_on_single_line
 
 # New line preferences
-csharp_new_line_before_catch = true
-csharp_new_line_before_else = true
-csharp_new_line_before_finally = true
-csharp_new_line_before_members_in_anonymous_types = true
-csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
 
 # Indentation preferences
@@ -132,8 +331,44 @@ csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents = true
 csharp_indent_case_contents_when_block = true
-csharp_indent_labels = no_change
 csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+
+# name all constant fields using PascalCase
+dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_symbols.constant_fields.applicable_kinds   = field
+dotnet_naming_symbols.constant_fields.required_modifiers = const
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# static fields should have s_ prefix
+dotnet_naming_rule.static_fields_should_have_prefix.severity = warning
+dotnet_naming_rule.static_fields_should_have_prefix.symbols  = static_fields
+dotnet_naming_rule.static_fields_should_have_prefix.style = static_prefix_style
+dotnet_naming_symbols.static_fields.applicable_kinds   = field
+dotnet_naming_symbols.static_fields.required_modifiers = static
+dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal, private_protected
+dotnet_naming_style.static_prefix_style.required_prefix = s_
+dotnet_naming_style.static_prefix_style.capitalization = camel_case
+
+# internal and private fields should be _camelCase
+dotnet_naming_rule.camel_case_for_private_internal_fields.severity = warning
+dotnet_naming_rule.camel_case_for_private_internal_fields.symbols  = private_internal_fields
+dotnet_naming_rule.camel_case_for_private_internal_fields.style = camel_case_underscore_style
+dotnet_naming_symbols.private_internal_fields.applicable_kinds = field
+dotnet_naming_symbols.private_internal_fields.applicable_accessibilities = private, internal
+dotnet_naming_style.camel_case_underscore_style.required_prefix = _
+dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
+
+# Code style defaults
+dotnet_sort_system_directives_first = true
+csharp_preserve_single_line_blocks = true:warning
+csharp_preserve_single_line_statements = false:warning
+
+# Other features
+csharp_style_pattern_local_over_anonymous_function = false:warning
+csharp_style_prefer_primary_constructors = true:warning
 
 # Space preferences
 csharp_space_after_cast = false
@@ -143,7 +378,7 @@ csharp_space_after_dot = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_after_semicolon_in_for_statement = true
 csharp_space_around_binary_operators = before_and_after
-csharp_space_around_declaration_statements = false
+csharp_space_around_declaration_statements = do_not_ignore
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_before_comma = false
 csharp_space_before_dot = false
@@ -159,48 +394,52 @@ csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = false
 csharp_space_between_square_brackets = false
 
-# Wrapping preferences
-csharp_preserve_single_line_blocks = true
-csharp_preserve_single_line_statements = false
+# Generated code
+[*{_AssemblyInfo.cs,.notsupported.cs,AsmOffsets.cs}]
+generated_code = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+end_of_line = lf
 
-#### Naming styles ####
+# C# files
+[*.cs]
+curly_bracket_next_line = true
+indent_brace_style = Allman
+tab_width = 4
+indent_size = 4
+charset = utf-8
+end_of_line = lf
 
-# Naming rules
+# C++ Files
+[*.{cpp,h,in}]
+curly_bracket_next_line = true
+indent_brace_style = Allman
 
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
-dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
-dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+# Xml project files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,nativeproj,locproj}]
+indent_size = 2
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = warning
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+[*.{csproj,vbproj,proj,nativeproj,locproj}]
+charset = utf-8
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+# Xml build files
+[*.builds]
+indent_size = 2
 
-# Symbol specifications
+# Xml files
+[*.{xml,stylecop,resx,ruleset}]
+indent_size = 2
 
-dotnet_naming_symbols.interface.applicable_kinds = interface
-dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+# Xml config files
+[*.{props,targets,config,nuspec}]
+indent_size = 2
 
-dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.types.required_modifiers = 
+# YAML config files
+[*.{yml,yaml}]
+indent_size = 2
 
-dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
-dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers = 
-
-# Naming styles
-
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
-dotnet_naming_style.pascal_case.capitalization = pascal_case
-
-dotnet_naming_style.begins_with_i.required_prefix = I
-dotnet_naming_style.begins_with_i.required_suffix = 
-dotnet_naming_style.begins_with_i.word_separator = 
-dotnet_naming_style.begins_with_i.capitalization = pascal_case
+# Shell scripts
+[*.sh]
+end_of_line = lf
+[*.{cmd,bat}]
+end_of_line = crlf
