@@ -13,7 +13,7 @@ indent_size = 4
 trim_trailing_whitespace = true
 
 # License header
-file_header_template = 'Copyright (c) Andrew Hawkins. All rights reserved.'
+file_header_template = Copyright (c) Andrew Hawkins. All rights reserved.
 
 #################
 # Code Analysis #

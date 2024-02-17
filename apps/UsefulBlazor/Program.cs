@@ -4,6 +4,8 @@
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
+[assembly: CLSCompliant(false)]
+
 namespace UsefulBlazor
 {
     public static class Program

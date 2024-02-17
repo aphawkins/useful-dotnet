@@ -2,6 +2,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+[assembly: CLSCompliant(false)]
+
 namespace UsefulWeb
 {
     public static class Program
