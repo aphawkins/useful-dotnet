@@ -14,7 +14,7 @@ namespace UsefulWeb
         public static void ConfigureServices(IServiceCollection services)
         {
             // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-            services.Configure<CookiePolicyOptions>(options => options.CheckConsentNeeded = context => true);
+            services.Configure<CookiePolicyOptions>(options => options.CheckConsentNeeded = _ => true);
 
             services.AddTransient<IRepository<ICipher>, WebCipherRepository>();
             services.AddTransient<CipherService, CipherService>();
