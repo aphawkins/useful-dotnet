@@ -25,12 +25,12 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public void Decrypt() => Plaintext = _cipher.Decrypt(Ciphertext);
 
         /// <inheritdoc />
-        public void Defaults() => throw new System.NotImplementedException();
+        public void Defaults() => throw new NotImplementedException();
 
         /// <inheritdoc />
-        public void Randomize() => throw new System.NotImplementedException();
+        public void Randomize() => throw new NotImplementedException();
 
         /// <inheritdoc />
-        public void Crack() => throw new System.NotImplementedException();
+        public void Crack() => throw new NotImplementedException();
     }
 }

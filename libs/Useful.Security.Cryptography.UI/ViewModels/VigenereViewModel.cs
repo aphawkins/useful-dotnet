@@ -42,9 +42,9 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public void Defaults() => _cipher.Settings = new VigenereSettings() with { };
 
         /// <inheritdoc />
-        public void Randomize() => throw new System.NotImplementedException();
+        public void Randomize() => throw new NotImplementedException();
 
         /// <inheritdoc />
-        public void Crack() => throw new System.NotImplementedException();
+        public void Crack() => throw new NotImplementedException();
     }
 }
