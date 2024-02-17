@@ -2,7 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using Useful.Drawing;
 using Xunit;
 
 namespace Useful.Drawing.Tests

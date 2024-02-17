@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 

@@ -2,12 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Moq;
-using Useful;
-using Useful.Security.Cryptography;
-using Useful.Security.Cryptography.UI.Controllers;
 using Useful.Security.Cryptography.UI.ViewModels;
 using Useful.Security.Cryptography.UI.Views;
 using Xunit;

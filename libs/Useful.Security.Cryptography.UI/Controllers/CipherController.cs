@@ -2,9 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using Useful.Security.Cryptography;
 using Useful.Security.Cryptography.UI.ViewModels;
 using Useful.Security.Cryptography.UI.Views;
 

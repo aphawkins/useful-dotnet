@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
-
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     /// <summary>

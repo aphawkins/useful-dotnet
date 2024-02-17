@@ -2,8 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using Useful.Security.Cryptography;
 using Xunit;
 
 namespace Useful.Security.Cryptography.Tests

@@ -2,9 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using System.Text;
-using Useful.Security.Cryptography;
 using Xunit;
 
 namespace Useful.Security.Cryptography.Tests

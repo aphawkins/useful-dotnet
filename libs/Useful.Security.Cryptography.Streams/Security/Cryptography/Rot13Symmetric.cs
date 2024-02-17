@@ -2,7 +2,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
 using System.Security.Cryptography;
 
 namespace Useful.Security.Cryptography

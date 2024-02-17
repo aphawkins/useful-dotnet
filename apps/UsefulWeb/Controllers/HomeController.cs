@@ -2,10 +2,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
-using System;
 using Microsoft.AspNetCore.Mvc;
-using Useful.Security.Cryptography.UI.Models;
-using Useful.Security.Cryptography.UI.Services;
 
 namespace UsefulWeb.Controllers
 {
