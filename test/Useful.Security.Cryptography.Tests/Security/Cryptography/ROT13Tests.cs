@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Useful.Security.Cryptography;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using Useful.Security.Cryptography;
-    using Xunit;
-
     public class ROT13Tests
     {
         public static TheoryData<string, string> Data => new()

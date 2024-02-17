@@ -2,13 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Linq;
+using Moq;
+using Useful.Security.Cryptography;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Linq;
-    using Moq;
-    using Useful.Security.Cryptography;
-    using Xunit;
-
     public class CipherRepositoryTests
     {
         private readonly Mock<ICipher> _moqCipher;

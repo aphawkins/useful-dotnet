@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Text;
-
     /// <summary>
     /// Accesses the Vigenere algorithm.
     /// </summary>

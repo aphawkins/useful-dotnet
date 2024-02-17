@@ -2,17 +2,17 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Useful;
+using Useful.Security.Cryptography;
+using Useful.Security.Cryptography.UI.Services;
+
 namespace UsefulWeb
 {
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Useful;
-    using Useful.Security.Cryptography;
-    using Useful.Security.Cryptography.UI.Services;
-
     public class Startup
     {
         public Startup(IConfiguration configuration) => Configuration = configuration;

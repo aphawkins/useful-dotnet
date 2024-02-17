@@ -2,14 +2,14 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace UsefulBlazor
 {
-    using System;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-    using Microsoft.Extensions.DependencyInjection;
-
     public static class Program
     {
         public static async Task Main(string[] args)

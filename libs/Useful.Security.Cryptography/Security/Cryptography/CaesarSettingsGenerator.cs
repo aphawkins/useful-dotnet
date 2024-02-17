@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Security.Cryptography;
+
 namespace Useful.Security.Cryptography
 {
-    using System.Security.Cryptography;
-
     /// <summary>
     /// Caesar key generator.
     /// </summary>

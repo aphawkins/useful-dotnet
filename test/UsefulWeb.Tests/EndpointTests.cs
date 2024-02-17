@@ -2,13 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Xunit;
+
 namespace UsefulWeb.Tests
 {
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc.Testing;
-    using Xunit;
-
     [Collection("Sequential")]
     public class EndpointTests : IClassFixture<WebApplicationFactory<Startup>>
     {

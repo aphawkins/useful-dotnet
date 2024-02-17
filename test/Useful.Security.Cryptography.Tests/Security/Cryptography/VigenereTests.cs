@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Text;
+using Useful.Security.Cryptography;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Text;
-    using Useful.Security.Cryptography;
-    using Xunit;
-
     public class VigenereTests
     {
         public static TheoryData<string, string, string> Data => new()

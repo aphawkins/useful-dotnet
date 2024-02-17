@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Text;
-
     /// <summary>
     /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
     /// </summary>

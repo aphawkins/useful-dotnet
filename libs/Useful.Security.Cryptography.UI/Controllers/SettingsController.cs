@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using Useful.Security.Cryptography.UI.ViewModels;
+using Useful.Security.Cryptography.UI.Views;
+
 namespace Useful.Security.Cryptography.UI.Controllers
 {
-    using System;
-    using Useful.Security.Cryptography.UI.ViewModels;
-    using Useful.Security.Cryptography.UI.Views;
-
     /// <summary>
     /// An controller for the cipher settings.
     /// </summary>

@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using Useful.Security.Cryptography;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
-    using Useful.Security.Cryptography;
-    using Xunit;
-
     /// <summary>
     /// This is a test class for EnigmaRotor.
     /// </summary>

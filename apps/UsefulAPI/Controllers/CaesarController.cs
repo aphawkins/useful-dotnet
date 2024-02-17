@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Mvc;
+using Useful.Security.Cryptography;
+
 namespace UsefulAPI.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Useful.Security.Cryptography;
-
     [ApiController]
     [Route("api/v1/[controller]/[action]")]
     public class CaesarController : ControllerBase

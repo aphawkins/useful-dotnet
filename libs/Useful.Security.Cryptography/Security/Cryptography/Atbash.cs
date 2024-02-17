@@ -1,12 +1,12 @@
-﻿// <copyright file="Atbash.cs" company="APH Software">
+// <copyright file="Atbash.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Text;
-
     /// <summary>
     /// The Atbash cipher.
     /// </summary>

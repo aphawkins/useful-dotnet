@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Linq;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Linq;
-
     /// <summary>
     /// The monoalphabetic algorithm settings.
     /// </summary>

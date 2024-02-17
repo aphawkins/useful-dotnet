@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-
     /// <summary>
     /// Settings for the Vigenere cipher.
     /// </summary>

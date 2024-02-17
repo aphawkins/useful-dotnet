@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Useful.Security.Cryptography.UI.Controllers;
+
 namespace Useful.Security.Cryptography.UI.Views
 {
-    using Useful.Security.Cryptography.UI.Controllers;
-
     /// <summary>
     /// An interface that all views should implement.
     /// </summary>

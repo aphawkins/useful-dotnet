@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Linq;
+using Useful.Security.Cryptography;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using System.Linq;
-    using Useful.Security.Cryptography;
-    using Xunit;
-
     public class CaesarTests
     {
         public static TheoryData<string, string, int> Data => new()

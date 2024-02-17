@@ -2,13 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.IO;
-    using System.Security.Cryptography;
-    using System.Text;
-
     /// <summary>
     /// Methods to aid cryptography.
     /// </summary>

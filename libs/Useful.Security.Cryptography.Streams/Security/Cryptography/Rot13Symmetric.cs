@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Security.Cryptography;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Security.Cryptography;
-
     /// <summary>
     /// The ROT13 cipher.
     /// </summary>

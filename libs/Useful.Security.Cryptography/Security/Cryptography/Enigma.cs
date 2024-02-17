@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Diagnostics;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Diagnostics;
-    using System.Text;
-
     /// <summary>
     /// Simulates the Enigma encoding machine.
     /// </summary>

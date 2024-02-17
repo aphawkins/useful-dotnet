@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Useful.Security.Cryptography;
+
 namespace UsefulWeb
 {
-    using Useful.Security.Cryptography;
-
     public class WebCipherRepository : CipherRepository
     {
         public WebCipherRepository()

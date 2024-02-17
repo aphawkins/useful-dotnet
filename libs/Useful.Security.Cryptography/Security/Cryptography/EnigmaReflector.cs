@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace Useful.Security.Cryptography
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// An Enigma reflector.
     /// </summary>

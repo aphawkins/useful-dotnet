@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+
 namespace Useful.Security.Cryptography.UI.Views
 {
-    using System;
-
     /// <summary>
     /// An interface that all disposable cipher views should implement.
     /// </summary>

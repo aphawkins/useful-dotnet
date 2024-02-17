@@ -2,11 +2,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Enigma rotor settings.
     /// </summary>

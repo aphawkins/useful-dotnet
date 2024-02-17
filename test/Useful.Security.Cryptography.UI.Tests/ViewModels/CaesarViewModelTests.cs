@@ -2,13 +2,13 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Linq;
+using Useful.Security.Cryptography.UI.ViewModels;
+using Xunit;
+
 namespace Useful.Security.Cryptography.Tests
 {
-    using System;
-    using System.Linq;
-    using Useful.Security.Cryptography.UI.ViewModels;
-    using Xunit;
-
     public class CaesarViewModelTests
     {
         [Theory]

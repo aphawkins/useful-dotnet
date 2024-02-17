@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Useful.Security.Cryptography;
+
 namespace Useful.Security.Cryptography.UI.Services
 {
-    using Useful.Security.Cryptography;
-
     /// <summary>
     /// A viewmodel for ciphers.
     /// </summary>

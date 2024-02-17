@@ -2,12 +2,12 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace Useful.Security.Cryptography
 {
-    using System;
-    using System.Security.Cryptography;
-    using System.Text;
-
     internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
         private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8

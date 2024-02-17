@@ -2,10 +2,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using Useful.Security.Cryptography.UI.ViewModels;
+
 namespace Useful.Security.Cryptography.UI.Controllers
 {
-    using Useful.Security.Cryptography.UI.ViewModels;
-
     /// <summary>
     /// The setting controller.
     /// </summary>

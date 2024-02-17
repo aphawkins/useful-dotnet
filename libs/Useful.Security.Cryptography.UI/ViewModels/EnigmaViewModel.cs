@@ -2,14 +2,14 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 #pragma warning disable CA1822 // Mark members as static
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// ViewModel for the enigma cipher.
     /// </summary>
