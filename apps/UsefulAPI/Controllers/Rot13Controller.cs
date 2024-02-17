@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Microsoft.AspNetCore.Mvc;
 using Useful.Security.Cryptography;
@@ -14,6 +14,11 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<DecryptResponse> Decrypt([FromBody] DecryptRequest request)
         {
+            if (request == null)
+            {
+                return UnprocessableEntity();
+            }
+
             Rot13 cipher = new();
             return new DecryptResponse()
             {
@@ -25,6 +30,11 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<EncryptResponse> Encrypt([FromBody] EncryptRequest request)
         {
+            if (request == null)
+            {
+                return UnprocessableEntity();
+            }
+
             Rot13 cipher = new();
             return new EncryptResponse()
             {

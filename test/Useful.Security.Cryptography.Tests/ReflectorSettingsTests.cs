@@ -47,6 +47,9 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ØA", "ØA", 0)]
         public void CtorSettings(string characterSet, string substitutions, int substitutionCount)
         {
+            ArgumentNullException.ThrowIfNull(characterSet);
+            ArgumentNullException.ThrowIfNull(substitutions);
+
             ReflectorSettings settings = new() { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutions, settings.Substitutions);
@@ -106,8 +109,14 @@ namespace Useful.Security.Cryptography.Tests
             string newSubstitutions,
             int substitutionCount)
         {
+            ArgumentNullException.ThrowIfNull(characterSet);
+            ArgumentNullException.ThrowIfNull(substitutions);
+
             IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
+            {
+                CharacterSet = characterSet.ToCharArray(),
+                Substitutions = substitutions.ToCharArray(),
+            };
             settings[from] = to;
 
             Assert.Equal(to, settings[from]);
@@ -121,8 +130,14 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABC", "ABC", 'Ø', 'A', 0)]
         public void SetSubstitutionInvalid(string characterSet, string substitutions, char from, char to, int substitutionCount)
         {
+            ArgumentNullException.ThrowIfNull(characterSet);
+            ArgumentNullException.ThrowIfNull(substitutions);
+
             IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
+            {
+                CharacterSet = characterSet.ToCharArray(),
+                Substitutions = substitutions.ToCharArray(),
+            };
 
             Assert.Throws<ArgumentException>("substitution", () => settings[from] = to);
             Assert.Equal(characterSet, settings.CharacterSet);

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -20,8 +20,14 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HELLOWORLD", "GfLlOwOrLc")]
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
+            ArgumentNullException.ThrowIfNull(characterSet);
+            ArgumentNullException.ThrowIfNull(substitutions);
+
             IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
+            {
+                CharacterSet = characterSet.ToCharArray(),
+                Substitutions = substitutions.ToCharArray(),
+            };
             Reflector cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
@@ -31,8 +37,14 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "BADCFEHGIJKLMNOPQRSTUVWXYZ", "HeLlOwOrLd", "GFLLOWORLC")]
         public void EncryptCipher(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
+            ArgumentNullException.ThrowIfNull(characterSet);
+            ArgumentNullException.ThrowIfNull(substitutions);
+
             IReflectorSettings settings = new ReflectorSettings()
-            { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
+            {
+                CharacterSet = characterSet.ToCharArray(),
+                Substitutions = substitutions.ToCharArray(),
+            };
             Reflector cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }

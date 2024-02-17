@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Xunit;
 
@@ -25,6 +25,8 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(Data))]
         public void EnigmaRotor(EnigmaRotorNumber rotorNumber, string reflection, string notches)
         {
+            ArgumentNullException.ThrowIfNull(reflection);
+
             _ = notches;
             const string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

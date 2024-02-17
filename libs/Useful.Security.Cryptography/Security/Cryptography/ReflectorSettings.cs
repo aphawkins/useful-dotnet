@@ -29,6 +29,8 @@ namespace Useful.Security.Cryptography
 
             init
             {
+                ArgumentNullException.ThrowIfNull(value);
+
                 try
                 {
                     _substitutions = ParseSubstitutions(_characterSet, value);

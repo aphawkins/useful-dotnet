@@ -59,6 +59,8 @@ namespace Useful.Security.Cryptography
 
             init
             {
+                ArgumentNullException.ThrowIfNull(value);
+
                 if (value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Second].RotorNumber
                     || value[EnigmaRotorPosition.Fastest].RotorNumber == value[EnigmaRotorPosition.Third].RotorNumber
                     || value[EnigmaRotorPosition.Second].RotorNumber == value[EnigmaRotorPosition.Third].RotorNumber)

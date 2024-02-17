@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Microsoft.AspNetCore.Mvc;
 using Useful.Security.Cryptography;
@@ -14,6 +14,11 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<DecryptResponse> Decrypt(DecryptRequest request)
         {
+            if (request == null)
+            {
+                return UnprocessableEntity();
+            }
+
             Atbash cipher = new();
             return new DecryptResponse()
             {
@@ -25,6 +30,8 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<EncryptResponse> Encrypt(EncryptRequest request)
         {
+            ArgumentNullException.ThrowIfNull(request);
+
             Atbash cipher = new();
             return new EncryptResponse()
             {

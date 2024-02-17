@@ -14,6 +14,11 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<DecryptResponse> Decrypt(CaesarDecryptRequest request)
         {
+            if (request == null)
+            {
+                return UnprocessableEntity();
+            }
+
             Caesar cipher = new(new CaesarSettings() { RightShift = request.RightShift });
             return new DecryptResponse()
             {
@@ -25,6 +30,11 @@ namespace UsefulAPI.Controllers
         [HttpPost]
         public ActionResult<EncryptResponse> Encrypt(CaesarEncryptRequest request)
         {
+            if (request == null)
+            {
+                return UnprocessableEntity();
+            }
+
             Caesar cipher = new(new CaesarSettings() { RightShift = request.RightShift });
             return new EncryptResponse()
             {

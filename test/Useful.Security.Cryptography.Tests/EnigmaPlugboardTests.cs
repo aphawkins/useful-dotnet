@@ -58,6 +58,8 @@ namespace Useful.Security.Cryptography.Tests
         [MemberData(nameof(ValidPairs))]
         public void CtorSubstitutionsValid(IList<EnigmaPlugboardPair> pairs, int substitutionCount)
         {
+            ArgumentNullException.ThrowIfNull(pairs);
+
             IEnigmaPlugboard plugboard = new EnigmaPlugboard(pairs);
             Assert.Equal(substitutionCount, plugboard.SubstitutionCount);
             Assert.Equal(pairs[0].From, plugboard[pairs[0].To]);

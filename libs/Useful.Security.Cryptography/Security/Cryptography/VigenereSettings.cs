@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -21,6 +21,8 @@ namespace Useful.Security.Cryptography
 
             set
             {
+                ArgumentNullException.ThrowIfNull(value);
+
                 if (value.Length is < 0 or > 25)
                 {
                     throw new ArgumentOutOfRangeException(nameof(Keyword), "Length must be between 0 and 26 letters.");
