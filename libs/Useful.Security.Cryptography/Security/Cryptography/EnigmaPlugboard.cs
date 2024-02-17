@@ -43,7 +43,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public IReadOnlyDictionary<char, char> Substitutions()
         {
-            Dictionary<char, char> pairsToAdd = new();
+            Dictionary<char, char> pairsToAdd = [];
 
             for (int i = 0; i < _characterSet.Count; i++)
             {
@@ -75,7 +75,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentNullException(nameof(pairs));
             }
 
-            List<char> uniqueLetters = new();
+            List<char> uniqueLetters = [];
 
             foreach (EnigmaPlugboardPair pair in pairs)
             {

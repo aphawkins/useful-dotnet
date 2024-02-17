@@ -16,7 +16,7 @@ namespace Useful.Security.Cryptography
         /// <returns>The best guess crack.</returns>
         public static (int BestShift, IDictionary<int, string> AllDecryptions) Crack(string ciphertext)
         {
-            Dictionary<int, string> shifts = new();
+            Dictionary<int, string> shifts = [];
             CaesarSettings settings = new();
             Caesar cipher = new(settings);
             for (int i = 0; i < 26; i++)

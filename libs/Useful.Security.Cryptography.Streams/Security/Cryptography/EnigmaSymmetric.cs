@@ -194,7 +194,7 @@ namespace Useful.Security.Cryptography
         {
             int rotorPositionsCount = 3;
             string[] rotors = rotorNumbers.Split([' ']);
-            Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = new();
+            Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = [];
 
             if (rotors.Length <= 0)
             {

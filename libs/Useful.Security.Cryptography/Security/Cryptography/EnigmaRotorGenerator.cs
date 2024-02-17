@@ -11,9 +11,9 @@ namespace Useful.Security.Cryptography
         {
             Random rnd = new();
             int nextRandomNumber;
-            Dictionary<EnigmaRotorPosition, IEnigmaRotor> rotors = new();
+            Dictionary<EnigmaRotorPosition, IEnigmaRotor> rotors = [];
 
-            List<int> usedRotorNumbers = new();
+            List<int> usedRotorNumbers = [];
 
             foreach (EnigmaRotorPosition rotorPosition in EnigmaRotors.RotorPositions)
             {

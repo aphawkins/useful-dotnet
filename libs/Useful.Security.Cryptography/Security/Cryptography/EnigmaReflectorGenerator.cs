@@ -11,11 +11,11 @@ namespace Useful.Security.Cryptography
         {
             Random rnd = new();
 
-            List<EnigmaReflectorNumber> reflectors = new()
-            {
+            List<EnigmaReflectorNumber> reflectors =
+            [
                 EnigmaReflectorNumber.B,
                 EnigmaReflectorNumber.C,
-            };
+            ];
 
             int nextRandomNumber = rnd.Next(0, reflectors.Count);
 
