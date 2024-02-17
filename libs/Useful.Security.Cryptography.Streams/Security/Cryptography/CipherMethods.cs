@@ -1,4 +1,4 @@
-﻿// <copyright file="CipherMethods.cs" company="APH Software">
+// <copyright file="CipherMethods.cs" company="APH Software">
 // Copyright (c) Andrew Hawkins. All rights reserved.
 // </copyright>
 
@@ -99,7 +99,7 @@ namespace Useful.Security.Cryptography
 
             foreach (byte b in targetArray)
             {
-                if ($"{b}".Equals("0", StringComparison.InvariantCultureIgnoreCase))
+                if ($"{b}".Equals("0", StringComparison.OrdinalIgnoreCase))
                 {
                     break;
                 }
