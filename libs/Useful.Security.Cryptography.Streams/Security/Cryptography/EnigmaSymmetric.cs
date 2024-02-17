@@ -199,7 +199,7 @@ namespace Useful.Security.Cryptography
             string[] rotors = rotorNumbers.Split([' ']);
             Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> newRotors = [];
 
-            if (rotors.Length <= 0)
+            if (rotors.Length == 0)
             {
                 throw new ArgumentException("No rotors specified.", nameof(rotorNumbers));
             }
@@ -239,7 +239,7 @@ namespace Useful.Security.Cryptography
             const int rotorPositionsCount = 3;
             string[] rings = ringSettings.Split([' ']);
 
-            if (rings.Length <= 0)
+            if (rings.Length == 0)
             {
                 throw new ArgumentException("No rings specified.", nameof(ringSettings));
             }
@@ -285,7 +285,7 @@ namespace Useful.Security.Cryptography
             const int rotorPositionsCount = 3;
             string[] rotorSetting = rotorSettings.Split([' ']);
 
-            return rotorSetting.Length <= 0
+            return rotorSetting.Length == 0
                 ? throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings))
                 : rotorSetting.Length > rotorPositionsCount
                 ? throw new ArgumentException("Too many rotor settings specified.", nameof(rotorSettings))
