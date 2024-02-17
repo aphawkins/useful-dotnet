@@ -182,8 +182,8 @@ namespace Useful.Security.Cryptography
         }
 
         private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector) => reflector.Length > 1 ||
-                !char.IsLetter(reflector[0]) ||
-                !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber)
+            !char.IsLetter(reflector[0]) ||
+            !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber)
                 ? throw new ArgumentException("Incorrect reflector.", nameof(reflector))
                 : (IEnigmaReflector)new EnigmaReflector() { ReflectorNumber = reflectorNumber };
 
