@@ -11,7 +11,6 @@ namespace Useful.Security.Cryptography.UI.Services
     /// <param name="repository">The repository holding the ciphers.</param>
     public class CipherService(IRepository<ICipher> repository)
     {
-
         /// <summary>
         /// Gets or sets the cipher repository.
         /// </summary>

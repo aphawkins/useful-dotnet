@@ -13,7 +13,6 @@ namespace Useful.Security.Cryptography
     /// <param name="settings">The cipher's settings.</param>
     public sealed class Reflector(IReflectorSettings settings) : ICipher
     {
-
         /// <inheritdoc />
         public string CipherName => "Reflector";
 

@@ -13,7 +13,6 @@ namespace Useful.Security.Cryptography
     /// <param name="settings">Settings.</param>
     public sealed class Caesar(ICaesarSettings settings) : ICipher
     {
-
         /// <inheritdoc />
         public string CipherName => "Caesar";
 

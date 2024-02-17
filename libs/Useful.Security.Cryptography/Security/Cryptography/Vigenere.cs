@@ -13,7 +13,6 @@ namespace Useful.Security.Cryptography
     /// <param name="settings">Settings.</param>
     public sealed class Vigenere(IVigenereSettings settings) : ICipher
     {
-
         /// <inheritdoc />
         public string CipherName => "Vigenere";
 
