@@ -4,10 +4,6 @@ namespace UsefulAPI.Models
 {
     public class CaesarDecryptRequest : DecryptRequest
     {
-        public int RightShift
-        {
-            get;
-            set;
-        }
+        public int RightShift { get; set; }
     }
 }

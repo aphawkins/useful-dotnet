@@ -27,10 +27,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
         /// <summary>
         /// Gets the cipher's settings.
         /// </summary>
-        public ICipherSettingsViewModel Settings
-        {
-            get;
-        }
+        public ICipherSettingsViewModel Settings { get; }
 
         /// <summary>
         /// Loads the view.

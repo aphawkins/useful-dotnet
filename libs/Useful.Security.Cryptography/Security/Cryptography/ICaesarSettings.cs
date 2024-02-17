@@ -10,10 +10,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the right shift of the cipher.
         /// </summary>
-        public int RightShift
-        {
-            get;
-            set;
-        }
+        public int RightShift { get; set; }
     }
 }

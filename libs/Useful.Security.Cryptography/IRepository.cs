@@ -11,10 +11,7 @@ namespace Useful
         /// <summary>
         /// Gets the current item.
         /// </summary>
-        T? CurrentItem
-        {
-            get;
-        }
+        T? CurrentItem { get; }
 
         /// <summary>
         /// Sets the <see cref="CurrentItem" /> according to the match criteria.

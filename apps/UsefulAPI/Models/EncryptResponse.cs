@@ -6,10 +6,6 @@ namespace UsefulAPI.Models
 {
     public class EncryptResponse
     {
-        public string Ciphertext
-        {
-            get;
-            set;
-        }
+        public string Ciphertext { get; set; }
     }
 }

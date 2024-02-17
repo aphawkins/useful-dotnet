@@ -12,11 +12,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the current cipher.
         /// </summary>
-        public ICipher? CurrentItem
-        {
-            get;
-            set;
-        }
+        public ICipher? CurrentItem { get; set; }
 
         /// <summary>
         /// Adds a new cipher to the repository.

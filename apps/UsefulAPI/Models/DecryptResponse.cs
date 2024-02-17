@@ -6,10 +6,6 @@ namespace UsefulAPI.Models
 {
     public class DecryptResponse
     {
-        public string Plaintext
-        {
-            get;
-            set;
-        }
+        public string Plaintext { get; set; }
     }
 }

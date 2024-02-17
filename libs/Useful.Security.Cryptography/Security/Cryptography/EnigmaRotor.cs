@@ -57,11 +57,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public string Notches
-        {
-            get;
-            private set;
-        }
+        public string Notches { get; private set; }
 
         /// <inheritdoc />
         public int RingPosition

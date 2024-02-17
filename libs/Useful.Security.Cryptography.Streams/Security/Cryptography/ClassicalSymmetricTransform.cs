@@ -25,10 +25,7 @@ namespace Useful.Security.Cryptography
 
         public int OutputBlockSize => BlockSize;
 
-        public ICipher Cipher
-        {
-            get;
-        }
+        public ICipher Cipher { get; }
 
         /// <summary>
         /// Clean up any resources being used.

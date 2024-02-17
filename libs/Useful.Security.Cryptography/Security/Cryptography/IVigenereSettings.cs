@@ -10,10 +10,6 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the keyword of the cipher.
         /// </summary>
-        public string Keyword
-        {
-            get;
-            set;
-        }
+        public string Keyword { get; set; }
     }
 }
