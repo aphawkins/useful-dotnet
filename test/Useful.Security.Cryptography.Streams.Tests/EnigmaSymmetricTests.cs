@@ -273,8 +273,8 @@ namespace Useful.Security.Cryptography.Tests
                 Key = Encoding.Unicode.GetBytes(keyString),
                 IV = Encoding.Unicode.GetBytes(initVector),
             };
-            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
-            Assert.Equal(plaintext.ToString(), s);
+            string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
+            Assert.Equal(plaintext, s);
             Assert.Equal(keyString, Encoding.Unicode.GetString(target.Key));
             Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }

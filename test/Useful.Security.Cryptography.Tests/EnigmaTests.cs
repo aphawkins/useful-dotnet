@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Text;
 using Xunit;
@@ -126,8 +126,8 @@ namespace Useful.Security.Cryptography.Tests
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
-            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
-            Assert.Equal(plaintext.ToString(), newPlaintext);
+            string newPlaintext = cipher.Decrypt(ciphertext);
+            Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal('R', rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal('B', rotors[EnigmaRotorPosition.Third].CurrentSetting);
@@ -210,8 +210,8 @@ namespace Useful.Security.Cryptography.Tests
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
-            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
-            Assert.Equal(plaintext.ToString(), newPlaintext);
+            string newPlaintext = cipher.Decrypt(ciphertext);
+            Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('G', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal('P', rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal('K', rotors[EnigmaRotorPosition.Third].CurrentSetting);
@@ -312,8 +312,8 @@ namespace Useful.Security.Cryptography.Tests
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
             ICipher cipher = new Enigma(settings);
-            string newPlaintext = cipher.Decrypt(ciphertext.ToString());
-            Assert.Equal(plaintext.ToString(), newPlaintext);
+            string newPlaintext = cipher.Decrypt(ciphertext);
+            Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
             Assert.Equal('R', rotors[EnigmaRotorPosition.Second].CurrentSetting);
             Assert.Equal('B', rotors[EnigmaRotorPosition.Third].CurrentSetting);
