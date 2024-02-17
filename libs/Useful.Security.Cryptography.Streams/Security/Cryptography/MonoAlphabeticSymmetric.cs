@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The encoding used by this cipher.
         /// </summary>
-        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
+        private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
 
         private readonly MonoAlphabetic _algorithm;
 
@@ -53,7 +53,7 @@ namespace Useful.Security.Cryptography
                 key.Append(KeySeperator);
                 key.Append(_algorithm.Settings.Substitutions);
 
-                return Encoding.GetBytes(key.ToString());
+                return s_encoding.GetBytes(key.ToString());
             }
 
             set
@@ -119,7 +119,7 @@ namespace Useful.Security.Cryptography
                 throw new ArgumentException("Invalid format.", nameof(key));
             }
 
-            string keyString = Encoding.GetString(key);
+            string keyString = s_encoding.GetString(key);
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 

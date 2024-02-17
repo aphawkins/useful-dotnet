@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
 {
     internal sealed class ClassicalSymmetricTransform : ICryptoTransform
     {
-        private const int _blockSize = 2;  // 2 for Unicode, 1 for UTF8
+        private const int BlockSize = 2;  // 2 for Unicode, 1 for UTF8
         private readonly CipherTransformMode _transformMode;
         private readonly Encoding _encoding = new UnicodeEncoding();
 
@@ -21,9 +21,9 @@ namespace Useful.Security.Cryptography
 
         public bool CanTransformMultipleBlocks => false;
 
-        public int InputBlockSize => _blockSize;
+        public int InputBlockSize => BlockSize;
 
-        public int OutputBlockSize => _blockSize;
+        public int OutputBlockSize => BlockSize;
 
         public ICipher Cipher
         {

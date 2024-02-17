@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 using System.Text;
@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// The encoding used by this cipher.
         /// </summary>
-        private static readonly Encoding Encoding = new UnicodeEncoding(false, false);
+        private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
 
         private readonly Reflector _algorithm;
 
@@ -53,7 +53,7 @@ namespace Useful.Security.Cryptography
                 key.Append(_algorithm.Settings.CharacterSet.ToArray());
                 key.Append(KeySeperator);
                 key.Append(_algorithm.Settings.Substitutions.ToArray());
-                return Encoding.GetBytes(key.ToString());
+                return s_encoding.GetBytes(key.ToString());
             }
 
             set
