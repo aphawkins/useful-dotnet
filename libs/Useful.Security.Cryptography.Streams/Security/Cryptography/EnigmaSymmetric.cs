@@ -47,19 +47,13 @@ namespace Useful.Security.Cryptography
                 StringBuilder key = new();
 
                 // Reflector
-                key.Append(_algorithm.Settings.Reflector.ReflectorNumber.ToString());
-                key.Append(KeySeperator);
-
-                // Rotor order
-                key.Append(RotorOrderString(_algorithm.Settings.Rotors));
-                key.Append(KeySeperator);
-
-                // Ring setting
-                key.Append(RotorRingString(_algorithm.Settings.Rotors));
-                key.Append(KeySeperator);
-
-                // Plugboard
-                key.Append(PlugboardString(_algorithm.Settings.Plugboard));
+                key.Append(_algorithm.Settings.Reflector.ReflectorNumber.ToString())
+                    .Append(KeySeperator)
+                    .Append(RotorOrderString(_algorithm.Settings.Rotors))
+                    .Append(KeySeperator)
+                    .Append(RotorRingString(_algorithm.Settings.Rotors))
+                    .Append(KeySeperator)
+                    .Append(PlugboardString(_algorithm.Settings.Plugboard));
 
                 return Encoding.Unicode.GetBytes(key.ToString());
             }
@@ -343,8 +337,8 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
-                key.Append(position.Value.CurrentSetting);
-                key.Append(KeyDelimiter);
+                key.Append(position.Value.CurrentSetting)
+                    .Append(KeyDelimiter);
             }
 
             if (settings.Rotors.Count > 0)
@@ -361,8 +355,8 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
-                key.Append(position.Value.RotorNumber);
-                key.Append(KeyDelimiter);
+                key.Append(position.Value.RotorNumber)
+                    .Append(KeyDelimiter);
             }
 
             if (settings.Rotors.Count > 0)
@@ -379,8 +373,8 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
-                key.Append($"{position.Value.RingPosition:00}");
-                key.Append(KeyDelimiter);
+                key.Append($"{position.Value.RingPosition:00}")
+                    .Append(KeyDelimiter);
             }
 
             if (settings.Rotors.Count > 0)
@@ -398,9 +392,9 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<char, char> pair in substitutions)
             {
-                key.Append(pair.Key);
-                key.Append(pair.Value);
-                key.Append(KeyDelimiter);
+                key.Append(pair.Key)
+                    .Append(pair.Value)
+                    .Append(KeyDelimiter);
             }
 
             if (substitutions.Count > 0

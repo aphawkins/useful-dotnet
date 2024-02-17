@@ -50,9 +50,9 @@ namespace Useful.Security.Cryptography
             {
                 // CharacterSet|Substitutions
                 StringBuilder key = new();
-                key.Append(_algorithm.Settings.CharacterSet.ToArray());
-                key.Append(KeySeperator);
-                key.Append(_algorithm.Settings.Substitutions.ToArray());
+                key.Append(_algorithm.Settings.CharacterSet.ToArray())
+                    .Append(KeySeperator)
+                    .Append(_algorithm.Settings.Substitutions.ToArray());
                 return s_encoding.GetBytes(key.ToString());
             }
 
