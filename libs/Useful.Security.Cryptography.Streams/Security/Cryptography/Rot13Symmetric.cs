@@ -21,10 +21,18 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override byte[] IV { get => Array.Empty<byte>(); set => _ = value; }
+        public override byte[] IV
+        {
+            get => Array.Empty<byte>();
+            set => _ = value;
+        }
 
         /// <inheritdoc />
-        public override byte[] Key { get => Array.Empty<byte>(); set => _ = value; }
+        public override byte[] Key
+        {
+            get => Array.Empty<byte>();
+            set => _ = value;
+        }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV) => CreateEncryptor(rgbKey, rgbIV);
