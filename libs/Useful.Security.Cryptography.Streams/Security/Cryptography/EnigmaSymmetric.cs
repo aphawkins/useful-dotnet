@@ -80,8 +80,7 @@ namespace Useful.Security.Cryptography
             {
                 // Example:
                 // G M Y
-                byte[] result = Encoding.Unicode.GetBytes(RotorSettingString(_algorithm.Settings.Rotors));
-                return result;
+                return Encoding.Unicode.GetBytes(RotorSettingString(_algorithm.Settings.Rotors));
             }
 
             set

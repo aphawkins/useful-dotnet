@@ -36,12 +36,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public char Reflect(char letter)
-        {
-            char newLetter = _wiring.Reflect(letter);
-
-            return newLetter;
-        }
+        public char Reflect(char letter) => _wiring.Reflect(letter);
 
         private static ReflectorSettings GetWiring(EnigmaReflectorNumber reflectorNumber)
         {

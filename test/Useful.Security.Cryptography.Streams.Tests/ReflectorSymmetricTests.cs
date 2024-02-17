@@ -39,8 +39,7 @@ namespace Useful.Security.Cryptography.Streams.Tests
         public void IvSet()
         {
             using ReflectorSymmetric cipher = new();
-            byte[] iv = Encoding.Unicode.GetBytes("A");
-            cipher.IV = iv;
+            cipher.IV = Encoding.Unicode.GetBytes("A");
             Assert.Equal([], cipher.IV);
         }
 
