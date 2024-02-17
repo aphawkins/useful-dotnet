@@ -172,9 +172,9 @@ namespace Useful.Security.Cryptography
 
         private static IEnigmaSettings GetSettingsIv(IEnigmaSettings settings, byte[] iv)
         {
-            string ivString = iv != null ? Encoding.Unicode.GetString(iv) : string.Empty;
+            string initVector = iv != null ? Encoding.Unicode.GetString(iv) : string.Empty;
 
-            IDictionary<EnigmaRotorPosition, char> rotorSettings = ParseEnigmaRotorSettings(ivString);
+            IDictionary<EnigmaRotorPosition, char> rotorSettings = ParseEnigmaRotorSettings(initVector);
 
             settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting = rotorSettings[EnigmaRotorPosition.Fastest];
             settings.Rotors[EnigmaRotorPosition.Second].CurrentSetting = rotorSettings[EnigmaRotorPosition.Second];

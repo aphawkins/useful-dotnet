@@ -98,7 +98,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: BLA
             // Final key: BRS
             string keyString = "B|II IV V|02 21 12|AV BS CG DL FU HZ IN KM OW RX";
-            string ivString = "B L A";
+            string initVector = "B L A";
             string newIv = "B R S";
 
             string plaintext = new StringBuilder()
@@ -114,7 +114,7 @@ namespace Useful.Security.Cryptography.Tests
             using SymmetricAlgorithm target = new EnigmaSymmetric
             {
                 Key = Encoding.Unicode.GetBytes(keyString),
-                IV = Encoding.Unicode.GetBytes(ivString),
+                IV = Encoding.Unicode.GetBytes(initVector),
             };
             string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
             Assert.Equal(plaintext, s);
@@ -126,14 +126,14 @@ namespace Useful.Security.Cryptography.Tests
         public void IvGenerateCorrectness()
         {
             using SymmetricAlgorithm cipher = new EnigmaSymmetric();
-            string ivString;
+            string initVector;
             for (int i = 0; i < 100; i++)
             {
                 cipher.GenerateIV();
-                ivString = Encoding.Unicode.GetString(cipher.IV);
+                initVector = Encoding.Unicode.GetString(cipher.IV);
 
                 // Test IV correctness here
-                Assert.NotNull(ivString);
+                Assert.NotNull(initVector);
             }
         }
 
@@ -258,7 +258,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: KJS
             // Final key: KPG
             string keyString = "B|II V I|23 15 02|HN IU JK LM OP TY";
-            string ivString = "K J S";
+            string initVector = "K J S";
             string newIv = "K P G";
 
             string plaintext = new StringBuilder()
@@ -273,7 +273,7 @@ namespace Useful.Security.Cryptography.Tests
             using SymmetricAlgorithm target = new EnigmaSymmetric()
             {
                 Key = Encoding.Unicode.GetBytes(keyString),
-                IV = Encoding.Unicode.GetBytes(ivString),
+                IV = Encoding.Unicode.GetBytes(initVector),
             };
             string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext.ToString());
             Assert.Equal(plaintext.ToString(), s);
@@ -309,7 +309,7 @@ namespace Useful.Security.Cryptography.Tests
             // Message key: OUA (?)
             // FInal key: BRS (?)
             string keyString = "B|III II I|01 01 01|EI AS JN KL MU OT";
-            string ivString = "O U A";
+            string initVector = "O U A";
             string newIv = "B R S";
 
             string plaintext = new StringBuilder()
@@ -333,7 +333,7 @@ namespace Useful.Security.Cryptography.Tests
             using SymmetricAlgorithm target = new EnigmaSymmetric()
             {
                 Key = Encoding.Unicode.GetBytes(keyString),
-                IV = Encoding.Unicode.GetBytes(ivString),
+                IV = Encoding.Unicode.GetBytes(initVector),
             };
             string s = CipherMethods.SymmetricTransform(target, CipherTransformMode.Decrypt, ciphertext);
             Assert.Equal(plaintext, s);
