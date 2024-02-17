@@ -53,12 +53,7 @@ namespace Useful.Security.Cryptography
             get
             {
                 int subsIndex = CharacterSet.IndexOf(substitution);
-                if (subsIndex < 0)
-                {
-                    return substitution;
-                }
-
-                return Substitutions[subsIndex];
+                return subsIndex < 0 ? substitution : Substitutions[subsIndex];
             }
 
             set
@@ -103,12 +98,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public char Reverse(char letter)
         {
-            if (CharacterSet.IndexOf(letter) < 0)
-            {
-                return letter;
-            }
-
-            return Substitutions.First(x => this[x] == letter);
+            return CharacterSet.IndexOf(letter) < 0 ? letter : Substitutions.First(x => this[x] == letter);
         }
 
         private static string ParseCharacterSet(string characterSet)
@@ -126,12 +116,9 @@ namespace Useful.Security.Cryptography
                 }
             }
 
-            if (characterSet.Length != characterSet.Distinct().Count())
-            {
-                throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet));
-            }
-
-            return characterSet;
+            return characterSet.Length != characterSet.Distinct().Count()
+                ? throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet))
+                : characterSet;
         }
 
         private static string ParseSubstitutions(string characterSet, string substitutions)
@@ -150,17 +137,11 @@ namespace Useful.Security.Cryptography
                 }
             }
 
-            if (substitutions.Length != substitutions.Distinct().Count())
-            {
-                throw new ArgumentException("Substitutions must not be duplicated.", nameof(substitutions));
-            }
-
-            if (!substitutions.All(characterSet.Contains))
-            {
-                throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
-            }
-
-            return substitutions;
+            return substitutions.Length != substitutions.Distinct().Count()
+                ? throw new ArgumentException("Substitutions must not be duplicated.", nameof(substitutions))
+                : !substitutions.All(characterSet.Contains)
+                ? throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions))
+                : substitutions;
         }
     }
 }

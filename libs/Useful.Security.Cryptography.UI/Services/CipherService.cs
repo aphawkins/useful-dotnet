@@ -24,12 +24,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// <returns>The encrypted text.</returns>
         public string Encrypt(string plaintext)
         {
-            if (Repository.CurrentItem == null || string.IsNullOrEmpty(plaintext))
-            {
-                return string.Empty;
-            }
-
-            return Repository.CurrentItem.Encrypt(plaintext);
+            return Repository.CurrentItem == null || string.IsNullOrEmpty(plaintext) ? string.Empty : Repository.CurrentItem.Encrypt(plaintext);
         }
 
         /// <summary>
@@ -39,12 +34,7 @@ namespace Useful.Security.Cryptography.UI.Services
         /// <returns>The decrypted text.</returns>
         public string Decrypt(string ciphertext)
         {
-            if (Repository.CurrentItem == null || string.IsNullOrEmpty(ciphertext))
-            {
-                return string.Empty;
-            }
-
-            return Repository.CurrentItem.Decrypt(ciphertext);
+            return Repository.CurrentItem == null || string.IsNullOrEmpty(ciphertext) ? string.Empty : Repository.CurrentItem.Decrypt(ciphertext);
         }
     }
 }

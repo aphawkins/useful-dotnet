@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 using System.Text;
@@ -73,22 +73,13 @@ namespace Useful.Security.Cryptography
 
         private static ICaesarSettings GetSettings(byte[] key)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (!int.TryParse(Encoding.Unicode.GetString(key), out int rightShift))
-            {
-                throw new ArgumentException("Value must be a number.", nameof(key));
-            }
-
-            if (rightShift is < 0 or > 25)
-            {
-                throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.");
-            }
-
-            return new CaesarSettings() { RightShift = rightShift };
+            return key == null
+                ? throw new ArgumentNullException(nameof(key))
+                : !int.TryParse(Encoding.Unicode.GetString(key), out int rightShift)
+                ? throw new ArgumentException("Value must be a number.", nameof(key))
+                : rightShift is < 0 or > 25
+                ? throw new ArgumentOutOfRangeException(nameof(key), "Value must be between 0 and 25.")
+                : (ICaesarSettings)new CaesarSettings() { RightShift = rightShift };
         }
 
         private void Reset()

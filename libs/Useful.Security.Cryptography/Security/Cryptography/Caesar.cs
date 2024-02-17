@@ -69,39 +69,17 @@ namespace Useful.Security.Cryptography
         internal char Encrypt(char letter)
         {
             // Uppercase
-            if (letter is >= 'A' and <= 'Z')
-            {
-                return (char)(((letter - 'A' + Settings.RightShift) % 26) + 'A');
-            }
-
-            // Lowercase
-            else if (letter is >= 'a' and <= 'z')
-            {
-                return (char)(((letter - 'a' + Settings.RightShift) % 26) + 'A');
-            }
-            else
-            {
-                return letter;
-            }
+            return letter is >= 'A' and <= 'Z'
+                ? (char)(((letter - 'A' + Settings.RightShift) % 26) + 'A')
+                : letter is >= 'a' and <= 'z' ? (char)(((letter - 'a' + Settings.RightShift) % 26) + 'A') : letter;
         }
 
         internal char Decrypt(char letter)
         {
             // Uppercase
-            if (letter is >= 'A' and <= 'Z')
-            {
-                return (char)(((letter - 'A' + 26 - Settings.RightShift) % 26) + 'A');
-            }
-
-            // Lowercase
-            else if (letter is >= 'a' and <= 'z')
-            {
-                return (char)(((letter - 'a' + 26 - Settings.RightShift) % 26) + 'A');
-            }
-            else
-            {
-                return letter;
-            }
+            return letter is >= 'A' and <= 'Z'
+                ? (char)(((letter - 'A' + 26 - Settings.RightShift) % 26) + 'A')
+                : letter is >= 'a' and <= 'z' ? (char)(((letter - 'a' + 26 - Settings.RightShift) % 26) + 'A') : letter;
         }
     }
 }

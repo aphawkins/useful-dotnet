@@ -116,12 +116,7 @@ namespace Useful.Security.Cryptography
             }
 
             byte[] outputBuffer = new byte[inputBuffer.Length];
-            if (TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0) > 0)
-            {
-                return outputBuffer;
-            }
-
-            return [];
+            return TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0) > 0 ? outputBuffer : ([]);
         }
     }
 }

@@ -183,14 +183,11 @@ namespace Useful.Security.Cryptography
 
         private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector)
         {
-            if (reflector.Length > 1 ||
+            return reflector.Length > 1 ||
                 !char.IsLetter(reflector[0]) ||
-                !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber))
-            {
-                throw new ArgumentException("Incorrect reflector.", nameof(reflector));
-            }
-
-            return new EnigmaReflector() { ReflectorNumber = reflectorNumber };
+                !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber)
+                ? throw new ArgumentException("Incorrect reflector.", nameof(reflector))
+                : (IEnigmaReflector)new EnigmaReflector() { ReflectorNumber = reflectorNumber };
         }
 
         private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
@@ -285,27 +282,15 @@ namespace Useful.Security.Cryptography
             int rotorPositionsCount = 3;
             string[] rotorSetting = rotorSettings.Split([' ']);
 
-            if (rotorSetting.Length <= 0)
-            {
-                throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings));
-            }
-
-            if (rotorSetting.Length > rotorPositionsCount)
-            {
-                throw new ArgumentException("Too many rotor settings specified.", nameof(rotorSettings));
-            }
-
-            if (rotorSetting.Length < rotorPositionsCount)
-            {
-                throw new ArgumentException("Too few rotor settings specified.", nameof(rotorSettings));
-            }
-
-            if (rotorSetting[0].Length == 0)
-            {
-                throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings));
-            }
-
-            return new Dictionary<EnigmaRotorPosition, char>
+            return rotorSetting.Length <= 0
+                ? throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings))
+                : rotorSetting.Length > rotorPositionsCount
+                ? throw new ArgumentException("Too many rotor settings specified.", nameof(rotorSettings))
+                : rotorSetting.Length < rotorPositionsCount
+                ? throw new ArgumentException("Too few rotor settings specified.", nameof(rotorSettings))
+                : rotorSetting[0].Length == 0
+                ? throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings))
+                : (IDictionary<EnigmaRotorPosition, char>)new Dictionary<EnigmaRotorPosition, char>
             {
                 { EnigmaRotorPosition.Fastest, rotorSetting[2][0] },
                 { EnigmaRotorPosition.Second, rotorSetting[1][0] },

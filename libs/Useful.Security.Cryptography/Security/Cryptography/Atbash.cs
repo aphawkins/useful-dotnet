@@ -44,13 +44,9 @@ namespace Useful.Security.Cryptography
                 // A=Z, B=Y, C=X, etc
                 return (char)('Z' - (letter % 'A'));
             }
-            else if (letter is >= 'a' and <= 'z')
-            {
-                return (char)('Z' - (letter % 'a'));
-            }
             else
             {
-                return letter;
+                return letter is >= 'a' and <= 'z' ? (char)('Z' - (letter % 'a')) : letter;
             }
         }
     }

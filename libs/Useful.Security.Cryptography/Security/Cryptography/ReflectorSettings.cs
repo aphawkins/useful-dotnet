@@ -73,12 +73,7 @@ namespace Useful.Security.Cryptography
             get
             {
                 int subsIndex = _characterSet.IndexOf(substitution);
-                if (subsIndex < 0)
-                {
-                    return substitution;
-                }
-
-                return _substitutions[subsIndex];
+                return subsIndex < 0 ? substitution : _substitutions[subsIndex];
             }
 
             set
@@ -154,27 +149,18 @@ namespace Useful.Security.Cryptography
                 }
             }
 
-            if (characterSet.Count != characterSet.Distinct().Count())
-            {
-                throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet));
-            }
-
-            return characterSet;
+            return characterSet.Count != characterSet.Distinct().Count()
+                ? throw new ArgumentException("Characters must not be duplicated.", nameof(characterSet))
+                : characterSet;
         }
 
         private static IList<char> ParseSubstitutions(IList<char> characterSet, IList<char> substitutions)
         {
-            if (substitutions.Count > characterSet.Count)
-            {
-                throw new ArgumentException("Too many substitutions.", nameof(substitutions));
-            }
-
-            if (!substitutions.All(characterSet.Contains))
-            {
-                throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions));
-            }
-
-            return characterSet;
+            return substitutions.Count > characterSet.Count
+                ? throw new ArgumentException("Too many substitutions.", nameof(substitutions))
+                : !substitutions.All(characterSet.Contains)
+                ? throw new ArgumentException("Substitutions must be in the character set.", nameof(substitutions))
+                : characterSet;
         }
     }
 }

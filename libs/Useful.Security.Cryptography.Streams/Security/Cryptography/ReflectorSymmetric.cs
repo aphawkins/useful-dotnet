@@ -122,12 +122,9 @@ namespace Useful.Security.Cryptography
 
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
 
-            if (parts.Length != KeyParts)
-            {
-                throw new ArgumentException("Incorrect number of key parts.", nameof(key));
-            }
-
-            return (parts[0].ToCharArray(), parts[1].ToCharArray());
+            return parts.Length != KeyParts
+                ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
+                : ((IList<char> CharacterSet, IList<char> Substitutions))(parts[0].ToCharArray(), parts[1].ToCharArray());
         }
 
         private void Reset()
