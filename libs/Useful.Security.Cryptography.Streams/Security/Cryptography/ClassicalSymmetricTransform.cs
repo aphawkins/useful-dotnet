@@ -73,27 +73,13 @@ namespace Useful.Security.Cryptography
             }
 
             string inputString = new(_encoding.GetChars(inputBuffer));
-            string outputString;
 
-            switch (_transformMode)
+            string outputString = _transformMode switch
             {
-                case CipherTransformMode.Encrypt:
-                    {
-                        outputString = Cipher.Encrypt(inputString);
-                        break;
-                    }
-
-                case CipherTransformMode.Decrypt:
-                    {
-                        outputString = Cipher.Decrypt(inputString);
-                        break;
-                    }
-
-                default:
-                    {
-                        throw new CryptographicException($"Unsupported transform mode {_transformMode}.");
-                    }
-            }
+                CipherTransformMode.Encrypt => Cipher.Encrypt(inputString),
+                CipherTransformMode.Decrypt => Cipher.Decrypt(inputString),
+                _ => throw new CryptographicException($"Unsupported transform mode {_transformMode}."),
+            };
 
             if (string.IsNullOrEmpty(outputString) || outputString == "\0")
             {
