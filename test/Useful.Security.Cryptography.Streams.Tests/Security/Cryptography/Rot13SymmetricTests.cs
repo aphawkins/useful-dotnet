@@ -19,8 +19,8 @@ namespace Useful.Security.Cryptography.Tests
         public void Ctor()
         {
             using SymmetricAlgorithm cipher = new Rot13Symmetric();
-            Assert.Equal(Array.Empty<byte>(), cipher.Key);
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.Key);
+            Assert.Equal([], cipher.IV);
         }
 
         [Theory]
@@ -46,7 +46,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using SymmetricAlgorithm cipher = new Rot13Symmetric();
             cipher.GenerateIV();
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using SymmetricAlgorithm cipher = new Rot13Symmetric();
             cipher.GenerateKey();
-            Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            Assert.Equal([], cipher.Key);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 Key = Encoding.Unicode.GetBytes("A"),
             };
-            Assert.Equal(Array.Empty<byte>(), cipher.Key);
+            Assert.Equal([], cipher.Key);
         }
 
         [Fact]

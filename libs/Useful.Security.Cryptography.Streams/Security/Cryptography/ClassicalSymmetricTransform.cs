@@ -112,7 +112,7 @@ namespace Useful.Security.Cryptography
         {
             if (inputBuffer[0] == 0)
             {
-                return Array.Empty<byte>();
+                return [];
             }
 
             byte[] outputBuffer = new byte[inputBuffer.Length];
@@ -121,7 +121,7 @@ namespace Useful.Security.Cryptography
                 return outputBuffer;
             }
 
-            return Array.Empty<byte>();
+            return [];
         }
     }
 }

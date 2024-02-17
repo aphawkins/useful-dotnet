@@ -109,7 +109,7 @@ namespace Useful.Security.Cryptography
         public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             Key = rgbKey;
-            IV = rgbIV ?? Array.Empty<byte>();
+            IV = rgbIV ?? [];
             return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
         }
 
@@ -117,7 +117,7 @@ namespace Useful.Security.Cryptography
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
         {
             Key = rgbKey;
-            IV = rgbIV ?? Array.Empty<byte>();
+            IV = rgbIV ?? [];
             return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
         }
 
@@ -431,8 +431,8 @@ namespace Useful.Security.Cryptography
             LegalBlockSizesValue[0] = new KeySizes(0, int.MaxValue, 16);
             LegalKeySizesValue = new KeySizes[1];
             LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
-            KeyValue = Array.Empty<byte>();
-            IVValue = Array.Empty<byte>();
+            KeyValue = [];
+            IVValue = [];
         }
     }
 }

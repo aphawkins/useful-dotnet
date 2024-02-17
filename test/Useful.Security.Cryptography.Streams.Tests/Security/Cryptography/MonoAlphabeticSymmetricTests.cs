@@ -87,7 +87,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using SymmetricAlgorithm cipher = new MonoAlphabeticSymmetric();
             cipher.GenerateIV();
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]

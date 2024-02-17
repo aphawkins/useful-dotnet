@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.Tests
             byte[] defaultKey = Encoding.Unicode.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ|ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             using ReflectorSymmetric cipher = new();
             Assert.Equal(defaultKey, cipher.Key);
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace Useful.Security.Cryptography.Tests
             using ReflectorSymmetric cipher = new();
             byte[] iv = Encoding.Unicode.GetBytes("A");
             cipher.IV = iv;
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Theory]
@@ -73,7 +73,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using ReflectorSymmetric cipher = new();
             cipher.GenerateIV();
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Useful.Security.Cryptography.Tests
 
             using (ReflectorSymmetric cipher = new())
             {
-                byte[] key = Array.Empty<byte>();
+                byte[] key = [];
                 byte[] newKey;
 
                 cipher.GenerateKey();

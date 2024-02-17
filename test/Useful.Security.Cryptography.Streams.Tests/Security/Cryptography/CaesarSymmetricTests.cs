@@ -23,7 +23,7 @@ namespace Useful.Security.Cryptography.Tests
             byte[] key = Encoding.Unicode.GetBytes($"{rightShift}");
             using SymmetricAlgorithm cipher = new CaesarSymmetric();
             Assert.Equal(key, cipher.Key);
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Theory]
@@ -39,7 +39,7 @@ namespace Useful.Security.Cryptography.Tests
             };
 
             Assert.Equal(key, cipher.Key);
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Theory]
@@ -91,7 +91,7 @@ namespace Useful.Security.Cryptography.Tests
         {
             using SymmetricAlgorithm cipher = new CaesarSymmetric();
             cipher.GenerateIV();
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace Useful.Security.Cryptography.Tests
             {
                 IV = Encoding.Unicode.GetBytes("A"),
             };
-            Assert.Equal(Array.Empty<byte>(), cipher.IV);
+            Assert.Equal([], cipher.IV);
         }
 
         [Fact]
