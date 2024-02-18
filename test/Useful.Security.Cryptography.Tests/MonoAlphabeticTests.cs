@@ -34,7 +34,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Decrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            ICipher cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
         }
 
@@ -44,7 +44,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Encrypt(string characterSet, string substitutions, string plaintext, string ciphertext)
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { CharacterSet = characterSet, Substitutions = substitutions };
-            ICipher cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
         }
 
@@ -62,8 +62,8 @@ namespace Useful.Security.Cryptography.Tests
                 bool isSequential = true;
                 foreach (char c in cipher.Settings.CharacterSet)
                 {
-                    isSequential &= previous < cipher.Settings[c];
-                    previous = cipher.Settings[c];
+                    isSequential &= previous < cipher.Settings.GetSubstitution(c);
+                    previous = cipher.Settings.GetSubstitution(c);
                 }
 
                 Assert.False(isSequential);
@@ -74,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Name()
         {
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings();
-            ICipher cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             Assert.Equal("MonoAlphabetic", cipher.CipherName);
             Assert.Equal("MonoAlphabetic", cipher.ToString());
         }
@@ -140,7 +140,7 @@ namespace Useful.Security.Cryptography.Tests
 
             const string substitutions = "MFANXIWPBSHGLTCQKVRJUDYZEO";
             IMonoAlphabeticSettings settings = new MonoAlphabeticSettings() { Substitutions = substitutions };
-            ICipher cipher = new MonoAlphabetic(settings);
+            MonoAlphabetic cipher = new(settings);
             System.Diagnostics.Debug.WriteLine(cipher.Decrypt(ciphertext));
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));

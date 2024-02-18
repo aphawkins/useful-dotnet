@@ -60,28 +60,28 @@ namespace Useful.Security.Cryptography.Tests
         [InlineData('Ø', 'A')]
         public void GetSubstitutionsInvalid(char from, char to)
         {
-            IReflectorSettings settings = new ReflectorSettings();
-            Assert.Throws<ArgumentException>("substitution", () => settings[from] = to);
+            ReflectorSettings settings = new();
+            Assert.Throws<ArgumentException>("substitution", () => settings.SetSubstitution(from, to));
         }
 
         [Theory]
         [InlineData('A', 'A', 0)]
         public void GetSubstitutionsValid(char from, char to, int substitutionCount)
         {
-            IReflectorSettings settings = new ReflectorSettings();
-            settings[from] = to;
+            ReflectorSettings settings = new();
+            settings.SetSubstitution(from, to);
 
-            Assert.Equal(to, settings[from]);
+            Assert.Equal(to, settings.GetSubstitution(from));
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
 
         [Fact]
         public void Reverse()
         {
-            IReflectorSettings settings = new ReflectorSettings();
+            ReflectorSettings settings = new();
             Assert.Equal('A', settings.Reflect('A'));
             Assert.Equal('B', settings.Reflect('B'));
-            settings['A'] = 'B';
+            settings.SetSubstitution('A', 'B');
             Assert.Equal('A', settings.Reflect('B'));
             Assert.Equal('B', settings.Reflect('A'));
         }
@@ -112,14 +112,14 @@ namespace Useful.Security.Cryptography.Tests
             ArgumentNullException.ThrowIfNull(characterSet);
             ArgumentNullException.ThrowIfNull(substitutions);
 
-            IReflectorSettings settings = new ReflectorSettings()
+            ReflectorSettings settings = new()
             {
                 CharacterSet = characterSet.ToCharArray(),
                 Substitutions = substitutions.ToCharArray(),
             };
-            settings[from] = to;
+            settings.SetSubstitution(from, to);
 
-            Assert.Equal(to, settings[from]);
+            Assert.Equal(to, settings.GetSubstitution(from));
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(newSubstitutions, settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
@@ -133,13 +133,13 @@ namespace Useful.Security.Cryptography.Tests
             ArgumentNullException.ThrowIfNull(characterSet);
             ArgumentNullException.ThrowIfNull(substitutions);
 
-            IReflectorSettings settings = new ReflectorSettings()
+            ReflectorSettings settings = new()
             {
                 CharacterSet = characterSet.ToCharArray(),
                 Substitutions = substitutions.ToCharArray(),
             };
 
-            Assert.Throws<ArgumentException>("substitution", () => settings[from] = to);
+            Assert.Throws<ArgumentException>("substitution", () => settings.SetSubstitution(from, to));
             Assert.Equal(characterSet, settings.CharacterSet);
             Assert.Equal(substitutions, settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);

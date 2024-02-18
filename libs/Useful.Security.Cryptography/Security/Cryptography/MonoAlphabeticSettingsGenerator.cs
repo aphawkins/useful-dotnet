@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -10,8 +10,8 @@ namespace Useful.Security.Cryptography
         public static MonoAlphabeticSettings Generate()
         {
             MonoAlphabeticSettings settings = new();
-            IList<char> allowedLettersCloneFrom = new List<char>(settings.CharacterSet);
-            IList<char> allowedLettersCloneTo = new List<char>(settings.CharacterSet);
+            List<char> allowedLettersCloneFrom = new(settings.CharacterSet);
+            List<char> allowedLettersCloneTo = new(settings.CharacterSet);
 
             Random rnd = new();
             int indexFrom;
@@ -30,7 +30,7 @@ namespace Useful.Security.Cryptography
                 to = allowedLettersCloneTo[indexTo];
                 allowedLettersCloneTo.RemoveAt(indexTo);
 
-                settings[from] = to;
+                settings.SetSubstitution(from, to);
             }
 
             return settings;

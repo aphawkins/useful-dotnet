@@ -7,7 +7,7 @@ namespace Useful.Security.Cryptography
     /// </summary>
     public sealed class EnigmaPlugboard : IEnigmaPlugboard
     {
-        private readonly IList<char> _characterSet;
+        private readonly char[] _characterSet;
         private readonly ReflectorSettings _reflectorSettings;
 
         /// <summary>
@@ -38,14 +38,14 @@ namespace Useful.Security.Cryptography
         public int SubstitutionCount => _reflectorSettings.SubstitutionCount / 2;
 
         /// <inheritdoc />
-        public char Substitution(char letter) => _reflectorSettings.GetSubstitution(letter);
+        public char GetSubstitution(char letter) => _reflectorSettings.GetSubstitution(letter);
 
         /// <inheritdoc />
         public IReadOnlyDictionary<char, char> Substitutions()
         {
             Dictionary<char, char> pairsToAdd = [];
 
-            for (int i = 0; i < _characterSet.Count; i++)
+            for (int i = 0; i < _characterSet.Length; i++)
             {
                 if (_characterSet[i] == _reflectorSettings.Substitutions[i])
                 {

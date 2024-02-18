@@ -60,7 +60,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            ICipher cipher = new Caesar(new CaesarSettings());
+            Caesar cipher = new(new CaesarSettings());
             Assert.Equal("Caesar", cipher.CipherName);
             Assert.Equal("Caesar", cipher.ToString());
         }
@@ -71,7 +71,7 @@ namespace Useful.Security.Cryptography.Tests
             const string ciphertext = "MHILY LZA ZBHL XBPZXBL MVYABUHL HWWPBZ JSHBKPBZ JHLJBZ KPJABT HYJHUBT LZA ULBAYVU";
             const string plaintext = "FABER EST SUAE QUISQUE FORTUNAE APPIUS CLAUDIUS CAECUS DICTUM ARCANUM EST NEUTRON";
 
-            ICipher cipher = new Caesar(
+            Caesar cipher = new(
                 new CaesarSettings()
                 {
                     RightShift = 7,

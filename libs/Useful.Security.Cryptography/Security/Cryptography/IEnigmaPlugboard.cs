@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// Gets a current letter substitution.
         /// </summary>
         /// <param name="letter">The plugboard letter.</param>
-        char Substitution(char letter);
+        char GetSubstitution(char letter);
 
         /// <summary>
         /// Gets the plugboard substituted pairs.

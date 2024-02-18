@@ -66,7 +66,7 @@ namespace Useful.Security.Cryptography.UI.Controllers
 
             _repository.SetCurrentItem(x => x == cipher);
 
-            ISettingsController settingsController = new SettingsController(cipherSettingsObservable, settingsView);
+            SettingsController settingsController = new(cipherSettingsObservable, settingsView);
             settingsController.LoadView();
 
             _view.ShowSettings(settingsView);

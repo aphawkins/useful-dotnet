@@ -30,7 +30,10 @@ namespace Useful.Security.Cryptography.Tests
             _ = notches;
             const string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            IEnigmaRotor target = new EnigmaRotor() { RotorNumber = rotorNumber };
+            EnigmaRotor target = new()
+            {
+                RotorNumber = rotorNumber,
+            };
 
             Assert.Equal(rotorNumber, target.RotorNumber);
 
@@ -67,7 +70,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void EnigmaRotorRing()
         {
-            IEnigmaRotor target = new EnigmaRotor()
+            EnigmaRotor target = new()
             {
                 RotorNumber = EnigmaRotorNumber.I,
                 RingPosition = 2,

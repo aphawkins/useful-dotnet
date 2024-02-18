@@ -22,7 +22,7 @@ namespace Useful.Security.Cryptography.Tests
 
             const string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-            IEnigmaReflector reflector = new EnigmaReflector()
+            EnigmaReflector reflector = new()
             {
                 ReflectorNumber = reflectorNumber,
             };

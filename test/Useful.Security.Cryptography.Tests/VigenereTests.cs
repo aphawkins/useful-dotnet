@@ -60,7 +60,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void Name()
         {
-            ICipher cipher = new Vigenere(new VigenereSettings());
+            Vigenere cipher = new(new VigenereSettings());
             Assert.Equal("Vigenere", cipher.CipherName);
             Assert.Equal("Vigenere", cipher.ToString());
         }
@@ -110,7 +110,7 @@ namespace Useful.Security.Cryptography.Tests
                 .Append("SES AILES DEGEANT LEMPECHENT DE MARCHER")
                 .ToString();
 
-            ICipher cipher = new Vigenere(
+            Vigenere cipher = new(
                 new VigenereSettings()
                 {
                     Keyword = "SCUBA",

@@ -11,7 +11,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Name()
         {
             IEnigmaSettings settings = new EnigmaSettings();
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             Assert.Equal("Enigma M3", cipher.CipherName);
             Assert.Equal("Enigma M3", cipher.ToString());
         }
@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Encrypt(string plaintext, string ciphertext, char newFastestRotorPosition)
         {
             IEnigmaSettings settings = new EnigmaSettings();
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             Assert.Equal(ciphertext, cipher.Encrypt(plaintext));
             Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
         }
@@ -39,7 +39,7 @@ namespace Useful.Security.Cryptography.Tests
         public void Decrypt(string plaintext, string ciphertext, char newFastestRotorPosition)
         {
             IEnigmaSettings settings = new EnigmaSettings();
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             Assert.Equal(plaintext, cipher.Decrypt(ciphertext));
             Assert.Equal(newFastestRotorPosition, settings.Rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
         }
@@ -125,7 +125,7 @@ namespace Useful.Security.Cryptography.Tests
                 .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             string newPlaintext = cipher.Decrypt(ciphertext);
             Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
@@ -209,7 +209,7 @@ namespace Useful.Security.Cryptography.Tests
                 .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             string newPlaintext = cipher.Decrypt(ciphertext);
             Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('G', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);
@@ -311,7 +311,7 @@ namespace Useful.Security.Cryptography.Tests
                 .ToString();
 
             IEnigmaSettings settings = new EnigmaSettings() { Reflector = reflector, Rotors = rotors, Plugboard = plugboard };
-            ICipher cipher = new Enigma(settings);
+            Enigma cipher = new(settings);
             string newPlaintext = cipher.Decrypt(ciphertext);
             Assert.Equal(plaintext, newPlaintext);
             Assert.Equal('S', rotors[EnigmaRotorPosition.Fastest].CurrentSetting);

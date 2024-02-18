@@ -40,10 +40,10 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void CtorEmpty()
         {
-            IEnigmaPlugboard settings = new EnigmaPlugboard();
+            EnigmaPlugboard settings = new();
             Assert.Equal(0, settings.SubstitutionCount);
             Assert.Empty(settings.Substitutions());
-            Assert.Equal('A', settings['A']);
+            Assert.Equal('A', settings.GetSubstitution('A'));
         }
 
         [Theory]

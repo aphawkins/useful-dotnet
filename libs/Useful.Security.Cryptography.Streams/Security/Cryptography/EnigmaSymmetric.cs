@@ -130,7 +130,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc/>
         public override string ToString() => _algorithm.CipherName;
 
-        private static IEnigmaSettings GetSettingsKey(byte[] key)
+        private static EnigmaSettings GetSettingsKey(byte[] key)
         {
             string keyString = Encoding.Unicode.GetString(key);
             string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
@@ -183,13 +183,13 @@ namespace Useful.Security.Cryptography
             return settings;
         }
 
-        private static IEnigmaReflector ParseEnigmaReflectorNumber(string reflector) => reflector.Length > 1 ||
+        private static EnigmaReflector ParseEnigmaReflectorNumber(string reflector) => reflector.Length > 1 ||
             !char.IsLetter(reflector[0]) ||
             !Enum.TryParse(reflector, out EnigmaReflectorNumber reflectorNumber)
                 ? throw new ArgumentException("Incorrect reflector.", nameof(reflector))
-                : (IEnigmaReflector)new EnigmaReflector() { ReflectorNumber = reflectorNumber };
+                : new EnigmaReflector() { ReflectorNumber = reflectorNumber };
 
-        private static IDictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
+        private static Dictionary<EnigmaRotorPosition, EnigmaRotorNumber> ParseEnigmaRotorNumbers(string rotorNumbers)
         {
             const int rotorPositionsCount = 3;
             string[] rotors = rotorNumbers.Split([' ']);
@@ -230,7 +230,7 @@ namespace Useful.Security.Cryptography
             return newRotors;
         }
 
-        private static IDictionary<EnigmaRotorPosition, int> ParseEnigmaRings(string ringSettings)
+        private static Dictionary<EnigmaRotorPosition, int> ParseEnigmaRings(string ringSettings)
         {
             const int rotorPositionsCount = 3;
             string[] rings = ringSettings.Split([' ']);
@@ -276,7 +276,7 @@ namespace Useful.Security.Cryptography
             };
         }
 
-        private static IDictionary<EnigmaRotorPosition, char> ParseEnigmaRotorSettings(string rotorSettings)
+        private static Dictionary<EnigmaRotorPosition, char> ParseEnigmaRotorSettings(string rotorSettings)
         {
             const int rotorPositionsCount = 3;
             string[] rotorSetting = rotorSettings.Split([' ']);
@@ -289,7 +289,7 @@ namespace Useful.Security.Cryptography
                 ? throw new ArgumentException("Too few rotor settings specified.", nameof(rotorSettings))
                 : rotorSetting[0].Length == 0
                 ? throw new ArgumentException("No rotor settings specified.", nameof(rotorSettings))
-                : (IDictionary<EnigmaRotorPosition, char>)new Dictionary<EnigmaRotorPosition, char>
+                : new Dictionary<EnigmaRotorPosition, char>
             {
                 { EnigmaRotorPosition.Fastest, rotorSetting[2][0] },
                 { EnigmaRotorPosition.Second, rotorSetting[1][0] },
@@ -299,7 +299,7 @@ namespace Useful.Security.Cryptography
 
         private static EnigmaPlugboard ParsePlugboard(string plugboard)
         {
-            IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
+            List<EnigmaPlugboardPair> pairs = [];
             string[] rawPairs = plugboard.Split([KeyDelimiter]);
 
             // No plugs specified

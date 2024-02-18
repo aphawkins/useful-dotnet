@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -11,8 +11,8 @@ namespace Useful.Security.Cryptography
         {
             IReflectorSettings reflector = ReflectorSettingsGenerator.Generate();
 
-            IList<EnigmaPlugboardPair> pairs = new List<EnigmaPlugboardPair>();
-            IList<char> usedLetters = new List<char>();
+            List<EnigmaPlugboardPair> pairs = [];
+            List<char> usedLetters = [];
 
             for (int i = 0; i < reflector.CharacterSet.Count; i++)
             {
