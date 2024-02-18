@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -25,19 +25,13 @@ namespace Useful.Security.Cryptography
                 indexFrom = rnd.Next(0, allowedLettersCloneFrom.Count);
                 from = allowedLettersCloneFrom[indexFrom];
                 allowedLettersCloneFrom.RemoveAt(indexFrom);
-                if (allowedLettersCloneTo.Contains(from))
-                {
-                    allowedLettersCloneTo.Remove(from);
-                }
+                allowedLettersCloneTo.Remove(from);
 
                 indexTo = rnd.Next(0, allowedLettersCloneTo.Count);
                 to = allowedLettersCloneTo[indexTo];
 
                 allowedLettersCloneTo.RemoveAt(indexTo);
-                if (allowedLettersCloneFrom.Contains(to))
-                {
-                    allowedLettersCloneFrom.Remove(to);
-                }
+                allowedLettersCloneFrom.Remove(to);
 
                 settings[from] = to;
             }
