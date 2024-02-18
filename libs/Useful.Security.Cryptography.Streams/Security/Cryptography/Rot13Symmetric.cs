@@ -35,7 +35,12 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV) => CreateEncryptor(rgbKey, rgbIV);
+        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
+        {
+            Key = rgbKey;
+            IV = rgbIV ?? [];
+            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
+        }
 
         /// <inheritdoc />
         public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
