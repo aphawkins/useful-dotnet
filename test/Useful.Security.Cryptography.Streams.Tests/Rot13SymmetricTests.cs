@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Xunit;
 
+#pragma warning disable CA5390 // Do not hard-code encryption key
+
 namespace Useful.Security.Cryptography.Streams.Tests
 {
     public class Rot13SymmetricTests
