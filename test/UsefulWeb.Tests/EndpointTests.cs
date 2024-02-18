@@ -20,7 +20,7 @@ namespace UsefulWeb.Tests
             HttpClient client = _factory.CreateClient();
 
             // Act
-            HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await client.GetAsync(path).ConfigureAwait(true);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
