@@ -1,5 +1,6 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -269,9 +270,9 @@ namespace Useful.Security.Cryptography
 
             return new Dictionary<EnigmaRotorPosition, int>
             {
-                { EnigmaRotorPosition.Fastest, int.Parse(rings[2]) },
-                { EnigmaRotorPosition.Second, int.Parse(rings[1]) },
-                { EnigmaRotorPosition.Third, int.Parse(rings[0]) },
+                { EnigmaRotorPosition.Fastest, int.Parse(rings[2], CultureInfo.InvariantCulture) },
+                { EnigmaRotorPosition.Second, int.Parse(rings[1], CultureInfo.InvariantCulture) },
+                { EnigmaRotorPosition.Third, int.Parse(rings[0], CultureInfo.InvariantCulture) },
             };
         }
 
@@ -368,7 +369,7 @@ namespace Useful.Security.Cryptography
 
             foreach (KeyValuePair<EnigmaRotorPosition, IEnigmaRotor> position in settings.Rotors.Reverse().ToArray())
             {
-                key.Append($"{position.Value.RingPosition:00}")
+                key.Append(CultureInfo.InvariantCulture, $"{position.Value.RingPosition:00}")
                     .Append(KeyDelimiter);
             }
 
