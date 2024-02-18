@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
@@ -42,9 +42,13 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public void Defaults() => _cipher.Settings = new VigenereSettings() with { };
 
         /// <inheritdoc />
-        public void Randomize() => throw new NotImplementedException();
+        public void Randomize()
+        {
+        }
 
         /// <inheritdoc />
-        public void Crack() => throw new NotImplementedException();
+        public void Crack()
+        {
+        }
     }
 }

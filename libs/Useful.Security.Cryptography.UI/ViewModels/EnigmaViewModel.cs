@@ -85,6 +85,8 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public void Randomize() => _cipher.GenerateSettings();
 
         /// <inheritdoc />
-        public void Crack() => throw new NotImplementedException();
+        public void Crack()
+        {
+        }
     }
 }
