@@ -25,7 +25,7 @@ namespace Useful.Security.Cryptography.UI.Tests.Controllers
             _moqCipher.Setup(x => x.CipherName).Returns("MoqCipherName");
             _moqCipher.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("MoqCiphertext");
             _moqRepository = new Mock<IRepository<ICipher>>();
-            _moqRepository.Setup(x => x.Read()).Returns(() => new List<ICipher>() { _moqCipher.Object });
+            _moqRepository.Setup(x => x.Read()).Returns(() => [_moqCipher.Object]);
             _moqRepository.Setup(x => x.CurrentItem).Returns(() => _moqCipher.Object);
             _moqView = new Mock<ICipherView>();
             _controller = new CipherController(_moqRepository.Object, _moqView.Object);
