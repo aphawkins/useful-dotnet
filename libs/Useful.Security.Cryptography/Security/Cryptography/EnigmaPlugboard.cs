@@ -52,7 +52,7 @@ namespace Useful.Security.Cryptography
                     continue;
                 }
 
-                if (pairsToAdd.ContainsKey(_reflectorSettings.Substitutions[i])
+                if (pairsToAdd.TryGetValue(_reflectorSettings.Substitutions[i], out char _)
                     && pairsToAdd[_reflectorSettings.Substitutions[i]] == _characterSet[i])
                 {
                     continue;
