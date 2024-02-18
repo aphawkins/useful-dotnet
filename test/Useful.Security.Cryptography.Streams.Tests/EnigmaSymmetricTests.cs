@@ -77,7 +77,7 @@ namespace Useful.Security.Cryptography.Tests
         }
 
         [Fact]
-        public void Enigma_1941_07_07_19_25()
+        public void Enigma19410707T1925()
         {
             string ciphertext = new StringBuilder()
                 .Append("EDPUD NRGYS ZRCXN UYTPO MRMBO ")

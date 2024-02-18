@@ -14,7 +14,7 @@ namespace UsefulWeb.Tests
         [InlineData("/")]
         [InlineData("/Home")]
         [InlineData("/Cryptography")]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentTypeAsync(string path)
+        public async Task GetEndpointsReturnSuccessAndCorrectContentTypeAsync(string path)
         {
             // Arrange
             HttpClient client = _factory.CreateClient();
