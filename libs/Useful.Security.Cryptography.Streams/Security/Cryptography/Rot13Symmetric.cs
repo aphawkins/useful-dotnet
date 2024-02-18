@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 
@@ -64,6 +64,7 @@ namespace Useful.Security.Cryptography
 
         private void Reset()
         {
+#pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes - this cipher is inherently unsafe
             ModeValue = CipherMode.ECB;
             PaddingValue = PaddingMode.None;
             KeySizeValue = 16;
