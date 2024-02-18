@@ -114,7 +114,7 @@ namespace Useful.Security.Cryptography.Tests
         [Fact]
         public void RotorSet()
         {
-            IList<EnigmaRotorNumber> rotors = EnigmaRotors.RotorSet.ToList();
+            IList<EnigmaRotorNumber> rotors = [.. EnigmaRotors.RotorSet];
             Assert.Equal(8, rotors.Count);
             Assert.Equal(EnigmaRotorNumber.I, rotors[0]);
             Assert.Equal(EnigmaRotorNumber.II, rotors[1]);
