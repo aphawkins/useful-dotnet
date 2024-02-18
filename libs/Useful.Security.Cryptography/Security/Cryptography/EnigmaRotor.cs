@@ -47,12 +47,12 @@ namespace Useful.Security.Cryptography
 
             set
             {
-                if (CharacterSet.IndexOf(value) < 0)
+                if (CharacterSet.IndexOf(value, StringComparison.InvariantCulture) < 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
-                _currentSetting = CharacterSet.IndexOf(value);
+                _currentSetting = CharacterSet.IndexOf(value, StringComparison.InvariantCulture);
             }
         }
 
@@ -93,7 +93,7 @@ namespace Useful.Security.Cryptography
         public char Backward(char letter)
         {
             // Add the offset the current position
-            int currentPosition = CharacterSet.IndexOf(letter);
+            int currentPosition = CharacterSet.IndexOf(letter, StringComparison.InvariantCulture);
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
             if (newLet < 0 || newLet >= CharacterSet.Length)
             {
@@ -105,7 +105,7 @@ namespace Useful.Security.Cryptography
             newLetter = _wiring.Reverse(newLetter);
 
             // Undo offset the current position
-            currentPosition = CharacterSet.IndexOf(newLetter);
+            currentPosition = CharacterSet.IndexOf(newLetter, StringComparison.InvariantCulture);
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
             return newLet < 0 || newLet >= CharacterSet.Length
                 ? throw new ArgumentOutOfRangeException(nameof(letter)) : CharacterSet[newLet];
@@ -115,14 +115,14 @@ namespace Useful.Security.Cryptography
         public char Forward(char letter)
         {
             // Add the offset the current position
-            int currentPosition = CharacterSet.IndexOf(letter);
+            int currentPosition = CharacterSet.IndexOf(letter, StringComparison.InvariantCulture);
             int newLet = (currentPosition + _currentSetting - _ringPosition + 1 + CharacterSet.Length) % CharacterSet.Length;
             char newLetter = CharacterSet[newLet];
 
-            newLetter = _wiring[newLetter];
+            newLetter = _wiring.GetSubstitution(newLetter);
 
             // Undo offset the current position
-            currentPosition = CharacterSet.IndexOf(newLetter);
+            currentPosition = CharacterSet.IndexOf(newLetter, StringComparison.InvariantCulture);
             newLet = (currentPosition - _currentSetting + _ringPosition - 1 + CharacterSet.Length) % CharacterSet.Length;
 
             return CharacterSet[newLet];

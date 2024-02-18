@@ -51,7 +51,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public char GetSubstitution(char substitution)
         {
-            int subsIndex = CharacterSet.IndexOf(substitution);
+            int subsIndex = CharacterSet.IndexOf(substitution, StringComparison.InvariantCulture);
             return subsIndex < 0 ? substitution : Substitutions[subsIndex];
         }
 
@@ -59,7 +59,7 @@ namespace Useful.Security.Cryptography
         public void SetSubstitution(char substitution, char newSubstitution)
         {
             char from = substitution;
-            int fromIndex = CharacterSet.IndexOf(from);
+            int fromIndex = CharacterSet.IndexOf(from, StringComparison.InvariantCulture);
 
             if (fromIndex < 0)
             {
@@ -67,7 +67,7 @@ namespace Useful.Security.Cryptography
             }
 
             char to = newSubstitution;
-            int toIndex = CharacterSet.IndexOf(to);
+            int toIndex = CharacterSet.IndexOf(to, StringComparison.InvariantCulture);
 
             if (toIndex < 0)
             {
@@ -81,7 +81,7 @@ namespace Useful.Security.Cryptography
             }
 
             char fromSubs = Substitutions[fromIndex];
-            int toInvIndex = Substitutions.IndexOf(to);
+            int toInvIndex = Substitutions.IndexOf(to, StringComparison.InvariantCulture);
 
             if (Substitutions[fromIndex] == to)
             {
@@ -95,7 +95,7 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public char Reverse(char letter) => CharacterSet.IndexOf(letter) < 0 ? letter : Substitutions.First(x => this[x] == letter);
+        public char Reverse(char letter) => CharacterSet.IndexOf(letter, StringComparison.InvariantCulture) < 0 ? letter : Substitutions.First(x => this[x] == letter);
 
         private static string ParseCharacterSet(string characterSet)
         {

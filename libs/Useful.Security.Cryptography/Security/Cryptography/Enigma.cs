@@ -42,7 +42,7 @@ namespace Useful.Security.Cryptography
                 {
                     output.Append(' ');
                 }
-                else if (CharacterSet.Contains(char.ToUpperInvariant(inputChar)))
+                else if (CharacterSet.Contains(inputChar, StringComparison.InvariantCultureIgnoreCase))
                 {
                     output.Append(Encrypt(char.ToUpperInvariant(inputChar)));
                 }
