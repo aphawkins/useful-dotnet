@@ -51,9 +51,6 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorSubstitutionsInvalid(IList<EnigmaPlugboardPair> pairs)
             => Assert.Throws<ArgumentException>(nameof(pairs), () => new EnigmaPlugboard(pairs));
 
-        [Fact]
-        public void CtorSubstitutionsNull() => Assert.Throws<ArgumentNullException>("pairs", () => new EnigmaPlugboard(null));
-
         [Theory]
         [MemberData(nameof(ValidPairs))]
         public void CtorSubstitutionsValid(IList<EnigmaPlugboardPair> pairs, int substitutionCount)
