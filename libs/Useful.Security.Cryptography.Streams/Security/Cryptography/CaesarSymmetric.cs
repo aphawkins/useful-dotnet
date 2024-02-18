@@ -36,7 +36,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override byte[] IV
         {
-            get => Array.Empty<byte>();
+            get => [];
             set => _ = value;
         }
 

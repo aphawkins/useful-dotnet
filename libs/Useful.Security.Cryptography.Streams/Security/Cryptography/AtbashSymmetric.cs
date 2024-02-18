@@ -23,14 +23,14 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override byte[] IV
         {
-            get => Array.Empty<byte>();
+            get => [];
             set => _ = value;
         }
 
         /// <inheritdoc />
         public override byte[] Key
         {
-            get => Array.Empty<byte>();
+            get => [];
             set => _ = value;
         }
 

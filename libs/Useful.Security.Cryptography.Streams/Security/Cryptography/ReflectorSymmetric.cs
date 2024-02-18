@@ -39,7 +39,7 @@ namespace Useful.Security.Cryptography
         /// <inheritdoc />
         public override byte[] IV
         {
-            get => Array.Empty<byte>();
+            get => [];
             set => _ = value;
         }
 
@@ -110,7 +110,7 @@ namespace Useful.Security.Cryptography
             // CharacterSet|Substitutions
             ArgumentNullException.ThrowIfNull(key);
 
-            if (key.SequenceEqual(Array.Empty<byte>()))
+            if (key.SequenceEqual([]))
             {
                 throw new ArgumentException("Invalid format.", nameof(key));
             }
