@@ -29,28 +29,28 @@ namespace Useful.Security.Cryptography
         /// Gets the rotor positions.
         /// </summary>
         /// <returns>The rotor positions.</returns>
-        public static IEnumerable<EnigmaRotorPosition> RotorPositions =>
-                [
-                    EnigmaRotorPosition.Fastest,
-                    EnigmaRotorPosition.Second,
-                    EnigmaRotorPosition.Third,
-                ];
+        public static IEnumerable<EnigmaRotorPosition> RotorPositions
+            => [
+                EnigmaRotorPosition.Fastest,
+                EnigmaRotorPosition.Second,
+                EnigmaRotorPosition.Third,
+            ];
 
         /// <summary>
         /// Gets all the rotors.
         /// </summary>
         /// <returns>All the rotors.</returns>
-        public static IList<EnigmaRotorNumber> RotorSet =>
-                [
-                    EnigmaRotorNumber.I,
-                    EnigmaRotorNumber.II,
-                    EnigmaRotorNumber.III,
-                    EnigmaRotorNumber.IV,
-                    EnigmaRotorNumber.V,
-                    EnigmaRotorNumber.VI,
-                    EnigmaRotorNumber.VII,
-                    EnigmaRotorNumber.VIII,
-                ];
+        public static IList<EnigmaRotorNumber> RotorSet
+            => [
+                EnigmaRotorNumber.I,
+                EnigmaRotorNumber.II,
+                EnigmaRotorNumber.III,
+                EnigmaRotorNumber.IV,
+                EnigmaRotorNumber.V,
+                EnigmaRotorNumber.VI,
+                EnigmaRotorNumber.VII,
+                EnigmaRotorNumber.VIII,
+            ];
 
         /// <inheritdoc />
         public IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors
