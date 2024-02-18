@@ -20,6 +20,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the right shift of the cipher.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value must be between 0 and 25.</exception>
         public int RightShift
         {
             get => _rightShift;

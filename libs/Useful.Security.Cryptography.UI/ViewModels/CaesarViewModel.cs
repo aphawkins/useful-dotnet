@@ -36,6 +36,7 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         /// <summary>
         /// Gets or sets the selected shift.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Shift must be between 0 and 25.</exception>
         public int SelectedShift
         {
             get => _cipher.Settings.RightShift;

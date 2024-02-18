@@ -68,6 +68,7 @@ namespace Useful.Security.Cryptography
         /// Ensures that the specified pairs are valid against the character set and the uniqueness.
         /// </summary>
         /// <param name="pairs">The pairs to check.</param>
+        /// <exception cref="ArgumentException">Thrown if substitution letters are invalid.</exception>
         private void CheckPairs(IList<EnigmaPlugboardPair> pairs)
         {
             ArgumentNullException.ThrowIfNull(pairs);

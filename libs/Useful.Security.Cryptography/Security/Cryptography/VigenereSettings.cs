@@ -15,6 +15,7 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Gets or sets the keyword of the cipher.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Length must be between 0 and 26 letters.</exception>
         public string Keyword
         {
             get => _keyword;
