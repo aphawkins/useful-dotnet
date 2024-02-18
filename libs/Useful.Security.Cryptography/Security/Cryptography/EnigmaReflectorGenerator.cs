@@ -1,4 +1,6 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
+
+using System.Security.Cryptography;
 
 namespace Useful.Security.Cryptography
 {
@@ -9,15 +11,13 @@ namespace Useful.Security.Cryptography
     {
         public static IEnigmaReflector Generate()
         {
-            Random rnd = new();
-
             List<EnigmaReflectorNumber> reflectors =
             [
                 EnigmaReflectorNumber.B,
                 EnigmaReflectorNumber.C,
             ];
 
-            int nextRandomNumber = rnd.Next(0, reflectors.Count);
+            int nextRandomNumber = RandomNumberGenerator.GetInt32(0, reflectors.Count);
 
             return new EnigmaReflector() { ReflectorNumber = reflectors[nextRandomNumber] };
         }

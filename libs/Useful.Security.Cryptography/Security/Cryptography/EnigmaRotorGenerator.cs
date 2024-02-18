@@ -1,4 +1,6 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
+
+using System.Security.Cryptography;
 
 namespace Useful.Security.Cryptography
 {
@@ -9,17 +11,15 @@ namespace Useful.Security.Cryptography
     {
         public static IEnigmaRotors Generate()
         {
-            Random rnd = new();
             int nextRandomNumber;
             Dictionary<EnigmaRotorPosition, IEnigmaRotor> rotors = [];
-
             List<int> usedRotorNumbers = [];
 
             foreach (EnigmaRotorPosition rotorPosition in EnigmaRotors.RotorPositions)
             {
                 while (true)
                 {
-                    nextRandomNumber = rnd.Next(0, EnigmaRotors.RotorSet.Count);
+                    nextRandomNumber = RandomNumberGenerator.GetInt32(0, EnigmaRotors.RotorSet.Count);
                     if (!usedRotorNumbers.Contains(nextRandomNumber))
                     {
                         usedRotorNumbers.Add(nextRandomNumber);
@@ -30,8 +30,8 @@ namespace Useful.Security.Cryptography
                 rotors[rotorPosition] = new EnigmaRotor()
                 {
                     RotorNumber = EnigmaRotors.RotorSet[nextRandomNumber],
-                    RingPosition = new Random().Next(1, 26),
-                    CurrentSetting = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[new Random().Next(0, 25)],
+                    RingPosition = RandomNumberGenerator.GetInt32(1, 27),
+                    CurrentSetting = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomNumberGenerator.GetInt32(0, 26)],
                 };
             }
 

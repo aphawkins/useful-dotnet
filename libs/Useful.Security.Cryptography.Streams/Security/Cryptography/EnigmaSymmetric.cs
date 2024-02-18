@@ -402,7 +402,7 @@ namespace Useful.Security.Cryptography
             return key.ToString();
         }
 
-        private static char GetRandomRotorCurrentSetting() => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[new Random().Next(0, 25)];
+        private static char GetRandomRotorCurrentSetting() => "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomNumberGenerator.GetInt32(0, 26)];
 
         private void Reset()
         {

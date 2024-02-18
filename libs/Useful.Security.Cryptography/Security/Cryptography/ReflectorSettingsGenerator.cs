@@ -1,5 +1,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
+using System.Security.Cryptography;
+
 namespace Useful.Security.Cryptography
 {
     /// <summary>
@@ -22,18 +24,18 @@ namespace Useful.Security.Cryptography
 
             while (allowedLettersCloneFrom.Count > 0)
             {
-                indexFrom = rnd.Next(0, allowedLettersCloneFrom.Count);
+                indexFrom = RandomNumberGenerator.GetInt32(0, allowedLettersCloneFrom.Count);
                 from = allowedLettersCloneFrom[indexFrom];
                 allowedLettersCloneFrom.RemoveAt(indexFrom);
                 allowedLettersCloneTo.Remove(from);
 
-                indexTo = rnd.Next(0, allowedLettersCloneTo.Count);
+                indexTo = RandomNumberGenerator.GetInt32(0, allowedLettersCloneTo.Count);
                 to = allowedLettersCloneTo[indexTo];
 
                 allowedLettersCloneTo.RemoveAt(indexTo);
                 allowedLettersCloneFrom.Remove(to);
 
-                settings[from] = to;
+                settings.SetSubstitution(from, to);
             }
 
             return settings;
