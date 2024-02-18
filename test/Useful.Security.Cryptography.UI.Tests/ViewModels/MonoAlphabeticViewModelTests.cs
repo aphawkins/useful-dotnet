@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             {
                 Plaintext = plaintext,
             };
-            viewmodel.SetSubstitution(from, to);
+            viewmodel[from] = to;
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             {
                 Ciphertext = ciphertext,
             };
-            viewmodel.SetSubstitution(from, to);
+            viewmodel[from] = to;
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
         }
@@ -54,8 +54,8 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
                 bool isSequential = true;
                 foreach (char c in viewmodel.CharacterSet)
                 {
-                    isSequential &= previous < viewmodel.GetSubstitution(c);
-                    previous = viewmodel.GetSubstitution(c);
+                    isSequential &= previous < viewmodel[c];
+                    previous = viewmodel[c];
                 }
 
                 Assert.False(isSequential);

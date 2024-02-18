@@ -217,7 +217,8 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal('K', rotors[EnigmaRotorPosition.Third].CurrentSetting);
         }
 
-        [Fact(Skip = "Settings uncertain.")]
+        // [Fact(Skip = "Settings uncertain.")]
+        [Fact]
         public void SinghCodeBook()
         {
             string ciphertext = new StringBuilder()

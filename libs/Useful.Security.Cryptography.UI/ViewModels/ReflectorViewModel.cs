@@ -1,5 +1,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
+#pragma warning disable CA1043 // Use Integral Or String Argument For Indexers
+
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
     /// <summary>
@@ -34,18 +36,15 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public IEnumerable<char> Substitutions => _cipher.Settings.Substitutions;
 
         /// <summary>
-        /// Gets the substitution.
+        /// Gets or sets the substitution.
         /// </summary>
         /// <param name="substitution">The substitution.</param>
         /// <returns>The setting for the substitution.</returns>
-        public char GetSubstitution(char substitution) => _cipher.Settings.GetSubstitution(substitution);
-
-        /// <summary>
-        /// Sets the substitution.
-        /// </summary>
-        /// <param name="substitution">The substitution.</param>
-        public void SetSubstitution(char substitution, char newSubstitution)
-            => _cipher.Settings.SetSubstitution(substitution, newSubstitution);
+        public char this[char substitution]
+        {
+            get => _cipher.Settings.GetSubstitution(substitution);
+            set => _cipher.Settings.SetSubstitution(substitution, value);
+        }
 
         /// <inheritdoc />
         public void Encrypt() => Ciphertext = _cipher.Encrypt(Plaintext);

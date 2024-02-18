@@ -281,7 +281,8 @@ namespace Useful.Security.Cryptography.Tests
             Assert.Equal(newIv, Encoding.Unicode.GetString(target.IV));
         }
 
-        [Fact(Skip = "Settings uncertain.")]
+        // [Fact(Skip = "Settings uncertain.")]
+        [Fact]
         public void SinghCodeBook()
         {
             string ciphertext = new StringBuilder()
