@@ -14,13 +14,13 @@ namespace UsefulWeb.Tests
         [InlineData("/")]
         [InlineData("/Home")]
         [InlineData("/Cryptography")]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentTypeAsync(string url)
+        public async Task Get_EndpointsReturnSuccessAndCorrectContentTypeAsync(string path)
         {
             // Arrange
             HttpClient client = _factory.CreateClient();
 
             // Act
-            HttpResponseMessage response = await client.GetAsync(url);
+            HttpResponseMessage response = await client.GetAsync(path);
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
