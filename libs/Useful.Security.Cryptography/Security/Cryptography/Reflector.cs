@@ -61,6 +61,6 @@ namespace Useful.Security.Cryptography
 
         private char Decrypt(char ciphertext) => Settings.Reflect(char.ToUpperInvariant(ciphertext));
 
-        private char Encrypt(char plaintext) => Settings[char.ToUpperInvariant(plaintext)];
+        private char Encrypt(char plaintext) => Settings.GetSubstitution(char.ToUpperInvariant(plaintext));
     }
 }

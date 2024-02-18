@@ -67,7 +67,7 @@ namespace Useful.Security.Cryptography
             Settings.Rotors.AdvanceRotors();
 
             // Plugboard
-            char newLetter = Settings.Plugboard[letter];
+            char newLetter = Settings.Plugboard.GetSubstitution(letter);
 
             // Go thru the rotors forwards
             newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Forward(newLetter);
@@ -82,7 +82,7 @@ namespace Useful.Security.Cryptography
             newLetter = Settings.Rotors[EnigmaRotorPosition.Second].Backward(newLetter);
             newLetter = Settings.Rotors[EnigmaRotorPosition.Fastest].Backward(newLetter);
 
-            newLetter = Settings.Plugboard[newLetter];
+            newLetter = Settings.Plugboard.GetSubstitution(newLetter);
 
             // Letter cannot encrypt to itself.
             Debug.Assert(letter != newLetter, "Letter cannot encrypt to itself.");

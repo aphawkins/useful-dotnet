@@ -15,7 +15,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             {
                 Plaintext = plaintext,
             };
-            viewmodel[from] = to;
+            viewmodel.SetSubstitution(from, to);
             viewmodel.Encrypt();
             Assert.Equal(ciphertext, viewmodel.Ciphertext);
         }
@@ -28,7 +28,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
             {
                 Ciphertext = ciphertext,
             };
-            viewmodel[from] = to;
+            viewmodel.SetSubstitution(from, to);
             viewmodel.Decrypt();
             Assert.Equal(plaintext, viewmodel.Plaintext);
         }
@@ -52,7 +52,7 @@ namespace Useful.Security.Cryptography.UI.Tests.ViewModels
                 Assert.NotEqual(viewmodel.CharacterSet, viewmodel.Substitutions);
                 foreach (char c in viewmodel.CharacterSet)
                 {
-                    Assert.NotEqual(viewmodel[c], c);
+                    Assert.NotEqual(viewmodel.GetSubstitution(c), c);
                 }
             }
         }

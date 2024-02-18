@@ -60,10 +60,10 @@ namespace Useful.Security.Cryptography.Tests
         {
             ArgumentNullException.ThrowIfNull(pairs);
 
-            IEnigmaPlugboard plugboard = new EnigmaPlugboard(pairs);
+            EnigmaPlugboard plugboard = new(pairs);
             Assert.Equal(substitutionCount, plugboard.SubstitutionCount);
-            Assert.Equal(pairs[0].From, plugboard[pairs[0].To]);
-            Assert.Equal(pairs[0].To, plugboard[pairs[0].From]);
+            Assert.Equal(pairs[0].From, plugboard.GetSubstitution(pairs[0].To));
+            Assert.Equal(pairs[0].To, plugboard.GetSubstitution(pairs[0].From));
         }
     }
 }

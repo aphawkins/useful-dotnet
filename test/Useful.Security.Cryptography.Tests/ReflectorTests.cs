@@ -61,7 +61,7 @@ namespace Useful.Security.Cryptography.Tests
                 Assert.NotEqual(cipher.Settings.CharacterSet, cipher.Settings.Substitutions);
                 foreach (char c in cipher.Settings.CharacterSet)
                 {
-                    Assert.NotEqual(cipher.Settings[c], c);
+                    Assert.NotEqual(cipher.Settings.GetSubstitution(c), c);
                 }
             }
         }

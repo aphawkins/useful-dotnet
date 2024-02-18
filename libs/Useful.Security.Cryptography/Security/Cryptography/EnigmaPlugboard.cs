@@ -30,7 +30,7 @@ namespace Useful.Security.Cryptography
 
             foreach (EnigmaPlugboardPair pair in pairs)
             {
-                _reflectorSettings[pair.From] = pair.To;
+                _reflectorSettings.SetSubstitution(pair.From, pair.To);
             }
         }
 
