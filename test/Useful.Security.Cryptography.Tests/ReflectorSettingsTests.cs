@@ -10,8 +10,8 @@ namespace Useful.Security.Cryptography.Tests
         public void CtorEmpty()
         {
             IReflectorSettings settings = new ReflectorSettings();
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.CharacterSet);
-            Assert.Equal("ABCDEFGHIJKLMNOPQRSTUVWXYZ", settings.Substitutions);
+            Assert.Equal([.. "ABCDEFGHIJKLMNOPQRSTUVWXYZ"], settings.CharacterSet);
+            Assert.Equal([.. "ABCDEFGHIJKLMNOPQRSTUVWXYZ"], settings.Substitutions);
             Assert.Equal(0, settings.SubstitutionCount);
         }
 
@@ -51,8 +51,8 @@ namespace Useful.Security.Cryptography.Tests
             ArgumentNullException.ThrowIfNull(substitutions);
 
             ReflectorSettings settings = new() { CharacterSet = characterSet.ToCharArray(), Substitutions = substitutions.ToCharArray() };
-            Assert.Equal(characterSet, settings.CharacterSet);
-            Assert.Equal(substitutions, settings.Substitutions);
+            Assert.Equal([.. characterSet], settings.CharacterSet);
+            Assert.Equal([.. substitutions], settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
 
@@ -120,8 +120,8 @@ namespace Useful.Security.Cryptography.Tests
             settings.SetSubstitution(from, to);
 
             Assert.Equal(to, settings.GetSubstitution(from));
-            Assert.Equal(characterSet, settings.CharacterSet);
-            Assert.Equal(newSubstitutions, settings.Substitutions);
+            Assert.Equal([.. characterSet], settings.CharacterSet);
+            Assert.Equal([.. newSubstitutions], settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
 
@@ -140,8 +140,8 @@ namespace Useful.Security.Cryptography.Tests
             };
 
             Assert.Throws<ArgumentException>("substitution", () => settings.SetSubstitution(from, to));
-            Assert.Equal(characterSet, settings.CharacterSet);
-            Assert.Equal(substitutions, settings.Substitutions);
+            Assert.Equal([.. characterSet], settings.CharacterSet);
+            Assert.Equal([.. substitutions], settings.Substitutions);
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
         }
     }

@@ -213,7 +213,7 @@ namespace Useful.Security.Cryptography
             for (int i = 0; i < rotors.Length; i++)
             {
                 string rotor = rotors.Reverse().ToList()[i];
-                if (string.IsNullOrEmpty(rotor) || rotor.Contains('\0', StringComparison.InvariantCulture))
+                if (string.IsNullOrEmpty(rotor))
                 {
                     throw new ArgumentException("Null or empty rotor specified.", nameof(rotorNumbers));
                 }

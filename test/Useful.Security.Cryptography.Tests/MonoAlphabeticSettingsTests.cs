@@ -74,7 +74,7 @@ namespace Useful.Security.Cryptography.Tests
                 Substitutions = substitutions,
             };
 
-            Assert.Throws<ArgumentException>("value", () => settings.SetSubstitution(from, to));
+            Assert.Throws<ArgumentException>("newSubstitution", () => settings.SetSubstitution(from, to));
         }
 
         [Theory]
@@ -143,7 +143,7 @@ namespace Useful.Security.Cryptography.Tests
                 Substitutions = substitutions,
             };
 
-            Assert.Throws<ArgumentException>("value", () => settings.SetSubstitution(from, to));
+            Assert.Throws<ArgumentException>("newSubstitution", () => settings.SetSubstitution(from, to));
             Assert.Equal(substitutionCount, settings.SubstitutionCount);
             Assert.Equal(substitutions, settings.Substitutions);
         }
