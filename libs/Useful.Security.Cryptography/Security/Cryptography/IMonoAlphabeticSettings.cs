@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -26,10 +26,17 @@ namespace Useful.Security.Cryptography
         int SubstitutionCount { get; }
 
         /// <summary>
-        /// Gets or sets the current substitutions.
+        /// Gets the current substitutions.
         /// </summary>
         /// <param name="substitution">The position to set.</param>
-        char this[char substitution] { get; set; }
+        char GetSubstitution(char substitution);
+
+        /// <summary>
+        /// Sets the current substitutions.
+        /// </summary>
+        /// <param name="substitution">The position to set.</param>
+        /// <param name="newSubstitution">The substitution to set.</param>
+        void SetSubstitution(char substitution, char newSubstitution);
 
         /// <summary>
         /// Gets the reverse substitution for a letter.

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography.UI.ViewModels
 {
@@ -34,15 +34,18 @@ namespace Useful.Security.Cryptography.UI.ViewModels
         public IEnumerable<char> Substitutions => _cipher.Settings.Substitutions;
 
         /// <summary>
-        /// Gets or sets the substitution.
+        /// Gets the substitution.
         /// </summary>
         /// <param name="substitution">The substitution.</param>
         /// <returns>The setting for the substitution.</returns>
-        public char this[char substitution]
-        {
-            get => _cipher.Settings[substitution];
-            set => _cipher.Settings[substitution] = value;
-        }
+        public char GetSubstitution(char substitution) => _cipher.Settings.GetSubstitution(substitution);
+
+        /// <summary>
+        /// Sets the substitution.
+        /// </summary>
+        /// <param name="substitution">The substitution.</param>
+        public void SetSubstitution(char substitution, char newSubstitution)
+            => _cipher.Settings.SetSubstitution(substitution, newSubstitution);
 
         /// <inheritdoc />
         public void Encrypt() => Ciphertext = _cipher.Encrypt(Plaintext);

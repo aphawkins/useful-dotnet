@@ -42,7 +42,7 @@ namespace Useful.Security.Cryptography
 
                 for (int i = 0; i < _characterSet.Count; i++)
                 {
-                    this[_characterSet[i]] = value[i];
+                    SetSubstitution(_characterSet[i], value[i]);
                 }
 
                 if (!value.SequenceEqual(_substitutions))
@@ -72,62 +72,60 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public char this[char substitution]
+        public char GetSubstitution(char substitution)
         {
-            get
+            int subsIndex = _characterSet.IndexOf(substitution);
+            return subsIndex < 0 ? substitution : _substitutions[subsIndex];
+        }
+
+        /// <inheritdoc />
+        public void SetSubstitution(char substitution, char newSubstitution)
+        {
+            char from = substitution;
+            int fromIndex = _characterSet.IndexOf(from);
+
+            if (fromIndex < 0)
             {
-                int subsIndex = _characterSet.IndexOf(substitution);
-                return subsIndex < 0 ? substitution : _substitutions[subsIndex];
+                throw new ArgumentException("Substitution must be an valid character.", nameof(substitution));
             }
 
-            set
+            char to = newSubstitution;
+            int toIndex = _characterSet.IndexOf(to);
+
+            if (toIndex < 0)
             {
-                char from = substitution;
-                int fromIndex = _characterSet.IndexOf(from);
+                throw new ArgumentException("Substitution must be an valid character.", nameof(substitution));
+            }
 
-                if (fromIndex < 0)
-                {
-                    throw new ArgumentException("Substitution must be an valid character.", nameof(substitution));
-                }
+            if (_substitutions[fromIndex] == to)
+            {
+                // Trying to set the same as already set
+                return;
+            }
 
-                char to = value;
-                int toIndex = _characterSet.IndexOf(to);
+            char fromSubs = _substitutions[fromIndex];
+            int fromSubsIndex = _characterSet.IndexOf(fromSubs);
 
-                if (toIndex < 0)
-                {
-                    throw new ArgumentException("Substitution must be an valid character.", nameof(substitution));
-                }
+            char toSubs = _substitutions[toIndex];
+            int toSubsIndex = _characterSet.IndexOf(toSubs);
 
-                if (_substitutions[fromIndex] == to)
-                {
-                    // Trying to set the same as already set
-                    return;
-                }
+            char[] temp = [.. _substitutions];
+            temp[fromIndex] = to;
+            temp[toIndex] = from;
+            _substitutions = temp;
 
-                char fromSubs = _substitutions[fromIndex];
-                int fromSubsIndex = _characterSet.IndexOf(fromSubs);
-
-                char toSubs = _substitutions[toIndex];
-                int toSubsIndex = _characterSet.IndexOf(toSubs);
-
-                char[] temp = [.. _substitutions];
-                temp[fromIndex] = to;
-                temp[toIndex] = from;
+            if (fromSubs != from)
+            {
+                temp = [.. _substitutions];
+                temp[fromSubsIndex] = fromSubs;
                 _substitutions = temp;
+            }
 
-                if (fromSubs != from)
-                {
-                    temp = [.. _substitutions];
-                    temp[fromSubsIndex] = fromSubs;
-                    _substitutions = temp;
-                }
-
-                if (toSubs != to)
-                {
-                    temp = [.. _substitutions];
-                    temp[toSubsIndex] = toSubs;
-                    _substitutions = temp;
-                }
+            if (toSubs != to)
+            {
+                temp = [.. _substitutions];
+                temp[toSubsIndex] = toSubs;
+                _substitutions = temp;
             }
         }
 
@@ -136,7 +134,7 @@ namespace Useful.Security.Cryptography
         /// </summary>
         /// <param name="letter">The letter to match.</param>
         /// <returns>The letter that substiutes to this letter.</returns>
-        public char Reflect(char letter) => this[letter];
+        public char Reflect(char letter) => GetSubstitution(letter);
 
         private static IList<char> ParseCharacterSet(IList<char> characterSet)
         {

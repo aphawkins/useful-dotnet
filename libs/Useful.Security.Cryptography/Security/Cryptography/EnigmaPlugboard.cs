@@ -38,7 +38,7 @@ namespace Useful.Security.Cryptography
         public int SubstitutionCount => _reflectorSettings.SubstitutionCount / 2;
 
         /// <inheritdoc />
-        public char this[char letter] => _reflectorSettings[letter];
+        public char Substitution(char letter) => _reflectorSettings.GetSubstitution(letter);
 
         /// <inheritdoc />
         public IReadOnlyDictionary<char, char> Substitutions()

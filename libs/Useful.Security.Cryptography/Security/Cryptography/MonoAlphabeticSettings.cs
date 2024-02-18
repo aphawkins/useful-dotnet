@@ -49,51 +49,49 @@ namespace Useful.Security.Cryptography
         }
 
         /// <inheritdoc />
-        public char this[char substitution]
+        public char GetSubstitution(char substitution)
         {
-            get
+            int subsIndex = CharacterSet.IndexOf(substitution);
+            return subsIndex < 0 ? substitution : Substitutions[subsIndex];
+        }
+
+        /// <inheritdoc />
+        public void SetSubstitution(char substitution, char newSubstitution)
+        {
+            char from = substitution;
+            int fromIndex = CharacterSet.IndexOf(from);
+
+            if (fromIndex < 0)
             {
-                int subsIndex = CharacterSet.IndexOf(substitution);
-                return subsIndex < 0 ? substitution : Substitutions[subsIndex];
+                throw new ArgumentException("Substitution must be an valid character.", nameof(newSubstitution));
             }
 
-            set
+            char to = newSubstitution;
+            int toIndex = CharacterSet.IndexOf(to);
+
+            if (toIndex < 0)
             {
-                char from = substitution;
-                int fromIndex = CharacterSet.IndexOf(from);
-
-                if (fromIndex < 0)
-                {
-                    throw new ArgumentException("Substitution must be an valid character.", nameof(value));
-                }
-
-                char to = value;
-                int toIndex = CharacterSet.IndexOf(to);
-
-                if (toIndex < 0)
-                {
-                    throw new ArgumentException("Substitution must be an valid character.", nameof(value));
-                }
-
-                if (Substitutions[fromIndex] == to)
-                {
-                    // Trying to set the same as already set
-                    return;
-                }
-
-                char fromSubs = Substitutions[fromIndex];
-                int toInvIndex = Substitutions.IndexOf(to);
-
-                if (Substitutions[fromIndex] == to)
-                {
-                    return;
-                }
-
-                char[] temp = [.. Substitutions];
-                temp[fromIndex] = to;
-                temp[toInvIndex] = fromSubs;
-                _substitutions = new string(temp);
+                throw new ArgumentException("Substitution must be an valid character.", nameof(newSubstitution));
             }
+
+            if (Substitutions[fromIndex] == to)
+            {
+                // Trying to set the same as already set
+                return;
+            }
+
+            char fromSubs = Substitutions[fromIndex];
+            int toInvIndex = Substitutions.IndexOf(to);
+
+            if (Substitutions[fromIndex] == to)
+            {
+                return;
+            }
+
+            char[] temp = [.. Substitutions];
+            temp[fromIndex] = to;
+            temp[toInvIndex] = fromSubs;
+            _substitutions = new string(temp);
         }
 
         /// <inheritdoc />

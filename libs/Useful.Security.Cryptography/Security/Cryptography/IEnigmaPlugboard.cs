@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -18,7 +18,7 @@ namespace Useful.Security.Cryptography
         /// Gets a current letter substitution.
         /// </summary>
         /// <param name="letter">The plugboard letter.</param>
-        char this[char letter] { get; }
+        char Substitution(char letter);
 
         /// <summary>
         /// Gets the plugboard substituted pairs.
