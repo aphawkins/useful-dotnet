@@ -1,4 +1,4 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 namespace Useful.Security.Cryptography
 {
@@ -10,11 +10,11 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Encryption transformer.
         /// </summary>
-        Encrypt,
+        Encrypt = 0,
 
         /// <summary>
         /// Decryption transformer.
         /// </summary>
-        Decrypt,
+        Decrypt = 1,
     }
 }

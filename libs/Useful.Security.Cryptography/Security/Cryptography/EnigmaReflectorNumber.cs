@@ -10,11 +10,11 @@ namespace Useful.Security.Cryptography
         /// <summary>
         /// Reflector B.
         /// </summary>
-        B,
+        B = 0,
 
         /// <summary>
         /// Reflector C.
         /// </summary>
-        C,
+        C = 1,
     }
 }
