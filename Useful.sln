@@ -8,7 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		README.md = README.md
-		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI", "apps\UsefulAPI\UsefulAPI.csproj", "{70822F48-AD96-4ED0-A2DA-CB2C87AD7F4C}"
@@ -16,22 +15,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb", "apps\UsefulWeb\UsefulWeb.csproj", "{DF37B86F-9EB6-47B0-82C2-B83EE939D4E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{DC28570A-292F-4DC5-971E-39CBCA5BC882}"
-	ProjectSection(SolutionItems) = preProject
-		apps\Directory.Build.props = apps\Directory.Build.props
-		apps\useful.apps.ruleset = apps\useful.apps.ruleset
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22E4FF0E-F363-451E-8D59-8F41C560DE57}"
-	ProjectSection(SolutionItems) = preProject
-		test\Directory.Build.props = test\Directory.Build.props
-		test\useful.test.ruleset = test\useful.test.ruleset
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{32EC7DCC-3276-4493-860F-5E58FADEAF64}"
-	ProjectSection(SolutionItems) = preProject
-		libs\Directory.Build.props = libs\Directory.Build.props
-		libs\useful.libs.ruleset = libs\useful.libs.ruleset
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Security.Cryptography", "libs\Useful.Security.Cryptography\Useful.Security.Cryptography.csproj", "{DA378A81-AA3A-4EC9-9AF8-D4A48C81BC7A}"
 EndProject
@@ -51,9 +38,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulAPI.Tests", "test\Use
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsefulWeb.Tests", "test\UsefulWeb.Tests\UsefulWeb.Tests.csproj", "{DBA7C69E-04B5-4D63-8CA6-DE84A7023726}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.Drawing", "libs\Useful.Drawing\Useful.Drawing.csproj", "{4DBD8CD9-E3C7-4EB3-8B71-56245E914F54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Drawing", "libs\Useful.Drawing\Useful.Drawing.csproj", "{4DBD8CD9-E3C7-4EB3-8B71-56245E914F54}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Drawing.Tests", "test\Useful.Drawing.Tests\Useful.Drawing.Tests.csproj", "{96E853A5-A012-40AF-9A43-7D5EB0DAE23D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.Audio", "libs\Useful.Audio\Useful.Audio.csproj", "{976A34DA-70B6-4228-95A2-E748A827D0FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.Audio.Tests", "test\Useful.Audio.Tests\Useful.Audio.Tests.csproj", "{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +104,14 @@ Global
 		{96E853A5-A012-40AF-9A43-7D5EB0DAE23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E853A5-A012-40AF-9A43-7D5EB0DAE23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E853A5-A012-40AF-9A43-7D5EB0DAE23D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976A34DA-70B6-4228-95A2-E748A827D0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{976A34DA-70B6-4228-95A2-E748A827D0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{976A34DA-70B6-4228-95A2-E748A827D0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{976A34DA-70B6-4228-95A2-E748A827D0FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +130,8 @@ Global
 		{DBA7C69E-04B5-4D63-8CA6-DE84A7023726} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 		{4DBD8CD9-E3C7-4EB3-8B71-56245E914F54} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 		{96E853A5-A012-40AF-9A43-7D5EB0DAE23D} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
+		{976A34DA-70B6-4228-95A2-E748A827D0FC} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
+		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA7BCA01-7498-4498-A087-A28416E6B00B}
