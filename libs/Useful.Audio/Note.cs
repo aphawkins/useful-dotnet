@@ -2,15 +2,23 @@
 
 namespace Useful.Audio
 {
-    public class Note(int octave, NoteStep note, TimeSpan duration)
+    public record Note
     {
-        public int Octave { get; } = octave;
+        public Note(int octave, NoteStep noteStep, TimeSpan duration)
+        {
+            Octave = octave;
+            NoteStep = noteStep;
+            Duration = duration;
+            // Octave 4, NoteStep A = 440.00Hz
+            Frequency = 440d * Math.Pow(Math.Pow(2d, 1d / 12d), (double)((Octave * 12) + NoteStep - 57));
+        }
 
-        public NoteStep NoteStep { get; } = note;
+        public int Octave { get; }
 
-        public TimeSpan Duration { get; } = duration;
+        public NoteStep NoteStep { get; }
 
-        // A Octave 4 => (58th note) => 440Hz
-        public double Frequency => 440d * Math.Pow(Math.Pow(2d, 1d / 12d), (double)((Octave * 12) + NoteStep - 57));
+        public TimeSpan Duration { get; }
+
+        public double Frequency { get; }
     }
 }
