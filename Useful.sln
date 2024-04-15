@@ -42,9 +42,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Drawing", "libs\Usef
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Drawing.Tests", "test\Useful.Drawing.Tests\Useful.Drawing.Tests.csproj", "{96E853A5-A012-40AF-9A43-7D5EB0DAE23D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.Audio", "libs\Useful.Audio\Useful.Audio.csproj", "{976A34DA-70B6-4228-95A2-E748A827D0FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Audio", "libs\Useful.Audio\Useful.Audio.csproj", "{976A34DA-70B6-4228-95A2-E748A827D0FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful.Audio.Tests", "test\Useful.Audio.Tests\Useful.Audio.Tests.csproj", "{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful.Audio.Tests", "test\Useful.Audio.Tests\Useful.Audio.Tests.csproj", "{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{86E9189F-514F-4DD7-BD04-6D311B58585A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

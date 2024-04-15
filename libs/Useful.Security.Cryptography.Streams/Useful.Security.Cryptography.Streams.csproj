@@ -2,19 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>0.2.0</Version>
+    <Version>8.0.0</Version>
     <Authors>Andy Hawkins</Authors>
     <Product>Useful Classical Cryptography Stream Library</Product>
     <Description>Classical Cryptography library. Cipher support of SymmetricAlgorithm.</Description>
     <PackageId>Useful.Security.Cryptography.Streams</PackageId>
     <Copyright>Andrew Hawkins</Copyright>
-    <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/aphawkins/useful-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/aphawkins/useful-dotnet</RepositoryUrl>
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Useful</RootNamespace>
+    <PackageIcon />
   </PropertyGroup>
 
   <ItemGroup>
