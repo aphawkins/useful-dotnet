@@ -1,19 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>8.0.0</Version>
-    <Authors>Andy Hawkins</Authors>
     <Product>Useful Classical Cryptography Library</Product>
     <Description>Classical Cryptography library. Cipher support of string encryption/decryption.</Description>
     <PackageId>Useful.Security.Cryptography</PackageId>
-    <Copyright>Andrew Hawkins</Copyright>
-    <PackageProjectUrl>https://github.com/aphawkins/useful-dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/aphawkins/useful-dotnet</RepositoryUrl>
     <PackageTags>Classical Cryptography Atbash Caesar Enigma MonoAlphabetic Reflector ROT13</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RootNamespace>Useful</RootNamespace>
     <Title>Useful Classical Cryptography Library</Title>
     <PackageIcon />

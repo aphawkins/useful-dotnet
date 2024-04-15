@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <Title>Useful Audio Library</Title>
+    <PackageTags>Synthesiser Synthesizer</PackageTags>
+    <Description>Cross platform software rendered audio.</Description>
+    <Product>Useful Audio Library</Product>
+    <PackageId>Useful.Audio</PackageId>
   </PropertyGroup>
 
 </Project>

@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <Title>Useful Drawing Library</Title>
+    <Product>Useful Drawing Library</Product>
+    <Description>Cross platform software rendered graphics.</Description>
+    <PackageId>Useful.Drawing</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

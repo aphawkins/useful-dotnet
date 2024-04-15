@@ -1,17 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
-    <Version>0.2.0</Version>
-    <Authors>Andy Hawkins</Authors>
     <Product>Useful Classical Cryptography UI Library</Product>
     <Description>Classical Cryptography user interface library.</Description>
-    <Copyright>Andrew Hawkins</Copyright>
-    <PackageProjectUrl>https://github.com/aphawkins/useful</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/aphawkins/useful</RepositoryUrl>
     <PackageTags>Classical Cryptography</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>Useful.Security.Cryptography.UI</PackageId>
+    <Title>Useful Classical Cryptography UI Library</Title>
   </PropertyGroup>
 
   <ItemGroup>
