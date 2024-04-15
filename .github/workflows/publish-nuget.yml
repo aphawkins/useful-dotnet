@@ -40,5 +40,17 @@ jobs:
         nuget-version: latest
         nuget-api-key: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Push generated package to GitHub registry
-      run: dotnet nuget push ./**/*.nupkg --skip-duplicate --no-symbols true
+    - name: Push Audio library to nuget
+      run: dotnet nuget push ./libs/Useful.Audio/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+
+    - name: Push Drawing library to nuget
+      run: dotnet nuget push ./libs/Useful.Drawing/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+
+    - name: Push Cryptography library to nuget
+      run: dotnet nuget push ./libs/Useful.Security.Cryptography/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+
+    - name: Push Cryptography Streams library to nuget
+      run: dotnet nuget push ./libs/Useful.Security.Cryptography.Streams/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+
+    - name: Push Cryptography UI library to nuget
+      run: dotnet nuget push ./libs/Useful.Security.Cryptography.UI/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
