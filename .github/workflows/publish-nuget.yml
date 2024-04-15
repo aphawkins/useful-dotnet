@@ -41,16 +41,16 @@ jobs:
         nuget-api-key: ${{ secrets.NUGET_API_KEY }}
 
     - name: Push Audio library to nuget
-      run: dotnet nuget push ./libs/Useful.Audio/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./home/runner/work/useful-dotnet/useful-dotnet/libs/Useful.Audio/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
 
     - name: Push Drawing library to nuget
-      run: dotnet nuget push ./libs/Useful.Drawing/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./home/runner/work/useful-dotnet/useful-dotnet/libs/Useful.Drawing/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
 
     - name: Push Cryptography library to nuget
-      run: dotnet nuget push ./libs/Useful.Security.Cryptography/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./home/runner/work/useful-dotnet/useful-dotnet/libs/Useful.Security.Cryptography/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
 
     - name: Push Cryptography Streams library to nuget
-      run: dotnet nuget push ./libs/Useful.Security.Cryptography.Streams/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./home/runner/work/useful-dotnet/useful-dotnet/libs/Useful.Security.Cryptography.Streams/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
 
     - name: Push Cryptography UI library to nuget
-      run: dotnet nuget push ./libs/Useful.Security.Cryptography.UI/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
+      run: dotnet nuget push ./home/runner/work/useful-dotnet/useful-dotnet/libs/Useful.Security.Cryptography.UI/bin/Release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols true
