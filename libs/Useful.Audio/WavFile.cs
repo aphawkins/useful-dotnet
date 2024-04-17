@@ -19,8 +19,6 @@ namespace Useful.Audio
             ArgumentNullException.ThrowIfNull(synthesiser, nameof(synthesiser));
 
             using BinaryWriter _writer = new(stream);
-            int RIFF = BitConverter.ToInt32(Encoding.ASCII.GetBytes("RIFF"), 0);
-            int WAVE = BitConverter.ToInt32(Encoding.ASCII.GetBytes("WAVE"), 0);
             int formatChunkSize = 16;
             int headerSize = 8;
             int format = 0x20746D66;
@@ -30,13 +28,13 @@ namespace Useful.Audio
             short frameSize = (short)(tracks * ((bitsPerSample + 7) / 8));
             int bytesPerSecond = _samplesPerSecond * frameSize;
             int waveSize = 4;
-            int data = BitConverter.ToInt32(Encoding.ASCII.GetBytes("data"), 0);
             int totalSamples = _samplesPerSecond * (int)synthesiser.Duration.TotalSeconds;
             int dataChunkSize = totalSamples * frameSize;
             int fileSize = waveSize + headerSize + formatChunkSize + headerSize + dataChunkSize;
-            _writer.Write(RIFF);
+
+            _writer.Write(BitConverter.ToInt32(Encoding.ASCII.GetBytes("RIFF"), 0));
             _writer.Write(fileSize);
-            _writer.Write(WAVE);
+            _writer.Write(BitConverter.ToInt32(Encoding.ASCII.GetBytes("WAVE"), 0));
             _writer.Write(format);
             _writer.Write(formatChunkSize);
             _writer.Write(formatType);
@@ -45,7 +43,7 @@ namespace Useful.Audio
             _writer.Write(bytesPerSecond);
             _writer.Write(frameSize);
             _writer.Write(bitsPerSample);
-            _writer.Write(data);
+            _writer.Write(BitConverter.ToInt32(Encoding.ASCII.GetBytes("data"), 0));
             _writer.Write(dataChunkSize);
             synthesiser.GenerateNotes(_writer);
         }

@@ -52,6 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{86E9189F-514
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useful", "libs\Useful\Useful.csproj", "{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +144,7 @@ Global
 		{96E853A5-A012-40AF-9A43-7D5EB0DAE23D} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
 		{976A34DA-70B6-4228-95A2-E748A827D0FC} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 		{9CA78309-69D5-48EA-90AC-7FE2E8D0BD24} = {22E4FF0E-F363-451E-8D59-8F41C560DE57}
+		{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383} = {32EC7DCC-3276-4493-860F-5E58FADEAF64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA7BCA01-7498-4498-A087-A28416E6B00B}
