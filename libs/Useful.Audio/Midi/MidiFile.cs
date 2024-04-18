@@ -3,16 +3,15 @@ using System.Text;
 
 namespace Useful.Audio.Midi
 {
-    public class MidiFile : IDisposable
+    public class MidiFile
     {
-        private readonly BinaryReader _br;
-        private bool _isDisposed;
-
         public MidiFile(Stream inputStream)
         {
-            _br = new(inputStream);
+            using BinaryReader midiReader = new(inputStream);
 
-            ProcessHeaderChunk();
+            ProcessHeaderChunk(midiReader);
+
+            ProcessTrackChunks(midiReader);
         }
 
         public short DeltaTimeTicksPerQuarterNote { get; private set; }
@@ -21,46 +20,42 @@ namespace Useful.Audio.Midi
 
         public short TrackCount { get; private set; }
 
-        public void Dispose()
+        private void ProcessHeaderChunk(BinaryReader midiReader)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                if (disposing)
-                {
-                    // dispose managed state (managed objects)
-                    _br?.Dispose();
-                }
-
-                // free unmanaged resources (unmanaged objects) and override finalizer
-                // set large fields to null
-                _isDisposed = true;
-            }
-        }
-
-        private void ProcessHeaderChunk()
-        {
-            string fileId = Encoding.ASCII.GetString(_br.ReadBytes(4));
+            string fileId = ReadString(midiReader, 4);
             FileFormatGuard.Equal("MThd", fileId, "File Identifier");
 
-            int chunkSize = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(_br.ReadBytes(4)));
+            int chunkSize = ReadInt(midiReader);
             FileFormatGuard.Equal(6, chunkSize, "Chunk Size");
 
-            short fileFormat = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(_br.ReadBytes(2)));
+            short fileFormat = ReadShort(midiReader);
             FileFormatGuard.Range(0, 2, fileFormat, "File Format");
             FileFormat = (MidiFileFormat)fileFormat;
 
-            TrackCount = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(_br.ReadBytes(2)));
+            TrackCount = ReadShort(midiReader);
             FileFormatGuard.Range(0, 0xFFFF, TrackCount, "Track Count");
 
-            DeltaTimeTicksPerQuarterNote = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(_br.ReadBytes(2)));
+            DeltaTimeTicksPerQuarterNote = ReadShort(midiReader);
             FileFormatGuard.Range(0, 0xFFFF, DeltaTimeTicksPerQuarterNote, "Delta-Time Ticks Per Quarter Note");
         }
+
+        private static void ProcessTrackChunks(BinaryReader midiReader)
+        {
+            string chunkId = ReadString(midiReader, 4);
+            FileFormatGuard.Equal("MTrk", chunkId, "Chunk Identifier");
+        }
+
+        private static byte[] Read(BinaryReader midiReader, int length)
+        {
+            byte[] bytes = midiReader.ReadBytes(length);
+            FileFormatGuard.ReadBytes(bytes.Length);
+            return bytes;
+        }
+
+        private static string ReadString(BinaryReader midiReader, int length) => Encoding.ASCII.GetString(Read(midiReader, length));
+
+        private static short ReadShort(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(Read(midiReader, 2)));
+
+        private static int ReadInt(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(Read(midiReader, 4)));
     }
 }

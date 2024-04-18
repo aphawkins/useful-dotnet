@@ -6,6 +6,9 @@ namespace Useful.Audio.Tests
 {
     public class MidiTests
     {
+        [Fact]
+        public void EmptyFile() => Assert.Throws<FileFormatException>(() => new MidiFile(File.OpenRead("empty.mid")));
+
         [Theory]
         [InlineData("danube.mid", 10, 96)]
         [InlineData("theme.mid", 14, 480)]
@@ -15,7 +18,7 @@ namespace Useful.Audio.Tests
             using Stream midiStream = File.OpenRead(filename);
 
             // Act
-            using MidiFile midiFile = new(midiStream);
+            MidiFile midiFile = new(midiStream);
 
             // Assert
             Assert.Equal(MidiFileFormat.MultipleTrackSynchronous, midiFile.FileFormat);

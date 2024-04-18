@@ -27,5 +27,13 @@ namespace Useful
                 throw new FileFormatException($"{fieldName} incorrect. Expected range: {minExpected}-{maxExpected}, Actual: {actual}");
             }
         }
+
+        public static void ReadBytes(int count)
+        {
+            if (count < 1)
+            {
+                throw new FileFormatException("Failed to read file.");
+            }
+        }
     }
 }
