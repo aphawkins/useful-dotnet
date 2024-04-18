@@ -57,10 +57,10 @@ namespace Useful.Audio.Midi
             FileFormat = (MidiFileFormat)fileFormat;
 
             TrackCount = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(_br.ReadBytes(2)));
-            FileFormatGuard.Range(0, short.MaxValue, TrackCount, "Track Count");
+            FileFormatGuard.Range(0, 0xFFFF, TrackCount, "Track Count");
 
             DeltaTimeTicksPerQuarterNote = BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(_br.ReadBytes(2)));
-            FileFormatGuard.Range(0, short.MaxValue, DeltaTimeTicksPerQuarterNote, "Delta-Time Ticks Per Quarter Note");
+            FileFormatGuard.Range(0, 0xFFFF, DeltaTimeTicksPerQuarterNote, "Delta-Time Ticks Per Quarter Note");
         }
     }
 }

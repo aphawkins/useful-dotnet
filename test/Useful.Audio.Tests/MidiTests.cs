@@ -6,19 +6,21 @@ namespace Useful.Audio.Tests
 {
     public class MidiTests
     {
-        [Fact]
-        public void MidiRead()
+        [Theory]
+        [InlineData("danube.mid", 10, 96)]
+        [InlineData("theme.mid", 14, 480)]
+        public void MidiRead(string filename, int trackCount, int deltaTimeTicksPerQuarterNote)
         {
             // Arrange
-            using Stream midiStream = File.OpenRead("danube.mid");
+            using Stream midiStream = File.OpenRead(filename);
 
             // Act
             using MidiFile midiFile = new(midiStream);
 
             // Assert
             Assert.Equal(MidiFileFormat.MultipleTrackSynchronous, midiFile.FileFormat);
-            Assert.Equal(10, midiFile.TrackCount);
-            Assert.Equal(96, midiFile.DeltaTimeTicksPerQuarterNote);
+            Assert.Equal(trackCount, midiFile.TrackCount);
+            Assert.Equal(deltaTimeTicksPerQuarterNote, midiFile.DeltaTimeTicksPerQuarterNote);
         }
     }
 }
