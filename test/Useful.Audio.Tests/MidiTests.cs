@@ -22,7 +22,7 @@ namespace Useful.Audio.Tests
 
             // Assert
             Assert.Equal(MidiFileFormat.MultipleTrackSynchronous, midiFile.FileFormat);
-            Assert.Equal(trackCount, midiFile.TrackCount);
+            Assert.Equal(trackCount, midiFile.Tracks.Count);
             Assert.Equal(deltaTimeTicksPerQuarterNote, midiFile.DeltaTimeTicksPerQuarterNote);
         }
     }

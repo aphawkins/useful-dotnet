@@ -35,5 +35,13 @@ namespace Useful
                 throw new FileFormatException("Failed to read file.");
             }
         }
+
+        public static void EndOfFile(int byteCount)
+        {
+            if (byteCount > 0)
+            {
+                throw new FileFormatException("Unexpected bytes at end of file.");
+            }
+        }
     }
 }
