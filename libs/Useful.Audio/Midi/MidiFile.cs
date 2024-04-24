@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.Diagnostics;
 using System.Text;
 
 namespace Useful.Audio.Midi
@@ -28,6 +29,8 @@ namespace Useful.Audio.Midi
             FileFormatGuard.ReadBytes(bytes.Length);
             return bytes;
         }
+
+        private static byte ReadByte(BinaryReader midiReader) => Read(midiReader, 1)[0];
 
         private static int ReadInt(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(Read(midiReader, 4)));
 
@@ -63,14 +66,44 @@ namespace Useful.Audio.Midi
 
                 int trackLength = ReadInt(midiReader);
 
-                // Temporary to skip bytes - Process the track here
-                ReadString(midiReader, trackLength);
+                Track track = new();
 
-                Tracks.Add(new());
+                (int deltaTimeTicks, int bytesRead) = ProcessDeltaTimeTicks(midiReader);
+
+                track.TimeOffset = deltaTimeTicks * DeltaTimeTicksPerQuarterNote;
+
+                Debug.Assert(track.TimeOffset == 0);
+
+                // Temporary to skip bytes - Process the track here
+                ReadString(midiReader, trackLength - bytesRead);
+
+                Tracks.Add(track);
             }
 
             int eof = midiReader.Read();
             FileFormatGuard.EndOfFile(eof);
+        }
+
+        private static (int, int) ProcessDeltaTimeTicks(BinaryReader midiReader)
+        {
+            int deltaTimeTicks = 0;
+            short mostSignificantBit = 0x80;
+            byte trackLength = ReadByte(midiReader);
+            int bytesRead = 1;
+
+            while ((trackLength & mostSignificantBit) == mostSignificantBit && bytesRead <= 4)
+            {
+                deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
+                deltaTimeTicks <<= 7;
+                trackLength = ReadByte(midiReader);
+                bytesRead++;
+            }
+
+            deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
+
+            Debug.Assert(deltaTimeTicks == 0);
+
+            return (deltaTimeTicks, bytesRead);
         }
     }
 }
