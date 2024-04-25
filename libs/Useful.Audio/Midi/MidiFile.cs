@@ -1,15 +1,21 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Text;
+using Microsoft.Extensions.Logging;
+using Useful.Audio.Midi.Events;
 
 namespace Useful.Audio.Midi
 {
-    public class MidiFile
+    public partial class MidiFile
     {
+        private readonly ILogger _logger;
         private short _trackCount;
+        private int _bytesRead;
 
-        public MidiFile(Stream inputStream)
+        public MidiFile(Stream inputStream, ILogger logger)
         {
+            _logger = logger;
+
             using BinaryReader midiReader = new(inputStream);
 
             ProcessHeaderChunk(midiReader);
@@ -23,20 +29,23 @@ namespace Useful.Audio.Midi
 
         public IList<Track> Tracks { get; private set; } = [];
 
-        private static byte[] Read(BinaryReader midiReader, int length)
+        public byte[] ReadBytes(BinaryReader midiReader, int length)
         {
+            ArgumentNullException.ThrowIfNull(midiReader);
+
             byte[] bytes = midiReader.ReadBytes(length);
             FileFormatGuard.ReadBytes(bytes.Length);
+            _bytesRead += bytes.Length;
             return bytes;
         }
 
-        private static byte ReadByte(BinaryReader midiReader) => Read(midiReader, 1)[0];
+        private byte ReadByte(BinaryReader midiReader) => ReadBytes(midiReader, 1)[0];
 
-        private static int ReadInt(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(Read(midiReader, 4)));
+        private int ReadInt(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(ReadBytes(midiReader, 4)));
 
-        private static short ReadShort(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(Read(midiReader, 2)));
+        private short ReadShort(BinaryReader midiReader) => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(ReadBytes(midiReader, 2)));
 
-        private static string ReadString(BinaryReader midiReader, int length) => Encoding.ASCII.GetString(Read(midiReader, length));
+        private string ReadString(BinaryReader midiReader, int length) => Encoding.ASCII.GetString(ReadBytes(midiReader, length));
 
         private void ProcessHeaderChunk(BinaryReader midiReader)
         {
@@ -61,30 +70,45 @@ namespace Useful.Audio.Midi
         {
             for (int i = 0; i < _trackCount; i++)
             {
+                Debug.WriteLine($"Start Track: {i}");
+                LogInformation(_logger, $"Start Track: {i}");
+
                 string chunkId = ReadString(midiReader, 4);
                 FileFormatGuard.Equal("MTrk", chunkId, "Chunk Identifier");
 
                 int trackLength = ReadInt(midiReader);
 
+                Debug.WriteLine($"Track Length: {trackLength}");
+                LogInformation(_logger, $"Track Length: {trackLength}");
+
+                _bytesRead = 0;
+
                 Track track = new();
+                IMidiEvent midiEvent;
 
-                (int deltaTimeTicks, int bytesRead) = ProcessDeltaTimeTicks(midiReader);
+                do
+                {
+                    Debug.WriteLine($"Start Event: {track.Events.Count + 1}");
+                    LogInformation(_logger, $"Start Event: {track.Events.Count + 1}");
+                    midiEvent = ProcessEvent(midiReader);
+                    track.Events.Add(midiEvent);
+                    Debug.WriteLine($"End Event: {track.Events.Count}");
+                    LogInformation(_logger, $"End Event: {track.Events.Count}");
+                } while (!midiEvent.IsTrackEnd && _bytesRead < trackLength);
 
-                track.TimeOffset = deltaTimeTicks * DeltaTimeTicksPerQuarterNote;
-
-                Debug.Assert(track.TimeOffset == 0);
-
-                // Temporary to skip bytes - Process the track here
-                ReadString(midiReader, trackLength - bytesRead);
+                FileFormatGuard.Equal(trackLength, _bytesRead, "TrackEnd does not match specified track length");
 
                 Tracks.Add(track);
+
+                Debug.WriteLine($"End Track: {i}");
+                LogInformation(_logger, $"End Track: {i}");
             }
 
             int eof = midiReader.Read();
             FileFormatGuard.EndOfFile(eof);
         }
 
-        private static (int, int) ProcessDeltaTimeTicks(BinaryReader midiReader)
+        private int ProcessDeltaTimeTicks(BinaryReader midiReader)
         {
             int deltaTimeTicks = 0;
             short mostSignificantBit = 0x80;
@@ -101,9 +125,121 @@ namespace Useful.Audio.Midi
 
             deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
 
-            Debug.Assert(deltaTimeTicks == 0);
+            //Debug.Assert(deltaTimeTicks == 0);
 
-            return (deltaTimeTicks, bytesRead);
+            return deltaTimeTicks;
+        }
+
+        [LoggerMessage(Level = LogLevel.Information, Message = "{message}")]
+        static partial void LogInformation(ILogger logger, string message);
+
+        [LoggerMessage(Level = LogLevel.Error, Message = "{message}")]
+        static partial void LogError(ILogger logger, string message);
+
+        private IMidiEvent ProcessEvent(BinaryReader midiReader)
+        {
+            int deltaTimeTicks = ProcessDeltaTimeTicks(midiReader);
+
+            Debug.WriteLine($"Delta Time: {deltaTimeTicks:X}");
+            LogInformation(_logger, $"Delta Time: {deltaTimeTicks:X}");
+
+            int timeOffset = deltaTimeTicks * DeltaTimeTicksPerQuarterNote;
+
+            byte eventByte = ReadByte(midiReader);
+
+            switch ((byte)(eventByte & 0xF0))
+            {
+                case 0xF0:
+                    {
+                        switch ((MidiEventType)eventByte)
+                        {
+                            case MidiEventType.SysEx:
+                                {
+                                    return ProcessSysExEvent(midiReader, timeOffset);
+                                }
+                            case MidiEventType.Meta:
+                                {
+                                    return ProcessMetaEvent(midiReader, timeOffset);
+                                }
+
+                            default:
+                                {
+                                    Debug.WriteLine($"Unknown Event {eventByte:X}");
+                                    LogError(_logger, $"Unknown Event {eventByte:X}");
+                                    throw new NotImplementedException($"Unknown Event {eventByte:X}");
+                                }
+                        }
+                    }
+                case 0xB0:
+                    {
+                        Debug.WriteLine("Controller Event");
+                        LogInformation(_logger, "Controller Event");
+                        return new MidiControllerEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
+                    }
+
+                default:
+                    {
+                        Debug.WriteLine($"Unknown Event {eventByte:X}");
+                        LogError(_logger, $"Unknown Event {eventByte:X}");
+                        throw new NotImplementedException($"Unknown Event {eventByte:X}");
+                    }
+            }
+        }
+
+        private MidiSysExEvent ProcessSysExEvent(BinaryReader midiReader, int timeOffset)
+        {
+            Debug.WriteLine("System Exclusive Event");
+            LogInformation(_logger, "System Exclusive Event");
+
+            byte length = ReadByte(midiReader);
+            byte[] bytes = ReadBytes(midiReader, length);
+
+            // Not unless the 0xF7 is preceeded by 0xF0
+            //if (bytes[length - 1] != 0xF7)
+            //{
+            //    throw new FileFormatException("System Exclusive Event must end with 0xF7");
+            //}
+
+            return new MidiSysExEvent(timeOffset);
+        }
+
+        private MidiMetaEvent ProcessMetaEvent(BinaryReader midiReader, int timeOffset)
+        {
+            Debug.WriteLine("Meta Event");
+            LogInformation(_logger, "Meta Event");
+
+            byte eventByte = ReadByte(midiReader);
+
+            Debug.WriteLine(((MidiMetaEventType)eventByte).ToString());
+            LogInformation(_logger, ((MidiMetaEventType)eventByte).ToString());
+
+            switch ((MidiMetaEventType)eventByte)
+            {
+                case MidiMetaEventType.TrackName:
+                case MidiMetaEventType.SetTempo:
+                case MidiMetaEventType.TimeSignature:
+                    {
+                        byte length = ReadByte(midiReader);
+                        byte[] data = ReadBytes(midiReader, length);
+                        return new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, data);
+                    }
+
+                case MidiMetaEventType.TrackEnd:
+                    {
+                        byte length = ReadByte(midiReader);
+                        return length == 0x00
+                            ? new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, [])
+                            : throw new FileFormatException("Track End length must be 0x00.");
+                    }
+
+                default:
+                    {
+                        Debug.WriteLine($"Unknown Meta Event {eventByte:X}");
+                        LogError(_logger, $"Unknown Meta Event {eventByte:X}");
+
+                        throw new NotImplementedException($"Unknown MetaEvent {eventByte:X}");
+                    }
+            }
         }
     }
 }
