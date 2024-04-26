@@ -1,5 +1,4 @@
 using System.Buffers.Binary;
-using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Useful.Audio.Midi.Events;
@@ -70,7 +69,6 @@ namespace Useful.Audio.Midi
         {
             for (int i = 0; i < _trackCount; i++)
             {
-                Debug.WriteLine($"Start Track: {i}");
                 LogInformation(_logger, $"Start Track: {i}");
 
                 string chunkId = ReadString(midiReader, 4);
@@ -78,7 +76,6 @@ namespace Useful.Audio.Midi
 
                 int trackLength = ReadInt(midiReader);
 
-                Debug.WriteLine($"Track Length: {trackLength}");
                 LogInformation(_logger, $"Track Length: {trackLength}");
 
                 _bytesRead = 0;
@@ -88,11 +85,9 @@ namespace Useful.Audio.Midi
 
                 do
                 {
-                    Debug.WriteLine($"Start Event: {track.Events.Count + 1}");
                     LogInformation(_logger, $"Start Event: {track.Events.Count + 1}");
                     midiEvent = ProcessEvent(midiReader);
                     track.Events.Add(midiEvent);
-                    Debug.WriteLine($"End Event: {track.Events.Count}");
                     LogInformation(_logger, $"End Event: {track.Events.Count}");
                 } while (!midiEvent.IsTrackEnd && _bytesRead < trackLength);
 
@@ -100,7 +95,6 @@ namespace Useful.Audio.Midi
 
                 Tracks.Add(track);
 
-                Debug.WriteLine($"End Track: {i}");
                 LogInformation(_logger, $"End Track: {i}");
             }
 
@@ -125,8 +119,6 @@ namespace Useful.Audio.Midi
 
             deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
 
-            //Debug.Assert(deltaTimeTicks == 0);
-
             return deltaTimeTicks;
         }
 
@@ -140,8 +132,7 @@ namespace Useful.Audio.Midi
         {
             int deltaTimeTicks = ProcessDeltaTimeTicks(midiReader);
 
-            Debug.WriteLine($"Delta Time: {deltaTimeTicks:X}");
-            LogInformation(_logger, $"Delta Time: {deltaTimeTicks:X}");
+            LogInformation(_logger, $"Delta Time: 0x{deltaTimeTicks:X}");
 
             int timeOffset = deltaTimeTicks * DeltaTimeTicksPerQuarterNote;
 
@@ -149,48 +140,64 @@ namespace Useful.Audio.Midi
 
             switch ((byte)(eventByte & 0xF0))
             {
+                case 0x80:
+                    {
+                        LogInformation(_logger, "Note Off Event");
+                        return new MidiNoteOffEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
+                    }
+                case 0x90:
+                    {
+                        LogInformation(_logger, "Note On Event");
+                        return new MidiNoteOnEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
+                    }
+                case 0xB0:
+                    {
+                        LogInformation(_logger, "Controller Event");
+                        return new MidiControllerEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
+                    }
+                case 0xC0:
+                    {
+                        LogInformation(_logger, "Program Change");
+                        return new MidiProgramChangeEvent(timeOffset, eventByte, ReadByte(midiReader));
+                    }
+                case 0xE0:
+                    {
+                        LogInformation(_logger, "Pitch Bend");
+                        return new MidiPitchBendEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
+                    }
                 case 0xF0:
                     {
                         switch ((MidiEventType)eventByte)
                         {
                             case MidiEventType.SysEx:
                                 {
+                                    LogInformation(_logger, $"System Exclusive Event: 0x{eventByte:X}");
                                     return ProcessSysExEvent(midiReader, timeOffset);
                                 }
                             case MidiEventType.Meta:
                                 {
+                                    LogInformation(_logger, $"Meta Event: 0x{eventByte:X}");
                                     return ProcessMetaEvent(midiReader, timeOffset);
                                 }
 
                             default:
                                 {
-                                    Debug.WriteLine($"Unknown Event {eventByte:X}");
-                                    LogError(_logger, $"Unknown Event {eventByte:X}");
-                                    throw new NotImplementedException($"Unknown Event {eventByte:X}");
+                                    LogError(_logger, $"Unknown Event: 0x{eventByte:X}");
+                                    throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
                                 }
                         }
-                    }
-                case 0xB0:
-                    {
-                        Debug.WriteLine("Controller Event");
-                        LogInformation(_logger, "Controller Event");
-                        return new MidiControllerEvent(timeOffset, eventByte, ReadByte(midiReader), ReadByte(midiReader));
                     }
 
                 default:
                     {
-                        Debug.WriteLine($"Unknown Event {eventByte:X}");
-                        LogError(_logger, $"Unknown Event {eventByte:X}");
-                        throw new NotImplementedException($"Unknown Event {eventByte:X}");
+                        LogError(_logger, $"Unknown Event: 0x{eventByte:X}");
+                        throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
                     }
             }
         }
 
         private MidiSysExEvent ProcessSysExEvent(BinaryReader midiReader, int timeOffset)
         {
-            Debug.WriteLine("System Exclusive Event");
-            LogInformation(_logger, "System Exclusive Event");
-
             byte length = ReadByte(midiReader);
             byte[] bytes = ReadBytes(midiReader, length);
 
@@ -205,19 +212,20 @@ namespace Useful.Audio.Midi
 
         private MidiMetaEvent ProcessMetaEvent(BinaryReader midiReader, int timeOffset)
         {
-            Debug.WriteLine("Meta Event");
-            LogInformation(_logger, "Meta Event");
-
             byte eventByte = ReadByte(midiReader);
 
-            Debug.WriteLine(((MidiMetaEventType)eventByte).ToString());
             LogInformation(_logger, ((MidiMetaEventType)eventByte).ToString());
 
             switch ((MidiMetaEventType)eventByte)
             {
+                case MidiMetaEventType.Text:
+                case MidiMetaEventType.Copyright:
                 case MidiMetaEventType.TrackName:
+                case MidiMetaEventType.MidiPort:
                 case MidiMetaEventType.SetTempo:
+                case MidiMetaEventType.SMPTEOffset:
                 case MidiMetaEventType.TimeSignature:
+                case MidiMetaEventType.KeySignature:
                     {
                         byte length = ReadByte(midiReader);
                         byte[] data = ReadBytes(midiReader, length);
@@ -234,10 +242,8 @@ namespace Useful.Audio.Midi
 
                 default:
                     {
-                        Debug.WriteLine($"Unknown Meta Event {eventByte:X}");
-                        LogError(_logger, $"Unknown Meta Event {eventByte:X}");
-
-                        throw new NotImplementedException($"Unknown MetaEvent {eventByte:X}");
+                        LogError(_logger, $"Unknown Meta Event: 0x{eventByte:X}");
+                        throw new NotImplementedException($"Unknown MetaEvent: 0x{eventByte:X}");
                     }
             }
         }
