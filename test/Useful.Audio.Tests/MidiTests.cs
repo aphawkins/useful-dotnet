@@ -13,7 +13,14 @@ namespace Useful.Audio.Tests
         public MidiTests() => _moqLogger = new Mock<ILogger>();
 
         [Fact]
-        public void EmptyFile() => Assert.Throws<FileFormatException>(() => new MidiFile(File.OpenRead("empty.mid"), _moqLogger.Object));
+        public void EmptyFile()
+        {
+            // Arrange
+            using MidiFileReader midiFileReader = new(_moqLogger.Object);
+
+            // Act, Assert
+            Assert.Throws<FileFormatException>(() => midiFileReader.Read(File.OpenRead("empty.mid")));
+        }
 
         [Theory]
         [InlineData("danube.mid", 10, 96)]
@@ -21,10 +28,10 @@ namespace Useful.Audio.Tests
         public void MidiRead(string filename, int trackCount, int deltaTimeTicksPerQuarterNote)
         {
             // Arrange
-            using Stream midiStream = File.OpenRead(filename);
+            using MidiFileReader midiFileReader = new(_moqLogger.Object);
 
             // Act
-            MidiFile midiFile = new(midiStream, _moqLogger.Object);
+            MidiFile midiFile = midiFileReader.Read(filename);
 
             // Assert
             Assert.Equal(MidiFileFormat.MultipleTrackSynchronous, midiFile.FileFormat);

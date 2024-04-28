@@ -3,9 +3,9 @@
 using System.Collections.ObjectModel;
 using Useful.Audio.Midi.Events;
 
-namespace Useful.Audio
+namespace Useful.Audio.Midi
 {
-    public class Track
+    public class MidiTrack
     {
         public Collection<IMidiEvent> Events { get; } = [];
     }

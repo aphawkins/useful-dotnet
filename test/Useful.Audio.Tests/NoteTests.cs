@@ -5,7 +5,7 @@ namespace Useful.Audio.Tests
     public class NoteTests
     {
         [Fact]
-        public void OctaveTooLow() => Assert.Throws<ArgumentOutOfRangeException>(() => new Note(-1, NoteStep.C, TimeSpan.FromSeconds(1)));
+        public void OctaveTooLow() => Assert.Throws<ArgumentOutOfRangeException>(() => new Note(-3, NoteStep.C, TimeSpan.FromSeconds(1)));
 
         [Fact]
         public void OctaveTooHigh() => Assert.Throws<ArgumentOutOfRangeException>(() => new Note(9, NoteStep.C, TimeSpan.FromSeconds(1)));

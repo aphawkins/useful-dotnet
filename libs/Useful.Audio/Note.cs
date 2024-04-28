@@ -6,7 +6,7 @@ namespace Useful.Audio
     {
         public Note(int octave, NoteStep noteStep, TimeSpan duration)
         {
-            ArgumentOutOfRangeException.ThrowIfLessThan(octave, 0, nameof(octave));
+            ArgumentOutOfRangeException.ThrowIfLessThan(octave, -2, nameof(octave));
             ArgumentOutOfRangeException.ThrowIfGreaterThan(octave, 8, nameof(octave));
             ArgumentOutOfRangeException.ThrowIfNegative(duration.TotalSeconds, nameof(duration));
 
