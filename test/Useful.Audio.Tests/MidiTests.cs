@@ -37,6 +37,10 @@ namespace Useful.Audio.Tests
             Assert.Equal(MidiFileFormat.MultipleTrackSynchronous, midiFile.FileFormat);
             Assert.Equal(trackCount, midiFile.Tracks.Count);
             Assert.Equal(deltaTimeTicksPerQuarterNote, midiFile.DeltaTimeTicksPerQuarterNote);
+
+            Assert.Empty(midiFile.Tracks[0].Channels);
+            Assert.Equal(448, midiFile.Tracks[0].MetaEvents.Count);
+            Assert.Empty(midiFile.Tracks[0].SysExEvents);
         }
     }
 }

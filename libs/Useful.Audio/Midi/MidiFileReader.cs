@@ -11,8 +11,10 @@ namespace Useful.Audio.Midi
         private BinaryReader? _midiReader;
         private readonly ILogger _logger = logger;
         private short _trackCount;
+        private MidiTrack _currentTrack = new();
+        private bool _isTrackEnd;
         private int _bytesRead;
-        private bool _disposedValue;
+        private bool _isDisposed;
 
         public MidiFile Read(string filename)
         {
@@ -72,7 +74,7 @@ namespace Useful.Audio.Midi
         {
             for (int i = 0; i < _trackCount; i++)
             {
-                LogInformation(_logger, $"Start Track: {i}");
+                LogInformation(_logger, $"Track Start: {i}");
 
                 string chunkId = ReadString(4);
                 FileFormatGuard.Equal("MTrk", chunkId, "Chunk Identifier");
@@ -82,23 +84,19 @@ namespace Useful.Audio.Midi
                 LogInformation(_logger, $"Track Length: {trackLength}");
 
                 _bytesRead = 0;
-
-                MidiTrack track = new();
-                IMidiEvent midiEvent;
+                _isTrackEnd = false;
+                _currentTrack = new();
 
                 do
                 {
-                    LogInformation(_logger, $"Start Event: {track.Events.Count + 1}");
-                    midiEvent = ProcessEvent();
-                    track.Events.Add(midiEvent);
-                    LogInformation(_logger, $"End Event: {track.Events.Count}");
-                } while (!midiEvent.IsTrackEnd && _bytesRead < trackLength);
+                    ProcessEvent();
+                } while (!_isTrackEnd && _bytesRead < trackLength);
 
                 FileFormatGuard.Equal(trackLength, _bytesRead, "TrackEnd does not match specified track length");
 
-                _midiFile.AddTrack(track);
+                _midiFile.Tracks.Add(_currentTrack);
 
-                LogInformation(_logger, $"End Track: {i}");
+                LogInformation(_logger, $"Track End: {i}, Channels: {_currentTrack.Channels.Count}");
             }
 
             int eof = _midiReader!.Read();
@@ -131,8 +129,10 @@ namespace Useful.Audio.Midi
         [LoggerMessage(Level = LogLevel.Error, Message = "{message}")]
         private static partial void LogError(ILogger logger, string message);
 
-        private IMidiEvent ProcessEvent()
+        private void ProcessEvent()
         {
+            IMidiEvent? midiEvent = null;
+
             int deltaTimeTicks = ProcessDeltaTimeTicks();
 
             LogInformation(_logger, $"Delta Time: 0x{deltaTimeTicks:X}");
@@ -146,27 +146,32 @@ namespace Useful.Audio.Midi
                 case 0x80:
                     {
                         LogInformation(_logger, "Note Off Event");
-                        return new MidiNoteOffEvent(timeOffset, eventByte, ReadByte(), ReadByte());
+                        midiEvent = new MidiNoteOffEvent(timeOffset, ReadByte(), ReadByte());
+                        break;
                     }
                 case 0x90:
                     {
                         LogInformation(_logger, "Note On Event");
-                        return new MidiNoteOnEvent(timeOffset, eventByte, ReadByte(), ReadByte());
+                        midiEvent = new MidiNoteOnEvent(timeOffset, ReadByte(), ReadByte());
+                        break;
                     }
                 case 0xB0:
                     {
                         LogInformation(_logger, "Controller Event");
-                        return new MidiControllerEvent(timeOffset, eventByte, ReadByte(), ReadByte());
+                        midiEvent = new MidiControllerEvent(timeOffset, ReadByte(), ReadByte());
+                        break;
                     }
                 case 0xC0:
                     {
                         LogInformation(_logger, "Program Change");
-                        return new MidiProgramChangeEvent(timeOffset, eventByte, ReadByte());
+                        midiEvent = new MidiProgramChangeEvent(timeOffset, ReadByte());
+                        break;
                     }
                 case 0xE0:
                     {
                         LogInformation(_logger, "Pitch Bend");
-                        return new MidiPitchBendEvent(timeOffset, eventByte, ReadByte(), ReadByte());
+                        midiEvent = new MidiPitchBendEvent(timeOffset, ReadByte(), ReadByte());
+                        break;
                     }
                 case 0xF0:
                     {
@@ -175,12 +180,14 @@ namespace Useful.Audio.Midi
                             case MidiEventType.SysEx:
                                 {
                                     LogInformation(_logger, $"System Exclusive Event: 0x{eventByte:X}");
-                                    return ProcessSysExEvent(timeOffset);
+                                    ProcessSysExEvent(timeOffset);
+                                    break;
                                 }
                             case MidiEventType.Meta:
                                 {
                                     LogInformation(_logger, $"Meta Event: 0x{eventByte:X}");
-                                    return ProcessMetaEvent(timeOffset);
+                                    ProcessMetaEvent(timeOffset);
+                                    break;
                                 }
 
                             default:
@@ -189,6 +196,8 @@ namespace Useful.Audio.Midi
                                     throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
                                 }
                         }
+
+                        break;
                     }
 
                 default:
@@ -197,9 +206,21 @@ namespace Useful.Audio.Midi
                         throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
                     }
             }
+
+            byte channel = (byte)(eventByte & 0x0F);
+
+            if (midiEvent != null)
+            {
+                if (!_currentTrack.Channels.ContainsKey(channel))
+                {
+                    _currentTrack.Channels.Add(channel, new MidiChannel());
+                }
+
+                _currentTrack.Channels[channel].Events.Add(midiEvent);
+            }
         }
 
-        private MidiSysExEvent ProcessSysExEvent(int timeOffset)
+        private void ProcessSysExEvent(int timeOffset)
         {
             byte length = ReadByte();
             byte[] bytes = ReadBytes(length);
@@ -210,14 +231,16 @@ namespace Useful.Audio.Midi
             //    throw new FileFormatException("System Exclusive Event must end with 0xF7");
             //}
 
-            return new MidiSysExEvent(timeOffset);
+            _currentTrack.SysExEvents.Add(new MidiSysExEvent(timeOffset));
         }
 
-        private MidiMetaEvent ProcessMetaEvent(int timeOffset)
+        private void ProcessMetaEvent(int timeOffset)
         {
             byte eventByte = ReadByte();
 
             LogInformation(_logger, ((MidiMetaEventType)eventByte).ToString());
+
+            MidiMetaEvent midiEvent;
 
             switch ((MidiMetaEventType)eventByte)
             {
@@ -232,15 +255,18 @@ namespace Useful.Audio.Midi
                     {
                         byte length = ReadByte();
                         byte[] data = ReadBytes(length);
-                        return new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, data);
+                        midiEvent = new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, data);
+                        break;
                     }
 
                 case MidiMetaEventType.TrackEnd:
                     {
+                        _isTrackEnd = true;
                         byte length = ReadByte();
-                        return length == 0x00
+                        midiEvent = length == 0x00
                             ? new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, [])
                             : throw new FileFormatException("Track End length must be 0x00.");
+                        break;
                     }
 
                 default:
@@ -249,11 +275,13 @@ namespace Useful.Audio.Midi
                         throw new NotImplementedException($"Unknown MetaEvent: 0x{eventByte:X}");
                     }
             }
+
+            _currentTrack.MetaEvents.Add(midiEvent);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
+            if (!_isDisposed)
             {
                 if (disposing)
                 {
@@ -263,7 +291,7 @@ namespace Useful.Audio.Midi
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer
                 // TODO: set large fields to null
-                _disposedValue = true;
+                _isDisposed = true;
             }
         }
 

@@ -7,6 +7,10 @@ namespace Useful.Audio.Midi
 {
     public class MidiTrack
     {
-        public Collection<IMidiEvent> Events { get; } = [];
+        public Collection<IMidiEvent> SysExEvents { get; } = [];
+
+        public Collection<IMidiEvent> MetaEvents { get; } = [];
+
+        public Dictionary<int, MidiChannel> Channels { get; } = [];
     }
 }

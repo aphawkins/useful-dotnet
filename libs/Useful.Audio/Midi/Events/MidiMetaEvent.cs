@@ -8,8 +8,6 @@ namespace Useful.Audio.Midi.Events
 
         public int TimeOffset { get; } = timeOffset;
 
-        public bool IsTrackEnd => Type == MidiMetaEventType.TrackEnd;
-
         public byte[] Data { get; } = data;
     }
 }
