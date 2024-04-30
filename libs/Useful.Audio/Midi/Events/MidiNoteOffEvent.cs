@@ -6,8 +6,8 @@ namespace Useful.Audio.Midi.Events
     {
         public int TimeOffset { get; } = timeOffset;
 
-        public byte Note { get; } = (byte)(note & 0x0F);
+        public byte Note { get; } = (byte)(note & 0x7F);
 
-        public byte Velocity { get; } = (byte)(velocity & 0x0F);
+        public byte Velocity { get; } = (byte)(velocity & 0x7F);
     }
 }

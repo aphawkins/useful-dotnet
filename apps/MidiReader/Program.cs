@@ -16,4 +16,4 @@ using ILoggerFactory factory = LoggerFactory.Create(builder
 ILogger logger = factory.CreateLogger<Program>();
 
 using MidiFileReader midiFileReader = new(logger);
-midiFileReader.Read(Path.Combine("..", "..", "..", "..", "..", "test", "Useful.Audio.Tests", "danube.mid"));
+midiFileReader.Read(Path.Combine("..", "..", "..", "..", "..", "test", "Useful.Audio.Tests", "theme.mid"));

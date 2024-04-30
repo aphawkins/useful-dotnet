@@ -6,7 +6,7 @@ namespace Useful.Audio.Midi.Events
     {
         public int TimeOffset { get; } = timeOffset;
 
-        public byte Controller { get; } = (byte)(controller & 0x0F);
+        public byte Controller { get; } = controller;
 
         public byte Value { get; } = (byte)(value & 0x0F);
     }

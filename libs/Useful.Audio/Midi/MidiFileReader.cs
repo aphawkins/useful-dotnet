@@ -14,6 +14,7 @@ namespace Useful.Audio.Midi
         private MidiTrack _currentTrack = new();
         private bool _isTrackEnd;
         private int _bytesRead;
+        private byte _eventByte;
         private bool _isDisposed;
 
         public MidiFile Read(string filename)
@@ -139,9 +140,20 @@ namespace Useful.Audio.Midi
 
             int timeOffset = deltaTimeTicks * _midiFile.DeltaTimeTicksPerQuarterNote;
 
-            byte eventByte = ReadByte();
+            if ((byte)(ReadByte() & 0xF0) < 0x80)
+            {
+                // this is running status
+                _midiReader!.BaseStream.Position--;
+                _bytesRead--;
+            }
+            else
+            {
+                _midiReader!.BaseStream.Position--;
+                _bytesRead--;
+                _eventByte = ReadByte();
+            }
 
-            switch ((byte)(eventByte & 0xF0))
+            switch ((byte)(_eventByte & 0xF0))
             {
                 case 0x80:
                     {
@@ -175,39 +187,41 @@ namespace Useful.Audio.Midi
                     }
                 case 0xF0:
                     {
-                        switch ((MidiEventType)eventByte)
+                        switch ((MidiEventType)_eventByte)
                         {
                             case MidiEventType.SysEx:
                                 {
-                                    LogInformation(_logger, $"System Exclusive Event: 0x{eventByte:X}");
+                                    LogInformation(_logger, $"System Exclusive Event: 0x{_eventByte:X}");
                                     ProcessSysExEvent(timeOffset);
                                     break;
                                 }
                             case MidiEventType.Meta:
                                 {
-                                    LogInformation(_logger, $"Meta Event: 0x{eventByte:X}");
+                                    LogInformation(_logger, $"Meta Event: 0x{_eventByte:X}");
                                     ProcessMetaEvent(timeOffset);
                                     break;
                                 }
 
                             default:
                                 {
-                                    LogError(_logger, $"Unknown Event: 0x{eventByte:X}");
-                                    throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
+                                    LogError(_logger, $"Unknown Event: 0x{_eventByte:X}");
+                                    throw new NotImplementedException($"Unknown Event: 0x{_eventByte:X}");
                                 }
                         }
 
+                        // clear running status
+                        _eventByte = 0;
                         break;
                     }
 
                 default:
                     {
-                        LogError(_logger, $"Unknown Event: 0x{eventByte:X}");
-                        throw new NotImplementedException($"Unknown Event: 0x{eventByte:X}");
+                        LogError(_logger, $"Unknown Event: 0x{_eventByte:X}");
+                        throw new NotImplementedException($"Unknown Event: 0x{_eventByte:X}");
                     }
             }
 
-            byte channel = (byte)(eventByte & 0x0F);
+            byte channel = (byte)(_eventByte & 0x0F);
 
             if (midiEvent != null)
             {

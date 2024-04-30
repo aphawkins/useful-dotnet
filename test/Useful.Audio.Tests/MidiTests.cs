@@ -23,9 +23,9 @@ namespace Useful.Audio.Tests
         }
 
         [Theory]
-        [InlineData("danube.mid", 10, 96)]
-        [InlineData("theme.mid", 14, 480)]
-        public void MidiRead(string filename, int trackCount, int deltaTimeTicksPerQuarterNote)
+        [InlineData("danube.mid", 10, 96, 0, 448, 0)]
+        [InlineData("theme.mid", 14, 480, 0, 13, 2)]
+        public void MidiRead(string filename, int trackCount, int deltaTimeTicksPerQuarterNote, int channels, int metaEvents, int sysExEvents)
         {
             // Arrange
             using MidiFileReader midiFileReader = new(_moqLogger.Object);
@@ -38,9 +38,9 @@ namespace Useful.Audio.Tests
             Assert.Equal(trackCount, midiFile.Tracks.Count);
             Assert.Equal(deltaTimeTicksPerQuarterNote, midiFile.DeltaTimeTicksPerQuarterNote);
 
-            Assert.Empty(midiFile.Tracks[0].Channels);
-            Assert.Equal(448, midiFile.Tracks[0].MetaEvents.Count);
-            Assert.Empty(midiFile.Tracks[0].SysExEvents);
+            Assert.Equal(channels, midiFile.Tracks[0].Channels.Count);
+            Assert.Equal(metaEvents, midiFile.Tracks[0].MetaEvents.Count);
+            Assert.Equal(sysExEvents, midiFile.Tracks[0].SysExEvents.Count);
         }
     }
 }
