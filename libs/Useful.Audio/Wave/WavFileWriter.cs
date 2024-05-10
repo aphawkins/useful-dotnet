@@ -31,7 +31,7 @@ namespace Useful.Audio.Wave
             _writer.Write(wav.BitsPerSample);
             _writer.Write(BitConverter.ToInt32(Encoding.ASCII.GetBytes("data"), 0));
             _writer.Write(wav.DataChunkSize);
-            foreach (short sample in wav.GetSamples())
+            foreach (short sample in wav.Samples)
             {
                 _writer.Write(sample);
             }

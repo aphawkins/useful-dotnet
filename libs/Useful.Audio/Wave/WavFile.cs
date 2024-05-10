@@ -32,7 +32,7 @@ namespace Useful.Audio.Wave
 
         public int FileSize => WaveSize + HeaderSize + FormatChunkSize + HeaderSize + DataChunkSize;
 
-        public short[] GetSamples() => [.. _samples];
+        public IEnumerable<short> Samples => _samples;
 
         public void AddSample(short sample) => _samples.AddLast(sample);
     }

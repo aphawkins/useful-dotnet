@@ -14,19 +14,20 @@ namespace Useful.Audio.Tests
         {
             // Arrange
             string filename = $"{nameof(OctaveTests)}.wav";
+
+            Composition composition = new();
+            composition.AddNote(new(0, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(1, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(2, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(3, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(4, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(5, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(6, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(7, NoteStep.C, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(8, NoteStep.C, TimeSpan.FromSeconds(1)));
+
             ToneGenerator tone = new();
-            Synthesiser synth = new(tone);
-
-            synth.AddNote(new(0, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(1, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(2, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(3, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(4, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(5, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(6, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(7, NoteStep.C, TimeSpan.FromSeconds(1)));
-            synth.AddNote(new(8, NoteStep.C, TimeSpan.FromSeconds(1)));
-
+            Synthesiser synth = new(composition, tone);
             WavFileWriter wavWriter = new();
 
             // Act

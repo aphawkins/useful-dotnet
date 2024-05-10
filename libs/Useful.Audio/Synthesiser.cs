@@ -4,30 +4,19 @@ using Useful.Audio.Wave;
 
 namespace Useful.Audio
 {
-    public class Synthesiser(IInstrument instrument)
+    public class Synthesiser(Composition composition, IInstrument instrument)
     {
         private readonly int _samplesPerSecond = 44100;
         private readonly double _ampl = 10000;
 
-        private readonly List<Note> _notes = [];
-
+        private readonly Composition _composition = composition;
         private readonly IInstrument _instrument = instrument;
-
-        public void AddNote(Note note)
-        {
-            ArgumentNullException.ThrowIfNull(note, nameof(note));
-
-            _notes.Add(note);
-            Duration += note.Duration;
-        }
-
-        public TimeSpan Duration { get; private set; }
 
         public WavFile ToWav()
         {
             WavFile wav = new(_samplesPerSecond, 8 * sizeof(short));
 
-            foreach (Note note in _notes)
+            foreach (Note note in _composition.Notes)
             {
                 int samples = _samplesPerSecond * (int)note.Duration.TotalSeconds;
                 double frequency = note.Frequency;
