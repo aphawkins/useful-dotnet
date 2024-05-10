@@ -4,10 +4,10 @@ namespace Useful.Audio.Midi.Events
 {
     internal sealed class MidiMetaEvent(int timeOffset, MidiMetaEventType type, byte[] data) : IMidiEvent
     {
-        public MidiMetaEventType Type { get; } = type;
+        public MidiMetaEventType Type => type;
 
-        public int TimeOffset { get; } = timeOffset;
+        public int TimeOffset => timeOffset;
 
-        public byte[] Data { get; } = data;
+        public byte[] Data => data;
     }
 }

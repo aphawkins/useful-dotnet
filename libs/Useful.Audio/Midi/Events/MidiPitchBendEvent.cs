@@ -4,10 +4,10 @@ namespace Useful.Audio.Midi.Events
 {
     internal sealed class MidiPitchBendEvent(int timeOffset, byte lsb, byte msb) : IMidiEvent
     {
-        public int TimeOffset { get; } = timeOffset;
+        public int TimeOffset => timeOffset;
 
-        public byte LSB { get; } = (byte)(lsb & 0x0F);
+        public byte LSB => (byte)(lsb & 0x7F);
 
-        public byte MSB { get; } = (byte)(msb & 0x0F);
+        public byte MSB => (byte)(msb & 0x7F);
     }
 }

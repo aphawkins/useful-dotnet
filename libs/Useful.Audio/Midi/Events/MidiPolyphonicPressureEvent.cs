@@ -2,7 +2,7 @@
 
 namespace Useful.Audio.Midi.Events
 {
-    internal sealed class MidiNoteOnEvent(int timeOffset, byte note, byte velocity) : IMidiEvent
+    internal sealed class MidiPolyphonicPressureEvent(int timeOffset, byte note, byte pressure) : IMidiEvent
     {
         public int TimeOffset => timeOffset;
 
@@ -10,8 +10,6 @@ namespace Useful.Audio.Midi.Events
 
         // public Note NoteA { get; } = new(((note & 0x7F) / 12) - 1, (NoteStep)((note & 0x7F) % 12), TimeSpan.Zero);
 
-        public byte Velocity => (byte)(velocity & 0x7F);
-
-        public bool IsNoteOff => velocity == 0x00;
+        public byte Pressure => (byte)(pressure & 0x7F);
     }
 }

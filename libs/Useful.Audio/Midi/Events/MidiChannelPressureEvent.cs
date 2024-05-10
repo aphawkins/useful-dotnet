@@ -2,10 +2,10 @@
 
 namespace Useful.Audio.Midi.Events
 {
-    internal sealed class MidiProgramChangeEvent(int timeOffset, byte program) : IMidiEvent
+    internal sealed class MidiChannelPressureEvent(int timeOffset, byte pressure) : IMidiEvent
     {
         public int TimeOffset => timeOffset;
 
-        public byte Program => (byte)(program & 0x7F);
+        public byte Pressure => (byte)(pressure & 0x7F);
     }
 }

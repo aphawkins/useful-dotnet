@@ -14,7 +14,7 @@ namespace Useful.Audio.Midi
         private MidiTrack _currentTrack = new();
         private bool _isTrackEnd;
         private int _bytesRead;
-        private byte _eventByte;
+        private byte _statusByte;
         private bool _isDisposed;
 
         public MidiFile Read(string filename)
@@ -150,10 +150,10 @@ namespace Useful.Audio.Midi
             {
                 _midiReader!.BaseStream.Position--;
                 _bytesRead--;
-                _eventByte = ReadByte();
+                _statusByte = ReadByte();
             }
 
-            switch ((byte)(_eventByte & 0xF0))
+            switch ((byte)(_statusByte & 0xF0))
             {
                 case 0x80:
                     {
@@ -165,6 +165,12 @@ namespace Useful.Audio.Midi
                     {
                         LogInformation(_logger, "Note On Event");
                         midiEvent = new MidiNoteOnEvent(timeOffset, ReadByte(), ReadByte());
+                        break;
+                    }
+                case 0xA0:
+                    {
+                        LogInformation(_logger, "Polyphonic Pressure Event");
+                        midiEvent = new MidiPolyphonicPressureEvent(timeOffset, ReadByte(), ReadByte());
                         break;
                     }
                 case 0xB0:
@@ -179,6 +185,12 @@ namespace Useful.Audio.Midi
                         midiEvent = new MidiProgramChangeEvent(timeOffset, ReadByte());
                         break;
                     }
+                case 0xD0:
+                    {
+                        LogInformation(_logger, "Channel Pressure Event");
+                        midiEvent = new MidiChannelPressureEvent(timeOffset, ReadByte());
+                        break;
+                    }
                 case 0xE0:
                     {
                         LogInformation(_logger, "Pitch Bend");
@@ -187,41 +199,41 @@ namespace Useful.Audio.Midi
                     }
                 case 0xF0:
                     {
-                        switch ((MidiEventType)_eventByte)
+                        switch ((MidiEventType)_statusByte)
                         {
                             case MidiEventType.SysEx:
                                 {
-                                    LogInformation(_logger, $"System Exclusive Event: 0x{_eventByte:X}");
+                                    LogInformation(_logger, $"System Exclusive Event: 0x{_statusByte:X}");
                                     ProcessSysExEvent(timeOffset);
                                     break;
                                 }
                             case MidiEventType.Meta:
                                 {
-                                    LogInformation(_logger, $"Meta Event: 0x{_eventByte:X}");
+                                    LogInformation(_logger, $"Meta Event: 0x{_statusByte:X}");
                                     ProcessMetaEvent(timeOffset);
                                     break;
                                 }
 
                             default:
                                 {
-                                    LogError(_logger, $"Unknown Event: 0x{_eventByte:X}");
-                                    throw new NotImplementedException($"Unknown Event: 0x{_eventByte:X}");
+                                    LogError(_logger, $"Unknown Event: 0x{_statusByte:X}");
+                                    throw new NotImplementedException($"Unknown Event: 0x{_statusByte:X}");
                                 }
                         }
 
                         // clear running status
-                        _eventByte = 0;
+                        _statusByte = 0;
                         break;
                     }
 
                 default:
                     {
-                        LogError(_logger, $"Unknown Event: 0x{_eventByte:X}");
-                        throw new NotImplementedException($"Unknown Event: 0x{_eventByte:X}");
+                        LogError(_logger, $"Unknown Event: 0x{_statusByte:X}");
+                        throw new NotImplementedException($"Unknown Event: 0x{_statusByte:X}");
                     }
             }
 
-            byte channel = (byte)(_eventByte & 0x0F);
+            byte channel = (byte)(_statusByte & 0x0F);
 
             if (midiEvent != null)
             {
