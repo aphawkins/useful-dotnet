@@ -3,6 +3,7 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using Useful.Audio.Instruments;
+using Useful.Audio.Wave;
 
 namespace Useful.Audio.Tests
 {
@@ -26,9 +27,11 @@ namespace Useful.Audio.Tests
             synth.AddNote(new(7, NoteStep.C, TimeSpan.FromSeconds(1)));
             synth.AddNote(new(8, NoteStep.C, TimeSpan.FromSeconds(1)));
 
+            WavFileWriter wavWriter = new();
+
             // Act
-            WavFile wavFile = new();
-            wavFile.Write(filename, synth);
+            WavFile wavFile = synth.ToWav();
+            wavWriter.Write(filename, wavFile);
 
             // Assert
             Assert.Equal(

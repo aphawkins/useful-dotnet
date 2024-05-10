@@ -1,5 +1,7 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
+using Useful.Audio.Wave;
+
 namespace Useful.Audio
 {
     public class Synthesiser(IInstrument instrument)
@@ -21,9 +23,9 @@ namespace Useful.Audio
 
         public TimeSpan Duration { get; private set; }
 
-        public void GenerateNotes(BinaryWriter writer)
+        public WavFile ToWav()
         {
-            ArgumentNullException.ThrowIfNull(writer, nameof(writer));
+            WavFile wav = new(_samplesPerSecond, 8 * sizeof(short));
 
             foreach (Note note in _notes)
             {
@@ -34,9 +36,11 @@ namespace Useful.Audio
                 {
                     double time = i / (double)_samplesPerSecond;
                     short s = (short)(_ampl * _instrument.GetSample(time, frequency));
-                    writer.Write(s);
+                    wav.AddSample(s);
                 }
             }
+
+            return wav;
         }
     }
 }
