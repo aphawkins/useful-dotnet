@@ -16,7 +16,7 @@ namespace Useful.Audio
         {
             WavFile wav = new(_samplesPerSecond, 8 * sizeof(short));
 
-            foreach (Note note in _composition.Notes)
+            foreach (Note note in _composition.AllNotes)
             {
                 int samples = _samplesPerSecond * (int)note.Duration.TotalSeconds;
                 double frequency = note.Frequency;

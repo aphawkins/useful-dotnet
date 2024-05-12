@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Useful.Audio.Midi;
 
-namespace Useful.Audio.Tests
+namespace Useful.Audio.Tests.Midi
 {
     public class MidiTests
     {

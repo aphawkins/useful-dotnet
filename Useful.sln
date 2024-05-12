@@ -54,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{86E9189F-514
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useful", "libs\Useful\Useful.csproj", "{2AEE2586-9A01-4FB9-AD8A-3A5C37DD5383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiReader", "apps\MidiReader\MidiReader.csproj", "{04676408-3241-4CF5-8F77-BFEBB2E336E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MidiReader", "apps\MidiReader\MidiReader.csproj", "{04676408-3241-4CF5-8F77-BFEBB2E336E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

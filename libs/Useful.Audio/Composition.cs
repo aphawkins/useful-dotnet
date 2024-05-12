@@ -2,9 +2,13 @@
 
 namespace Useful.Audio
 {
-    public class Composition
+    public class Composition : INoteProvider
     {
         private readonly List<Note> _notes = [];
+
+        public IEnumerable<Note> AllNotes => _notes;
+
+        public TimeSpan Duration { get; private set; }
 
         public void AddNote(Note note)
         {
@@ -14,8 +18,7 @@ namespace Useful.Audio
             Duration += note.Duration;
         }
 
-        public IEnumerable<Note> Notes => _notes;
-
-        public TimeSpan Duration { get; private set; }
+        public IEnumerable<Note> Notes(TimeSpan offset, TimeSpan duration)
+            => _notes.Where(x => x.Offset <= offset + duration && x.Offset + x.Duration >= offset);
     }
 }
