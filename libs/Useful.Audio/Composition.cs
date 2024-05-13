@@ -19,6 +19,6 @@ namespace Useful.Audio
         }
 
         public IEnumerable<Note> Notes(TimeSpan offset, TimeSpan duration)
-            => _notes.Where(x => x.Offset <= offset + duration && x.Offset + x.Duration >= offset);
+            => _notes.Where(x => x.Offset < offset + duration && x.Offset + x.Duration > offset);
     }
 }

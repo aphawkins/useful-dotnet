@@ -17,14 +17,14 @@ namespace Useful.Audio.Tests.Wave
 
             Composition composition = new();
             composition.AddNote(new(0, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(1, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(2, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(3, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(4, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(5, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(6, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(7, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
-            composition.AddNote(new(8, NoteStep.C, TimeSpan.Zero, TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(1, NoteStep.C, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(2, NoteStep.C, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(3, NoteStep.C, TimeSpan.FromSeconds(3), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(4, NoteStep.C, TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(5, NoteStep.C, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(6, NoteStep.C, TimeSpan.FromSeconds(6), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(7, NoteStep.C, TimeSpan.FromSeconds(7), TimeSpan.FromSeconds(1)));
+            composition.AddNote(new(8, NoteStep.C, TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(1)));
 
             ToneGenerator tone = new();
             Synthesiser synth = new(composition, tone);
