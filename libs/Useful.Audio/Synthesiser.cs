@@ -1,6 +1,5 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-using System.Diagnostics;
 using Useful.Audio.Wave;
 
 namespace Useful.Audio
@@ -17,24 +16,26 @@ namespace Useful.Audio
         {
             WavFile wav = new(_samplesPerSecond, 8 * sizeof(short));
 
-            double intervalSeconds = 0.5;
+            NoteDuration offset = NoteDuration.Zero;
+            NoteDuration duration = new(PartialNote.Whole);
 
-            for (double i = 0; i < _composition.Duration.TotalSeconds; i += intervalSeconds)
+            while (offset + duration <= _composition.Duration)
             {
-                List<Note> notes = _composition.Notes(TimeSpan.FromSeconds(i), TimeSpan.FromSeconds(intervalSeconds)).ToList();
+                List<Note> notes = _composition.Notes(offset, duration).ToList();
 
-                Debug.Assert(notes.Count == 1);
-                Note note = notes.FirstOrDefault()!; // TODO: Use a mixer
-                double frequency = note.Frequency;
-                int sampleCount = (int)(_samplesPerSecond * intervalSeconds); // TODO: Check note covers entire time period
-                int startSample = (int)(_samplesPerSecond * (i % 1));
-
-                for (int sampleNum = 0; sampleNum < sampleCount; sampleNum++)
+                foreach (Note note in notes)
                 {
-                    double time = (startSample + sampleNum) / (double)_samplesPerSecond;
-                    short s = (short)(_ampl * _instrument.GetSample(time, frequency));
-                    wav.AddSample(s);
+                    double frequency = note.Frequency;
+
+                    for (int i = 0; i < duration.TotalSamples(_samplesPerSecond); i++)
+                    {
+                        double time = i / (double)_samplesPerSecond;
+                        short s = (short)(_ampl * _instrument.GetSample(time, frequency));
+                        wav.AddSample(s);
+                    }
                 }
+
+                offset += duration;
             }
 
             return wav;

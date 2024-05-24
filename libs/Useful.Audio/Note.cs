@@ -4,11 +4,12 @@ namespace Useful.Audio
 {
     public record Note
     {
-        public Note(int octave, NoteStep noteStep, TimeSpan offset, TimeSpan duration)
+        public Note(int octave, NoteStep noteStep, NoteDuration offset, NoteDuration duration)
         {
             ArgumentOutOfRangeException.ThrowIfLessThan(octave, -1, nameof(octave));
             ArgumentOutOfRangeException.ThrowIfGreaterThan(octave, 9, nameof(octave));
-            ArgumentOutOfRangeException.ThrowIfNegative(duration.TotalSeconds, nameof(duration));
+            ArgumentOutOfRangeException.ThrowIfLessThan(offset, 0, nameof(octave));
+            ArgumentOutOfRangeException.ThrowIfLessThan(duration, 0, nameof(duration));
 
             Octave = octave;
             NoteStep = noteStep;
@@ -22,9 +23,9 @@ namespace Useful.Audio
 
         public NoteStep NoteStep { get; }
 
-        public TimeSpan Offset { get; }
+        public NoteDuration Offset { get; }
 
-        public TimeSpan Duration { get; }
+        public NoteDuration Duration { get; }
 
         public double Frequency { get; }
     }

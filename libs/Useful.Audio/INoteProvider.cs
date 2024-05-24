@@ -6,6 +6,6 @@ namespace Useful.Audio
     {
         IEnumerable<Note> AllNotes { get; }
 
-        IEnumerable<Note> Notes(TimeSpan offset, TimeSpan duration);
+        IEnumerable<Note> Notes(NoteDuration offset, NoteDuration duration);
     }
 }

@@ -8,7 +8,7 @@ namespace Useful.Audio
 
         public IEnumerable<Note> AllNotes => _notes;
 
-        public TimeSpan Duration { get; private set; }
+        public NoteDuration Duration { get; private set; } = NoteDuration.Zero;
 
         public void AddNote(Note note)
         {
@@ -18,7 +18,7 @@ namespace Useful.Audio
             Duration += note.Duration;
         }
 
-        public IEnumerable<Note> Notes(TimeSpan offset, TimeSpan duration)
+        public IEnumerable<Note> Notes(NoteDuration offset, NoteDuration duration)
             => _notes.Where(x => x.Offset < offset + duration && x.Offset + x.Duration > offset);
     }
 }
