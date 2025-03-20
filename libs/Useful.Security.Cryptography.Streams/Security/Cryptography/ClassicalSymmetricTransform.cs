@@ -3,97 +3,96 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+internal sealed class ClassicalSymmetricTransform : ICryptoTransform
 {
-    internal sealed class ClassicalSymmetricTransform : ICryptoTransform
+    private const int BlockSize = 2;  // 2 for Unicode, 1 for UTF8
+    private readonly CipherTransformMode _transformMode;
+    private readonly Encoding _encoding = new UnicodeEncoding();
+
+    internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
     {
-        private const int BlockSize = 2;  // 2 for Unicode, 1 for UTF8
-        private readonly CipherTransformMode _transformMode;
-        private readonly Encoding _encoding = new UnicodeEncoding();
+        _transformMode = transformMode;
+        Cipher = cipher;
+    }
 
-        internal ClassicalSymmetricTransform(ICipher cipher, CipherTransformMode transformMode)
+    public bool CanReuseTransform => true;
+
+    public bool CanTransformMultipleBlocks => false;
+
+    public int InputBlockSize => BlockSize;
+
+    public int OutputBlockSize => BlockSize;
+
+    public ICipher Cipher { get; }
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    public static void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            _transformMode = transformMode;
-            Cipher = cipher;
+            // free managed resources
         }
 
-        public bool CanReuseTransform => true;
+        // free native resources if there are any.
+    }
 
-        public bool CanTransformMultipleBlocks => false;
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        public int InputBlockSize => BlockSize;
-
-        public int OutputBlockSize => BlockSize;
-
-        public ICipher Cipher { get; }
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        public static void Dispose(bool disposing)
+    /// <inheritdoc />
+    public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+    {
+        if (inputCount <= 0)
         {
-            if (disposing)
-            {
-                // free managed resources
-            }
-
-            // free native resources if there are any.
+            // Nothing to do
+            return 0;
         }
 
-        /// <inheritdoc />
-        public void Dispose()
+        ArgumentNullException.ThrowIfNull(inputBuffer);
+
+        ArgumentNullException.ThrowIfNull(outputBuffer);
+
+        if (inputBuffer.Length < (inputOffset + inputCount))
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            throw new ArgumentException("Input buffer not long enough.", nameof(inputBuffer));
         }
 
-        /// <inheritdoc />
-        public int TransformBlock(byte[] inputBuffer, int inputOffset, int inputCount, byte[] outputBuffer, int outputOffset)
+        string inputString = new(_encoding.GetChars(inputBuffer));
+
+        string outputString = _transformMode switch
         {
-            if (inputCount <= 0)
-            {
-                // Nothing to do
-                return 0;
-            }
+            CipherTransformMode.Encrypt => Cipher.Encrypt(inputString),
+            CipherTransformMode.Decrypt => Cipher.Decrypt(inputString),
+            _ => throw new CryptographicException($"Unsupported transform mode {_transformMode}."),
+        };
 
-            ArgumentNullException.ThrowIfNull(inputBuffer);
-
-            ArgumentNullException.ThrowIfNull(outputBuffer);
-
-            if (inputBuffer.Length < (inputOffset + inputCount))
-            {
-                throw new ArgumentException("Input buffer not long enough.", nameof(inputBuffer));
-            }
-
-            string inputString = new(_encoding.GetChars(inputBuffer));
-
-            string outputString = _transformMode switch
-            {
-                CipherTransformMode.Encrypt => Cipher.Encrypt(inputString),
-                CipherTransformMode.Decrypt => Cipher.Decrypt(inputString),
-                _ => throw new CryptographicException($"Unsupported transform mode {_transformMode}."),
-            };
-
-            if (string.IsNullOrEmpty(outputString) || outputString == "\0")
-            {
-                return 0;
-            }
-
-            byte[] outputBytes = _encoding.GetBytes(outputString);
-            Array.Copy(outputBytes, 0, outputBuffer, 0, OutputBlockSize);
-            return inputCount;
+        if (string.IsNullOrEmpty(outputString) || outputString == "\0")
+        {
+            return 0;
         }
 
-        public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
-        {
-            if (inputBuffer[0] == 0)
-            {
-                return [];
-            }
+        byte[] outputBytes = _encoding.GetBytes(outputString);
+        Array.Copy(outputBytes, 0, outputBuffer, 0, OutputBlockSize);
+        return inputCount;
+    }
 
-            byte[] outputBuffer = new byte[inputBuffer.Length];
-            return TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0) > 0 ? outputBuffer : [];
+    public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
+    {
+        if (inputBuffer[0] == 0)
+        {
+            return [];
         }
+
+        byte[] outputBuffer = new byte[inputBuffer.Length];
+        return TransformBlock(inputBuffer, inputOffset, inputCount, outputBuffer, 0) > 0 ? outputBuffer : [];
     }
 }

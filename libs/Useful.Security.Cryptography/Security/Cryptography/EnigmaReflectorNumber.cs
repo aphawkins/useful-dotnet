@@ -1,20 +1,19 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Engima reflectors.
+/// </summary>
+public enum EnigmaReflectorNumber
 {
     /// <summary>
-    /// Engima reflectors.
+    /// Reflector B.
     /// </summary>
-    public enum EnigmaReflectorNumber
-    {
-        /// <summary>
-        /// Reflector B.
-        /// </summary>
-        B = 0,
+    B = 0,
 
-        /// <summary>
-        /// Reflector C.
-        /// </summary>
-        C = 1,
-    }
+    /// <summary>
+    /// Reflector C.
+    /// </summary>
+    C = 1,
 }

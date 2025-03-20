@@ -3,147 +3,146 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// The MonoAlphabetic cipher.
+/// </summary>
+public class MonoAlphabeticSymmetric : SymmetricAlgorithm
 {
     /// <summary>
-    /// The MonoAlphabetic cipher.
+    /// States how many parts there are in the key.
     /// </summary>
-    public class MonoAlphabeticSymmetric : SymmetricAlgorithm
+    private const int KeyParts = 2;
+
+    /// <summary>
+    /// The char that separates part of the key.
+    /// </summary>
+    private const char KeySeperator = '|';
+
+    /// <summary>
+    /// The encoding used by this cipher.
+    /// </summary>
+    private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
+
+    private readonly MonoAlphabetic _algorithm;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MonoAlphabeticSymmetric"/> class.
+    /// </summary>
+    public MonoAlphabeticSymmetric()
     {
-        /// <summary>
-        /// States how many parts there are in the key.
-        /// </summary>
-        private const int KeyParts = 2;
+        Reset();
+        _algorithm = new MonoAlphabetic(new MonoAlphabeticSettings());
+    }
 
-        /// <summary>
-        /// The char that separates part of the key.
-        /// </summary>
-        private const char KeySeperator = '|';
+    /// <inheritdoc />
+    public override byte[] IV
+    {
+        get => [];
+        set => _ = value;
+    }
 
-        /// <summary>
-        /// The encoding used by this cipher.
-        /// </summary>
-        private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
-
-        private readonly MonoAlphabetic _algorithm;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonoAlphabeticSymmetric"/> class.
-        /// </summary>
-        public MonoAlphabeticSymmetric()
+    /// <inheritdoc />
+    public override byte[] Key
+    {
+        get
         {
-            Reset();
-            _algorithm = new MonoAlphabetic(new MonoAlphabeticSettings());
+            // CharacterSet|Substitutions
+            StringBuilder key = new(_algorithm.Settings.CharacterSet);
+            key.Append(KeySeperator)
+                .Append(_algorithm.Settings.Substitutions);
+
+            return s_encoding.GetBytes(key.ToString());
         }
 
-        /// <inheritdoc />
-        public override byte[] IV
+        set
         {
-            get => [];
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get
+            (string CharacterSet, string Substitutions) key;
+            try
             {
-                // CharacterSet|Substitutions
-                StringBuilder key = new(_algorithm.Settings.CharacterSet);
-                key.Append(KeySeperator)
-                    .Append(_algorithm.Settings.Substitutions);
+                key = ParseKey(value);
 
-                return s_encoding.GetBytes(key.ToString());
-            }
-
-            set
-            {
-                (string CharacterSet, string Substitutions) key;
-                try
+                _algorithm.Settings = new MonoAlphabeticSettings()
                 {
-                    key = ParseKey(value);
-
-                    _algorithm.Settings = new MonoAlphabeticSettings()
-                    {
-                        CharacterSet = key.CharacterSet,
-                        Substitutions = key.Substitutions,
-                    };
-                }
-                catch (ArgumentException ex)
-                {
-                    throw new ArgumentException("Argument exception.", nameof(value), ex);
-                }
-
-                base.Key = value;
+                    CharacterSet = key.CharacterSet,
+                    Substitutions = key.Substitutions,
+                };
             }
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override void GenerateIV()
-        {
-        }
-
-        /// <inheritdoc />
-        public override void GenerateKey()
-        {
-            _algorithm.GenerateSettings();
-            KeyValue = Key;
-        }
-
-        /// <inheritdoc />
-        public override string ToString() => _algorithm.CipherName;
-
-        private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
-        {
-            // Example:
-            // characterSet|substitutions
-            ArgumentNullException.ThrowIfNull(key);
-
-            if (key.SequenceEqual([]))
+            catch (ArgumentException ex)
             {
-                throw new ArgumentException("Invalid format.", nameof(key));
+                throw new ArgumentException("Argument exception.", nameof(value), ex);
             }
 
-            string keyString = s_encoding.GetString(key);
+            base.Key = value;
+        }
+    }
 
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
+    /// <inheritdoc />
+    public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
+    }
 
-            return parts.Length != KeyParts
-                ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
-                : ((string CharacterSet, string Substitutions))(parts[0], parts[1]);
+    /// <inheritdoc />
+    public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
+    }
+
+    /// <inheritdoc />
+    public override void GenerateIV()
+    {
+    }
+
+    /// <inheritdoc />
+    public override void GenerateKey()
+    {
+        _algorithm.GenerateSettings();
+        KeyValue = Key;
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => _algorithm.CipherName;
+
+    private static (string CharacterSet, string Substitutions) ParseKey(byte[] key)
+    {
+        // Example:
+        // characterSet|substitutions
+        ArgumentNullException.ThrowIfNull(key);
+
+        if (key.SequenceEqual([]))
+        {
+            throw new ArgumentException("Invalid format.", nameof(key));
         }
 
-        private void Reset()
-        {
+        string keyString = s_encoding.GetString(key);
+
+        string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
+
+        return parts.Length != KeyParts
+            ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
+            : ((string CharacterSet, string Substitutions))(parts[0], parts[1]);
+    }
+
+    private void Reset()
+    {
 #pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes - this cipher is inherently unsafe
-            ModeValue = CipherMode.ECB;
-            PaddingValue = PaddingMode.None;
-            KeySizeValue = 16;
-            BlockSizeValue = 16;
-            FeedbackSizeValue = 16;
-            LegalBlockSizesValue = new KeySizes[1];
-            LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
-            LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
+        ModeValue = CipherMode.ECB;
+        PaddingValue = PaddingMode.None;
+        KeySizeValue = 16;
+        BlockSizeValue = 16;
+        FeedbackSizeValue = 16;
+        LegalBlockSizesValue = new KeySizes[1];
+        LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
+        LegalKeySizesValue = new KeySizes[1];
+        LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
 
-            KeyValue = [];
-            IVValue = [];
-        }
+        KeyValue = [];
+        IVValue = [];
     }
 }

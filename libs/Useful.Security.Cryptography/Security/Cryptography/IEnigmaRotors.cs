@@ -1,27 +1,26 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Enigma rotor settings.
+/// </summary>
+public interface IEnigmaRotors
 {
     /// <summary>
-    /// Enigma rotor settings.
+    /// Gets the rotors.
     /// </summary>
-    public interface IEnigmaRotors
-    {
-        /// <summary>
-        /// Gets the rotors.
-        /// </summary>
-        IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors { get; init; }
+    public IReadOnlyDictionary<EnigmaRotorPosition, IEnigmaRotor> Rotors { get; init; }
 
-        /// <summary>
-        /// Gets the rotor settings.
-        /// </summary>
-        /// <param name="position">The rotor position.</param>
-        /// <returns>The rotor in this position.</returns>
-        IEnigmaRotor this[EnigmaRotorPosition position] { get; }
+    /// <summary>
+    /// Gets the rotor settings.
+    /// </summary>
+    /// <param name="position">The rotor position.</param>
+    /// <returns>The rotor in this position.</returns>
+    public IEnigmaRotor this[EnigmaRotorPosition position] { get; }
 
-        /// <summary>
-        /// Advances the rotor one setting.
-        /// </summary>
-        void AdvanceRotors();
-    }
+    /// <summary>
+    /// Advances the rotor one setting.
+    /// </summary>
+    public void AdvanceRotors();
 }

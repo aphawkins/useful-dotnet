@@ -1,15 +1,14 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography.UI.Controllers
+namespace Useful.Security.Cryptography.UI.Controllers;
+
+/// <summary>
+/// A controller.
+/// </summary>
+public interface IController
 {
     /// <summary>
-    /// A controller.
+    /// Loads the view.
     /// </summary>
-    public interface IController
-    {
-        /// <summary>
-        /// Loads the view.
-        /// </summary>
-        void LoadView();
-    }
+    public void LoadView();
 }

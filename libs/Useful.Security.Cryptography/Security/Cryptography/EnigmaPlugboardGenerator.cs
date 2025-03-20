@@ -1,34 +1,33 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Enigma Plugboard settings generator.
+/// </summary>
+internal static class EnigmaPlugboardGenerator
 {
-    /// <summary>
-    /// Enigma Plugboard settings generator.
-    /// </summary>
-    internal static class EnigmaPlugboardGenerator
+    public static IEnigmaPlugboard Generate()
     {
-        public static IEnigmaPlugboard Generate()
+        ReflectorSettings reflector = ReflectorSettingsGenerator.Generate();
+
+        List<EnigmaPlugboardPair> pairs = [];
+        List<char> usedLetters = [];
+
+        for (int i = 0; i < reflector.CharacterSet.Count; i++)
         {
-            IReflectorSettings reflector = ReflectorSettingsGenerator.Generate();
+            char fromLetter = reflector.CharacterSet[i];
+            char toLetter = reflector.Substitutions[i];
 
-            List<EnigmaPlugboardPair> pairs = [];
-            List<char> usedLetters = [];
-
-            for (int i = 0; i < reflector.CharacterSet.Count; i++)
+            if (!usedLetters.Contains(fromLetter)
+                && !usedLetters.Contains(toLetter))
             {
-                char fromLetter = reflector.CharacterSet[i];
-                char toLetter = reflector.Substitutions[i];
-
-                if (!usedLetters.Contains(fromLetter)
-                    && !usedLetters.Contains(toLetter))
-                {
-                    usedLetters.Add(fromLetter);
-                    usedLetters.Add(toLetter);
-                    pairs.Add(new EnigmaPlugboardPair() { From = fromLetter, To = toLetter });
-                }
+                usedLetters.Add(fromLetter);
+                usedLetters.Add(toLetter);
+                pairs.Add(new EnigmaPlugboardPair() { From = fromLetter, To = toLetter });
             }
-
-            return new EnigmaPlugboard(pairs);
         }
+
+        return new EnigmaPlugboard(pairs);
     }
 }

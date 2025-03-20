@@ -1,12 +1,11 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography.UI.ViewModels
+namespace Useful.Security.Cryptography.UI.ViewModels;
+
+/// <summary>
+/// Cipher settings for the View Model.
+/// </summary>
+public interface ICipherSettingsViewModel
 {
-    /// <summary>
-    /// Cipher settings for the View Model.
-    /// </summary>
-    public interface ICipherSettingsViewModel
-    {
-        string Placeholder => "Avoids an empty interface";
-    }
+    public string Placeholder => "Avoids an empty interface";
 }

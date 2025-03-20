@@ -2,43 +2,42 @@
 
 using System.Security.Cryptography;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Enigma Reflector settings generator.
+/// </summary>
+internal static class EnigmaRotorGenerator
 {
-    /// <summary>
-    /// Enigma Reflector settings generator.
-    /// </summary>
-    internal static class EnigmaRotorGenerator
+    public static IEnigmaRotors Generate()
     {
-        public static IEnigmaRotors Generate()
+        int nextRandomNumber;
+        Dictionary<EnigmaRotorPosition, IEnigmaRotor> rotors = [];
+        List<int> usedRotorNumbers = [];
+
+        foreach (EnigmaRotorPosition rotorPosition in EnigmaRotors.RotorPositions)
         {
-            int nextRandomNumber;
-            Dictionary<EnigmaRotorPosition, IEnigmaRotor> rotors = [];
-            List<int> usedRotorNumbers = [];
-
-            foreach (EnigmaRotorPosition rotorPosition in EnigmaRotors.RotorPositions)
+            while (true)
             {
-                while (true)
+                nextRandomNumber = RandomNumberGenerator.GetInt32(0, EnigmaRotors.RotorSet.Count);
+                if (!usedRotorNumbers.Contains(nextRandomNumber))
                 {
-                    nextRandomNumber = RandomNumberGenerator.GetInt32(0, EnigmaRotors.RotorSet.Count);
-                    if (!usedRotorNumbers.Contains(nextRandomNumber))
-                    {
-                        usedRotorNumbers.Add(nextRandomNumber);
-                        break;
-                    }
+                    usedRotorNumbers.Add(nextRandomNumber);
+                    break;
                 }
-
-                rotors[rotorPosition] = new EnigmaRotor()
-                {
-                    RotorNumber = EnigmaRotors.RotorSet[nextRandomNumber],
-                    RingPosition = RandomNumberGenerator.GetInt32(1, 27),
-                    CurrentSetting = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomNumberGenerator.GetInt32(0, 26)],
-                };
             }
 
-            return new EnigmaRotors()
+            rotors[rotorPosition] = new EnigmaRotor()
             {
-                Rotors = rotors,
+                RotorNumber = EnigmaRotors.RotorSet[nextRandomNumber],
+                RingPosition = RandomNumberGenerator.GetInt32(1, 27),
+                CurrentSetting = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[RandomNumberGenerator.GetInt32(0, 26)],
             };
         }
+
+        return new EnigmaRotors()
+        {
+            Rotors = rotors,
+        };
     }
 }

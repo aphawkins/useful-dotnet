@@ -4,39 +4,38 @@ using Microsoft.AspNetCore.Mvc;
 using Useful.Security.Cryptography;
 using UsefulAPI.Models;
 
-namespace UsefulAPI.Controllers
+namespace UsefulAPI.Controllers;
+
+[ApiController]
+[Route("api/v1/[controller]/[action]")]
+public class AtBashController : ControllerBase
 {
-    [ApiController]
-    [Route("api/v1/[controller]/[action]")]
-    public class AtBashController : ControllerBase
+    // POST api/v1/atbash/decrypt
+    [HttpPost]
+    public ActionResult<DecryptResponse> Decrypt(DecryptRequest request)
     {
-        // POST api/v1/atbash/decrypt
-        [HttpPost]
-        public ActionResult<DecryptResponse> Decrypt(DecryptRequest request)
+        if (request == null)
         {
-            if (request == null)
-            {
-                return UnprocessableEntity();
-            }
-
-            Atbash cipher = new();
-            return new DecryptResponse()
-            {
-                Plaintext = cipher.Decrypt(request.Ciphertext),
-            };
+            return UnprocessableEntity();
         }
 
-        // POST api/v1/atbash/encrypt
-        [HttpPost]
-        public ActionResult<EncryptResponse> Encrypt(EncryptRequest request)
+        Atbash cipher = new();
+        return new DecryptResponse()
         {
-            ArgumentNullException.ThrowIfNull(request);
+            Plaintext = cipher.Decrypt(request.Ciphertext),
+        };
+    }
 
-            Atbash cipher = new();
-            return new EncryptResponse()
-            {
-                Ciphertext = cipher.Encrypt(request.Plaintext),
-            };
-        }
+    // POST api/v1/atbash/encrypt
+    [HttpPost]
+    public ActionResult<EncryptResponse> Encrypt(EncryptRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        Atbash cipher = new();
+        return new EncryptResponse()
+        {
+            Ciphertext = cipher.Encrypt(request.Plaintext),
+        };
     }
 }

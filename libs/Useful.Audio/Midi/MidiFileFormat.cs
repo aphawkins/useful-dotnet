@@ -1,11 +1,10 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Audio.Midi
+namespace Useful.Audio.Midi;
+
+public enum MidiFileFormat
 {
-    public enum MidiFileFormat
-    {
-        SingleTrack = 0,
-        MultipleTrackSynchronous = 1,
-        MultipleTrackAsynchronous = 2,
-    }
+    SingleTrack = 0,
+    MultipleTrackSynchronous = 1,
+    MultipleTrackAsynchronous = 2,
 }

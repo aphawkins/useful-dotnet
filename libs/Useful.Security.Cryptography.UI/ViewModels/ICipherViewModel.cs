@@ -1,50 +1,49 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography.UI.ViewModels
+namespace Useful.Security.Cryptography.UI.ViewModels;
+
+/// <summary>
+/// ViewModel for ciphers.
+/// </summary>
+public interface ICipherViewModel
 {
     /// <summary>
-    /// ViewModel for ciphers.
+    /// Gets or sets the encrypted ciphertext.
     /// </summary>
-    public interface ICipherViewModel
-    {
-        /// <summary>
-        /// Gets or sets the encrypted ciphertext.
-        /// </summary>
-        string Ciphertext { get; set; }
+    public string Ciphertext { get; set; }
 
-        /// <summary>
-        /// Gets the cipher's name.
-        /// </summary>
-        string CipherName { get; }
+    /// <summary>
+    /// Gets the cipher's name.
+    /// </summary>
+    public string CipherName { get; }
 
-        /// <summary>
-        /// Gets or sets the unencrypted plaintext.
-        /// </summary>
-        string Plaintext { get; set; }
+    /// <summary>
+    /// Gets or sets the unencrypted plaintext.
+    /// </summary>
+    public string Plaintext { get; set; }
 
-        /// <summary>
-        /// Encrypts the plaintext into ciphertext.
-        /// </summary>
-        void Encrypt();
+    /// <summary>
+    /// Encrypts the plaintext into ciphertext.
+    /// </summary>
+    public void Encrypt();
 
-        /// <summary>
-        /// Decrypts the ciphertext into plaintext.
-        /// </summary>
-        void Decrypt();
+    /// <summary>
+    /// Decrypts the ciphertext into plaintext.
+    /// </summary>
+    public void Decrypt();
 
-        /// <summary>
-        /// Defaults the settings.
-        /// </summary>
-        void Defaults();
+    /// <summary>
+    /// Defaults the settings.
+    /// </summary>
+    public void Defaults();
 
-        /// <summary>
-        /// Randomizes the settings.
-        /// </summary>
-        void Randomize();
+    /// <summary>
+    /// Randomizes the settings.
+    /// </summary>
+    public void Randomize();
 
-        /// <summary>
-        /// Cracks the cipher.
-        /// </summary>
-        void Crack();
-    }
+    /// <summary>
+    /// Cracks the cipher.
+    /// </summary>
+    public void Crack();
 }

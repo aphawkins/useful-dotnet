@@ -1,21 +1,20 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using System.Security.Cryptography;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Caesar key generator.
+/// </summary>
+internal static class CaesarSettingsGenerator
 {
-    /// <summary>
-    /// Caesar key generator.
-    /// </summary>
-    internal static class CaesarSettingsGenerator
+    public static CaesarSettings Generate()
     {
-        public static CaesarSettings Generate()
-        {
-            byte[] randomNumber = new byte[1];
-            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            int rightShift = randomNumber[0] % 26;
-            return new CaesarSettings() { RightShift = rightShift };
-        }
+        byte[] randomNumber = new byte[1];
+        using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        int rightShift = randomNumber[0] % 26;
+        return new CaesarSettings() { RightShift = rightShift };
     }
 }

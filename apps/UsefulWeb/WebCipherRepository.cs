@@ -1,17 +1,16 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
 using Useful.Security.Cryptography;
 
-namespace UsefulWeb
+namespace UsefulWeb;
+
+public class WebCipherRepository : CipherRepository
 {
-    public class WebCipherRepository : CipherRepository
+    public WebCipherRepository()
     {
-        public WebCipherRepository()
-        {
-            Atbash cipher = new();
-            Create(cipher);
-            Create(new Rot13());
-            CurrentItem = cipher;
-        }
+        Atbash cipher = new();
+        Create(cipher);
+        Create(new Rot13());
+        CurrentItem = cipher;
     }
 }

@@ -1,338 +1,319 @@
+// Copyright (c) Andrew Hawkins. All rights reserved.
+
 using System.Buffers.Binary;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Useful.Audio.Midi.Events;
 
-namespace Useful.Audio.Midi
+namespace Useful.Audio.Midi;
+
+public partial class MidiFileReader(ILogger logger) : IDisposable
 {
-    public partial class MidiFileReader(ILogger logger) : IDisposable
+    private readonly MidiFile _midiFile = new();
+    private BinaryReader? _midiReader;
+    private readonly ILogger _logger = logger;
+    private short _trackCount;
+    private MidiTrack _currentTrack = new();
+    private bool _isTrackEnd;
+    private int _bytesRead;
+    private byte _statusByte;
+    private bool _isDisposed;
+
+    public MidiFile Read(string filename)
     {
-        private readonly MidiFile _midiFile = new();
-        private BinaryReader? _midiReader;
-        private readonly ILogger _logger = logger;
-        private short _trackCount;
-        private MidiTrack _currentTrack = new();
-        private bool _isTrackEnd;
-        private int _bytesRead;
-        private byte _statusByte;
-        private bool _isDisposed;
+        using Stream midiStream = File.OpenRead(filename);
+        return Read(midiStream);
+    }
 
-        public MidiFile Read(string filename)
+    public MidiFile Read(Stream inputStream)
+    {
+        _midiReader = new(inputStream);
+
+        ProcessHeaderChunk();
+
+        ProcessTrackChunks();
+
+        return _midiFile;
+    }
+
+    private byte[] ReadBytes(int length)
+    {
+        ArgumentNullException.ThrowIfNull(_midiReader);
+
+        byte[] bytes = _midiReader.ReadBytes(length);
+        FileFormatGuard.ReadBytes(bytes.Length);
+        _bytesRead += bytes.Length;
+        return bytes;
+    }
+
+    private byte ReadByte() => ReadBytes(1)[0];
+
+    private int ReadInt() => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(ReadBytes(4)));
+
+    private short ReadShort() => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(ReadBytes(2)));
+
+    private string ReadString(int length) => Encoding.ASCII.GetString(ReadBytes(length));
+
+    private void ProcessHeaderChunk()
+    {
+        string fileId = ReadString(4);
+        FileFormatGuard.Equal("MThd", fileId, "File Identifier");
+
+        int chunkSize = ReadInt();
+        FileFormatGuard.Equal(6, chunkSize, "Chunk Size");
+
+        short fileFormat = ReadShort();
+        FileFormatGuard.Range(0, 2, fileFormat, "File Format");
+        _midiFile.FileFormat = (MidiFileFormat)fileFormat;
+
+        _trackCount = ReadShort();
+        FileFormatGuard.Range(0, 0xFFFF, _trackCount, "Track Count");
+
+        _midiFile.DeltaTimeTicksPerQuarterNote = ReadShort();
+        FileFormatGuard.Range(0, 0xFFFF, _midiFile.DeltaTimeTicksPerQuarterNote, "Delta-Time Ticks Per Quarter Note");
+    }
+
+    private void ProcessTrackChunks()
+    {
+        for (int i = 0; i < _trackCount; i++)
         {
-            using Stream midiStream = File.OpenRead(filename);
-            return Read(midiStream);
-        }
+            LogInformation(_logger, $"Track Start: {i}");
 
-        public MidiFile Read(Stream inputStream)
-        {
-            _midiReader = new(inputStream);
+            string chunkId = ReadString(4);
+            FileFormatGuard.Equal("MTrk", chunkId, "Chunk Identifier");
 
-            ProcessHeaderChunk();
+            int trackLength = ReadInt();
 
-            ProcessTrackChunks();
+            LogInformation(_logger, $"Track Length: {trackLength}");
 
-            return _midiFile;
-        }
+            _bytesRead = 0;
+            _isTrackEnd = false;
+            _currentTrack = new();
 
-        private byte[] ReadBytes(int length)
-        {
-            ArgumentNullException.ThrowIfNull(_midiReader);
-
-            byte[] bytes = _midiReader.ReadBytes(length);
-            FileFormatGuard.ReadBytes(bytes.Length);
-            _bytesRead += bytes.Length;
-            return bytes;
-        }
-
-        private byte ReadByte() => ReadBytes(1)[0];
-
-        private int ReadInt() => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt32(ReadBytes(4)));
-
-        private short ReadShort() => BinaryPrimitives.ReverseEndianness(BitConverter.ToInt16(ReadBytes(2)));
-
-        private string ReadString(int length) => Encoding.ASCII.GetString(ReadBytes(length));
-
-        private void ProcessHeaderChunk()
-        {
-            string fileId = ReadString(4);
-            FileFormatGuard.Equal("MThd", fileId, "File Identifier");
-
-            int chunkSize = ReadInt();
-            FileFormatGuard.Equal(6, chunkSize, "Chunk Size");
-
-            short fileFormat = ReadShort();
-            FileFormatGuard.Range(0, 2, fileFormat, "File Format");
-            _midiFile.FileFormat = (MidiFileFormat)fileFormat;
-
-            _trackCount = ReadShort();
-            FileFormatGuard.Range(0, 0xFFFF, _trackCount, "Track Count");
-
-            _midiFile.DeltaTimeTicksPerQuarterNote = ReadShort();
-            FileFormatGuard.Range(0, 0xFFFF, _midiFile.DeltaTimeTicksPerQuarterNote, "Delta-Time Ticks Per Quarter Note");
-        }
-
-        private void ProcessTrackChunks()
-        {
-            for (int i = 0; i < _trackCount; i++)
+            do
             {
-                LogInformation(_logger, $"Track Start: {i}");
+                ProcessEvent();
+            } while (!_isTrackEnd && _bytesRead < trackLength);
 
-                string chunkId = ReadString(4);
-                FileFormatGuard.Equal("MTrk", chunkId, "Chunk Identifier");
+            FileFormatGuard.Equal(trackLength, _bytesRead, "TrackEnd does not match specified track length");
 
-                int trackLength = ReadInt();
+            _midiFile.Tracks.Add(_currentTrack);
 
-                LogInformation(_logger, $"Track Length: {trackLength}");
-
-                _bytesRead = 0;
-                _isTrackEnd = false;
-                _currentTrack = new();
-
-                do
-                {
-                    ProcessEvent();
-                } while (!_isTrackEnd && _bytesRead < trackLength);
-
-                FileFormatGuard.Equal(trackLength, _bytesRead, "TrackEnd does not match specified track length");
-
-                _midiFile.Tracks.Add(_currentTrack);
-
-                LogInformation(_logger, $"Track End: {i}, Channels: {_currentTrack.Channels.Count}");
-            }
-
-            int eof = _midiReader!.Read();
-            FileFormatGuard.EndOfFile(eof);
+            LogInformation(_logger, $"Track End: {i}, Channels: {_currentTrack.Channels.Count}");
         }
 
-        private int ProcessDeltaTimeTicks()
+        int eof = _midiReader!.Read();
+        FileFormatGuard.EndOfFile(eof);
+    }
+
+    private int ProcessDeltaTimeTicks()
+    {
+        int deltaTimeTicks = 0;
+        const short mostSignificantBit = 0x80;
+        byte trackLength = ReadByte();
+
+        for (int bytesRead = 1; (trackLength & mostSignificantBit) == mostSignificantBit && bytesRead <= 4; bytesRead++)
         {
-            int deltaTimeTicks = 0;
-            short mostSignificantBit = 0x80;
-            byte trackLength = ReadByte();
-            int bytesRead = 1;
-
-            while ((trackLength & mostSignificantBit) == mostSignificantBit && bytesRead <= 4)
-            {
-                deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
-                deltaTimeTicks <<= 7;
-                trackLength = ReadByte();
-                bytesRead++;
-            }
-
             deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
-
-            return deltaTimeTicks;
+            deltaTimeTicks <<= 7;
+            trackLength = ReadByte();
         }
 
-        [LoggerMessage(Level = LogLevel.Information, Message = "{message}")]
-        private static partial void LogInformation(ILogger logger, string message);
+        deltaTimeTicks |= (byte)(trackLength & (~mostSignificantBit));
 
-        [LoggerMessage(Level = LogLevel.Error, Message = "{message}")]
-        private static partial void LogError(ILogger logger, string message);
+        return deltaTimeTicks;
+    }
 
-        private void ProcessEvent()
+    [LoggerMessage(Level = LogLevel.Information, Message = "{message}")]
+    private static partial void LogInformation(ILogger logger, string message);
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "{message}")]
+    private static partial void LogError(ILogger logger, string message);
+
+    private void ProcessEvent()
+    {
+        IMidiEvent? midiEvent = null;
+
+        int deltaTimeTicks = ProcessDeltaTimeTicks();
+
+        LogInformation(_logger, $"Delta Time: 0x{deltaTimeTicks:X}");
+
+        int timeOffset = deltaTimeTicks * _midiFile.DeltaTimeTicksPerQuarterNote;
+
+        if ((byte)(ReadByte() & 0xF0) < 0x80)
         {
-            IMidiEvent? midiEvent = null;
+            // this is running status
+            _midiReader!.BaseStream.Position--;
+            _bytesRead--;
+        }
+        else
+        {
+            _midiReader!.BaseStream.Position--;
+            _bytesRead--;
+            _statusByte = ReadByte();
+        }
 
-            int deltaTimeTicks = ProcessDeltaTimeTicks();
+        switch ((byte)(_statusByte & 0xF0))
+        {
+            case 0x80:
+                LogInformation(_logger, "Note Off Event");
+                midiEvent = new MidiNoteOffEvent(timeOffset, ReadByte(), ReadByte());
+                break;
 
-            LogInformation(_logger, $"Delta Time: 0x{deltaTimeTicks:X}");
+            case 0x90:
+                LogInformation(_logger, "Note On Event");
+                midiEvent = new MidiNoteOnEvent(timeOffset, ReadByte(), ReadByte());
+                break;
 
-            int timeOffset = deltaTimeTicks * _midiFile.DeltaTimeTicksPerQuarterNote;
+            case 0xA0:
+                LogInformation(_logger, "Polyphonic Pressure Event");
+                midiEvent = new MidiPolyphonicPressureEvent(timeOffset, ReadByte(), ReadByte());
+                break;
 
-            if ((byte)(ReadByte() & 0xF0) < 0x80)
-            {
-                // this is running status
-                _midiReader!.BaseStream.Position--;
-                _bytesRead--;
-            }
-            else
-            {
-                _midiReader!.BaseStream.Position--;
-                _bytesRead--;
-                _statusByte = ReadByte();
-            }
+            case 0xB0:
+                LogInformation(_logger, "Controller Event");
+                midiEvent = new MidiControllerEvent(timeOffset, ReadByte(), ReadByte());
+                break;
 
-            switch ((byte)(_statusByte & 0xF0))
-            {
-                case 0x80:
-                    {
-                        LogInformation(_logger, "Note Off Event");
-                        midiEvent = new MidiNoteOffEvent(timeOffset, ReadByte(), ReadByte());
-                        break;
-                    }
-                case 0x90:
-                    {
-                        LogInformation(_logger, "Note On Event");
-                        midiEvent = new MidiNoteOnEvent(timeOffset, ReadByte(), ReadByte());
-                        break;
-                    }
-                case 0xA0:
-                    {
-                        LogInformation(_logger, "Polyphonic Pressure Event");
-                        midiEvent = new MidiPolyphonicPressureEvent(timeOffset, ReadByte(), ReadByte());
-                        break;
-                    }
-                case 0xB0:
-                    {
-                        LogInformation(_logger, "Controller Event");
-                        midiEvent = new MidiControllerEvent(timeOffset, ReadByte(), ReadByte());
-                        break;
-                    }
-                case 0xC0:
-                    {
-                        LogInformation(_logger, "Program Change");
-                        midiEvent = new MidiProgramChangeEvent(timeOffset, ReadByte());
-                        break;
-                    }
-                case 0xD0:
-                    {
-                        LogInformation(_logger, "Channel Pressure Event");
-                        midiEvent = new MidiChannelPressureEvent(timeOffset, ReadByte());
-                        break;
-                    }
-                case 0xE0:
-                    {
-                        LogInformation(_logger, "Pitch Bend");
-                        midiEvent = new MidiPitchBendEvent(timeOffset, ReadByte(), ReadByte());
-                        break;
-                    }
-                case 0xF0:
-                    {
-                        switch ((MidiEventType)_statusByte)
-                        {
-                            case MidiEventType.SysEx:
-                                {
-                                    LogInformation(_logger, $"System Exclusive Event: 0x{_statusByte:X}");
-                                    ProcessSysExEvent(timeOffset);
-                                    break;
-                                }
-                            case MidiEventType.Meta:
-                                {
-                                    LogInformation(_logger, $"Meta Event: 0x{_statusByte:X}");
-                                    ProcessMetaEvent(timeOffset);
-                                    break;
-                                }
+            case 0xC0:
+                LogInformation(_logger, "Program Change");
+                midiEvent = new MidiProgramChangeEvent(timeOffset, ReadByte());
+                break;
 
-                            default:
-                                {
-                                    LogError(_logger, $"Unknown Event: 0x{_statusByte:X}");
-                                    throw new NotImplementedException($"Unknown Event: 0x{_statusByte:X}");
-                                }
-                        }
+            case 0xD0:
+                LogInformation(_logger, "Channel Pressure Event");
+                midiEvent = new MidiChannelPressureEvent(timeOffset, ReadByte());
+                break;
 
-                        // clear running status
-                        _statusByte = 0;
+            case 0xE0:
+                LogInformation(_logger, "Pitch Bend");
+                midiEvent = new MidiPitchBendEvent(timeOffset, ReadByte(), ReadByte());
+                break;
+
+            case 0xF0:
+                switch ((MidiEventType)_statusByte)
+                {
+                    case MidiEventType.SysEx:
+                        LogInformation(_logger, $"System Exclusive Event: 0x{_statusByte:X}");
+                        ProcessSysExEvent(timeOffset);
                         break;
-                    }
 
-                default:
-                    {
+                    case MidiEventType.Meta:
+                        LogInformation(_logger, $"Meta Event: 0x{_statusByte:X}");
+                        ProcessMetaEvent(timeOffset);
+                        break;
+
+                    default:
                         LogError(_logger, $"Unknown Event: 0x{_statusByte:X}");
-                        throw new NotImplementedException($"Unknown Event: 0x{_statusByte:X}");
-                    }
-            }
-
-            byte channel = (byte)(_statusByte & 0x0F);
-
-            if (midiEvent != null)
-            {
-                if (!_currentTrack.Channels.ContainsKey(channel))
-                {
-                    _currentTrack.Channels.Add(channel, new MidiChannel());
+                        throw new UsefulException($"Unknown Event: 0x{_statusByte:X}");
                 }
 
-                _currentTrack.Channels[channel].Events.Add(midiEvent);
-            }
+                // clear running status
+                _statusByte = 0;
+                break;
+
+            default:
+                LogError(_logger, $"Unknown Event: 0x{_statusByte:X}");
+                throw new UsefulException($"Unknown Event: 0x{_statusByte:X}");
         }
 
-        private void ProcessSysExEvent(int timeOffset)
+        byte channel = (byte)(_statusByte & 0x0F);
+
+        if (midiEvent != null)
         {
-            byte length = ReadByte();
-            byte[] bytes = ReadBytes(length);
-
-            // Not unless the 0xF7 is preceeded by 0xF0
-            //if (bytes[length - 1] != 0xF7)
-            //{
-            //    throw new FileFormatException("System Exclusive Event must end with 0xF7");
-            //}
-
-            _currentTrack.SysExEvents.Add(new MidiSysExEvent(timeOffset));
-        }
-
-        private void ProcessMetaEvent(int timeOffset)
-        {
-            byte eventByte = ReadByte();
-
-            LogInformation(_logger, ((MidiMetaEventType)eventByte).ToString());
-
-            MidiMetaEvent midiEvent;
-
-            switch ((MidiMetaEventType)eventByte)
+            if (!_currentTrack.Channels.ContainsKey(channel))
             {
-                case MidiMetaEventType.Text:
-                case MidiMetaEventType.Copyright:
-                case MidiMetaEventType.TrackName:
-                case MidiMetaEventType.MidiPort:
-                case MidiMetaEventType.SetTempo:
-                case MidiMetaEventType.SMPTEOffset:
-                case MidiMetaEventType.TimeSignature:
-                case MidiMetaEventType.KeySignature:
-                    {
-                        byte length = ReadByte();
-                        byte[] data = ReadBytes(length);
-                        midiEvent = new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, data);
-                        break;
-                    }
-
-                case MidiMetaEventType.TrackEnd:
-                    {
-                        _isTrackEnd = true;
-                        byte length = ReadByte();
-                        midiEvent = length == 0x00
-                            ? new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, [])
-                            : throw new FileFormatException("Track End length must be 0x00.");
-                        break;
-                    }
-
-                default:
-                    {
-                        LogError(_logger, $"Unknown Meta Event: 0x{eventByte:X}");
-                        throw new NotImplementedException($"Unknown MetaEvent: 0x{eventByte:X}");
-                    }
+                _currentTrack.Channels.Add(channel, new MidiChannel());
             }
 
-            _currentTrack.MetaEvents.Add(midiEvent);
+            _currentTrack.Channels[channel].Events.Add(midiEvent);
         }
+    }
 
-        protected virtual void Dispose(bool disposing)
+    private void ProcessSysExEvent(int timeOffset)
+    {
+        byte length = ReadByte();
+        byte[] bytes = ReadBytes(length);
+
+        // Not unless the 0xF7 is preceeded by 0xF0
+        //if (bytes[length - 1] != 0xF7)
+        //{
+        //    throw new FileFormatException("System Exclusive Event must end with 0xF7");
+        //}
+
+        _currentTrack.SysExEvents.Add(new MidiSysExEvent(timeOffset));
+    }
+
+    private void ProcessMetaEvent(int timeOffset)
+    {
+        byte eventByte = ReadByte();
+
+        LogInformation(_logger, ((MidiMetaEventType)eventByte).ToString());
+
+        MidiMetaEvent midiEvent;
+
+        switch ((MidiMetaEventType)eventByte)
         {
-            if (!_isDisposed)
-            {
-                if (disposing)
+            case MidiMetaEventType.Text:
+            case MidiMetaEventType.Copyright:
+            case MidiMetaEventType.TrackName:
+            case MidiMetaEventType.MidiPort:
+            case MidiMetaEventType.SetTempo:
+            case MidiMetaEventType.SMPTEOffset:
+            case MidiMetaEventType.TimeSignature:
+            case MidiMetaEventType.KeySignature:
                 {
-                    // dispose managed state (managed objects)
-                    _midiReader?.Dispose();
+                    byte length = ReadByte();
+                    byte[] data = ReadBytes(length);
+                    midiEvent = new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, data);
+                    break;
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
-                _isDisposed = true;
-            }
+            case MidiMetaEventType.TrackEnd:
+                {
+                    _isTrackEnd = true;
+                    byte length = ReadByte();
+                    midiEvent = length == 0x00
+                        ? new MidiMetaEvent(timeOffset, (MidiMetaEventType)eventByte, [])
+                        : throw new UsefulException("Track End length must be 0x00.");
+                    break;
+                }
+
+            default:
+                LogError(_logger, $"Unknown Meta Event: 0x{eventByte:X}");
+                throw new UsefulException($"Unknown MetaEvent: 0x{eventByte:X}");
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~MidiFileReader()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
+        _currentTrack.MetaEvents.Add(midiEvent);
+    }
 
-        public void Dispose()
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            if (disposing)
+            {
+                // dispose managed state (managed objects)
+                _midiReader?.Dispose();
+            }
+
+            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            // TODO: set large fields to null
+            _isDisposed = true;
         }
+    }
+
+    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    // ~MidiFileReader()
+    // {
+    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+    //     Dispose(disposing: false);
+    // }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

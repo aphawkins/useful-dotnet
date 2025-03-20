@@ -3,142 +3,141 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
+/// </summary>
+public class ReflectorSymmetric : SymmetricAlgorithm
 {
     /// <summary>
-    /// A reflector MonoAlphabetic cipher. A character encrypts and decrypts back to the same character.
+    /// States how many parts there are in the key.
     /// </summary>
-    public class ReflectorSymmetric : SymmetricAlgorithm
+    private const int KeyParts = 2;
+
+    /// <summary>
+    /// The char that separates part of the key.
+    /// </summary>
+    private const char KeySeperator = '|';
+
+    /// <summary>
+    /// The encoding used by this cipher.
+    /// </summary>
+    private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
+
+    private readonly Reflector _algorithm;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ReflectorSymmetric"/> class.
+    /// </summary>
+    public ReflectorSymmetric()
     {
-        /// <summary>
-        /// States how many parts there are in the key.
-        /// </summary>
-        private const int KeyParts = 2;
+        Reset();
+        _algorithm = new Reflector(new ReflectorSettings());
+    }
 
-        /// <summary>
-        /// The char that separates part of the key.
-        /// </summary>
-        private const char KeySeperator = '|';
+    /// <inheritdoc />
+    public override byte[] IV
+    {
+        get => [];
+        set => _ = value;
+    }
 
-        /// <summary>
-        /// The encoding used by this cipher.
-        /// </summary>
-        private static readonly Encoding s_encoding = new UnicodeEncoding(false, false);
-
-        private readonly Reflector _algorithm;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReflectorSymmetric"/> class.
-        /// </summary>
-        public ReflectorSymmetric()
+    /// <inheritdoc />
+    public override byte[] Key
+    {
+        get
         {
-            Reset();
-            _algorithm = new Reflector(new ReflectorSettings());
-        }
-
-        /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => [];
-            set => _ = value;
-        }
-
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get
-            {
-                // CharacterSet|Substitutions
-                StringBuilder key = new();
-                key.Append(_algorithm.Settings.CharacterSet.ToArray())
-                    .Append(KeySeperator)
-                    .Append(_algorithm.Settings.Substitutions.ToArray());
-                return s_encoding.GetBytes(key.ToString());
-            }
-
-            set
-            {
-                (IList<char> CharacterSet, IList<char> Substitutions) key;
-                try
-                {
-                    key = ParseKey(value);
-                }
-                catch (ArgumentException ex)
-                {
-                    throw new ArgumentException("Argument exception.", nameof(Key), ex);
-                }
-
-                _algorithm.Settings = new ReflectorSettings() { CharacterSet = key.CharacterSet, Substitutions = key.Substitutions };
-                base.Key = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
-        }
-
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
-        }
-
-        /// <inheritdoc />
-        public override void GenerateIV()
-        {
-        }
-
-        /// <inheritdoc />
-        public override void GenerateKey()
-        {
-            _algorithm.GenerateSettings();
-            KeyValue = Key;
-        }
-
-        /// <inheritdoc />
-        public override string ToString() => _algorithm.CipherName;
-
-        private static (IList<char> CharacterSet, IList<char> Substitutions) ParseKey(byte[] key)
-        {
-            // Example:
             // CharacterSet|Substitutions
-            ArgumentNullException.ThrowIfNull(key);
+            StringBuilder key = new();
+            key.Append(_algorithm.Settings.CharacterSet.ToArray())
+                .Append(KeySeperator)
+                .Append(_algorithm.Settings.Substitutions.ToArray());
+            return s_encoding.GetBytes(key.ToString());
+        }
 
-            if (key.SequenceEqual([]))
+        set
+        {
+            (IList<char> CharacterSet, IList<char> Substitutions) key;
+            try
             {
-                throw new ArgumentException("Invalid format.", nameof(key));
+                key = ParseKey(value);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("Argument exception.", nameof(Key), ex);
             }
 
-            string keyString = Encoding.Unicode.GetString(key);
-
-            string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
-
-            return parts.Length != KeyParts
-                ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
-                : ((IList<char> CharacterSet, IList<char> Substitutions))(parts[0].ToCharArray(), parts[1].ToCharArray());
+            _algorithm.Settings = new ReflectorSettings() { CharacterSet = key.CharacterSet, Substitutions = key.Substitutions };
+            base.Key = value;
         }
+    }
 
-        private void Reset()
+    /// <inheritdoc />
+    public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
+    }
+
+    /// <inheritdoc />
+    public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Encrypt);
+    }
+
+    /// <inheritdoc />
+    public override void GenerateIV()
+    {
+    }
+
+    /// <inheritdoc />
+    public override void GenerateKey()
+    {
+        _algorithm.GenerateSettings();
+        KeyValue = Key;
+    }
+
+    /// <inheritdoc />
+    public override string ToString() => _algorithm.CipherName;
+
+    private static (IList<char> CharacterSet, IList<char> Substitutions) ParseKey(byte[] key)
+    {
+        // Example:
+        // CharacterSet|Substitutions
+        ArgumentNullException.ThrowIfNull(key);
+
+        if (key.SequenceEqual([]))
         {
-#pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes - this cipher is inherently unsafe
-            ModeValue = CipherMode.ECB;
-            PaddingValue = PaddingMode.None;
-            KeySizeValue = 16;
-            BlockSizeValue = 16;
-            FeedbackSizeValue = 16;
-            LegalBlockSizesValue = new KeySizes[1];
-            LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
-            LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
-
-            KeyValue = [];
-            IVValue = [];
+            throw new ArgumentException("Invalid format.", nameof(key));
         }
+
+        string keyString = Encoding.Unicode.GetString(key);
+
+        string[] parts = keyString.Split(new char[] { KeySeperator }, StringSplitOptions.None);
+
+        return parts.Length != KeyParts
+            ? throw new ArgumentException("Incorrect number of key parts.", nameof(key))
+            : ((IList<char> CharacterSet, IList<char> Substitutions))(parts[0].ToCharArray(), parts[1].ToCharArray());
+    }
+
+    private void Reset()
+    {
+#pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes - this cipher is inherently unsafe
+        ModeValue = CipherMode.ECB;
+        PaddingValue = PaddingMode.None;
+        KeySizeValue = 16;
+        BlockSizeValue = 16;
+        FeedbackSizeValue = 16;
+        LegalBlockSizesValue = new KeySizes[1];
+        LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
+        LegalKeySizesValue = new KeySizes[1];
+        LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
+
+        KeyValue = [];
+        IVValue = [];
     }
 }

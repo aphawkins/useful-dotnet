@@ -1,9 +1,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Audio
+namespace Useful.Audio;
+
+public interface IInstrument
 {
-    public interface IInstrument
-    {
-        double GetSample(double time, double frequency);
-    }
+    public double GetSample(double frequency, int sample, int offset, int samplesPerSecond);
 }

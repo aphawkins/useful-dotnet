@@ -1,52 +1,51 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// An Enigma reflector.
+/// </summary>
+public sealed class EnigmaReflector : IEnigmaReflector
 {
     /// <summary>
-    /// An Enigma reflector.
+    /// The substitution of the rotor, effectively the wiring.
     /// </summary>
-    public sealed class EnigmaReflector : IEnigmaReflector
+    private ReflectorSettings _wiring;
+
+    private EnigmaReflectorNumber _reflectorNumber;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EnigmaReflector"/> class.
+    /// </summary>
+    public EnigmaReflector()
     {
-        /// <summary>
-        /// The substitution of the rotor, effectively the wiring.
-        /// </summary>
-        private ReflectorSettings _wiring;
+        _reflectorNumber = EnigmaReflectorNumber.B;
+        _wiring = GetWiring(_reflectorNumber);
+    }
 
-        private EnigmaReflectorNumber _reflectorNumber;
+    /// <inheritdoc />
+    public EnigmaReflectorNumber ReflectorNumber
+    {
+        get => _reflectorNumber;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnigmaReflector"/> class.
-        /// </summary>
-        public EnigmaReflector()
+        set
         {
-            _reflectorNumber = EnigmaReflectorNumber.B;
+            _reflectorNumber = value;
             _wiring = GetWiring(_reflectorNumber);
         }
+    }
 
-        /// <inheritdoc />
-        public EnigmaReflectorNumber ReflectorNumber
+    /// <inheritdoc />
+    public char Reflect(char letter) => _wiring.Reflect(letter);
+
+    private static ReflectorSettings GetWiring(EnigmaReflectorNumber reflectorNumber)
+    {
+        Dictionary<EnigmaReflectorNumber, IList<char>> wiring = new()
         {
-            get => _reflectorNumber;
+            { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT".ToCharArray() },
+            { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL".ToCharArray() },
+        };
 
-            set
-            {
-                _reflectorNumber = value;
-                _wiring = GetWiring(_reflectorNumber);
-            }
-        }
-
-        /// <inheritdoc />
-        public char Reflect(char letter) => _wiring.Reflect(letter);
-
-        private static ReflectorSettings GetWiring(EnigmaReflectorNumber reflectorNumber)
-        {
-            IDictionary<EnigmaReflectorNumber, IList<char>> wiring = new Dictionary<EnigmaReflectorNumber, IList<char>>
-            {
-                { EnigmaReflectorNumber.B, "YRUHQSLDPXNGOKMIEBFZCWVJAT".ToCharArray() },
-                { EnigmaReflectorNumber.C, "FVPJIAOYEDRZXWGCTKUQSBNMHL".ToCharArray() },
-            };
-
-            return new() { CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), Substitutions = wiring[reflectorNumber] };
-        }
+        return new() { CharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), Substitutions = wiring[reflectorNumber] };
     }
 }

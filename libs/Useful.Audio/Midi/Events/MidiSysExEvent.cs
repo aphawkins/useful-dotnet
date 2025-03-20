@@ -1,9 +1,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Audio.Midi.Events
+namespace Useful.Audio.Midi.Events;
+
+internal sealed class MidiSysExEvent(int timeOffset) : IMidiEvent
 {
-    internal sealed class MidiSysExEvent(int timeOffset) : IMidiEvent
-    {
-        public int TimeOffset => timeOffset;
-    }
+    public int TimeOffset => timeOffset;
 }

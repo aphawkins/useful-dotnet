@@ -2,95 +2,94 @@
 
 using System.Text;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// Accesses the Vigenere algorithm.
+/// </summary>
+/// <remarks>
+/// Initializes a new instance of the <see cref="Vigenere"/> class.
+/// </remarks>
+/// <param name="settings">Settings.</param>
+public sealed class Vigenere(IVigenereSettings settings) : ICipher
 {
+    /// <inheritdoc />
+    public string CipherName => "Vigenere";
+
     /// <summary>
-    /// Accesses the Vigenere algorithm.
+    /// Gets or sets settings.
     /// </summary>
-    /// <remarks>
-    /// Initializes a new instance of the <see cref="Vigenere"/> class.
-    /// </remarks>
-    /// <param name="settings">Settings.</param>
-    public sealed class Vigenere(IVigenereSettings settings) : ICipher
+    public IVigenereSettings Settings { get; set; } = settings;
+
+    /// <inheritdoc />
+    public string Encrypt(string plaintext)
     {
-        /// <inheritdoc />
-        public string CipherName => "Vigenere";
+        ArgumentNullException.ThrowIfNull(plaintext);
 
-        /// <summary>
-        /// Gets or sets settings.
-        /// </summary>
-        public IVigenereSettings Settings { get; set; } = settings;
-
-        /// <inheritdoc />
-        public string Encrypt(string plaintext)
+        if (string.IsNullOrEmpty(Settings.Keyword))
         {
-            ArgumentNullException.ThrowIfNull(plaintext);
-
-            if (string.IsNullOrEmpty(Settings.Keyword))
-            {
-                return plaintext.ToUpperInvariant();
-            }
-
-            CaesarSettings caesarSettings = new();
-            Caesar caesar = new(caesarSettings);
-            StringBuilder ciphertext = new();
-            int i = 0;
-
-            foreach (char letter in plaintext.ToUpperInvariant())
-            {
-                if (letter is >= 'A' and <= 'Z')
-                {
-                    caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
-                    ciphertext.Append(caesar.Encrypt(letter));
-                    i++;
-                }
-                else
-                {
-                    ciphertext.Append(letter);
-                }
-            }
-
-            return ciphertext.ToString();
+            return plaintext.ToUpperInvariant();
         }
 
-        /// <inheritdoc />
-        public string Decrypt(string ciphertext)
+        CaesarSettings caesarSettings = new();
+        Caesar caesar = new(caesarSettings);
+        StringBuilder ciphertext = new();
+        int i = 0;
+
+        foreach (char letter in plaintext.ToUpperInvariant())
         {
-            ArgumentNullException.ThrowIfNull(ciphertext);
-
-            if (string.IsNullOrEmpty(Settings.Keyword))
+            if (letter is >= 'A' and <= 'Z')
             {
-                return ciphertext.ToUpperInvariant();
+                caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
+                ciphertext.Append(caesar.Encrypt(letter));
+                i++;
             }
-
-            CaesarSettings caesarSettings = new();
-            Caesar caesar = new(caesarSettings);
-            StringBuilder plaintext = new();
-            int i = 0;
-
-            foreach (char letter in ciphertext.ToUpperInvariant())
+            else
             {
-                if (letter is >= 'A' and <= 'Z')
-                {
-                    caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
-                    plaintext.Append(caesar.Decrypt(letter));
-                    i++;
-                }
-                else
-                {
-                    plaintext.Append(letter);
-                }
+                ciphertext.Append(letter);
             }
-
-            return plaintext.ToString();
         }
 
-        /////// <summary>
-        /////// Generates random settings.
-        /////// </summary>
-        ////public void GenerateSettings() => Settings = VigenereSettingsGenerator.Generate() with { };
-
-        /// <inheritdoc />
-        public override string ToString() => CipherName;
+        return ciphertext.ToString();
     }
+
+    /// <inheritdoc />
+    public string Decrypt(string ciphertext)
+    {
+        ArgumentNullException.ThrowIfNull(ciphertext);
+
+        if (string.IsNullOrEmpty(Settings.Keyword))
+        {
+            return ciphertext.ToUpperInvariant();
+        }
+
+        CaesarSettings caesarSettings = new();
+        Caesar caesar = new(caesarSettings);
+        StringBuilder plaintext = new();
+        int i = 0;
+
+        foreach (char letter in ciphertext.ToUpperInvariant())
+        {
+            if (letter is >= 'A' and <= 'Z')
+            {
+                caesarSettings.RightShift = Settings.Keyword[i % Settings.Keyword.Length] % 'A';
+                plaintext.Append(caesar.Decrypt(letter));
+                i++;
+            }
+            else
+            {
+                plaintext.Append(letter);
+            }
+        }
+
+        return plaintext.ToString();
+    }
+
+    /////// <summary>
+    /////// Generates random settings.
+    /////// </summary>
+    ////public void GenerateSettings() => Settings = VigenereSettingsGenerator.Generate() with { };
+
+    /// <inheritdoc />
+    public override string ToString() => CipherName;
 }

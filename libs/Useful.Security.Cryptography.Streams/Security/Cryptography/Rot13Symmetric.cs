@@ -2,86 +2,85 @@
 
 using System.Security.Cryptography;
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// The ROT13 cipher.
+/// </summary>
+public sealed class Rot13Symmetric : SymmetricAlgorithm
 {
+    private readonly Rot13 _algorithm;
+
     /// <summary>
-    /// The ROT13 cipher.
+    /// Initializes a new instance of the <see cref="Rot13Symmetric"/> class.
     /// </summary>
-    public sealed class Rot13Symmetric : SymmetricAlgorithm
+    public Rot13Symmetric()
     {
-        private readonly Rot13 _algorithm;
+        Reset();
+        _algorithm = new Rot13();
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Rot13Symmetric"/> class.
-        /// </summary>
-        public Rot13Symmetric()
-        {
-            Reset();
-            _algorithm = new Rot13();
-        }
+    /// <inheritdoc />
+    public override byte[] IV
+    {
+        get => [];
+        set => _ = value;
+    }
 
-        /// <inheritdoc />
-        public override byte[] IV
-        {
-            get => [];
-            set => _ = value;
-        }
+    /// <inheritdoc />
+    public override byte[] Key
+    {
+        get => [];
+        set => _ = value;
+    }
 
-        /// <inheritdoc />
-        public override byte[] Key
-        {
-            get => [];
-            set => _ = value;
-        }
+    /// <inheritdoc />
+    public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
+    }
 
-        /// <inheritdoc />
-        public override ICryptoTransform CreateDecryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
-        }
+    /// <inheritdoc />
+    public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
+    {
+        Key = rgbKey;
+        IV = rgbIV ?? [];
+        return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
+    }
 
-        /// <inheritdoc />
-        public override ICryptoTransform CreateEncryptor(byte[] rgbKey, byte[]? rgbIV)
-        {
-            Key = rgbKey;
-            IV = rgbIV ?? [];
-            return new ClassicalSymmetricTransform(_algorithm, CipherTransformMode.Decrypt);
-        }
+    /// <inheritdoc />
+    public override void GenerateIV()
+    {
+        IVValue = [];
+        IV = IVValue;
+    }
 
-        /// <inheritdoc />
-        public override void GenerateIV()
-        {
-            IVValue = [];
-            IV = IVValue;
-        }
+    /// <inheritdoc />
+    public override void GenerateKey()
+    {
+        KeyValue = [];
+        Key = KeyValue;
+    }
 
-        /// <inheritdoc />
-        public override void GenerateKey()
-        {
-            KeyValue = [];
-            Key = KeyValue;
-        }
+    /// <inheritdoc />
+    public override string ToString() => _algorithm.CipherName;
 
-        /// <inheritdoc />
-        public override string ToString() => _algorithm.CipherName;
-
-        private void Reset()
-        {
+    private void Reset()
+    {
 #pragma warning disable CA5358 // Do Not Use Unsafe Cipher Modes - this cipher is inherently unsafe
-            ModeValue = CipherMode.ECB;
-            PaddingValue = PaddingMode.None;
-            KeySizeValue = 16;
-            BlockSizeValue = 16;
-            FeedbackSizeValue = 16;
-            LegalBlockSizesValue = new KeySizes[1];
-            LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
-            LegalKeySizesValue = new KeySizes[1];
-            LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
+        ModeValue = CipherMode.ECB;
+        PaddingValue = PaddingMode.None;
+        KeySizeValue = 16;
+        BlockSizeValue = 16;
+        FeedbackSizeValue = 16;
+        LegalBlockSizesValue = new KeySizes[1];
+        LegalBlockSizesValue[0] = new KeySizes(16, 16, 16);
+        LegalKeySizesValue = new KeySizes[1];
+        LegalKeySizesValue[0] = new KeySizes(0, int.MaxValue, 16);
 
-            KeyValue = [];
-            IVValue = [];
-        }
+        KeyValue = [];
+        IVValue = [];
     }
 }

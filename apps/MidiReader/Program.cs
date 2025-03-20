@@ -10,9 +10,9 @@ IConfigurationRoot configBuilder = new ConfigurationBuilder().Build();
 
 using ILoggerFactory factory = LoggerFactory.Create(builder
     => builder
-    .AddConfiguration(configBuilder.GetSection("Logging"))
-    .AddSimpleConsole(options => options.SingleLine = true)
-    .AddDebug());
+        .AddConfiguration(configBuilder.GetSection("Logging"))
+        .AddSimpleConsole(options => options.SingleLine = true)
+        .AddDebug());
 ILogger logger = factory.CreateLogger<Program>();
 
 using MidiFileReader midiFileReader = new(logger);

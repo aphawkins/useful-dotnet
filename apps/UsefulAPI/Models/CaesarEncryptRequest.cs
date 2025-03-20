@@ -1,9 +1,8 @@
 // Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace UsefulAPI.Models
+namespace UsefulAPI.Models;
+
+public class CaesarEncryptRequest : EncryptRequest
 {
-    public class CaesarEncryptRequest : EncryptRequest
-    {
-        public int RightShift { get; set; }
-    }
+    public int RightShift { get; set; }
 }

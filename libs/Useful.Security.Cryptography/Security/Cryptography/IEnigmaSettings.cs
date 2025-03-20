@@ -1,25 +1,24 @@
-﻿// Copyright (c) Andrew Hawkins. All rights reserved.
+// Copyright (c) Andrew Hawkins. All rights reserved.
 
-namespace Useful.Security.Cryptography
+namespace Useful.Security.Cryptography;
+
+/// <summary>
+/// The enigma algorithm settings.
+/// </summary>
+public interface IEnigmaSettings
 {
     /// <summary>
-    /// The enigma algorithm settings.
+    /// Gets the plugboard settings.
     /// </summary>
-    public interface IEnigmaSettings
-    {
-        /// <summary>
-        /// Gets the plugboard settings.
-        /// </summary>
-        public IEnigmaPlugboard Plugboard { get; }
+    public IEnigmaPlugboard Plugboard { get; }
 
-        /// <summary>
-        /// Gets the reflector being used.
-        /// </summary>
-        public IEnigmaReflector Reflector { get; }
+    /// <summary>
+    /// Gets the reflector being used.
+    /// </summary>
+    public IEnigmaReflector Reflector { get; }
 
-        /// <summary>
-        /// Gets the rotors.
-        /// </summary>
-        public IEnigmaRotors Rotors { get; }
-    }
+    /// <summary>
+    /// Gets the rotors.
+    /// </summary>
+    public IEnigmaRotors Rotors { get; }
 }
